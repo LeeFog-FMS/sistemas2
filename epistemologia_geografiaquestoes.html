@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Epistemologia e Pensamento Geográfico</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfb;
+            --text-color: #2c3e50;
+            --accent-color: #34495e;
+            --correct-color: #27ae60;
+            --wrong-color: #c0392b;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Georgia, serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .intro-text {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #95a5a6;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f8f9fa;
+        }
+
+        input[type="radio"] {
+            margin-top: 6px;
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+
+        .btn-finalize {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-finalize:hover {
+            background-color: #2c3e50;
+        }
+
+        #results-section {
+            display: none;
+            margin-top: 50px;
+            padding: 40px;
+            background: #f1f4f6;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .resolutions-container {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .resolution-item {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #fff;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 4px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+        }
+
+        .correct-answer-indicator {
+            font-weight: bold;
+            color: var(--correct-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .feedback-correct {
+            border-color: var(--correct-color) !important;
+            background-color: #e8f6ed;
+        }
+
+        .feedback-wrong {
+            border-color: var(--wrong-color) !important;
+            background-color: #fdf2f2;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .question-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulado de Geografia: Estilo AOCP</h1>
+        <p class="intro-text">Epistemologia e Evolução do Pensamento Geográfico</p>
+    </header>
+
+    <div id="quiz-form">
+        <!-- Questions will be injected here -->
+    </div>
+
+    <button type="button" class="btn-finalize" onclick="finalizeQuiz()">Finalizar Simulado</button>
+
+    <div id="results-section">
+        <div class="score-display" id="score-text"></div>
+        <p id="performance-comment"></p>
+        <button onclick="window.scrollTo({top: document.getElementById('resolutions').offsetTop, behavior: 'smooth'})" style="background: none; border: 1px solid #34495e; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Ver Resoluções Abaixo</button>
+    </div>
+
+    <div id="resolutions" class="resolutions-container">
+        <h2 style="border-bottom: 2px solid #34495e; padding-bottom: 10px;">Gabarito e Resoluções Analíticas</h2>
+        <div id="resolutions-list">
+            <!-- Resolutions will be injected here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            n: 1,
+            text: "Considere o processo de consolidação da Geografia como disciplina científica na Alemanha do século XIX, sob a forte influência do pensamento positivista, evolucionista e das transformações geopolíticas decorrentes da unificação conduzida por Bismarck. Friedrich Ratzel, em suas obras norteadoras, formulou as bases daquilo que a posteridade consagrou como a Escola Determinista. A respeito dos fundamentos epistemológicos dessa corrente tradicional, assinale a alternativa correta.",
+            options: [
+                "O determinismo ratzeliano sustenta que a organização espacial e o dinamismo das sociedades humanas são explicados de forma soberana pelas escolhas culturais e psicológicas do homem, atuando a natureza como um plano de fundo neutro.",
+                "O conceito de Espaço Vital (Lebensraum) traduz-se puramente por uma delimitação abstrata de equilíbrio ecológico, desprovido de caráter político e incapaz de influenciar a expansão territorial ou o fortalecimento do Estado.",
+                "Para Ratzel, as transformações no território expressam uma metáfora organicista na qual o Estado é concebido como um organismo vivo que mantém uma relação de profunda interdependência com as bases geográficas, tornando a busca por expansão e recursos uma necessidade para a sua própria evolução.",
+                "A escola alemã promoveu a superação da análise factual do meio ambiente ao propor o materialismo histórico e dialético como método primordial para o entendimento das forças produtivas e das contradições de classe.",
+                "A categoria de território é secundarizada na abordagem tradicional alemã, que prioriza o estudo microscópico das redes de transporte urbano e o sentimento de pertencimento afetivo individual."
+            ],
+            correct: 2,
+            res: "A alternativa correta é a C. Friedrich Ratzel construiu os alicerces teóricos da Geografia na Alemanha do século XIX sob o influxo das correntes positivistas, evolucionistas e do organicismo filosófico. Na concepção ratzeliana, o Estado é interpretado por meio de uma metáfora biológica, funcionando como um organismo vivo que necessita de uma porção concreta de solo para garantir a sua manutenção, reprodução e desenvolvimento. O conceito de Espaço Vital (Lebensraum) materializa essa simbiose indissociável entre a sociedade e o quadro natural."
+        },
+        {
+            n: 2,
+            text: "Na virada do século XIX para o século XX, a escola francesa de Geografia, liderada por Paul Vidal de la Blache, articulou uma vigorosa contestação aos pressupostos causais lineares desenvolvidos pela intelectualidade alemã. Essa resposta teórica sedimentou as bases do Possibilismo. Sobre as premissas conceituais dessa vertente e sua abordagem metodológica clássica, assinale a alternativa correta.",
+            options: [
+                "A natureza é interpretada como uma força impositiva e absoluta, cujas restrições de relevo e clima predeterminam os limites intransponíveis do desenvolvimento econômico de qualquer nação.",
+                "O meio físico passa a ser compreendido como um fornecedor de possibilidades para a ação antrópica, cuja concretização e modelagem dependem diretamente do desenvolvimento histórico, técnico e cultural de cada agrupamento humano.",
+                "O conceito de gênero de vida (genre de vie) preconiza que os hábitos cotidianos de uma comunidade isolada resultam de um determinismo geográfico estrito, eliminando qualquer margem de agência histórica para as populações locais.",
+                "Vidal de la Blache propôs o banimento dos estudos regionais e empíricos, priorizando a adoção imediata de equações de atração de massas e modelos geométricos abstratos de planejamento territorial regional.",
+                "A escola francesa estruturou-se a partir da necessidade de validar as contradições do capital financeiro internacional, refutando o exame das heranças históricas na fisionomia das paisagens."
+            ],
+            correct: 1,
+            res: "A alternativa correta é a B. O Possibilismo, estruturado por Paul Vidal de la Blache na França na transição para o século XX, emergiu como uma resposta teórica e ideológica ao determinismo de matriz germânica. La Blache rejeitou o nexo de causalidade linear que submetia o desenvolvimento das sociedades às imposições mecânicas do clima e do relevo. Em sua formulação, a natureza assume o papel de um acervo de virtualidades, fornecendo múltiplas possibilidades de intervenção."
+        },
+        {
+            n: 3,
+            text: "A evolução do pensamento geográfico ao longo do século XX testemunhou o surgimento de diferentes matrizes teóricas que buscavam redefinir o objeto e a utilidade social da disciplina. Qual das seguintes definições melhor descreve a abordagem da Geografia Crítica, uma importante corrente do final do século XX?",
+            options: [
+                "A Geografia Crítica busca principalmente a descrição detalhada de paisagens naturais e fenômenos físicos, sem se preocupar com as relações sociais ou com a intervenção humana no espaço.",
+                "A Geografia Crítica enfatiza a análise quantitativa e o uso de modelos matemáticos para compreender as dinâmicas espaciais por meio de uma neutralidade axiológica absoluta.",
+                "A Geografia Crítica caracteriza-se pelo engajamento político e pela utilização do materialismo histórico-dialético para analisar o espaço como uma construção social, focando nas contradições do capitalismo, nas desigualdades de classe e na produção do território.",
+                "Essa vertente concentra suas análises no mapeamento estatístico de fluxos de transporte intermodais, visando maximizar o lucro das corporações transnacionais sem contestar a ordem socioeconômica vigente.",
+                "Trata-se de uma escola voltada com exclusividade para a psicologia ambiental, cujo intuito principal é mensurar a percepção cognitiva do espaço geométrico por meio de testes de laboratório."
+            ],
+            correct: 2,
+            res: "A alternativa correta é a C. A Geografia Crítica consolidou-se na segunda metade do século XX por meio de uma ruptura com o estatuto de neutralidade defendido pelas escolas precedentes. Sob a influência do materialismo histórico e dialético, o espaço geográfico passou a ser concebido como uma produção eminentemente social, cuja fisionomia expressa as contradições do modo de produção capitalista."
+        },
+        {
+            n: 4,
+            text: "Na transição da Geografia Tradicional para as perspectivas contemporâneas, a categoria de espaço passou por profundas revisões ontológicas. Em sua obra A Natureza do Espaço: Técnica e Tempo, Razão e Emoção, Milton Santos propôs uma superação definitiva do formalismo empirista ao formular uma definição rigorosa para o objeto da ciência geográfica. Com base na teoria espacial de Milton Santos, assinale a alternativa correta.",
+            options: [
+                "O espaço geográfico é um receptáculo inerte e fixo, que funciona de maneira autônoma e dissociada em relação às forças políticas, econômicas e sociais que operam em cada período histórico.",
+                "O espaço geográfico define-se como um conjunto indissociável, solidário e também contraditório de sistemas de objetos e sistemas de ações, expressando a mútua constituição entre as formas materiais e as dinâmicas sociais.",
+                "O espaço configura-se como um plano puramente geométrico e isotrópico, cujas propriedades físicas e sociais podem ser totalmente traduzidas por equações de custo mínimo de deslocamento.",
+                "Para o autor, o espaço reduz-se à porção original da biosfera que permanece intocada pela ação humana, esvaziando-se de sentido analítico à medida que as infraestruturas modernas se instalam.",
+                "A definição proposta estabelece o primado da percepção subjetiva isolada, considerando que o espaço físico deixa de existir quando não é interpretado pela psicologia profunda do indivíduo."
+            ],
+            correct: 1,
+            res: "A alternativa correta é a B. Milton Santos postula que o espaço geográfico deve ser apreendido como um sistema indissociável, solidário e contraditório de sistemas de objetos e sistemas de ações. Os sistemas de objetos corporificam as formas materiais fixas; os sistemas de ações dão conta dos fluxos, do dinamismo social e dos processos políticos."
+        },
+        {
+            n: 5,
+            text: "A análise histórica da relação entre a sociedade e a base material revela que as transformações técnicas reconfiguram constantemente a produção do espaço. Milton Santos sistematizou esse processo dividindo a evolução espacial em três grandes períodos ou 'meios'. De acordo com as formulações do autor a respeito da dinâmica espacial da contemporaneidade brasileira e global, assinale a alternativa que designa o período atual.",
+            options: [
+                "Meio Natural-Fisiográfico Primário.",
+                "Meio Mecânico-Industrial Clássico.",
+                "Meio Técnico-Científico-Informacional.",
+                "Meio Analógico-Corporativo Territorial.",
+                "Meio Virtual-Cibernético Desterritorializado."
+            ],
+            correct: 2,
+            res: "A alternativa correta é a C. O período contemporâneo consubstancia-se no meio técnico-científico-informacional, no qual a produção material, a atividade agrícola e o setor de serviços são profundamente colonizados pela pesquisa científica e tecnologias de informação instantânea."
+        },
+        {
+            n: 6,
+            text: "O critério de regionalização do Brasil, proposto por Milton Santos e Maria Laura Silveira, em 2001, foi o “meio técnico-científico-informacional”, que determinou os “quatro brasis”. De acordo com esse critério, a região com maior densidade de população, capital e técnica, sendo altamente fluida e dinâmica, a qual centraliza o controle do capitalismo nacional e incluiu os Estados de SP, RJ, PR, MG, SC, RS e ES, foi definida como:",
+            options: [
+                "Concentrada.",
+                "Centro-Sul.",
+                "Meridional.",
+                "Setentrional.",
+                "Global."
+            ],
+            correct: 0,
+            res: "A alternativa correta é a A. A denominada Região Concentrada — formada pelo Sudeste e Sul — caracteriza-se por deter os mais elevados coeficientes de fluidez territorial, densidade populacional e circulação de capitais financeiros, centralizando o comando do capitalismo no país."
+        },
+        {
+            n: 7,
+            text: "Milton Santos abordou a globalização considerando a existência de três mundos: a globalização como fábula; a globalização como perversidade; e o mundo como possibilidade. A respeito desse assunto, é correto afirmar que a globalização:",
+            options: [
+                "Acabou com a restrição à livre circulação de pessoas no mundo.",
+                "Promoveu a distribuição de renda e, por consequência, a nulificação da pobreza global.",
+                "Gerou a livre concorrência no mercado global com a extinção de subsídios e práticas de dumping.",
+                "Facilitou a imposição de uma política comandada pelas empresas que demandam circulação de capital e informação.",
+                "Criou Estados-nação fortes e totalmente independentes do capital privado."
+            ],
+            correct: 3,
+            res: "A alternativa correta é a D. Na obra 'Por uma outra globalização', Milton Santos demonstra que a globalização atual é gerida em proveito das grandes empresas transnacionais, que exigem a circulação desenfreada de fluxos financeiros e informações em detrimento do bem comum social."
+        },
+        {
+            n: 8,
+            text: "Paralelamente à corrente crítica, emergiu a Geografia Humanística ancorada na fenomenologia. Assinale a alternativa que apresenta a categoria fundamental que representa o espaço do afeto, dos valores simbólicos e da vivência íntima.",
+            options: [
+                "Rede Urbana Hierárquica.",
+                "Território Político-Militar.",
+                "Região Funcional-Planejamento.",
+                "Lugar.",
+                "Espaço Geométrico Abstrato."
+            ],
+            correct: 3,
+            res: "A alternativa correta é a D. A categoria de lugar é o conceito central da Geografia Humanística. É compreendida como o domínio da experiência afetiva, do apego emocional e da construção de laços identitários, em oposição à frieza das redes ou territórios puramente políticos."
+        },
+        {
+            n: 9,
+            text: "Sob a perspectiva da Geografia Crítica, a superação do formalismo descritivo tradicional pela análise das contradições sociais apoia-se em qual pressuposto metodológico?",
+            options: [
+                "Na acepção da neutralidade científica absoluta como meio de afastar a influência política.",
+                "Na reinserção de explicações causais baseadas no determinismo climático.",
+                "No entendimento de que as desigualdades socioespaciais não são dados naturais imutáveis, mas reflexos das relações de produção e poder, exigindo o desvelamento dos conflitos de classe.",
+                "Na substituição completa do trabalho de campo por inventários descritivos puramente estatísticos.",
+                "Na conceituação do território como uma simples malha jurídica estatal desvinculada do sistema financeiro."
+            ],
+            correct: 2,
+            res: "A alternativa correta é a C. A Geografia Crítica utiliza métodos dialéticos para decodificar o território como resultado das contradições da divisão do trabalho e da apropriação privada da terra, retirando o caráter 'natural' das desigualdades."
+        },
+        {
+            n: 10,
+            text: "Avalie as asserções: I. Determinismo de Ratzel usa premissas organicistas. II. Possibilismo de La Blache usa gênero de vida. III. Teórico-Quantitativa busca neutralidade matemática. IV. Geografia Crítica e Humanística superam a tradicional via dialética e fenomenológica respectivamente.",
+            options: [
+                "Apenas as asserções I e II estão corretas.",
+                "Apenas as asserções III e IV estão corretas.",
+                "Apenas as asserções I, II e III estão corretas.",
+                "Apenas as asserções II, III e IV estão corretas.",
+                "Todas as asserções I, II, III e IV estão corretas."
+            ],
+            correct: 4,
+            res: "A alternativa correta é a E. Todas as asserções estão corretas. O pensamento geográfico é marcado por essas transições: do organicismo alemão ao possibilismo francês, passando pelo neopositivismo quantitativo até as rupturas crítica e humanística."
+        }
+    ];
+
+    function loadQuiz() {
+        const container = document.getElementById('quiz-form');
+        quizData.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `q-card-${index}`;
+            
+            let optionsHtml = '';
+            q.options.forEach((opt, optIndex) => {
+                const char = String.fromCharCode(65 + optIndex);
+                optionsHtml += `
+                    <label class="option-label" id="label-${index}-${optIndex}">
+                        <input type="radio" name="q${index}" value="${optIndex}">
+                        <span>(${char}) ${opt}</span>
+                    </label>
+                `;
+            });
+
+            card.innerHTML = `
+                <span class="question-number">Questão ${q.n}</span>
+                <div class="question-text">${q.text}</div>
+                <div class="options">
+                    ${optionsHtml}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function finalizeQuiz() {
+        let score = 0;
+        const total = quizData.length;
+        const resolutionsList = document.getElementById('resolutions-list');
+        resolutionsList.innerHTML = '';
+
+        quizData.forEach((q, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const selectedVal = selected ? parseInt(selected.value) : -1;
+            
+            // Feedback on cards
+            const card = document.getElementById(`q-card-${index}`);
+            
+            if (selectedVal === q.correct) {
+                score++;
+                document.getElementById(`label-${index}-${selectedVal}`).classList.add('feedback-correct');
+            } else {
+                if (selected) {
+                    document.getElementById(`label-${index}-${selectedVal}`).classList.add('feedback-wrong');
+                }
+                document.getElementById(`label-${index}-${q.correct}`).classList.add('feedback-correct');
+            }
+
+            // Generate Resolution List
+            const resItem = document.createElement('div');
+            resItem.className = 'resolution-item';
+            const charCorrect = String.fromCharCode(65 + q.correct);
+            resItem.innerHTML = `
+                <h3>Resolução da Questão ${q.n}</h3>
+                <span class="correct-answer-indicator">Gabarito: Alternativa (${charCorrect})</span>
+                <p>${q.res}</p>
+            `;
+            resolutionsList.appendChild(resItem);
+        });
+
+        // Show results
+        const resultSection = document.getElementById('results-section');
+        const scoreText = document.getElementById('score-text');
+        const perfComment = document.getElementById('performance-comment');
+        
+        resultSection.style.display = 'block';
+        document.getElementById('resolutions').style.display = 'block';
+        scoreText.innerText = `${score} / ${total}`;
+        
+        if (score === total) perfComment.innerText = "Excelente! Você domina a epistemologia geográfica.";
+        else if (score >= 7) perfComment.innerText = "Muito bom! Seus conhecimentos estão sólidos.";
+        else perfComment.innerText = "Bom esforço. Revise as resoluções abaixo para fortalecer seus conceitos.";
+
+        // Disable all inputs
+        document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+        document.querySelector('.btn-finalize').style.display = 'none';
+
+        window.scrollTo({top: resultSection.offsetTop - 50, behavior: 'smooth'});
+    }
+
+    window.onload = loadQuiz;
+</script>
+
+</body>
+</html>
