@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bizu de Véspera: Geografia IFCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: #1e293b; /* Slate 800 */
+            background-color: #ffffff;
+        }
+
+        .highlight {
+            background-color: #fef08a; /* Yellow 200 */
+            padding: 0 3px;
+            font-weight: 600;
+            border-radius: 2px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 600px; /* Garante que a tabela não esprema demais */
+        }
+
+        th, td {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f8fafc;
+            font-weight: 700;
+            color: #334155;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .section-title {
+            border-left: 5px solid #2563eb;
+            padding-left: 1rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: #0f172a;
+        }
+
+        .audio-player-container {
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .btn-questoes {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-questoes:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .alert-box {
+            background-color: #fff7ed;
+            border-left: 4px solid #f97316;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body class="p-5 md:p-12 max-w-5xl mx-auto">
+
+    <header class="mb-12 text-center">
+        <div class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            Material de Revisão Intensiva - IFCE
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">Categorias e Conceitos da Geografia</h1>
+        <p class="text-xl text-slate-500 max-w-2xl mx-auto">Um guia técnico focado no perfil de cobrança do Instituto AOCP para cargos de Professor EBTT.</p>
+    </header>
+
+    <div class="audio-player-container text-center">
+        <div class="flex items-center justify-center gap-3 mb-3">
+            <span class="text-2xl">🎧</span>
+            <h3 class="font-bold text-slate-800">Resumo em Áudio (Podcast de Véspera)</h3>
+        </div>
+        <p class="text-sm text-slate-500 mb-4 font-medium">Arquivo: <span class="bg-white px-2 py-1 rounded border border-slate-200 font-mono text-blue-600">audio_resumo.mp3</span></p>
+        <audio controls class="w-full max-w-md mx-auto">
+            <source src="audio_resumo.mp3" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+    </div>
+
+    <main>
+        <section id="categorias">
+            <h2 class="section-title">1. Ontologia das Categorias Espaciais</h2>
+            <p class="mb-6 text-slate-600">Para a AOCP, a distinção deve ser <span class="highlight">operacional</span>. Saiba identificar qual conceito a questão exige através dos seguintes descritores:</p>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Conceito Chave (AOCP)</th>
+                            <th>Termos "Gabarito"</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-bold text-blue-800">Espaço Geográfico</td>
+                            <td>Objeto de estudo da Geografia.</td>
+                            <td><span class="highlight">Sociedade-Natureza</span>, indissociabilidade, sistemas de objetos e sistemas de ações (Milton Santos).</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-blue-800">Paisagem</td>
+                            <td>Aparência/Materialidade.</td>
+                            <td>"O que a visão alcança", <span class="highlight">dimensão sensível</span>, acúmulo de tempos (rugosidades), domínio do visível.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-blue-800">Território</td>
+                            <td>Poder e Fronteira.</td>
+                            <td><span class="highlight">Apropriação e Domínio</span>, relações de poder, delimitação, soberania estatal ou controle de grupos.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-blue-800">Lugar</td>
+                            <td>Afetividade e Vivência.</td>
+                            <td><span class="highlight">Identidade, pertencimento</span>, cotidiano, experiência vivida, escala do indivíduo.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-blue-800">Região</td>
+                            <td>Agrupamento/Classe.</td>
+                            <td>Diferenciação de áreas, <span class="highlight">homogeneidade</span> (física ou econômica) ou funcionalidade (fluxos).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="evolucao-regiao">
+            <h2 class="section-title">2. Evolução do Pensamento Regional</h2>
+            <p class="mb-6 text-slate-600">A "Região" é o conceito que mais sofreu alterações conforme a corrente do pensamento geográfico. A banca costuma cobrar essa evolução histórica:</p>
+
+            <div class="space-y-6">
+                <div class="p-6 bg-slate-50 border border-slate-100 rounded-xl">
+                    <h3 class="font-bold text-lg text-blue-600 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">01</span>
+                        Geografia Clássica: Região Natural e Geográfica
+                    </h3>
+                    <p class="mt-2 text-sm">Foco no <span class="highlight">Determinismo (Ratzel)</span> e <span class="highlight">Possibilismo (La Blache)</span>. A região é vista como uma unidade orgânica, definida por aspectos climáticos, botânicos e geológicos ou pela síntese cultural ("gênero de vida").</p>
+                </div>
+
+                <div class="p-6 bg-slate-50 border border-slate-100 rounded-xl">
+                    <h3 class="font-bold text-lg text-blue-600 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">02</span>
+                        Geografia Pragmática: Região Funcional
+                    </h3>
+                    <p class="mt-2 text-sm">Surge na "Nova Geografia" (pós-Segunda Guerra). A região deixa de ser uma "coisa" e passa a ser uma <span class="highlight">ferramenta de planejamento</span>. É definida por nós (cidades) e fluxos (redes), buscando a eficiência econômica.</p>
+                </div>
+
+                <div class="p-6 bg-slate-50 border border-slate-100 rounded-xl">
+                    <h3 class="font-bold text-lg text-blue-600 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">03</span>
+                        Geografia Crítica: Divisão Territorial do Trabalho
+                    </h3>
+                    <p class="mt-2 text-sm">Foco em autores como <span class="highlight">Milton Santos</span>. A região é explicada pela forma como o capital se espacializa, gerando desigualdades regionais. O território é usado para reproduzir o sistema econômico.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ibge">
+            <h2 class="section-title">3. A Regionalização do IBGE (Cronologia)</h2>
+            <div class="alert-box">
+                <strong>Fique Atento:</strong> O IBGE mudou a metodologia em 2017. A AOCP gosta de trocar os nomes dos modelos antigos pelos atuais.
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ano</th>
+                            <th>Critério Principal</th>
+                            <th>Nomenclatura Utilizada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1942 / 1945</td>
+                            <td>Físico / Natural</td>
+                            <td><span class="highlight">Zonas Fisiográficas</span> (Limites naturais).</td>
+                        </tr>
+                        <tr>
+                            <td>1970 / 1990</td>
+                            <td>Socioeconômico / Urbano</td>
+                            <td><span class="highlight">Mesorregiões e Microrregiões</span> Geográficas.</td>
+                        </tr>
+                        <tr>
+                            <td>2017 (Atual)</td>
+                            <td>Redes e Fluxos</td>
+                            <td><span class="highlight">Regiões Intermediárias e Imediatas</span>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-slate-500 italic mt-2">*O modelo atual (2017) abandona o foco apenas administrativo e foca na <span class="font-bold text-slate-700">hierarquia urbana</span> e na polarização exercida pelas cidades.*</p>
+        </section>
+
+        <section id="ensino">
+            <h2 class="section-title">4. Categorias no Ensino (EBTT/IFCE)</h2>
+            <p class="mb-4">Para provas de magistério, a AOCP foca na aplicação pedagógica:</p>
+            <ul class="space-y-3">
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 font-bold">✓</span>
+                    <span>O ensino deve partir do <span class="highlight">Lugar</span> (escala próxima) para que o aluno compreenda o mundo (escala global).</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-500 font-bold">✓</span>
+                    <span>A <span class="highlight">Alfabetização Cartográfica</span> não é apenas leitura de mapas, mas a construção da noção de espaço e representação.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-red-500 font-bold">✗</span>
+                    <span><strong>Erro comum em prova:</strong> Afirmar que a Geografia deve ser baseada apenas na memorização de dados físicos (geografia mnemônica).</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="mt-20 py-12 border-t border-slate-100 text-center">
+            <h3 class="text-2xl font-bold mb-6">Pronto para testar seus conhecimentos?</h3>
+            <p class="text-slate-500 mb-8 max-w-md mx-auto">Recomendamos a resolução de pelo menos 10 questões da AOCP sobre este tema para fixar os gatilhos mentais.</p>
+            <a href="conceitos_geografiaquestoes.html" class="btn-questoes">
+                Acessar Banco de Questões (Simulado AOCP)
+            </a>
+        </section>
+    </main>
+
+    <footer class="mt-20 pb-10 text-center text-xs text-slate-400 border-t pt-8">
+        <p>© 2024 Preparatório IFCE - Geografia Especializada</p>
+        <p class="mt-2">Conteúdo revisado com base nos editais da Banca Instituto AOCP.</p>
+    </footer>
+
+</body>
+</html>

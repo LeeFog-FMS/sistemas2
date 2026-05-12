@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Completa: Demografia e Estrutura Populacional - IFCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1f2937;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            background-color: #fef08a; /* Amarelo para termos técnicos */
+            padding: 0 3px;
+            font-weight: 600;
+            border-radius: 2px;
+        }
+
+        .section-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px; /* Garante que o conteúdo não esprema demais */
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 700;
+            color: #374151;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .theory-box {
+            border-left: 4px solid #cbd5e1;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .aocp-alert {
+            background-color: #fffaf0;
+            border: 1px solid #feebc8;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="max-w-4xl mx-auto px-4 py-10 md:px-8">
+        
+        <header class="text-center mb-12">
+            <span class="text-blue-600 font-bold tracking-widest text-xs uppercase">Preparatório Professor EBTT - Geografia</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold mt-2 mb-4 text-gray-900 tracking-tight">Transição e Estrutura Demográfica</h1>
+            <p class="text-gray-500 text-lg max-w-2xl mx-auto">Um guia técnico focado na banca Instituto AOCP, cobrindo teorias, censo e dinâmica populacional.</p>
+            
+            <div class="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-100 flex flex-col items-center">
+                <span class="text-xs font-bold text-gray-400 mb-3 uppercase tracking-widest">🎧 Player de Áudio da Aula</span>
+                <audio controls class="w-full max-w-md">
+                    <!-- NOME DO ARQUIVO MP3 AQUI -->
+                    <source src="audio_aula_demografia.mp3" type="audio/mpeg">
+                    Seu navegador não suporta áudio.
+                </audio>
+            </div>
+        </header>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                <span class="mr-2">01.</span> Conceitos e Definições de Base
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <p class="mb-4"><strong>População Absoluta:</strong> Total de habitantes (<span class="highlight">País Populoso</span>). Ex: Brasil é o 7º mais populoso.</p>
+                    <p class="mb-4"><strong>População Relativa:</strong> Habitantes por km² (<span class="highlight">País Povoado</span>). O Brasil possui baixa densidade demográfica.</p>
+                </div>
+                <div>
+                    <p class="mb-4"><strong>Taxa de Fecundidade:</strong> Filhos por mulher. Nível de reposição é <span class="highlight">2,1</span>. Brasil está em ~1,6 (abaixo da reposição).</p>
+                    <p class="mb-4"><strong>Taxa de Natalidade/Mortalidade:</strong> Calculadas por cada <span class="highlight">1.000 habitantes</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                <span class="mr-2">02.</span> Fases da Transição Demográfica
+            </h2>
+            <p class="text-gray-600 mb-6">A transição ocorre devido à mudança de uma sociedade rural/agrária para uma <span class="highlight">urbano-industrial</span>.</p>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fase</th>
+                            <th>Dinâmica Natalidade/Mortalidade</th>
+                            <th>Crescimento Vital</th>
+                            <th>Perfil de País</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Pré-Transição</strong></td>
+                            <td>Ambas muito altas e oscilantes.</td>
+                            <td>Próximo de zero.</td>
+                            <td>Nenhum país atual (apenas tribos isoladas).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Explosão</strong></td>
+                            <td>Natalidade alta + <span class="highlight">Mortalidade em queda</span>.</td>
+                            <td>Aceleração máxima.</td>
+                            <td>Países periféricos (África Subsariana).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Desaceleração</strong></td>
+                            <td>Mortalidade baixa + <span class="highlight">Natalidade em queda</span>.</td>
+                            <td>Redução do ritmo.</td>
+                            <td>Brasil, México, Índia.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Estabilização</strong></td>
+                            <td>Ambas baixas e equilibradas.</td>
+                            <td>Estagnação ou Recuo.</td>
+                            <td>Europa, Japão, Canadá.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                <span class="mr-2">03.</span> Teorias Demográficas e Aplicação Prática
+            </h2>
+            
+            <div class="space-y-6">
+                <div class="theory-box">
+                    <h3 class="font-bold text-lg text-gray-800">Teoria Malthusiana</h3>
+                    <p>Foco na <span class="highlight">escassez de alimentos</span>. PG (população) > PA (comida). Aplicação: Hoje é criticada por ignorar a tecnologia agrícola.</p>
+                </div>
+                
+                <div class="theory-box" style="border-color: #ef4444;">
+                    <h3 class="font-bold text-lg text-red-700">Teoria Neomalthusiana</h3>
+                    <p>Foco no <span class="highlight">controle de natalidade</span> como solução para a pobreza. Argumenta que muitos jovens impedem o investimento estatal. Aplicação: Políticas de Planejamento Familiar rigorosas.</p>
+                </div>
+                
+                <div class="theory-box" style="border-color: #10b981;">
+                    <h3 class="font-bold text-lg text-green-700">Teoria Reformista (Marxista)</h3>
+                    <p>Inverte o Neomalthusianismo: <span class="highlight">A pobreza gera a natalidade alta</span>. A solução é a justiça social e educação. Aplicação: Defesa de que o desenvolvimento socioeconômico reduz naturalmente a prole.</p>
+                </div>
+
+                <div class="theory-box" style="border-color: #059669;">
+                    <h3 class="font-bold text-lg text-emerald-800">Ecomalthusianismo</h3>
+                    <p>A pressão populacional destrói os <span class="highlight">recursos naturais</span>. Aplicação: Discussões sobre pegada ecológica e sustentabilidade global.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                <span class="mr-2">04.</span> Pirâmides Etárias e Censo 2022
+            </h2>
+            
+            <div class="mb-8">
+                <h3 class="font-semibold text-gray-700 mb-3">Evolução do Formato:</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>Triangular (Jovem):</strong> Base larga, topo fino. Típica da Fase 2.</li>
+                    <li><strong>Sino/Barril (Adulta):</strong> Base estreitando, corpo largo. Brasil atual.</li>
+                    <li><strong>Urna (Envelhecida):</strong> Base muito estreita, topo largo. <span class="highlight">Inversão demográfica</span>.</li>
+                </ul>
+            </div>
+
+            <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                <h3 class="font-bold text-blue-900 mb-4 uppercase text-sm tracking-widest">Destaques Censo 2022 (IBGE)</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                    <p>• <strong>Idade Mediana:</strong> 35 anos (Envelhecimento nítido).</p>
+                    <p>• <strong>Índice de Envelhecimento:</strong> Saltou de 30,7 (2010) para <span class="highlight">55,2 (2022)</span>.</p>
+                    <p>• <strong>Menor Crescimento:</strong> 0,52% ao ano (o menor da série histórica).</p>
+                    <p>• <strong>Regional:</strong> O <span class="highlight">Norte</span> é o único com pirâmide ainda rejuvenescida.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                <span class="mr-2">05.</span> Dinâmica Econômica: PIA e Bônus
+            </h2>
+            <div class="bg-gray-50 p-6 rounded-xl">
+                <p class="mb-4"><strong>População em Idade Ativa (PIA):</strong> Geralmente entre 15 e 64 anos.</p>
+                <p class="mb-4"><strong>Bônus Demográfico:</strong> Momento em que a Razão de Dependência é baixa (muita gente trabalhando para poucos dependentes). <span class="highlight">Janela de oportunidade</span> para o PIB crescer.</p>
+                <div class="aocp-alert">
+                    <strong>Alerta AOCP:</strong> O Brasil está saindo do bônus demográfico sem ter aproveitado plenamente o crescimento econômico (o "envelhecer antes de enriquecer").
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card border-orange-200 bg-orange-50/30">
+            <h2 class="text-2xl font-bold text-orange-700 mb-6 flex items-center">
+                <span class="mr-2">⚠️</span> Filtro Antipeguinha (Instituto AOCP)
+            </h2>
+            <ul class="space-y-4 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-red-500 font-bold mr-3">✕</span>
+                    <span>Cuidado ao dizer que a população brasileira parou de crescer. Ela <span class="highlight">ainda cresce</span>, mas em ritmo cada vez mais lento.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-red-500 font-bold mr-3">✕</span>
+                    <span>Não confunda <span class="highlight">Crescimento Vegetativo</span> (N-M) com Crescimento Demográfico (Vegetativo + Saldo Migratório).</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-red-500 font-bold mr-3">✕</span>
+                    <span>A banca ama trocar "Povoado" por "Populoso". Lembre: Populoso = Número total / Povoado = Densidade.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-red-500 font-bold mr-3">✕</span>
+                    <span>Dizer que o controle de natalidade é pauta Reformista. <span class="highlight">Mentira</span>. É pauta Neomalthusiana.</span>
+                </li>
+            </ul>
+        </section>
+
+        <footer class="mt-20 text-center pb-24">
+            <div class="mb-8">
+                <p class="text-gray-400 text-sm">Fim da Aula Técnica de Demografia</p>
+                <div class="h-1 w-20 bg-blue-600 mx-auto mt-2 rounded-full"></div>
+            </div>
+            
+            <a href="transicao_demograficaquestoes.html" class="group inline-flex items-center justify-center bg-gray-900 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full transition-all duration-300 shadow-xl hover:shadow-blue-200 transform hover:-translate-y-1">
+                <span>Ir para Questões de Treino</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </a>
+            
+            <p class="mt-10 text-xs text-gray-400 font-medium">Material Exclusivo - Concurso Professor Geografia IFCE</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

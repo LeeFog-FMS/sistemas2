@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Geografia: Categorias e Conceitos-Chave</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --container-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #34495e;
+            --correct-color: #27ae60;
+            --incorrect-color: #c0392b;
+            --border-color: #e0e0e0;
+            --highlight-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        header {
+            border-bottom: 2px solid var(--accent-color);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin: 0;
+        }
+
+        .intro {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .question-block {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-item:hover {
+            background-color: var(--highlight-bg);
+        }
+
+        .option-item input {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .option-item.selected {
+            border-color: var(--accent-color);
+            background-color: #ebf2f7;
+        }
+
+        /* Classes de feedback */
+        .correct-answer {
+            background-color: #d4edda !important;
+            border-color: var(--correct-color) !important;
+            color: #155724;
+        }
+
+        .wrong-answer {
+            background-color: #f8d7da !important;
+            border-color: var(--incorrect-color) !important;
+            color: #721c24;
+        }
+
+        .resolution {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background-color: #fdfdfd;
+            border-left: 4px solid var(--accent-color);
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        #result-area {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            margin-top: 20px;
+            background-color: var(--highlight-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .score-box {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulado: Categorias e Conceitos-Chave da Geografia</h1>
+        <p class="intro">Estilo Instituto AOCP - 10 Questões sobre Espaço, Território, Lugar, Paisagem e Região.</p>
+    </header>
+
+    <form id="quiz-form">
+        <!-- Questão 1 -->
+        <div class="question-block" data-correct="E">
+            <span class="question-text">Questão 1: Diversos conceitos da geografia são essenciais no interior do pensamento geográfico e fundamentais para a compreensão da realidade humana. Um desses conceitos “está relacionado a tudo que os sentidos humanos podem perceber e apreender da realidade de determinado espaço geográfico ou parte dele, está diretamente relacionado à sensibilidade humana. Há quem entenda esse conceito como uma realidade que pode ser representada visualmente em uma fotografia ou pintura. Embora a visão seja o principal sentido com o qual se observa a realidade, outros sentidos também podem participar da sua identificação, introduzindo-se informações como sons e odores na sua descrição, método através do qual ele (a) pode ser bem explorado(a)”. Esse excerto faz referência ao conceito de:</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q1" value="A"> A) espaço natural.</label>
+                <label class="option-item"><input type="radio" name="q1" value="B"> B) região.</label>
+                <label class="option-item"><input type="radio" name="q1" value="C"> C) megalópole.</label>
+                <label class="option-item"><input type="radio" name="q1" value="D"> D) território.</label>
+                <label class="option-item"><input type="radio" name="q1" value="E"> E) paisagem.</label>
+            </div>
+            <div class="resolution" id="res-q1">
+                <strong>Resolução:</strong> A paisagem representa a dimensão visível, tangível e mutável do espaço geográfico, sendo apreendida de forma direta pela sensibilidade e pelos sentidos humanos. A banca ressalta que, embora a visão atue como o sentido preponderante, a identificação incorpora elementos multissensoriais como sons e odores.
+            </div>
+        </div>
+
+        <!-- Questão 2 -->
+        <div class="question-block" data-correct="C">
+            <span class="question-text">Questão 2: A evolução teórica da Geografia é marcada por diversas correntes de pensamento. Qual das seguintes definições melhor descreve a abordagem da Geografia Crítica, uma importante corrente do final do século XX, no que concerne à explicação da organização espacial?</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q2" value="A"> A) Busca principalmente a descrição detalhada de paisagens naturais sem se preocupar com relações sociais.</label>
+                <label class="option-item"><input type="radio" name="q2" value="B"> B) Enfatiza a análise quantitativa e o uso de modelos matemáticos para prever padrões.</label>
+                <label class="option-item"><input type="radio" name="q2" value="C"> C) Tem o objetivo de questionar as estruturas de poder e as desigualdades socioespaciais, promovendo uma visão politizada da relação entre espaço e sociedade.</label>
+                <label class="option-item"><input type="radio" name="q2" value="D"> D) Preocupa-se com a interação entre elementos naturais e a sociedade humana, sem considerar política.</label>
+                <label class="option-item"><input type="radio" name="q2" value="E"> E) Destaca-se pela catalogação e classificação de paisagens puramente estéticas.</label>
+            </div>
+            <div class="resolution" id="res-q2">
+                <strong>Resolução:</strong> A Geografia Crítica ou Radical emerge como contestação ao caráter descritivo da Clássica e ao formalismo da Quantitativa. Seu cerne é o desvelamento das estruturas de poder e a denúncia de desigualdades, vendo o espaço como um produto histórico das lutas de classes.
+            </div>
+        </div>
+
+        <!-- Questão 3 -->
+        <div class="question-block" data-correct="D">
+            <span class="question-text">Questão 3: Na perspectiva do possibilismo vidaliano da Escola Francesa, o conceito de Região foi cunhado e aplicado para explicar a organização do espaço baseado na(s):</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q3" value="A"> A) leis biofísicas inflexíveis que determinam o desenvolvimento das sociedades.</label>
+                <label class="option-item"><input type="radio" name="q3" value="B"> B) modelagens matemáticas abstratas de fluxos de transporte e polos urbanos.</label>
+                <label class="option-item"><input type="radio" name="q3" value="C"> C) relações de dominação geopolítica exclusivas do Estado-nação.</label>
+                <label class="option-item"><input type="radio" name="q3" value="D"> D) conexões singulares entre a sociedade e a natureza local, expressas no conceito de "gênero de vida", gerando uma unidade espacial concreta e única.</label>
+                <label class="option-item"><input type="radio" name="q3" value="E"> E) dinâmicas globais de acumulação flexível que desmaterializam as características históricas.</label>
+            </div>
+            <div class="resolution" id="res-q3">
+                <strong>Resolução:</strong> No possibilismo, o homem é agente ativo. O conceito de Região foca no "gênero de vida" (técnicas e costumes), criando uma unidade espacial harmônica e singular entre sociedade e meio físico.
+            </div>
+        </div>
+
+        <!-- Questão 4 -->
+        <div class="question-block" data-correct="B">
+            <span class="question-text">Questão 4: Quando a vertente da Nova Geografia (Pragmática ou Quantitativa) reformula o instrumental metodológico da disciplina, o conceito de Região passa a ser operacionalizado como:</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q4" value="A"> A) um espaço vivido dotado de subjetividade e afetividade.</label>
+                <label class="option-item"><input type="radio" name="q4" value="B"> B) uma área homogênea ou funcional delimitada por critérios estatísticos e modelos matemáticos, servindo como instrumento técnico para o planejamento socioeconômico.</label>
+                <label class="option-item"><input type="radio" name="q4" value="C"> C) um território sagrado determinado pelas heranças culturais camponesas.</label>
+                <label class="option-item"><input type="radio" name="q4" value="D"> D) a expressão visual imediata do relevo e da vegetação apreendida pelos sentidos.</label>
+                <label class="option-item"><input type="radio" name="q4" value="E"> E) o palco de contradições de classe focado na destruição das fronteiras nacionais.</label>
+            </div>
+            <div class="resolution" id="res-q4">
+                <strong>Resolução:</strong> A Nova Geografia buscou rigor estatístico. A região deixou de ser "concreta" para ser um constructo abstrato: área homogênea (uniformidade de variáveis) ou funcional (fluxos e redes), servindo ao planejamento estatal.
+            </div>
+        </div>
+
+        <!-- Questão 5 -->
+        <div class="question-block" data-correct="E">
+            <span class="question-text">Questão 5: A análise das correntes geográficas indica que os movimentos sociais do campo e da cidade encontram um de seus principais referenciais analíticos e práticos na categoria do(a):</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q5" value="A"> A) paisagem.</label>
+                <label class="option-item"><input type="radio" name="q5" value="B"> B) geoprocessamento.</label>
+                <label class="option-item"><input type="radio" name="q5" value="C"> C) totalidade do ser humano.</label>
+                <label class="option-item"><input type="radio" name="q5" value="D"> D) região.</label>
+                <label class="option-item"><input type="radio" name="q5" value="E"> E) território.</label>
+            </div>
+            <div class="resolution" id="res-q5">
+                <strong>Resolução:</strong> O território é definido pelas relações de poder, apropriação e uso político do espaço. Lutas por reforma agrária ou moradia são disputas por territorialidades, tornando esta categoria central para os movimentos sociais.
+            </div>
+        </div>
+
+        <!-- Questão 6 -->
+        <div class="question-block" data-correct="B">
+            <span class="question-text">Questão 6: As contribuições filosóficas de Immanuel Kant foram fundamentais para estabelecer as bases de uma perspectiva que influenciaria Alfred Hettner e Richard Hartshorne. Essa abordagem fundamentou-se na:</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q6" value="A"> A) análise dialética do materialismo histórico.</label>
+                <label class="option-item"><input type="radio" name="q6" value="B"> B) visão corológica da Geografia, que define a disciplina como a ciência da diferenciação de áreas e do estudo da associação de fenômenos.</label>
+                <label class="option-item"><input type="radio" name="q6" value="C"> C) abordagem fenomenológica do lugar, priorizando a percepção sensorial.</label>
+                <label class="option-item"><input type="radio" name="q6" value="D"> D) ecologia humana radical que subordina redes urbanas à geologia.</label>
+                <label class="option-item"><input type="radio" name="q6" value="E"> E) teoria das redes virtuais anulando as divisões regionais.</label>
+            </div>
+            <div class="resolution" id="res-q6">
+                <strong>Resolução:</strong> Kant estruturou a Geografia como ciência corológica (do espaço). Hettner e Hartshorne seguiram essa base, vendo a região como uma ferramenta metodológica para entender o caráter único da combinação de elementos em cada área.
+            </div>
+        </div>
+
+        <!-- Questão 7 -->
+        <div class="question-block" data-correct="B">
+            <span class="question-text">Questão 7: A Geografia Humanista e Cultural trouxe um novo olhar sobre a organização espacial ao consolidar o conceito de Lugar com base na(s):</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q7" value="A"> A) estruturas político-administrativas que regulam novos municípios.</label>
+                <label class="option-item"><input type="radio" name="q7" value="B"> B) dimensões de afetividade, identidade, pertencimento e experiência vivida pelos sujeitos em seu espaço cotidiano.</label>
+                <label class="option-item"><input type="radio" name="q7" value="C"> C) taxas de produtividade econômica e fluxos turísticos.</label>
+                <label class="option-item"><input type="radio" name="q7" value="D"> D) delimitações cartográficas obtidas via satélites de alta precisão.</label>
+                <label class="option-item"><input type="radio" name="q7" value="E"> E) relações de poder de caráter macroeconômico instituídas por blocos comerciais.</label>
+            </div>
+            <div class="resolution" id="res-q7">
+                <strong>Resolução:</strong> A Geografia Humanista resgata o sujeito. O lugar deixa de ser "localização" e vira o espaço da experiência, definido pelos laços simbólicos e pelo sentimento de pertencimento do indivíduo.
+            </div>
+        </div>
+
+        <!-- Questão 8 -->
+        <div class="question-block" data-correct="B">
+            <span class="question-text">Questão 8: Nas discussões de autores como Roberto Lobato Corrêa e Paulo César da Costa Gomes, a região é interpretada como:</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q8" value="A"> A) um dado puramente natural da superfície terrestre que preexiste às ações humanas.</label>
+                <label class="option-item"><input type="radio" name="q8" value="B"> B) uma categoria analítica e um instrumento de ação política e administrativa, construída de forma deliberada para compreender e intervir nas articulações espaciais.</label>
+                <label class="option-item"><input type="radio" name="q8" value="C"> C) uma subdivisão obsoleta que perdeu o sentido devido ao monitoramento por satélites.</label>
+                <label class="option-item"><input type="radio" name="q8" value="D"> D) a simples projeção cartográfica estática de bacias hidrográficas.</label>
+                <label class="option-item"><input type="radio" name="q8" value="E"> E) um reflexo direto e exclusivo de critérios étnicos e biológicos.</label>
+            </div>
+            <div class="resolution" id="res-q8">
+                <strong>Resolução:</strong> A região não é "natural". Ela é um constructo intelectual (categoria analítica) ou estatal (instrumento de ação) criado para organizar o conhecimento ou gerir o território.
+            </div>
+        </div>
+
+        <!-- Questão 9 -->
+        <div class="question-block" data-correct="C">
+            <span class="question-text">Questão 9: A criação de novos municípios pós-1988 demonstra que a articulação entre o ordenamento jurídico do Estado e as demandas locais configura uma típica produção de:</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q9" value="A"> A) paisagens puramente naturais imunes às intervenções antrópicas.</label>
+                <label class="option-item"><input type="radio" name="q9" value="B"> B) espaços fluidos e desterritorializados onde fronteiras não importam.</label>
+                <label class="option-item"><input type="radio" name="q9" value="C"> C) novas territorialidades municipais, expressando formas de controle, gestão e exercício do poder político sobre parcelas do espaço.</label>
+                <label class="option-item"><input type="radio" name="q9" value="D"> D) regiões exclusivamente corológicas baseadas no gênero de vida tradicional camponês.</label>
+                <label class="option-item"><input type="radio" name="q9" value="E"> E) megalópoles instantâneas caracterizadas pela fusão de metrópoles nacionais.</label>
+            </div>
+            <div class="resolution" id="res-q9">
+                <strong>Resolução:</strong> Emancipações municipais representam a redistribuição do poder político e a instauração de novas esferas de controle administrativo, o que materializa a criação de novas territorialidades.
+            </div>
+        </div>
+
+        <!-- Questão 10 -->
+        <div class="question-block" data-correct="C">
+            <span class="question-text">Questão 10: Diante da globalização e da expansão das redes de fluxos, o conceito contemporâneo de Região assume que:</span>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q10" value="A"> A) as regiões tornaram-se entidades totalmente isoladas e autárquicas.</label>
+                <label class="option-item"><input type="radio" name="q10" value="B"> B) a escala regional foi completamente extinta pela escala global.</label>
+                <label class="option-item"><input type="radio" name="q10" value="C"> C) a região se reconfigura como uma articulação flexível de escalas, conectando o local ao global por meio de redes de fluxos, capital e poder.</label>
+                <label class="option-item"><input type="radio" name="q10" value="D"> D) a regionalização baseia-se exclusivamente na contiguidade geomorfológica estrita.</label>
+                <label class="option-item"><input type="radio" name="q10" value="E"> E) os recortes servem apenas para classificar formações florestais e unidades de conservação.</label>
+            </div>
+            <div class="resolution" id="res-q10">
+                <strong>Resolução:</strong> Na globalização, a região deixa de ter "gavetas" estanques. Ela vira um ponto de interseção (nó) onde forças globais e locais se chocam e se articulam em escalas múltiplas.
+            </div>
+        </div>
+
+        <button type="button" class="submit-btn" id="finish-quiz">Finalizar Quiz e Ver Resoluções</button>
+    </form>
+
+    <div id="result-area">
+        <div class="score-box" id="score-text"></div>
+        <p id="feedback-message"></p>
+        <button type="button" class="submit-btn" style="width: auto; margin-top: 10px;" onclick="window.location.reload()">Refazer Quiz</button>
+    </div>
+
+    <footer>
+        Baseado em provas e diretrizes do Instituto AOCP. Conteúdo didático para estudo de Geografia.
+    </footer>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('quiz-form');
+        const finishBtn = document.getElementById('finish-quiz');
+        const resultArea = document.getElementById('result-area');
+        const scoreText = document.getElementById('score-text');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const optionItems = document.querySelectorAll('.option-item');
+
+        // Estilizar seleção
+        optionItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const name = item.querySelector('input').name;
+                document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                    input.parentElement.classList.remove('selected');
+                });
+                item.classList.add('selected');
+            });
+        });
+
+        finishBtn.addEventListener('click', () => {
+            let score = 0;
+            const totalQuestions = 10;
+            const questions = document.querySelectorAll('.question-block');
+
+            questions.forEach((q, index) => {
+                const correctLetter = q.getAttribute('data-correct');
+                const selectedInput = q.querySelector('input:checked');
+                const resolution = q.querySelector('.resolution');
+                
+                // Mostrar a resolução
+                resolution.style.display = 'block';
+
+                if (selectedInput) {
+                    const userAnswer = selectedInput.value;
+                    
+                    // Marcar opções
+                    const options = q.querySelectorAll('.option-item');
+                    options.forEach(opt => {
+                        const input = opt.querySelector('input');
+                        if (input.value === correctLetter) {
+                            opt.classList.add('correct-answer');
+                        } else if (input.checked && input.value !== correctLetter) {
+                            opt.classList.add('wrong-answer');
+                        }
+                    });
+
+                    if (userAnswer === correctLetter) {
+                        score++;
+                    }
+                } else {
+                    // Se não respondeu, apenas mostra a correta
+                    const options = q.querySelectorAll('.option-item');
+                    options.forEach(opt => {
+                        if (opt.querySelector('input').value === correctLetter) {
+                            opt.classList.add('correct-answer');
+                        }
+                    });
+                }
+            });
+
+            // Exibir resultados
+            finishBtn.style.display = 'none';
+            resultArea.style.display = 'block';
+            scoreText.innerText = `${score} / ${totalQuestions}`;
+            
+            if (score === totalQuestions) {
+                feedbackMessage.innerText = "Excelente! Você domina as categorias geográficas.";
+            } else if (score >= 7) {
+                feedbackMessage.innerText = "Muito bom! Continue revisando os pontos onde errou.";
+            } else {
+                feedbackMessage.innerText = "Bom esforço. Leia as resoluções abaixo com atenção para reforçar a base teórica.";
+            }
+
+            // Scroll suave para os resultados
+            resultArea.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+
+</body>
+</html>

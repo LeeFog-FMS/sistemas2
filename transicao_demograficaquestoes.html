@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Transição Demográfica e Teorias</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-color: #2c3e50;
+            --accent-color: #34495e;
+            --correct-bg: #e8f5e9;
+            --correct-text: #2e7d32;
+            --wrong-bg: #ffebee;
+            --wrong-text: #c62828;
+            --border-color: #e0e0e0;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 850px;
+            width: 90%;
+            margin: 2rem 0;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 5px solid var(--accent-color);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        .question-header {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .question-text {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f1f3f5;
+        }
+
+        .option-label input {
+            margin-right: 1rem;
+            margin-top: 0.4rem;
+            transform: scale(1.2);
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 5rem;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Results Section */
+        #results {
+            display: none;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 3px solid var(--accent-color);
+        }
+
+        .score-banner {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .resolution-card {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .correct-answer {
+            background-color: var(--correct-bg);
+            color: var(--correct-text);
+            border: 1px solid #c8e6c9;
+        }
+
+        .wrong-answer {
+            background-color: var(--wrong-bg);
+            color: var(--wrong-text);
+            border: 1px solid #ffcdd2;
+        }
+
+        .explanation {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 1rem;
+            font-style: italic;
+        }
+
+        .math {
+            font-family: "Courier New", Courier, monospace;
+            background: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 600px) {
+            .container { width: 95%; }
+            .question-card { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Simulado de Geografia Humana</h1>
+    <p>Transição Demográfica, Estrutura Populacional e Teorias</p>
+</header>
+
+<div class="container">
+    <div class="info-box">
+        <strong>Estilo da Banca: Instituto AOCP.</strong><br>
+        Responda às 10 questões abaixo e clique em "Finalizar Simulado" para ver seu desempenho e as resoluções detalhadas.
+    </div>
+
+    <form id="quizForm">
+        <!-- Questão 1 -->
+        <div class="question-card" id="q1-card">
+            <div class="question-header">Questão 1</div>
+            <div class="question-text">
+                O processo de transição demográfica ou transição vital constitui uma das principais transformações estruturais pelas quais passam as sociedades modernas, caracterizando-se pela passagem de um regime demográfico tradicional para um regime demográfico moderno. No que concerne às características conceituais de suas fases e à sua manifestação na realidade histórica e contemporânea, assinale a alternativa correta.
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q1" value="A"> A) A primeira fase da transição demográfica, também denominada pré-transição, é marcada por um expressivo crescimento vegetativo decorrente da queda abrupta da taxa de natalidade acompanhada da manutenção de taxas de mortalidade elevadas.</label>
+                <label class="option-label"><input type="radio" name="q1" value="B"> B) A segunda fase da transição vital, ou fase de aceleração demográfica, é desencadeada pelo declínio rápido e acentuado da taxa de mortalidade devido a melhorias sanitárias e médicas, enquanto a taxa de natalidade permanece elevada, gerando a máxima taxa de crescimento natural.</label>
+                <label class="option-label"><input type="radio" name="q1" value="C"> C) O fechamento da transição demográfica, característico de países desenvolvidos pós-industriais, pressupõe o retorno a taxas de mortalidade elevadas devido ao envelhecimento da população, superando as taxas de natalidade e reativando as projeções geométricas malthusianas.</label>
+                <label class="option-label"><input type="radio" name="q1" value="D"> D) A transição demográfica no Brasil, cujo vigor se manifestou de forma tardia a partir da segunda metade do século XX, caracterizou-se por um processo lento e gradual de queda das taxas de mortalidade, o que impediu o envelhecimento da população e estabilizou os sistemas previdenciários.</label>
+                <label class="option-label"><input type="radio" name="q1" value="E"> E) De acordo com os preceitos da teoria reformista, a queda das taxas de natalidade durante a transição demográfica é o pré-requisito compulsório e exclusivo para que uma nação consiga superar a miséria econômica e atingir o desenvolvimento industrial.</label>
+            </div>
+        </div>
+
+        <!-- Questão 2 -->
+        <div class="question-card" id="q2-card">
+            <div class="question-header">Questão 2</div>
+            <div class="question-text">
+                As pirâmides etárias são gráficos de indicadores populacionais essenciais que permitem a análise detalhada da dinâmica demográfica de um determinado local segundo recortes de faixas etárias e de sexo. Tendo por base os dados oficiais consolidados do Censo Demográfico de 2022 divulgados pelo IBGE expressos na tabela a seguir, assinale a alternativa que traduz de forma correta a atual configuração estrutural da demografia brasileira.
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Macrorregião</th>
+                            <th>Idade Mediana 2010</th>
+                            <th>Idade Mediana 2022</th>
+                            <th>Crianças 0-14 (%)</th>
+                            <th>Idosos 65+ (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Norte</td><td>24</td><td>29</td><td>25,2%</td><td>Baixo peso</td></tr>
+                        <tr><td>Nordeste</td><td>27</td><td>33</td><td>21,1%</td><td>Médio peso</td></tr>
+                        <tr><td>Sudeste</td><td>31</td><td>37</td><td>Médio-baixo</td><td>12,2%</td></tr>
+                        <tr><td>Sul</td><td>31</td><td>36</td><td>Médio-baixo</td><td>12,1%</td></tr>
+                        <tr><td>Brasil (Total)</td><td>29</td><td>35</td><td>19,8%</td><td>10,9%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q2" value="A"> A) A idade mediana da população brasileira registrou um decréscimo de seis anos no intervalo intercensitário entre 2010 e 2022, fixando-se nos 29 anos de idade devido ao rejuvenescimento expressivo verificado nas macrorregiões Sudeste e Sul.</label>
+                <label class="option-label"><input type="radio" name="q2" value="B"> B) O total de pessoas pertencentes à faixa etária infantil de até 14 anos de idade apresentou um crescimento absoluto de 12,6% no período entre 2010 e 2022, o que resultou no alargamento proporcional da base da pirâmide etária nacional.</label>
+                <label class="option-label"><input type="radio" name="q2" value="C"> C) A estrutura populacional brasileira encontra-se em pleno processo de envelhecimento, evidenciado pelo aumento da idade mediana nacional para 35 anos em 2022 e pelo crescimento de 57,4% no contingente de pessoas com 65 anos ou mais de idade em relação a 2010.</label>
+                <label class="option-label"><input type="radio" name="q2" value="D"> D) A macrorregião Norte consolidou-se em 2022 como o território de estrutura demográfica mais envelhecida do país, exibindo a maior idade mediana e o maior percentual relativo de indivíduos situados na faixa de 65 anos ou mais de idade.</label>
+                <label class="option-label"><input type="radio" name="q2" value="E"> E) A composição por sexo apurada no Censo de 2022 indicou um predomínio numérico da população masculina no território nacional, a qual passou a responder por 51,5% do total de habitantes residentes.</label>
+            </div>
+        </div>
+
+        <!-- Questão 3 -->
+        <div class="question-card" id="q3-card">
+            <div class="question-header">Questão 3</div>
+            <div class="question-text">
+                Considere as formulações teóricas acerca do crescimento populacional e a sua aplicação prática na interpretação da realidade socioeconômica global contemporânea. Analise as assertivas a seguir:<br><br>
+                I. A teoria Malthusiana clássica argumentava que a população crescia em progressão geométrica e os meios de subsistência em progressão aritmética, elegendo a contenção moral, o casamento tardio e a abstinência sexual como os únicos mecanismos legítimos para evitar o colapso civilizatório.<br>
+                II. Os formuladores Neomalthusianos transpuseram o nexo causal malthusiano para o cenário do pós-Segunda Guerra Mundial, asseverando que o elevado crescimento demográfico nos países subdesenvolvidos funciona como a causa primária do subdesenvolvimento e da miséria, justificando a difusão de programas estatais de planejamento familiar e controle reprodutivo.<br>
+                III. A vertente Reformista, fundamentada em preceitos críticos e marxistas, inverte a lógica neomalthusiana ao postular que as altas taxas de natalidade e a superpopulação relativa não são a causa, mas sim a consequência direta do subdesenvolvimento, da desigualdade social e da falta de acesso à educação e à saúde.<br>
+                IV. O denominado "eco-malthusianismo" constitui uma vertente contemporânea que utiliza as premissas neomalthusianas para defender o controle estrito da natalidade nas nações desenvolvidas do Norte global, sob a alegação de que suas baixas taxas de fecundidade provocam a destruição dos ecossistemas periféricos.
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q3" value="A"> A) Apenas as assertivas I e II estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q3" value="B"> B) Apenas as assertivas II, III e IV estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q3" value="C"> C) Apenas as assertivas I, III e IV estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q3" value="D"> D) Apenas as assertivas I, II e III estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q3" value="E"> E) Todas as assertivas I, II, III e IV estão corretas.</label>
+            </div>
+        </div>
+
+        <!-- Questão 4 -->
+        <div class="question-card" id="q4-card">
+            <div class="question-header">Questão 4</div>
+            <div class="question-text">
+                A transição demográfica no Brasil, intensificada na segunda metade do século XX, gerou reflexos profundos sobre a dinâmica socioeconômica nacional, transformando a composição da força de trabalho e demandando reajustes nas políticas públicas. Diante desse cenário e considerando o conceito de População Economicamente Ativa (PEA) utilizado em análises demográficas, assinale a alternativa correta.
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q4" value="A"> A) A População Economicamente Ativa (PEA) compreende o contingente populacional que se encontra abaixo da idade legal para o trabalho ou que está permanentemente incapacitado e institucionalizado.</label>
+                <label class="option-label"><input type="radio" name="q4" value="B"> B) O envelhecimento populacional decorrente da rápida queda das taxas de natalidade e mortalidade gera uma transição estrutural que resulta em crescente preocupação com a sustentabilidade financeira e atuarial dos sistemas previdenciário e de saúde pública.</label>
+                <label class="option-label"><input type="radio" name="q4" value="C"> C) O "bônus demográfico" manifesta-se em termos práticos quando a base da pirâmide etária se expande de forma acelerada, elevando de maneira permanente a razão de dependência dos idosos sobre a população em idade ativa.</label>
+                <label class="option-label"><input type="radio" name="q4" value="D"> D) De acordo com a teoria reformista, a redução da PEA em decorrência do envelhecimento demográfico deve ser remediada por meio da imposição estatal de penalidades financeiras severas e restrições matrimoniais às famílias de baixa renda.</label>
+                <label class="option-label"><input type="radio" name="q4" value="E"> E) A estabilização do topo da pirâmide etária nas macrorregiões Sudeste e Sul demonstra que o Brasil concluiu sua transição epidemiológica, erradicando por completo a incidência de causas externas de óbito.</label>
+            </div>
+        </div>
+
+        <!-- Questão 5 -->
+        <div class="question-card" id="q5-card">
+            <div class="question-header">Questão 5</div>
+            <div class="question-text">
+                A análise demográfica subnacional no Brasil revela que o crescimento da população e as alterações na estrutura etária não ocorrem de maneira espacialmente uniforme. Tomando por referência a dinâmica demográfica e a estrutura da população do estado do Paraná e de suas comunidades conforme dados do IBGE, assinale a alternativa correta.
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q5" value="A"> A) O crescimento da população paranaense expressa-se de maneira estritamente homogênea em todas as suas regiões econômicas, resultando em uma distribuição equitativa e estática de habitantes entre os municípios urbanos e rurais.</label>
+                <label class="option-label"><input type="radio" name="q5" value="B"> B) A estrutura etária da população do estado do Paraná reflete o fenômeno do envelhecimento populacional progressivo, alinhando-se à tendência macrodográfica observada para o conjunto da federação brasileira.</label>
+                <label class="option-label"><input type="radio" name="q5" value="C"> C) O crescimento demográfico verificado no estado do Paraná nas últimas décadas foi impulsionado preponderantemente pela imigração externa massiva, sobretudo por fluxos migratórios internacionais vindos da Europa e da Ásia.</label>
+                <label class="option-label"><input type="radio" name="q5" value="D"> D) De acordo com os parâmetros censitários de 2022, a maior parte da população indígena do estado do Paraná encontra-se dispersa em áreas urbanas de grande porte, tendo abandonado por completo a ocupação de terras oficialmente demarcadas.</label>
+                <label class="option-label"><input type="radio" name="q5" value="E"> E) A pirâmide etária do estado do Paraná conserva atualmente uma base hipertrofiada e um topo acentuadamente afilado, padrão decorrente da manutenção de taxas de fecundidade superiores a quatro filhos por mulher.</label>
+            </div>
+        </div>
+
+        <!-- Questão 6 -->
+        <div class="question-card" id="q6-card">
+            <div class="question-header">Questão 6</div>
+            <div class="question-text">
+                O avanço do envelhecimento populacional e as transformações na morfologia das pirâmides etárias brasileiras podem ser quantificados por meio de indicadores estatísticos sintéticos. Sabendo que no Brasil o Índice de Envelhecimento ($IE$) evoluiu de $30,7$ em 2010 para $55,2$ em 2022, assinale a alternativa que interpreta corretamente esse indicador.<br><br>
+                Fórmula: <span class="math">IE = (Pop. 65+ / Pop. 0-14) * 100</span>
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q6" value="A"> A) O aumento do indicador demonstra que o crescimento populacional brasileiro assumiu um ritmo de progressão geométrica acelerada, validando integralmente o modelo preditivo construído por Thomas Malthus.</label>
+                <label class="option-label"><input type="radio" name="q6" value="B"> B) O valor de 55,2 alcançado em 2022 indica que existem aproximadamente 55,2 pessoas com 65 anos ou mais de idade para cada lote de 100 crianças de 0 a 14 anos na população brasileira, evidenciando o estreitamento contínuo da base da pirâmide etária.</label>
+                <label class="option-label"><input type="radio" name="q6" value="C"> C) Sob a ótica neomalthusiana, a elevação expressiva do índice de envelhecimento constitui um fator positivo para as finanças estatais, pois reduz de forma mecânica a pressão sobre os gastos públicos com a previdência social.</label>
+                <label class="option-label"><input type="radio" name="q6" value="D"> D) A variação do índice de envelhecimento comprova que a população idosa com 60 anos ou mais entrou em declínio absoluto no país, registrando uma retração de 12,6% em relação aos dados apurados em 2010.</label>
+                <label class="option-label"><input type="radio" name="q6" value="E"> E) O avanço do índice de envelhecimento no Brasil decorre unicamente da ocorrência de saldos migratórios internacionais negativos na faixa etária correspondente à População Economicamente Ativa.</label>
+            </div>
+        </div>
+
+        <!-- Questão 7 -->
+        <div class="question-card" id="q7-card">
+            <div class="question-header">Questão 7</div>
+            <div class="question-text">
+                "O movimento populacional interno mais significativo no século XX foi a migração em direção às áreas urbanas, que causou o esvaziamento de diversas áreas rurais e impulsionou a concentração populacional nas cidades". Sob a ótica da transição demográfica e das teorias populacionais, a urbanização acelerada da sociedade brasileira atuou como um mecanismo catalisador porque:
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q7" value="A"> A) o meio urbano-industrial impôs mutações socioeconômicas estruturais — como o encarecimento do custo de criação da prole, a inserção da mulher no mercado de trabalho assalariado e o maior acesso a métodos contraceptivos —, acelerando a queda da natalidade.</label>
+                <label class="option-label"><input type="radio" name="q7" value="B"> B) as aglomerações metropolitanas favoreceram o ressurgimento de altas taxas de mortalidade geral, forçando o recuo da população brasileira para a fase de pré-transição demográfica.</label>
+                <label class="option-label"><input type="radio" name="q7" value="C"> C) o êxodo rural promoveu a aplicação prática e compulsória das teses malthusianas de contenção moral por meio da proibição legal de casamentos entre indivíduos residentes em periferias urbanas.</label>
+                <label class="option-label"><input type="radio" name="q7" value="D"> D) a vida nas cidades propiciou um aumento generalizado das taxas de fecundidade total, fazendo com que a idade mediana do país retrocedesse para patamares inferiores a vinte anos.</label>
+                <label class="option-label"><input type="radio" name="q7" value="E"> E) a concentração urbana extinguiu as demandas por reformas estruturais na área de saúde e saneamento, validando a tese reformista de que o crescimento demográfico independe do meio geográfico.</label>
+            </div>
+        </div>
+
+        <!-- Questão 8 -->
+        <div class="question-card" id="q8-card">
+            <div class="question-header">Questão 8</div>
+            <div class="question-text">
+                Embora o envelhecimento populacional seja uma realidade compartilhada pelo conjunto do território nacional, o comportamento do índice de envelhecimento revelou disparidades críticas no Censo de 2022. Observe:<br><br>
+                - <strong>Rio Grande do Sul:</strong> 115,0 idosos (60+) por 100 crianças (0-14).<br>
+                - <strong>Rio de Janeiro:</strong> 105,9 idosos (60+) por 100 crianças (0-14).<br>
+                - <strong>Brasil (Média):</strong> 80,0 idosos (60+) por 100 crianças (0-14).<br><br>
+                Assinale a alternativa correta.
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q8" value="A"> A) Os dados demonstram que nos estados do Rio Grande do Sul e do Rio de Janeiro o número de idosos com 60 anos ou mais já ultrapassou o contingente absoluto de crianças de 0 a 14 anos de idade.</label>
+                <label class="option-label"><input type="radio" name="q8" value="B"> B) O índice de envelhecimento de 80,0 na média nacional indica que a estrutura populacional brasileira permanece estagnada na fase inicial da transição demográfica, com amplo predomínio de jovens.</label>
+                <label class="option-label"><input type="radio" name="q8" value="C"> C) De acordo com a matriz teórica neomalthusiana, a configuração etária observada no RS e RJ exige a implantação imediata de programas de incentivo à natalidade baseados na distribuição de contraceptivos.</label>
+                <label class="option-label"><input type="radio" name="q8" value="D"> D) A inversão da base e do topo piramidal nesses estados decorre do expressivo rejuvenescimento de suas forças de trabalho, impulsionado por correntes migratórias vindas da região Norte do país.</label>
+                <label class="option-label"><input type="radio" name="q8" value="E"> E) O comportamento demográfico do RJ e do RS indica que essas unidades da federação apresentam taxas de mortalidade infantil ascendentes e retração na expectativa de vida ao nascer.</label>
+            </div>
+        </div>
+
+        <!-- Questão 9 -->
+        <div class="question-card" id="q9-card">
+            <div class="question-header">Questão 9</div>
+            <div class="question-text">
+                No debate demográfico contemporâneo, a aplicação das teorias malthusiana, neomalthusiana e reformista é frequentemente confrontada com o fenômeno da transição demográfica avançada em escala global. Diante do envelhecimento populacional acentuado, assinale a alternativa correta.
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q9" value="A"> A) A teoria malthusiana clássica demonstrou plena precisão histórica ao prever que o avanço tecnológico na agricultura industrializada seria incapaz de alimentar sociedades com baixas taxas de natalidade.</label>
+                <label class="option-label"><input type="radio" name="q9" value="B"> B) Os postulados neomalthusianos enfrentam contradições na realidade contemporânea de países com crescimento demográfico nulo ou negativo que enfrentam crises de sustentabilidade fiscal causadas pela escassez de força de trabalho jovem.</label>
+                <label class="option-label"><input type="radio" name="q9" value="C"> C) A escola reformista prega que o envelhecimento demográfico observado nas sociedades pós-industriais é decorrente da falta de investimentos estatais em programas de esterilização em massa.</label>
+                <label class="option-label"><input type="radio" name="q9" value="D"> D) Ambas as teorias, malthusiana e neomalthusiana, convergem ao defender que a contração populacional europeia é gerada pela expansão geométrica da produção de alimentos.</label>
+                <label class="option-label"><input type="radio" name="q9" value="E"> E) A corrente reformista assevera que a única solução viável para mitigar os impactos fiscais do envelhecimento populacional consiste na redução drástica dos direitos sociais.</label>
+            </div>
+        </div>
+
+        <!-- Questão 10 -->
+        <div class="question-card" id="q10-card">
+            <div class="question-header">Questão 10</div>
+            <div class="question-text">
+                Considerando as transformações de longo prazo na dinâmica populacional brasileira, analise as proposições:<br><br>
+                I. A transição demográfica brasileira iniciou-se de forma vigorosa na segunda metade do século XX, impulsionada por uma rápida queda nas taxas de mortalidade e natalidade.<br>
+                II. O Censo de 2022 revelou que a idade mediana da população brasileira atingiu os 35 anos, um incremento de 6 anos em comparação a 2010.<br>
+                III. O contingente de idosos com 60 anos ou mais superou a marca de 32 milhões em 2022, crescendo 56% em relação a 2010.<br>
+                IV. As taxas de crescimento demográfico expressam-se de forma homogênea e uniforme em âmbito subnacional em todas as macrorregiões.
+            </div>
+            <div class="options-container">
+                <label class="option-label"><input type="radio" name="q10" value="A"> A) Apenas as proposições I e II estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q10" value="B"> B) Apenas as proposições I, II e III estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q10" value="C"> C) Apenas as proposições II, III e IV estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q10" value="D"> D) Apenas as proposições I e IV estão corretas.</label>
+                <label class="option-label"><input type="radio" name="q10" value="E"> E) Todas as proposições I, II, III e IV estão corretas.</label>
+            </div>
+        </div>
+
+        <div class="submit-container">
+            <button type="button" onclick="evaluateQuiz()">Finalizar Simulado</button>
+        </div>
+    </form>
+
+    <div id="results">
+        <div class="score-banner" id="scoreBanner"></div>
+        <div id="resolutionsList"></div>
+        
+        <div class="submit-container">
+            <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Voltar ao Topo</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const answers = {
+        q1: { correct: 'B', text: "A segunda fase caracteriza-se pelo declínio rápido da mortalidade (melhorias sanitárias) enquanto a natalidade segue alta, gerando o maior crescimento natural." },
+        q2: { correct: 'C', text: "O Censo 2022 confirmou o envelhecimento: idade mediana subiu para 35 anos e o grupo 65+ cresceu 57,4% desde 2010." },
+        q3: { correct: 'D', text: "Assertiva IV está incorreta pois o eco-malthusianismo foca no controle do Sul global e o Norte já tem taxas baixas. I, II e III são definições clássicas." },
+        q4: { correct: 'B', text: "O envelhecimento pressiona o sistema previdenciário e de saúde (mais idosos inativos e maior demanda por tratamentos de doenças crônicas)." },
+        q5: { correct: 'B', text: "O Paraná segue a tendência nacional de envelhecimento progressivo da estrutura etária." },
+        q6: { correct: 'B', text: "O índice de 55,2 indica 55,2 idosos para cada 100 crianças. Valores maiores mostram pirâmides com bases mais estreitas." },
+        q7: { correct: 'A', text: "A urbanização encarece a criação dos filhos e insere a mulher no mercado de trabalho, o que derruba drasticamente a taxa de natalidade." },
+        q8: { correct: 'A', text: "Como o índice do RS (115) e RJ (105) é superior a 100, significa que há mais de 100 idosos para cada 100 crianças nesses estados." },
+        q9: { correct: 'B', text: "Países com crescimento negativo provam que o problema contemporâneo não é excesso de gente (neomalthusianismo), mas falta de jovens para sustentar a economia." },
+        q10: { correct: 'B', text: "Proposição IV incorreta: o crescimento e a estrutura são heterogêneos (o Norte é muito mais jovem que o Sul, por exemplo)." }
+    };
+
+    function evaluateQuiz() {
+        const form = document.getElementById('quizForm');
+        const resultsDiv = document.getElementById('results');
+        const resolutionsList = document.getElementById('resolutionsList');
+        const scoreBanner = document.getElementById('scoreBanner');
+        
+        let score = 0;
+        let html = "<h2>Resoluções Detalhadas</h2>";
+
+        for (let i = 1; i <= 10; i++) {
+            const qName = 'q' + i;
+            const selected = form.elements[qName].value;
+            const correct = answers[qName].correct;
+            const isCorrect = selected === correct;
+
+            if (isCorrect) score++;
+
+            // Visual feedback on the cards themselves
+            const card = document.getElementById(`q${i}-card`);
+            card.style.borderColor = isCorrect ? '#2e7d32' : '#c62828';
+            card.style.borderWidth = '2px';
+
+            // Detailed explanation block
+            html += `
+                <div class="resolution-card ${isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                    <strong>Questão ${i}: ${isCorrect ? 'Você Acertou!' : 'Você Errou.'}</strong><br>
+                    <span>Sua resposta: ${selected || 'Não respondida'} | Gabarito: ${correct}</span>
+                    <div class="explanation">
+                        <strong>Por que esta é a correta?</strong><br>
+                        ${answers[qName].text}
+                    </div>
+                </div>
+            `;
+        }
+
+        scoreBanner.innerHTML = `Resultado Final: ${score} de 10 acertos (${(score/10)*100}%)`;
+        resolutionsList.innerHTML = html;
+        resultsDiv.style.display = 'block';
+        
+        // Scroll to results
+        resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

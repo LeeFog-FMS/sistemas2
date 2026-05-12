@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lelezinha Efetiva - Plataforma de Estudos</title>
+    <!-- Tailwind CSS para design responsivo rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para ícones bonitos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --duo-green: #58cc02;
+            --duo-blue: #1cb0f6;
+            --duo-purple: #ce82ff;
+            --duo-orange: #ff9600;
+            --duo-dark: #4b4b4b;
+            --duo-bg: #f7f7f7;
+            --duo-border: #e5e5e5;
+        }
+
+        body {
+            background-color: var(--duo-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--duo-dark);
+        }
+
+        /* Estilo do Botão Duolingo (Efeito 3D ao clicar) */
+        .lesson-button {
+            position: relative;
+            background: white;
+            border: 2px solid var(--duo-border);
+            border-bottom-width: 6px; /* Sombra sólida inferior */
+            border-radius: 18px;
+            padding: 20px 10px;
+            transition: all 0.1s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            text-align: center;
+        }
+
+        /* Efeito de "afundar" ao passar o mouse */
+        .lesson-button:hover {
+            background-color: #fcfcfc;
+            transform: translateY(2px);
+            border-bottom-width: 4px;
+        }
+
+        /* Efeito de clique (botão pressionado) */
+        .lesson-button:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+        }
+
+        /* Container circular para o ícone */
+        .icon-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        /* Cabeçalho de cada seção/módulo */
+        .module-header {
+            border-bottom: 2px solid var(--duo-border);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        /* Texto de "último acesso" */
+        .access-tag {
+            font-size: 10px;
+            color: #999;
+            margin-top: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Grid que organiza os botões (4 por linha no desktop) */
+        .lesson-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        /* Ajustes de responsividade para tablets e celulares */
+        @media (max-width: 1024px) { .lesson-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .lesson-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .lesson-grid { grid-template-columns: 1fr; } }
+
+        /* Cores temáticas para cada categoria */
+        .bg-docencia { background-color: var(--duo-green); border-color: #46a302; }
+        .bg-geografia { background-color: var(--duo-blue); border-color: #148fcc; }
+        .bg-legislacao { background-color: var(--duo-purple); border-color: #a568cc; }
+        .bg-portugues { background-color: var(--duo-orange); border-color: #cc7800; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Título e Menu de Navegação Rápida -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 text-center md:text-left">
+            <div>
+                <h1 class="text-4xl font-black text-green-600 flex items-center justify-center md:justify-start gap-3">
+                    <i class="fas fa-medal"></i> Lelezinha Efetiva
+                </h1>
+                <p class="text-gray-500 font-bold text-sm mt-1 uppercase tracking-widest">Plataforma de Estudos IFCE</p>
+            </div>
+            <nav class="flex gap-4 overflow-x-auto w-full md:w-auto pb-2 px-2 justify-center">
+                <button onclick="scrollToSection('docencia')" class="font-bold text-gray-500 hover:text-green-600 whitespace-nowrap">DOCÊNCIA</button>
+                <button onclick="scrollToSection('geografia')" class="font-bold text-gray-500 hover:text-blue-600 whitespace-nowrap">GEOGRAFIA</button>
+                <button onclick="scrollToSection('legislacao')" class="font-bold text-gray-500 hover:text-purple-600 whitespace-nowrap">LEGISLAÇÃO</button>
+                <button onclick="scrollToSection('portugues')" class="font-bold text-gray-500 hover:text-orange-600 whitespace-nowrap">PORTUGUÊS</button>
+            </nav>
+        </header>
+
+        <!-- Seções dos Módulos -->
+        <section id="docencia">
+            <div class="module-header"><h2 class="text-xl font-black text-gray-700">MÓDULO 1: DOCÊNCIA E EPT</h2></div>
+            <div class="lesson-grid" id="grid-docencia"></div>
+        </section>
+
+        <section id="geografia">
+            <div class="module-header"><h2 class="text-xl font-black text-gray-700">MÓDULO 2: GEOGRAFIA HUMANA</h2></div>
+            <div class="lesson-grid" id="grid-geografia"></div>
+        </section>
+
+        <section id="legislacao">
+            <div class="module-header"><h2 class="text-xl font-black text-gray-700">MÓDULO 3: LEGISLAÇÃO FEDERAL</h2></div>
+            <div class="lesson-grid" id="grid-legislacao"></div>
+        </section>
+
+        <section id="portugues">
+            <div class="module-header"><h2 class="text-xl font-black text-gray-700">MÓDULO 4: LÍNGUA PORTUGUESA</h2></div>
+            <div class="lesson-grid" id="grid-portugues"></div>
+        </section>
+    </div>
+
+    <script>
+        /**
+         * ABAIXO ESTÁ A LISTA DE AULAS COM OS NOMES DE ARQUIVOS.
+         * Cada botão aponta para o nome em 'file'.
+         */
+        const data = {
+            docencia: [
+                { id: "doc_1", name: "Didática e Formação", icon: "fa-chalkboard-user", file: "didatica_formacao.html" },
+                { id: "doc_2", name: "Ação Docente Crítica", icon: "fa-person-chalkboard", file: "acao_docente.html" },
+                { id: "doc_3", name: "Avaliação no Processo", icon: "fa-check-double", file: "avaliacao_aprendizagem.html" },
+                { id: "doc_4", name: "Relação Professor-Aluno", icon: "fa-people-arrows", file: "relacao_professor_aluno.html" },
+                { id: "doc_5", name: "Tecnologias na Educação", icon: "fa-laptop-code", file: "tecnologias_educacao.html" },
+                { id: "doc_6", name: "História e Funcionamento EPT", icon: "fa-landmark", file: "historia_ept.html" },
+                { id: "doc_7", name: "Ensino, Pesquisa e Extensão", icon: "fa-flask", file: "indissociabilidade.html" },
+                { id: "doc_8", name: "Currículo Integrado", icon: "fa-layer-group", file: "curriculo_integrado.html" },
+                { id: "doc_9", name: "Metodologias Interdisciplinares", icon: "fa-puzzle-piece", file: "interdisciplinaridade.html" },
+                { id: "doc_10", name: "Política Nacional EPT", icon: "fa-gavel", file: "politica_nacional_ept.html" }
+            ],
+            geografia: [
+                { id: "geo_1", name: "Epistemologia Geográfica", icon: "fa-book-atlas", file: "epistemologia_geografia.html" },
+                { id: "geo_2", name: "Categorias e Conceitos", icon: "fa-map-location-dot", file: "conceitos_geografia.html" },
+                { id: "geo_3", name: "Transição Demográfica", icon: "fa-users-line", file: "transicao_demografica.html" },
+                { id: "geo_4", name: "Dinâmicas no Ceará", icon: "fa-map", file: "geografia_ceara.html" },
+                { id: "geo_5", name: "IDH e Gini", icon: "fa-chart-pie", file: "indicadores_socioeconomicos.html" },
+                { id: "geo_6", name: "Espaço Urbano", icon: "fa-city", file: "espaco_urbano.html" },
+                { id: "geo_7", name: "Urbanização Brasileira", icon: "fa-industry", file: "urbanizacao_brasil.html" },
+                { id: "geo_8", name: "Planejamento e Sudene", icon: "fa-compass-drafting", file: "planejamento_urbano.html" },
+                { id: "geo_9", name: "Regiões Metropolitanas", icon: "fa-network-wired", file: "regioes_metropolitanas.html" },
+                { id: "geo_10", name: "Plano Diretor", icon: "fa-file-signature", file: "estatuto_da_cidade.html" },
+                { id: "geo_11", name: "Estrutura Fundiária", icon: "fa-tractor", file: "estrutura_fundiaria.html" },
+                { id: "geo_12", name: "Conflitos no Campo", icon: "fa-person-burst", file: "conflitos_campo.html" },
+                { id: "geo_13", name: "Desertificação e Impactos", icon: "fa-droplet-slash", file: "problemas_ambientais.html" },
+                { id: "geo_14", name: "Privatizações e Neoliberalismo", icon: "fa-money-bill-trend-up", file: "abertura_economica.html" },
+                { id: "geo_15", name: "Globalização (Milton Santos)", icon: "fa-earth-americas", file: "globalizacao.html" }
+            ],
+            legislacao: [
+                { id: "leg_1", name: "Administração Pública (CF88)", icon: "fa-building-shield", file: "constituicao_federal.html" },
+                { id: "leg_2", name: "Lei 8.112 (Estatuto)", icon: "fa-address-card", file: "lei_8112.html" },
+                { id: "leg_3", name: "Processo Administrativo", icon: "fa-folder-open", file: "lei_9784.html" },
+                { id: "leg_4", name: "Ética no Serviço Público", icon: "fa-scale-balanced", file: "codigo_etica.html" },
+                { id: "leg_5", name: "Lei 11.892 (Criação IFs)", icon: "fa-school-flag", file: "lei_11892.html" },
+                { id: "leg_6", name: "Plano de Carreira (Magistério)", icon: "fa-briefcase", file: "lei_12772.html" }
+            ],
+            portugues: [
+                { id: "port_1", name: "Gêneros Textuais", icon: "fa-font", file: "generos_textuais.html" },
+                { id: "port_2", name: "Interpretação e Discurso", icon: "fa-comment-dots", file: "interpretacao_texto.html" },
+                { id: "port_3", name: "Coesão e Referenciação", icon: "fa-link", file: "coesao_textual.html" },
+                { id: "port_4", name: "Conectores Lógicos", icon: "fa-arrows-split-up-and-left", file: "conectores_logicos.html" },
+                { id: "port_5", name: "Sintaxe do Período", icon: "fa-sitemap", file: "sintaxe.html" },
+                { id: "port_6", name: "Reescritura de Frases", icon: "fa-pen-nib", file: "reescritura.html" },
+                { id: "port_7", name: "Pontuação e Semântica", icon: "fa-quote-left", file: "pontuacao.html" },
+                { id: "port_8", name: "Concordância e Regência", icon: "fa-check-to-slot", file: "concordancia_regencia.html" },
+                { id: "port_9", name: "Crase", icon: "fa-spell-check", file: "crase.html" },
+                { id: "port_10", name: "Ortografia e Acentuação", icon: "fa-language", file: "ortografia.html" }
+            ]
+        };
+
+        /**
+         * Registra o acesso no LocalStorage e abre o arquivo correspondente.
+         */
+        function openLesson(id, fileName) {
+            // Salva o carimbo de data/hora
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString() + " às " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            localStorage.setItem(`last_access_${id}`, formattedDate);
+            
+            // Atualiza a visualização do menu
+            renderAll();
+            
+            // Mensagem de feedback
+            const msg = document.createElement('div');
+            msg.className = "fixed bottom-5 left-1/2 -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-full shadow-2xl z-50 animate-pulse font-bold";
+            msg.innerHTML = `<i class="fas fa-book-open mr-2"></i> Abrindo: ${fileName}`;
+            document.body.appendChild(msg);
+
+            // Redireciona após 800ms
+            setTimeout(() => {
+                window.location.href = fileName; 
+            }, 800);
+        }
+
+        /**
+         * Gera os botões dinamicamente no HTML.
+         */
+        function renderAll() {
+            Object.keys(data).forEach(category => {
+                const grid = document.getElementById(`grid-${category}`);
+                grid.innerHTML = ''; 
+                
+                data[category].forEach(lesson => {
+                    const lastAccess = localStorage.getItem(`last_access_${lesson.id}`) || "Nunca acessada";
+                    const colorClass = `bg-${category}`;
+                    
+                    const card = document.createElement('div');
+                    card.className = "h-full";
+                    card.innerHTML = `
+                        <div class="lesson-button" onclick="openLesson('${lesson.id}', '${lesson.file}')" title="Clique para abrir ${lesson.file}">
+                            <div class="icon-container ${colorClass}">
+                                <i class="fas ${lesson.icon}"></i>
+                            </div>
+                            <div class="flex-grow flex flex-col justify-center">
+                                <h3 class="font-bold text-gray-800 text-sm md:text-base leading-tight">${lesson.name}</h3>
+                                <!-- Exibe o nome do arquivo abaixo do título -->
+                                <p class="text-[10px] text-blue-500 mt-2 font-mono bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                                    ${lesson.file}
+                                </p>
+                            </div>
+                            <div class="access-tag">
+                                <i class="far fa-clock"></i> ${lastAccess}
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        /**
+         * Função para rolar a página até o módulo clicado.
+         */
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            const offset = 30;
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = element.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        // Inicializa o menu ao carregar
+        window.onload = renderAll;
+    </script>
+</body>
+</html>
