@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz AOCP - Administração Pública (Arts. 37-41)</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-color: #2d3436;
+            --primary-color: #0984e3;
+            --correct-color: #27ae60;
+            --wrong-color: #d63031;
+            --card-bg: #ffffff;
+            --border-color: #dfe6e9;
+            --max-width: 850px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            max-width: var(--max-width);
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-weight: 700;
+            color: #1e272e;
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            width: 100%;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option-item:hover {
+            background-color: #f1f2f6;
+            border-color: var(--primary-color);
+        }
+
+        .option-item.selected {
+            background-color: #e3f2fd;
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .option-item input {
+            margin-top: 6px;
+            margin-right: 15px;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-bottom: 50px;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0873c4;
+        }
+
+        #results {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 50px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .score-box {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .resolution-box {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .correct-answer {
+            color: var(--correct-color);
+            font-weight: bold;
+        }
+
+        .wrong-answer {
+            color: var(--wrong-color);
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-correct { background: #d4edda; color: #155724; }
+        .status-wrong { background: #f8d7da; color: #721c24; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .question-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Simulado: Administração Pública (Arts. 37-41 CF/88)</h1>
+        <p>Estilo Banca Instituto AOCP</p>
+    </header>
+
+    <div class="container" id="quiz-container">
+        <!-- Questões serão inseridas via JavaScript -->
+    </div>
+
+    <div class="container">
+        <button class="btn-submit" id="finish-btn" onclick="calculateResults()">Finalizar Quiz e Ver Resoluções</button>
+    </div>
+
+    <div class="container" id="results">
+        <div class="score-box" id="score-display"></div>
+        <div id="detailed-feedback"></div>
+    </div>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                text: "O artigo 37 da Constituição da República Federativa do Brasil dispõe sobre a administração pública, seus princípios e, ainda, sobre a relação mantida entre os servidores e os empregados públicos e os governos. Sobre o tema, analise as assertivas e assinale a alternativa que aponta as corretas:<br><br>I. É garantido ao servidor público civil o direito à livre associação sindical.<br>II. Os cargos, empregos e funções públicas são acessíveis aos brasileiros que preencham os requisitos estabelecidos em lei, assim como aos estrangeiros, na forma da lei.<br>III. O prazo de validade do concurso público será de até três anos, prorrogável uma vez por igual período.<br>IV. A lei reservará percentual dos cargos e empregos públicos para as pessoas portadoras de deficiência e definirá os critérios de sua admissão.",
+                options: [
+                    "A. Apenas I e III.",
+                    "B. Apenas II e IV.",
+                    "C. Apenas II e III.",
+                    "D. Apenas I, II e IV.",
+                    "E. Apenas I, III e IV."
+                ],
+                correct: 3, // D
+                resolution: "A assertiva III está incorreta porque o inciso III do artigo 37 fixa que o prazo de validade do concurso público será de até dois anos (e não três), prorrogável uma vez por igual período. As demais assertivas (I, II e IV) reproduzem fielmente os incisos VI, I e VIII do referido artigo."
+            },
+            {
+                id: 2,
+                text: "De acordo com o princípio da legalidade, encampado no art. 37, caput, da Constituição Federal de 1988, é correto afirmar que:",
+                options: [
+                    "A. a Administração Pública pode fazer o que a lei não autoriza, prevalecendo a autonomia da vontade daquela.",
+                    "B. a Administração Pública deve fazer o que a lei autoriza.",
+                    "C. no âmbito da Administração Pública, interesse público e interesse privado são equivalentes.",
+                    "D. no âmbito da Administração Pública, os fins justificam os meios.",
+                    "E. a Administração Pública, no âmbito de suas atividades, pode atender interesses privados em detrimento dos interesses da coletividade."
+                ],
+                correct: 1, // B
+                resolution: "Diferente do particular, que pode fazer tudo o que a lei não proíbe (autonomia da vontade), a Administração Pública só pode agir quando a lei autoriza ou determina (subordinação à lei). As demais opções distorcem os fundamentos do regime jurídico-administrativo."
+            },
+            {
+                id: 3,
+                text: "Os Artigos 37 ao 41 da Constituição Federal de 1988 tratam das normas constitucionais sobre a Administração Pública. Analise as alternativas abaixo e assinale a opção correta:",
+                options: [
+                    "A. Os cargos, empregos e funções públicas são acessíveis apenas a brasileiros natos.",
+                    "B. O princípio da impessoalidade impede que a Administração Pública crie programas institucionais que contenham nomes, símbolos ou imagens que caracterizem promoção pessoal de autoridades.",
+                    "C. A Constituição estabelece a impossibilidade de perda do cargo de servidor público estável por insuficiência de desempenho.",
+                    "D. O teto remuneratório do serviço público aplica-se apenas aos servidores da União.",
+                    "E. A investidura em cargos públicos de provimento efetivo prescinde de concurso público quando o candidato já possuir outro cargo estável."
+                ],
+                correct: 1, // B
+                resolution: "A opção B reflete o § 1º do art. 37 da CF/88, que veda a promoção pessoal de autoridades na publicidade oficial. Erros das demais: A (estrangeiros podem acessar na forma da lei); C (é possível perder por avaliação de desempenho); D (teto aplica-se a todos os entes); E (cargo efetivo sempre exige concurso)."
+            },
+            {
+                id: 4,
+                text: "A respeito do exercício de mandato eletivo dos servidores públicos da administração direta, autárquica e fundacional, é correto afirmar que:",
+                options: [
+                    "A. o tempo de serviço do servidor será contado para todos os efeitos legais, inclusive para promoção por merecimento.",
+                    "B. investido no mandato de Vereador, havendo compatibilidade de horários, o servidor perceberá as vantagens de seu cargo, sem prejuízo da remuneração do cargo eletivo.",
+                    "C. investido no mandato de Prefeito, o servidor será afastado do cargo, não podendo optar pela sua remuneração de origem.",
+                    "D. o servidor ficará permanentemente afastado de seu cargo, perdendo em definitivo o direito de retornar.",
+                    "E. o servidor investido em mandato eletivo do Poder Executivo Federal poderá acumular integralmente seus vencimentos habituais."
+                ],
+                correct: 1, // B
+                resolution: "Segundo o Art. 38, III, da CF, o Vereador com compatibilidade de horários pode acumular os subsídios. Sem compatibilidade, afasta-se e opta pela remuneração. No caso de afastamento por mandato, o tempo conta para tudo, EXCETO para promoção por merecimento (Art. 38, IV)."
+            },
+            {
+                id: 5,
+                text: "Se um servidor público da administração direta for eleito para um cargo de Vereador e não for constatada a compatibilidade de horários, o regramento constitucional determina que o servidor:",
+                options: [
+                    "A. deverá ser investido no mandato e será afastado do cargo, sendo-lhe assegurado o direito de optar pela sua remuneração.",
+                    "B. permaneça no exercício de ambas as funções de forma precária.",
+                    "C. seja exonerado de ofício do cargo efetivo.",
+                    "D. perca o mandato eletivo de Vereador obtido no pleito.",
+                    "E. seja aposentado compulsoriamente."
+                ],
+                correct: 0, // A
+                resolution: "Art. 38, III da CF: 'investido no mandato de Vereador, havendo compatibilidade de horários, perceberá as vantagens de seu cargo, emprego ou função, sem prejuízo da remuneração do cargo eletivo, e, não havendo compatibilidade, será aplicada a norma do inciso anterior (afastamento com opção remuneratória)'."
+            },
+            {
+                id: 6,
+                text: "Assinale a alternativa correta no que tange à estabilidade do servidor público, disposta no artigo 41 da Constituição Federal:",
+                options: [
+                    "A. Os servidores são estáveis após 2 anos de efetivo exercício.",
+                    "B. O servidor público estável não poderá perder o seu cargo mediante procedimento de avaliação periódica de desempenho.",
+                    "C. O servidor público estável apenas poderá perder o seu cargo mediante sentença judicial transitada em julgado.",
+                    "D. A avaliação especial de desempenho não é obrigatória para aquisição de estabilidade.",
+                    "E. Os servidores nomeados em virtude de concurso público adquirem a estabilidade observado o período de 3 anos e preenchidos os requisitos legais, quando o cargo for de provimento efetivo."
+                ],
+                correct: 4, // E
+                resolution: "A CF exige 3 anos para estabilidade (desde a EC 19/98). Formas de perda de cargo do estável: 1. Sentença judicial transitada em julgado; 2. Processo administrativo com ampla defesa; 3. Avaliação periódica de desempenho (§1º do Art. 41)."
+            },
+            {
+                id: 7,
+                text: "Em relação à Responsabilidade Civil do Estado, o art. 37, §6º, da Constituição Federal deixa claro que, no Brasil, foi adotada a:",
+                options: [
+                    "A. Teoria do Risco Administrativo.",
+                    "B. Teoria da Culpa Administrativa.",
+                    "C. Teoria da Responsabilidade Subjetiva.",
+                    "D. Teoria do Dolo Eventual.",
+                    "E. Teoria do Risco Integral."
+                ],
+                correct: 0, // A
+                resolution: "O Brasil adota a responsabilidade objetiva baseada no Risco Administrativo, que admite excludentes (culpa da vítima, força maior). O Risco Integral é a exceção (danos nucleares, por exemplo)."
+            },
+            {
+                id: 8,
+                text: "Com base no regime constitucional de responsabilidade civil (art. 37, §6º, da CF/88), assinale a alternativa correta:",
+                options: [
+                    "A. Apenas o ente público responde objetivamente.",
+                    "B. Empresas privadas prestadoras de serviços públicos respondem objetivamente pelos danos causados a terceiros, nos termos da Constituição Federal.",
+                    "C. A empresa concessionária somente responde civilmente se houver culpa demonstrada.",
+                    "D. A responsabilidade da empresa delegada é exclusivamente subsidiária e imediata.",
+                    "E. As pessoas jurídicas de direito privado exploradoras de atividade econômica pura respondem de forma objetiva."
+                ],
+                correct: 1, // B
+                resolution: "O §6º do Art. 37 abrange as pessoas jurídicas de direito público e as de direito privado prestadoras de serviços públicos. Empresas que exploram atividade econômica pura (como o Banco do Brasil ou Petrobras em regime concorrencial) respondem de forma subjetiva (Art. 173)."
+            },
+            {
+                id: 9,
+                text: "No que diz respeito à acumulação remunerada de cargos públicos estabelecida no artigo 37 da Constituição Federal de 1988, assinale a alternativa correta:",
+                options: [
+                    "A. É vedada a acumulação de dois cargos públicos de professor.",
+                    "B. A proibição de acumular estende-se a empregos e funções e abrange autarquias, fundações, empresas públicas, sociedades de economia mista e suas subsidiárias.",
+                    "C. Havendo compatibilidade de horários, é livre a acumulação de quaisquer cargos técnicos.",
+                    "D. A permissão para acumulação de dois cargos privativos de profissionais de saúde aplica-se estritamente aos médicos.",
+                    "E. O preenchimento da declaração de não acumulação de cargos é facultativo."
+                ],
+                correct: 1, // B
+                resolution: "A regra é a não acumulação. As exceções (Art. 37, XVI) permitem, com compatibilidade: a) 2 de professor; b) 1 de professor + 1 técnico/científico; c) 2 de profissionais de saúde com profissões regulamentadas. O inciso XVII estende a vedação a toda a administração indireta."
+            },
+            {
+                id: 10,
+                text: "Acerca das disposições constitucionais que regem o funcionalismo e a estrutura previdenciária, assinale a alternativa correta:",
+                options: [
+                    "A. O empregado de empresa pública tem assegurada a estabilidade do artigo 41.",
+                    "B. Ao servidor ocupante, exclusivamente, de cargo em comissão aplica-se o regime geral de previdência social.",
+                    "C. Extinto o cargo, o servidor estável será imediatamente exonerado sem vencimentos.",
+                    "D. Invalidada por sentença judicial a demissão do servidor estável, o ocupante da vaga será demitido sem direito a aproveitamento.",
+                    "E. O princípio da eficiência justifica a suspensão de garantias salariais."
+                ],
+                correct: 1, // B
+                resolution: "Art. 40, § 13: servidores em cargo exclusivamente em comissão, temporários ou emprego público seguem o RGPS (INSS). Erros: A (Empregado público não tem a estabilidade do Art. 41); C (Fica em disponibilidade remunerada); D (O ocupante da vaga é reconduzido ao cargo de origem ou posto em disponibilidade)."
+            }
+        ];
+
+        function renderQuestions() {
+            const container = document.getElementById('quiz-container');
+            questionsData.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `q-card-${index}`;
+                
+                let optionsHTML = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHTML += `
+                        <label class="option-item" onclick="selectOption(${index}, ${optIndex})">
+                            <input type="radio" name="question-${index}" value="${optIndex}">
+                            <span>${opt}</span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <span class="question-text">Questão ${index + 1}:</span>
+                    <p>${q.text}</p>
+                    <div class="options-list">
+                        ${optionsHTML}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.selectOption = function(qIndex, optIndex) {
+            const options = document.querySelectorAll(`#q-card-${qIndex} .option-item`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[optIndex].classList.add('selected');
+            options[optIndex].querySelector('input').checked = true;
+        }
+
+        window.calculateResults = function() {
+            let score = 0;
+            const resultsSection = document.getElementById('results');
+            const feedbackContainer = document.getElementById('detailed-feedback');
+            const finishBtn = document.getElementById('finish-btn');
+            
+            feedbackContainer.innerHTML = '';
+            
+            questionsData.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+                const userChoice = selected ? parseInt(selected.value) : null;
+                const isCorrect = userChoice === q.correct;
+                
+                if (isCorrect) score++;
+
+                const feedbackItem = document.createElement('div');
+                feedbackItem.style.marginBottom = "40px";
+                
+                const statusBadge = isCorrect 
+                    ? '<span class="status-badge status-correct">✓ Acertou</span>' 
+                    : '<span class="status-badge status-wrong">✗ Errou</span>';
+
+                feedbackItem.innerHTML = `
+                    <div style="font-weight: bold; margin-bottom: 10px;">Questão ${index + 1}</div>
+                    ${statusBadge}
+                    <div><strong>Resposta correta:</strong> <span class="correct-answer">${q.options[q.correct]}</span></div>
+                    ${!isCorrect && userChoice !== null ? `<div><strong>Sua resposta:</strong> <span class="wrong-answer">${q.options[userChoice]}</span></div>` : userChoice === null ? '<div><span class="wrong-answer">Não respondida</span></div>' : ''}
+                    <div class="resolution-box">
+                        <strong>Resolução/Justificativa:</strong><br>
+                        ${q.resolution}
+                    </div>
+                `;
+                feedbackContainer.appendChild(feedbackItem);
+            });
+
+            document.getElementById('score-display').innerText = `Você acertou ${score} de ${questionsData.length} questões!`;
+            resultsSection.style.display = 'block';
+            finishBtn.style.display = 'none';
+            
+            window.scrollTo({ top: resultsSection.offsetTop - 50, behavior: 'smooth' });
+        }
+
+        // Inicialização
+        renderQuestions();
+
+    </script>
+</body>
+</html>
