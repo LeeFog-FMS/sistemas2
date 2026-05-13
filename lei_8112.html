@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Completa Lei 8.112 - IFCE (Instituto AOCP)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a202c;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        .highlight {
+            background-color: #fef08a; /* Yellow 200 */
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.2rem;
+            font-weight: 600;
+            color: #1a202c;
+        }
+        .section-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background: #ffffff;
+        }
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background: #f8fafc;
+            min-width: 140px;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px; /* Garante leitura sem esmagar texto, scroll controlado pelo container */
+        }
+        th {
+            background-color: #f1f5f9;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .aocp-alert {
+            border-left: 4px solid #f97316;
+            background-color: #fff7ed;
+            padding: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <header class="mb-12 border-b pb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">FOCO IFCE</span>
+                <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-1 rounded">BANCA: INSTITUTO AOCP</span>
+            </div>
+            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+                Regime Jurídico Único: Lei nº 8.112/90
+            </h1>
+            <p class="text-lg text-slate-600 mb-8">Guia Definitivo de Memorização para Professor EBTT.</p>
+            
+            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
+                <label class="flex items-center gap-2 text-sm font-bold text-slate-700 mb-3">
+                    <span>🎧</span> AULA EM ÁUDIO (RESUMO CRÍTICO)
+                </label>
+                <audio controls class="w-full">
+                    <source src="aula_lei_8112_ifce.mp3" type="audio/mpeg">
+                    Seu navegador não suporta o elemento de áudio.
+                </audio>
+                <p class="text-xs text-slate-500 mt-2 italic">* Substitua o arquivo 'aula_lei_8112_ifce.mp3' para ativar.</p>
+            </div>
+        </header>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">01.</span> Conceitos e Abrangência
+            </h2>
+            <div class="space-y-4">
+                <p>O RJU aplica-se aos servidores civis da União, Autarquias e Fundações Públicas Federais. <span class="highlight">O IFCE é uma Autarquia</span>, logo, seus professores são regidos por esta lei.</p>
+                <ul class="list-disc pl-5 space-y-2 text-slate-700">
+                    <li><span class="font-bold">Cargo Público:</span> Conjunto de atribuições criado por <span class="highlight text-blue-700">LEI</span>, com denominação própria e vencimento pago pelos cofres públicos.</li>
+                    <li><span class="font-bold">Servidor:</span> Pessoa legalmente investida em cargo público.</li>
+                    <li><span class="font-bold">Vedação:</span> É proibida a prestação de serviços gratuitos, salvo exceções legais.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">02.</span> Provimento (Como entrar/voltar)
+            </h2>
+            <p class="mb-4 text-sm text-slate-600">A AOCP cobra muito o mnemônico dos "R".</p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Forma</th>
+                            <th>O que é? (Palavra-Chave)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="font-bold text-blue-700">Nomeação</td><td>Única forma originária. <span class="highlight">Início de tudo.</span></td></tr>
+                        <tr><td class="font-bold text-blue-700">Readaptação</td><td>Servidor com <span class="highlight">limitação física ou mental</span>.</td></tr>
+                        <tr><td class="font-bold text-blue-700">Reversão</td><td>Retorno do <span class="highlight">aposentado</span>. ("V" de Vovô).</td></tr>
+                        <tr><td class="font-bold text-blue-700">Reintegração</td><td>Retorno do servidor após <span class="highlight">demissão ilegal</span> (com ressarcimento).</td></tr>
+                        <tr><td class="font-bold text-blue-700">Recondução</td><td>Retorno ao cargo anterior por <span class="highlight">reprovação em estágio probatório</span> ou reintegração do anterior.</td></tr>
+                        <tr><td class="font-bold text-blue-700">Aproveitamento</td><td>Retorno do servidor que estava em <span class="highlight">disponibilidade</span>.</td></tr>
+                        <tr><td class="font-bold text-blue-700">Promoção</td><td>Elevação na carreira (é provimento e vacância simultâneos).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">03.</span> Prazos e Investidura
+            </h2>
+            <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-2 mb-8">
+                <div class="timeline-step">
+                    <span class="block text-xs font-bold text-slate-400">ATO</span>
+                    <span class="font-bold text-blue-700 uppercase">Nomeação</span>
+                </div>
+                <div class="text-blue-500 font-black">➔</div>
+                <div class="timeline-step">
+                    <span class="block text-xs font-bold text-slate-400">30 DIAS</span>
+                    <span class="font-bold text-blue-700 uppercase">Posse</span>
+                </div>
+                <div class="text-blue-500 font-black">➔</div>
+                <div class="timeline-step">
+                    <span class="block text-xs font-bold text-slate-400">15 DIAS</span>
+                    <span class="font-bold text-blue-700 uppercase">Exercício</span>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <h4 class="font-bold text-blue-800 mb-1">A Posse</h4>
+                    <p class="text-sm">É onde ocorre a <span class="highlight">Investidura</span>. Pode ser por procuração específica.</p>
+                </div>
+                <div class="p-4 bg-orange-50 rounded-lg">
+                    <h4 class="font-bold text-orange-800 mb-1">Não cumpriu o prazo?</h4>
+                    <p class="text-sm">Sem posse: <span class="font-bold">Ato sem efeito</span>. <br>Sem exercício: <span class="font-bold text-red-600">Exoneração de ofício</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">04.</span> Estágio Probatório e Estabilidade
+            </h2>
+            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                <p class="font-bold mb-4">Fatores de Avaliação (Mnemônico: AD-C-P-R):</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="px-3 py-1 bg-white border rounded shadow-sm text-sm">Assiduidade</span>
+                    <span class="px-3 py-1 bg-white border rounded shadow-sm text-sm">Disciplina</span>
+                    <span class="px-3 py-1 bg-white border rounded shadow-sm text-sm">Capacidade de Iniciativa</span>
+                    <span class="px-3 py-1 bg-white border rounded shadow-sm text-sm">Produtividade</span>
+                    <span class="px-3 py-1 bg-white border rounded shadow-sm text-sm">Responsabilidade</span>
+                </div>
+                <ul class="space-y-3 text-sm">
+                    <li>🔹 <span class="font-bold">Prazo (CF/88):</span> <span class="highlight">3 anos</span> de efetivo exercício para Estabilidade.</li>
+                    <li>🔹 <span class="font-bold">Suspensão:</span> O estágio é suspenso em licenças para doença em pessoa da família, afastamento do cônjuge e atividade política.</li>
+                    <li>🔹 <span class="font-bold">Perda do cargo (Estável):</span> Sentença judicial transitada em julgado; PAD com ampla defesa; Avaliação periódica de desempenho.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">05.</span> Deslocamento: Remoção vs. Redistribuição
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="border p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2 text-slate-800">Remoção</h3>
+                    <p class="text-sm text-slate-600 mb-3">Deslocamento do <span class="font-bold text-blue-700">SERVIDOR</span>.</p>
+                    <ul class="text-xs space-y-1">
+                        <li>• De ofício (interesse da Adm.)</li>
+                        <li>• A pedido (critério da Adm.)</li>
+                        <li>• A pedido (independe do interesse - saúde/cônjuge)</li>
+                    </ul>
+                </div>
+                <div class="border p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2 text-slate-800">Redistribuição</h3>
+                    <p class="text-sm text-slate-600 mb-3">Deslocamento do <span class="font-bold text-blue-700">CARGO</span>.</p>
+                    <ul class="text-xs space-y-1">
+                        <li>• Sempre de ofício.</li>
+                        <li>• Para órgão do mesmo poder.</li>
+                        <li>• Ajuste de lotação e força de trabalho.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">06.</span> Regime Disciplinar (Penalidades)
+            </h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Punição</th>
+                            <th>Principais Causas</th>
+                            <th>Prescrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-bold">Advertência</td>
+                            <td>Deveres/Proibições leves (ex: ausentar-se sem avisar).</td>
+                            <td>180 dias</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold">Suspensão</td>
+                            <td>Reincidência ou faltas graves (Max <span class="highlight">90 dias</span>).</td>
+                            <td>2 anos</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-red-600">Demissão</td>
+                            <td>Crime contra adm; Abandono de cargo; Improbidade; Insubordinação grave.</td>
+                            <td>5 anos</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-6 aocp-alert">
+                <p class="text-sm"><strong>Peguinha AOCP:</strong> A banca troca <span class="font-bold">Abandono de Cargo</span> (>30 dias consecutivos) por <span class="font-bold">Inassiduidade Habitual</span> (60 dias intercalados em 12 meses). Memorize a diferença!</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">07.</span> Acumulação de Cargos (Específico EBTT)
+            </h2>
+            <p class="mb-4">Regra Geral: Vedada. <span class="font-bold">Exceções (Com compatibilidade de horários):</span></p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="p-3 bg-green-50 border border-green-100 rounded text-center text-sm font-semibold">2 Cargos de Professor</div>
+                <div class="p-3 bg-green-50 border border-green-100 rounded text-center text-sm font-semibold">1 Professor + 1 Técnico/Científico</div>
+                <div class="p-3 bg-green-50 border border-green-100 rounded text-center text-sm font-semibold">2 Cargos de Profissional de Saúde</div>
+            </div>
+            <div class="bg-slate-800 text-white p-5 rounded-lg shadow-inner">
+                <p class="text-sm"><span class="text-yellow-400 font-bold uppercase">Nota para o IFCE:</span> O regime de <span class="highlight text-slate-900">Dedicação Exclusiva (DE)</span> impede a acumulação com qualquer outra atividade remunerada, pública ou privada, ressalvadas as exceções do plano de carreira docente.</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="text-blue-500">08.</span> Vantagens e Indenizações
+            </h2>
+            <ul class="space-y-4">
+                <li class="flex items-start gap-2">
+                    <span class="text-blue-500">✔</span>
+                    <div>
+                        <span class="font-bold">Indenizações:</span> Não incorporam ao vencimento. <br>
+                        <span class="text-sm text-slate-600">(Ajuda de Custo, Diárias, Transporte, Auxílio-moradia).</span>
+                    </div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-blue-500">✔</span>
+                    <div>
+                        <span class="font-bold">Gratificações e Adicionais:</span> Podem incorporar conforme a lei. <br>
+                        <span class="text-sm text-slate-600">(Natalina, Insalubridade, Noturno, Férias).</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section-card border-blue-200 bg-blue-50/30">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">🎯 Blindagem Final (Checklist)</h2>
+            <div class="space-y-4 text-slate-800">
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" checked disabled class="w-5 h-5 accent-blue-600">
+                    <p>AOCP adora literalidade. 30 dias para posse e 15 para exercício.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" checked disabled class="w-5 h-5 accent-blue-600">
+                    <p>Vacância inclui: Exoneração, Demissão, Promoção, Readaptação, Aposentadoria, Posse em cargo inacumulável e Falecimento.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" checked disabled class="w-5 h-5 accent-blue-600">
+                    <p>Licença para tratar de interesses particulares: <span class="highlight">Sempre sem remuneração</span> e no interesse da Adm.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" checked disabled class="w-5 h-5 accent-blue-600">
+                    <p>Substituição: Apenas para cargos de direção ou chefia (CD/FG).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botão de Questões -->
+        <footer class="mt-16 text-center border-t pt-10 pb-20">
+            <h3 class="text-xl font-bold text-slate-800 mb-6">Pronto para testar seus conhecimentos?</h3>
+            <a href="lei_8112questoes.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                🚀 IR PARA O SIMULADO (QUESTOES.HTML)
+            </a>
+            <p class="mt-6 text-slate-400 text-sm">
+                Material revisado para o concurso IFCE 2024/2025.
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>

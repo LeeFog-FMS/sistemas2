@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Lei 9.784/99 - Estilo Instituto AOCP</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #1a1a1a;
+            --accent-color: #2563eb;
+            --correct-bg: #dcfce7;
+            --correct-border: #16a34a;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #dc2626;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Georgia, serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            max-width: 800px;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        main {
+            width: 100%;
+            max-width: 850px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .option-item input {
+            margin-top: 6px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .option-item.selected {
+            border-color: var(--accent-color);
+            background-color: #eff6ff;
+        }
+
+        /* Classes de resultado */
+        .option-item.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+        }
+
+        .option-item.incorrect {
+            background-color: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-border) !important;
+        }
+
+        .resolution-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .resolution-box h4 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        #submit-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto;
+            padding: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #submit-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        #results-summary {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #fff;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .score-big {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin: 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            .question-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Simulado: Lei nº 9.784/1999</h1>
+    <p class="subtitle">Processo Administrativo Federal - Estilo Instituto AOCP</p>
+</header>
+
+<main id="quiz-container">
+    <div id="results-summary">
+        <h2>Resultado do Simulado</h2>
+        <div class="score-big" id="score-display">0/10</div>
+        <p id="score-text"></p>
+        <p>Role a página para ver a resolução detalhada de cada questão.</p>
+    </div>
+
+    <form id="quiz-form">
+        <!-- As questões serão inseridas aqui via JS -->
+    </form>
+
+    <button type="button" id="submit-btn" onclick="finishQuiz()">Finalizar Quiz e Ver Resoluções</button>
+</main>
+
+<script>
+    const questionsData = [
+        {
+            id: 1,
+            text: "Questão 1 - De acordo com as disposições gerais, regras de competência e prazos estabelecidos na Lei nº 9.784/1999, assinale a alternativa INCORRETA.",
+            options: [
+                "Os preceitos dessa Lei também se aplicam aos órgãos dos Poderes Legislativo e Judiciário da União, quando no desempenho de função administrativa.",
+                "Inexistindo competência legal específica, o processo administrativo deverá ser iniciado perante a autoridade de maior grau hierárquico para decidir.",
+                "As decisões adotadas por delegação devem mencionar explicitamente essa qualidade e considerar-se-ão editadas pelo delegado.",
+                "Inexistindo disposição específica, os atos do órgão ou autoridade responsável pelo processo e dos administrados que dele participem devem ser praticados no prazo de cinco dias, salvo motivo de força maior.",
+                "Os processos administrativos de que resultem sanções poderão ser revistos, a qualquer tempo, a pedido ou de ofício, quando surgirem fatos novos ou circunstâncias relevantes suscetíveis de justificar a inadequação da sanção aplicada."
+            ],
+            correct: 1,
+            resolution: "O erro reside na definição da autoridade incompetente inicial. Conforme estabelece o artigo 17 da Lei nº 9.784/1999, na ausência de uma previsão de competência explícita na legislação, o feito deve ter seu início perante a autoridade de <b>menor</b> grau hierárquico para decidir, e não de maior grau."
+        },
+        {
+            id: 2,
+            text: "Questão 2 - Assinale a alternativa correta segundo a Lei nº 9.784/1999, que regula o processo administrativo no âmbito da Administração Pública Federal.",
+            options: [
+                "Será permitida, em caráter excepcional e por motivos relevantes devidamente justificados, a avocação permanente de competência atribuída a órgão hierarquicamente inferior.",
+                "Inexistindo competência legal específica, o processo administrativo deverá ser iniciado perante a autoridade de maior grau hierárquico para decidir.",
+                "A intimação observará a antecedência mínima de cinco dias úteis quanto à data de comparecimento.",
+                "Inexistindo disposição específica, os atos do órgão ou autoridade responsável pelo processo e dos administrados que dele participem devem ser praticados no prazo de cinco dias, salvo motivo de força maior.",
+                "Considera-se órgão a unidade de atuação dotada de personalidade jurídica."
+            ],
+            correct: 3,
+            resolution: "A alternativa D configura o gabarito porque reproduz com exatidão o artigo 24, prevendo que, inexistindo disposição específica em contrário, os atos da autoridade e dos administrados devem ser praticados no prazo de cinco dias. A falha na alternativa E é que o órgão é <b>desprovido</b> de personalidade jurídica."
+        },
+        {
+            id: 3,
+            text: "Questão 3 - No tocante à instrução do processo administrativo federal (Lei nº 9.784/1999), assinale a alternativa correta.",
+            options: [
+                "Quando deva ser obrigatoriamente ouvido um órgão consultivo, o parecer deverá ser emitido no prazo máximo de 15 (quinze) dias, salvo norma especial ou comprovada necessidade de maior prazo.",
+                "O comparecimento à consulta pública confere, por si, a condição de interessado do processo, outorgando o direito automático a interposição de recursos.",
+                "Se um parecer obrigatório e vinculante deixar de ser emitido no prazo fixado, o processo poderá ter regular prosseguimento e ser decidido com a sua dispensa formal.",
+                "Elementos de prova obtidos por meios sabidamente ilícitos, impertinentes ou protelatórios podem ser integralmente admitidos na instrução processual administrativa, desde que amparados no princípio da verdade real.",
+                "O não atendimento de intimação por parte do administrado para a apresentação de provas ou documentos de seu exclusivo interesse implica, em qualquer hipótese, o arquivamento definitivo e imediato do processo, vedado o suprimento de ofício."
+            ],
+            correct: 0,
+            resolution: "Gabarito: A. Guarda perfeita sintonia com o caput do artigo 42 da Lei nº 9.784/1999, que fixa em 15 dias o prazo máximo padrão para a emissão de parecer por órgão consultivo."
+        },
+        {
+            id: 4,
+            text: "Questão 4 - A competência administrativa é irrenunciável e se exerce pelos órgãos administrativos a que foi atribuída como própria, ressalvados os casos de delegação e avocação legalmente admitidos. A respeito do instituto da delegação previsto na Lei nº 9.784/1999, assinale a alternativa correta.",
+            options: [
+                "É permitida a delegação da edição de atos de caráter normativo, desde que haja expressa e prévia homologação pelo órgão de controle interno correspondente.",
+                "Pode ser objeto de delegação fundamentada a decisão de recursos administrativos interpostos por particulares, em razão de acúmulo excessivo de processos pendentes de julgamento na repartição.",
+                "As matérias que se enquadrem no rol de competência exclusiva de determinado órgão ou autoridade não podem, sob qualquer pretexto, ser objeto de delegação administrativa.",
+                "O ato de delegação de competência e a sua respectiva revogação prescindem de publicação no meio oficial, operando efeitos jurídicos válidos a partir da ciência interna do agente delegado.",
+                "A delegação de competência administrativa somente poderá ocorrer entre órgãos ou autoridades que guardem estrita relação de subordinação hierárquica vertical direta."
+            ],
+            correct: 2,
+            resolution: "Gabarito: C. Reproduz o artigo 13, inciso III, que veda terminantemente a delegação de matérias de competência exclusiva. Atos normativos e recursos administrativos também não podem ser delegados."
+        },
+        {
+            id: 5,
+            text: "Questão 5 - O processo administrativo federal pode iniciar-se de ofício ou a pedido de interessado. No que tange ao início, legitimidade e desistência dos interessados no processo administrativo, consoante as normas da Lei nº 9.784/1999, assinale a alternativa correta.",
+            options: [
+                "São legitimados como interessados no processo administrativo exclusivamente as pessoas físicas ou jurídicas que deram início ao feito como titulares de direitos individuais diretos.",
+                "As organizações e associações representativas possuem legitimidade restrita para a defesa de direitos e interesses coletivos de seus associados, excluídos os interesses difusos da categoria.",
+                "Uma vez protocolado o processo administrativo no âmbito da administração pública federal, o interessado poderá, mediante manifestação escrita, desistir do pedido formulado ou renunciar a direitos disponíveis.",
+                "Uma vez protocolado o processo administrativo no âmbito da administração pública federal, o interessado não poderá desistir do pedido, vigendo o princípio da indisponibilidade processual absoluta.",
+                "É vedado o reconhecimento de capacidade, para fins de condução, peticionamento e intervenção em processo administrativo, a indivíduos menores de dezoito anos, ainda que sob assistência legal."
+            ],
+            correct: 2,
+            resolution: "Gabarito: C. Espelha o artigo 51, que resguarda o direito de desistência por escrito. Nota: a capacidade administrativa começa aos 16 anos (Art. 10)."
+        },
+        {
+            id: 6,
+            text: "Questão 6 - A imparcialidade dos agentes públicos constitui elemento de validade indispensável na condução dos atos administrativos. Com base nas regras relativas aos impedimentos e à suspeição dispostas na Lei nº 9.784/1999, assinale a alternativa correta.",
+            options: [
+                "Configura hipótese de impedimento absoluto de atuar no processo administrativo o servidor que possua amizade íntima ou inimizade notória com algum dos interessados ou com seus respectivos cônjuges.",
+                "A autoridade ou servidor que incorrer em impedimento deve comunicar o fato à autoridade competente, abstendo-se de atuar no feito, sendo que a omissão do dever de comunicar o impedimento constitui falta disciplinar grave.",
+                "A suspeição decorrente de amizade íntima ou inimizade notória com o interessado pode ser arguida pelo administrado unicamente até o encerramento da fase de instauração do processo, sob pena de preclusão.",
+                "O impedimento do servidor público restringe-se às situações em que este possua interesse direto na matéria fática examinada, desconsiderando-se as hipóteses de interesse meramente indireto.",
+                "O acolhimento administrativo da suspeição gera a nulidade relativa do processo, retroagindo os seus efeitos para sanar as irregularidades cometidas pelos atos decisórios anteriores."
+            ],
+            correct: 1,
+            resolution: "Gabarito: B. Conforme Art. 19, a omissão do dever de comunicar o impedimento é falta grave. Amizade/inimizade gera suspeição, não impedimento."
+        },
+        {
+            id: 7,
+            text: "Questão 7 - No âmbito do processo administrativo na Administração Pública Federal, os atos de comunicação são fundamentais para assegurar o contraditório e a ampla defesa. Quanto ao regime de intimações da Lei nº 9.784/1999, assinale a alternativa correta.",
+            options: [
+                "A intimação do interessado para fins de ciência de decisão ou para a efetivação de diligências obrigatórias deve observar uma antecedência mínima de cinco dias úteis em relação à data estipulada para o comparecimento.",
+                "O não comparecimento do administrado à intimação regularmente realizada importa no reconhecimento ficto da verdade dos fatos alegados pela Administração Pública, operando-se a preclusão do direito de defesa.",
+                "A intimação observará a antecedência mínima de três dias úteis quanto à data de comparecimento, devendo conter a indicação dos fatos e fundamentos legais pertinentes, bem como a data, hora e local.",
+                "No caso de interessados indeterminados, desconhecidos ou que possuam domicílio indefinido, a intimação do ato processual deverá realizar-se obrigatoriamente por meio de carta registrada com aviso de recebimento.",
+                "As intimações processuais devem ser realizadas com exclusividade por intermédio de plataforma eletrônica oficial, sob pena de nulidade absoluta e insanável de toda a comunicação epistolar ou direta."
+            ],
+            correct: 2,
+            resolution: "Gabarito: C. Art. 26, § 1º: Antecedência mínima de 3 dias úteis. O não comparecimento não implica confissão."
+        },
+        {
+            id: 8,
+            text: "Questão 8 - A Administração Pública Federal submete-se ao dever legal de emitir decisão expressa nos processos de sua competência. À luz das normas reguladoras do dever de decidir na Lei nº 9.784/1999, assinale a alternativa correta.",
+            options: [
+                "Concluída de forma regular a instrução de um processo administrativo, a autoridade competente dispõe do prazo improrrogável de até sessenta dias para proferir a decisão final do feito.",
+                "O prazo legal fixado para que a Administração emita a sua decisão final conta-se de forma retroativa a partir da data de protocolo inicial do requerimento elaborado pelo interessado.",
+                "Concluída a instrução do processo administrativo, a autoridade competente terá o prazo de trinta dias para proferir decisão, o qual poderá ser prorrogado por igual período, mediante expressa motivação.",
+                "O decurso do prazo legal para manifestação da autoridade competente sem a prolação de decisão acarreta a aprovação tácita do pedido formulado pelo particular, eximindo o órgão de manifestações posteriores.",
+                "Os prazos de natureza processual previstos na referida Lei Federal contam-se em dias estritamente úteis, excluindo-se do cômputo o dia do vencimento e incluindo-se o dia do começo."
+            ],
+            correct: 2,
+            resolution: "Gabarito: C. Conforme Art. 49, o prazo é de 30 dias após a instrução, prorrogável por igual período. Os prazos na Lei 9784 são em dias corridos, não úteis (Art. 66)."
+        },
+        {
+            id: 9,
+            text: "Questão 9 - Das decisões administrativas cabe a interposição de recurso, fundamentado em razões de legalidade e de mérito, conforme o rito traçado pela Lei nº 9.784/1999. Sobre a sistemática recursal e de revisão, assinale a alternativa correta.",
+            options: [
+                "Salvo disposição legal em contrário na legislação específica, o recurso administrativo tramitará por, no máximo, cinco instâncias administrativas, computado o órgão que proferiu a decisão inicial.",
+                "O prazo geral estipulado em lei para a interposição de recurso administrativo é de quinze dias, cuja contagem inicia-se a partir da data de ciência ou da divulgação oficial da decisão impugnada.",
+                "O recurso administrativo possui, como regra geral do processo administrativo federal, efeito suspensivo automático, obstando a produção imediata de efeitos do ato recorrido.",
+                "Quando a lei não fixar prazo diferente, o recurso administrativo deverá ser decidido no prazo máximo de trinta dias, a partir do recebimento dos autos pelo órgão competente, prorrogável por igual período ante justificativa explícita.",
+                "Da revisão do processo administrativo da qual resulte a aplicação de sanção ao administrado poderá decorrer o agravamento da penalidade outrora imposta, desde que fundamentada no interesse público."
+            ],
+            correct: 3,
+            resolution: "Gabarito: D. Reproduz o Art. 59, § 1º. O prazo de interposição é de 10 dias e o limite é de 3 instâncias. É vedado o agravamento da sanção na revisão (reformatio in pejus)."
+        },
+        {
+            id: 10,
+            text: "Questão 10 - O controle dos atos administrativos pela própria Administração Pública constitui prerrogativa decorrente do princípio da autotutela. Considerando o regime de anulação, revogação e convalidação fixado pela Lei nº 9.784/1999, assinale a alternativa correta.",
+            options: [
+                "O direito da Administração Pública Federal de anular os atos administrativos ilegais de que decorram efeitos favoráveis para os destinatários decai em dez anos, contados da data de sua prática, salvo se comprovada a má-fé do beneficiário.",
+                "Em decisão na qual se evidencie não acarretarem lesão ao interesse público nem prejuízo a terceiros, os atos que apresentarem defeitos sanáveis poderão ser convalidados pela própria Administração.",
+                "A anulação de atos administrativos ilegais opera efeitos de natureza estritamente ex nunc, preservando os efeitos econômicos e jurídicos consolidados no período anterior à declaração de nulidade.",
+                "O instituto da revogação do ato administrativo fundamenta-se na existência de vício originário de ilegalidade, operando com eficácia retroativa para desconstituir os efeitos pretéritos produzidos.",
+                "Tratando-se de efeitos patrimoniais contínuos gerados por ato administrativo eivado de ilegalidade, o prazo de natureza decadencial para a anulação conta-se a partir do encerramento definitivo dos pagamentos mensais."
+            ],
+            correct: 1,
+            resolution: "Gabarito: B. Art. 55 permite convalidação de defeitos sanáveis. O prazo decadencial de anulação é de 5 anos (Art. 54) para beneficiários de boa-fé."
+        }
+    ];
+
+    function initQuiz() {
+        const form = document.getElementById('quiz-form');
+        questionsData.forEach((q, qIndex) => {
+            const card = document.createElement('article');
+            card.className = 'question-card';
+            card.id = `q-card-${qIndex}`;
+
+            const qText = document.createElement('span');
+            qText.className = 'question-text';
+            qText.innerText = q.text;
+            card.appendChild(qText);
+
+            const optionsUl = document.createElement('ul');
+            optionsUl.className = 'options-list';
+
+            q.options.forEach((opt, optIndex) => {
+                const li = document.createElement('li');
+                li.className = 'option-item';
+                li.innerHTML = `
+                    <input type="radio" name="question-${qIndex}" value="${optIndex}" id="q${qIndex}o${optIndex}">
+                    <label for="q${qIndex}o${optIndex}">${String.fromCharCode(65 + optIndex)}) ${opt}</label>
+                `;
+                li.onclick = () => selectOption(qIndex, optIndex);
+                optionsUl.appendChild(li);
+            });
+
+            card.appendChild(optionsUl);
+
+            const resBox = document.createElement('div');
+            resBox.className = 'resolution-box';
+            resBox.id = `res-${qIndex}`;
+            resBox.innerHTML = `<h4>Resolução Comentada:</h4><p>${q.resolution}</p>`;
+            card.appendChild(resBox);
+
+            form.appendChild(card);
+        });
+    }
+
+    function selectOption(qIndex, optIndex) {
+        const options = document.querySelectorAll(`[name="question-${qIndex}"]`);
+        options.forEach(opt => {
+            opt.parentElement.classList.remove('selected');
+        });
+        const selectedRadio = document.getElementById(`q${qIndex}o${optIndex}`);
+        selectedRadio.checked = true;
+        selectedRadio.parentElement.classList.add('selected');
+    }
+
+    function finishQuiz() {
+        let score = 0;
+        const total = questionsData.length;
+
+        questionsData.forEach((q, qIndex) => {
+            const selected = document.querySelector(`input[name="question-${qIndex}"]:checked`);
+            const resolutionBox = document.getElementById(`res-${qIndex}`);
+            const card = document.getElementById(`q-card-${qIndex}`);
+            
+            // Mostrar resolução
+            resolutionBox.style.display = 'block';
+
+            const optionsElements = card.querySelectorAll('.option-item');
+            
+            // Destacar correta
+            optionsElements[q.correct].classList.add('correct');
+
+            if (selected) {
+                const selectedIdx = parseInt(selected.value);
+                if (selectedIdx === q.correct) {
+                    score++;
+                } else {
+                    optionsElements[selectedIdx].classList.add('incorrect');
+                }
+            }
+            
+            // Desabilitar inputs
+            card.querySelectorAll('input').forEach(i => i.disabled = true);
+        });
+
+        // Mostrar resumo
+        const summary = document.getElementById('results-summary');
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreText = document.getElementById('score-text');
+        
+        summary.style.display = 'block';
+        scoreDisplay.innerText = `${score}/${total}`;
+        
+        if (score >= 8) {
+            scoreText.innerText = "Excelente desempenho! Você domina bem a Lei 9.784/99.";
+        } else if (score >= 5) {
+            scoreText.innerText = "Bom resultado, mas revise os pontos que errou para consolidar o conhecimento.";
+        } else {
+            scoreText.innerText = "Atenção: Revise a lei com calma e leia as resoluções abaixo.";
+        }
+
+        // Esconder botão de finalizar
+        document.getElementById('submit-btn').style.display = 'none';
+
+        // Scroll para o topo dos resultados
+        summary.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo: Lei 8.112/1990 - Estilo AOCP</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-color: #2d3436;
+            --accent-color: #0984e3;
+            --success-color: #27ae60;
+            --error-color: #d63031;
+            --border-color: #dfe6e9;
+            --card-bg: #ffffff;
+            --max-width: 850px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Georgia, serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 2px solid var(--border-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem 5rem 1.5rem;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 0.8rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-label:hover {
+            background-color: #f8f9fa;
+            border-color: var(--accent-color);
+        }
+
+        .option-label input {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Results Styling */
+        .feedback {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 6px;
+            background-color: #f1f2f6;
+        }
+
+        .feedback-status {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .correct-ans { color: var(--success-color); }
+        .wrong-ans { color: var(--error-color); }
+
+        .resolution-box {
+            font-size: 0.95rem;
+            color: #4b4b4b;
+            border-top: 1px solid #ddd;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .resolution-box h4 {
+            margin: 0 0 10px 0;
+            color: #2d3436;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 15px rgba(9, 132, 227, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #0873c4;
+            transform: translateY(-2px);
+        }
+
+        #score-panel {
+            display: none;
+            background: #2d3436;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        #score-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .table-res {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .table-res th, .table-res td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-res th {
+            background-color: #f2f2f2;
+        }
+
+        @media (max-width: 600px) {
+            .question-card { padding: 1.2rem; }
+            header h1 { font-size: 1.4rem; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Simulado: Lei nº 8.112/1990 - Estilo Instituto AOCP</h1>
+</header>
+
+<div class="container">
+    <div id="score-panel">
+        <span id="score-text">Você acertou:</span>
+        <span id="score-display">0/10</span>
+        <p>Confira as resoluções detalhadas abaixo de cada questão.</p>
+    </div>
+
+    <form id="quiz-form">
+        <div id="questions-container">
+            <!-- Questions will be injected here via JS -->
+        </div>
+
+        <div class="controls" id="quiz-controls">
+            <button type="button" class="btn" onclick="finishQuiz()">Finalizar Quiz e Ver Resoluções</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const questions = [
+        {
+            id: 1,
+            text: "Nos termos da Lei nº 8.112/1990, a forma de provimento de cargo público que consiste na reinvestidura do servidor estável no cargo anteriormente ocupado, ou no cargo resultante de sua transformação, quando invalidada a sua demissão por decisão administrativa ou judicial, com ressarcimento de todas as vantagens, é denominada",
+            options: ["recondução.", "reintegração.", "reconversão.", "reversão.", "readaptação."],
+            correct: 1, // B
+            resolution: "A alternativa correta é a B. O Instituto AOCP adota uma postura metodológica voltada à aferição do conhecimento literal dos institutos associados ao provimento e à vacância de cargos públicos. A descrição do enunciado reproduz integralmente a definição jurídica contida no artigo 28 da Lei nº 8.112/1990, que especifica a reintegração como o ato de reinvestidura do agente estável inválido de sua demissão anterior. Esse comando opera efeitos retroativos (ex tunc), determinando o restabelecimento do status quo ante com o ressarcimento completo dos vencimentos e das vantagens pecuniárias devidas durante o período de afastamento forçado."
+        },
+        {
+            id: 2,
+            text: "De acordo com o regime disciplinar estipulado pela Lei Federal nº 8.112/1990, o servidor público que proceder de forma desidiosa, omitindo-se reiteradamente quanto a atos de fiscalização e de supervisão que deveria praticar de ofício, está sujeito à aplicação direta da penalidade de",
+            options: ["advertência por escrito.", "suspensão de até 30 (trinta) dias.", "suspensão de até 90 (noventa) dias.", "demissão.", "remoção compulsória."],
+            correct: 3, // D
+            resolution: "A alternativa correta é a D. O arcabouço disciplinar estatutário constitui um núcleo temático de alta predileção nas avaliações do Instituto AOCP. A conduta desidiosa configura-se como a falta de zelo, a negligência continuada ou o desleixo habitual no cumprimento dos deveres funcionais. O legislador federal inseriu essa infração no rol das vedações gravíssimas, imputando-lhe de modo direto a penalidade de demissão (Art. 117, XV c/c Art. 132, XIII)."
+        },
+        {
+            id: 3,
+            text: "As vantagens financeiras concedidas aos servidores podem possuir caráter indenizatório, não se incorporando ao vencimento ou provento para qualquer efeito. Assinale a alternativa que NÃO apresenta uma indenização expressamente prevista no Título III da Lei nº 8.112/1990.",
+            options: ["Ajuda de custo.", "Auxílio-saúde.", "Diárias.", "Transporte.", "Auxílio-moradia."],
+            correct: 1, // B
+            resolution: "A alternativa correta é a B. O artigo 51 do texto estatutário positiva as indenizações devidas ao servidor: ajuda de custo, diárias, indenização de transporte e auxílio-moradia. A verba denominada auxílio-saúde encontra-se disciplinada no âmbito do Título VI (Seguridade Social), não fazendo parte das indenizações taxadas no Título III."
+        },
+        {
+            id: 4,
+            text: "No âmbito do direito de petição regulamentado pela Lei nº 8.112/1990, diante da ocorrência de negação na defesa de direito ou interesse legítimo, o pedido de reconsideração deverá ser despachado à autoridade que houver expedido o ato no prazo máximo de",
+            options: ["5 (cinco) dias.", "7 (sete) dias.", "10 (dez) dias.", "15 (quinze) dias.", "30 (trinta) dias."],
+            correct: 0, // A
+            resolution: "A alternativa correta é a A. A normatização do direito de petição encontra balizas claras a partir do artigo 104 da Lei nº 8.112/1990. O trâmite interno da peça de reconsideração impõe à unidade administrativa que receber o requerimento o estrito dever de despachá-lo no interregno de até 5 (cinco) dias para a autoridade que proferiu a decisão atacada."
+        },
+        {
+            id: 5,
+            text: "No que concerne às gratificações e adicionais previstos na Lei nº 8.112/1990, o serviço noturno possui regramento específico quanto ao seu cômputo e retribuição financeira. Sobre esse tema, assinale a alternativa correta.",
+            options: [
+                "O serviço noturno compreende o trabalho prestado em horário compreendido entre 20 horas de um dia e 6 horas do dia seguinte.",
+                "O valor-hora do serviço noturno será acrescido de 50% (cinquenta por cento) em relação à hora normal de trabalho.",
+                "Cada hora de trabalho noturno é computada juridicamente como tendo 52 (cinquenta e dois) minutos e 30 (trinta) segundos.",
+                "O acréscimo pago pelo serviço noturno não se aplica sob nenhuma hipótese caso haja cumulação com serviço extraordinário.",
+                "O serviço extraordinário noturno poderá ser realizado rotineiramente, respeitado o limite máximo de 4 horas por jornada."
+            ],
+            correct: 2, // C
+            resolution: "A alternativa correta é a C. O artigo 75 da Lei nº 8.112/1990 rege o serviço noturno. A legislação estabelece uma ficção temporal protetiva pela qual cada hora noturna é computada como possuindo 52 minutos e 30 segundos. O adicional é de 25% e o horário é das 22h às 5h."
+        },
+        {
+            id: 6,
+            text: "A respeito das normas sobre o concurso público estabelecidas na Lei nº 8.112/1990, assinale a alternativa correta.",
+            options: [
+                "O concurso público terá validade de até 3 (três) anos, prorrogável uma única vez por igual período.",
+                "É permitida a abertura de novo concurso público mesmo que haja candidato aprovado em certame anterior com prazo de validade não expirado.",
+                "O prazo de validade do concurso e as condições de sua realização serão fixados exclusivamente em regulamento interno, dispensada a publicação em Diário Oficial.",
+                "O concurso público será exclusivamente de provas e títulos, vedada a realização de certames compostos apenas por provas escritas.",
+                "O concurso público terá validade de até 2 (dois) anos, podendo ser prorrogado uma única vez, por igual período."
+            ],
+            correct: 4, // E
+            resolution: "A alternativa correta é a E. O artigo 12 do ordenamento estatutário federal preceitua que a validade do certame limita-se ao patamar de até 2 (dois) anos, admitindo-se uma única prorrogação por período idêntico ao fixado originalmente no edital."
+        },
+        {
+            id: 7,
+            text: "O provimento de cargo público se completa com a investidura, que ocorre com o ato da posse. Diante das disposições da Lei nº 8.112/1990 acerca dos institutos da posse e do exercício, assinale a alternativa correta.",
+            options: [
+                "A posse deverá ocorrer no prazo improrrogável de 15 (quinze) dias contados da publicação do ato de provimento.",
+                "Se o servidor legalmente nomeado para cargo efetivo não tomar posse dentro do prazo legal, ele será exonerado de ofício.",
+                "O prazo para o servidor empossado entrar em exercício é de 30 (trinta) dias, contados formalmente da data da posse.",
+                "Será exonerado do cargo efetivo o servidor empossado que não entrar em exercício dentro do prazo estabelecido em lei.",
+                "A posse em cargo público independe de prévia inspeção médica oficial, a qual poderá ser realizada durante o estágio probatório."
+            ],
+            correct: 3, // D
+            resolution: "A alternativa correta é a D. De acordo com o artigo 15, parágrafo segundo, da Lei nº 8.112/1990, o servidor empossado que não entrar em exercício dentro do prazo (15 dias) será exonerado de ofício. Diferente da nomeação, que se não houver posse, o ato apenas torna-se sem efeito."
+        },
+        {
+            id: 8,
+            text: "O servidor público federal faz jus a diversas modalidades de licenças ao longo de sua vida funcional. Contudo, a Lei nº 8.112/1990 estabelece restrições para o gozo de determinadas licenças durante o período de cumprimento do estágio probatório. Nesse contexto, NÃO pode ser concedida ao servidor em estágio probatório a licença",
+            options: [
+                "por motivo de doença em pessoa da família.",
+                "para o serviço militar.",
+                "para tratar de interesses particulares.",
+                "por motivo de afastamento do cônjuge.",
+                "para atividade política."
+            ],
+            correct: 2, // C
+            resolution: "A alternativa correta é a C. O artigo 20 da Lei nº 8.112/1990 veda a licença para tratar de interesses particulares (Art. 91) durante o estágio probatório. Esta licença pressupõe a estabilidade do servidor. As demais citadas são permitidas, embora algumas suspendam o prazo do estágio."
+        },
+        {
+            id: 9,
+            text: "Na aplicação das penalidades disciplinares no âmbito da Administração Pública Federal, a autoridade competente deve pautar-se por critérios objetivos de dosimetria. De acordo com as normas expressas na Lei nº 8.112/1990, para fins de dosimetria da penalidade a ser aplicada, serão consideradas as seguintes circunstâncias, EXCETO:",
+            options: [
+                "A natureza e a gravidade da infração cometida.",
+                "Os danos que da infração provierem para o serviço público.",
+                "As circunstâncias agravantes ou atenuantes.",
+                "Os antecedentes funcionais do servidor.",
+                "O nível de escolaridade formal e a situação socioeconômica do acusado."
+            ],
+            correct: 4, // E
+            resolution: "A alternativa correta é a E. O artigo 128 estabelece os critérios de dosimetria: natureza e gravidade, danos ao serviço público, agravantes/atenuantes e antecedentes. Fatores socioeconômicos ou escolaridade não são previstos como critérios para aplicação de penalidades disciplinares."
+        },
+        {
+            id: 10,
+            text: "Consoante as regras da Lei nº 8.112/1990 e suas alterações, quando o servidor for redistribuído, removido, colocado em disponibilidade ou tiver cessado o seu afastamento com a necessidade de mudança de sede, ele terá prazos específicos para a retomada do efetivo desempenho das atribuições do cargo. Esse prazo de deslocamento corresponderá a",
+            options: [
+                "no mínimo, 5 (cinco) dias e, no máximo, 15 (quinze) dias, contados da publicação do ato.",
+                "no mínimo, 10 (dez) dias e, no máximo, 30 (trinta) dias, contados da publicação do ato.",
+                "no mínimo, 15 (quinze) dias e, no máximo, 45 (quarenta) dias, contados da publicação do ato.",
+                "no mínimo, 12 (doze) dias e, no máximo, 24 (vinte e quatro) dias, contados da publicação do ato.",
+                "no mínimo, 20 (vinte) dias e, no máximo, 60 (sessenta) dias, contados da publicação do ato."
+            ],
+            correct: 1, // B
+            resolution: "A alternativa correta é a B. O artigo 18 da Lei nº 8.112/1990 preceitua que o servidor deslocado para nova sede fará jus a um período mínimo de 10 e máximo de 30 dias para a retomada do efetivo desempenho, contados da publicação do ato."
+        }
+    ];
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        let html = '';
+
+        questions.forEach((q, index) => {
+            html += `
+                <div class="question-card" id="q-card-${index}">
+                    <span class="question-number">Questão ${q.id}</span>
+                    <div class="question-text">${q.text}</div>
+                    <div class="options-list">
+                        ${q.options.map((opt, optIndex) => `
+                            <div class="option-item">
+                                <label class="option-label">
+                                    <input type="radio" name="question-${index}" value="${optIndex}">
+                                    <span>${String.fromCharCode(65 + optIndex)}) ${opt}</span>
+                                </label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="feedback" id="feedback-${index}">
+                        <span class="feedback-status" id="status-${index}"></span>
+                        <div class="resolution-box">
+                            <h4>Resolução:</h4>
+                            <p>${q.resolution}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function finishQuiz() {
+        let score = 0;
+        const total = questions.length;
+
+        questions.forEach((q, index) => {
+            const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            const statusSpan = document.getElementById(`status-${index}`);
+            const card = document.getElementById(`q-card-${index}`);
+
+            feedbackDiv.style.display = 'block';
+
+            if (selected) {
+                const answer = parseInt(selected.value);
+                if (answer === q.correct) {
+                    score++;
+                    statusSpan.innerHTML = '<span class="correct-ans">✓ Correto!</span>';
+                    card.style.borderColor = 'var(--success-color)';
+                } else {
+                    statusSpan.innerHTML = `<span class="wrong-ans">✗ Incorreto. A resposta correta é a alternativa ${String.fromCharCode(65 + q.correct)}.</span>`;
+                    card.style.borderColor = 'var(--error-color)';
+                }
+            } else {
+                statusSpan.innerHTML = `<span class="wrong-ans">Não respondida. A resposta correta é a alternativa ${String.fromCharCode(65 + q.correct)}.</span>`;
+                card.style.borderColor = '#ccc';
+            }
+        });
+
+        // Show Score
+        const scorePanel = document.getElementById('score-panel');
+        const scoreDisplay = document.getElementById('score-display');
+        scorePanel.style.display = 'block';
+        scoreDisplay.innerText = `${score} / ${total}`;
+
+        // Hide controls
+        document.getElementById('quiz-controls').style.display = 'none';
+
+        // Scroll to top to see score
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initialize
+    window.onload = renderQuestions;
+</script>
+
+</body>
+</html>

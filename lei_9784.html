@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Completa: Lei 9.784/1999 - Foco IFCE (AOCP)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a202c;
+            line-height: 1.7;
+        }
+        .highlight {
+            background-color: #fef08a; /* Amarelo para grifos */
+            padding: 0 2px;
+            font-weight: 600;
+        }
+        .section-card {
+            border-bottom: 1px solid #edf2f7;
+            padding: 2.5rem 0;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* Permite scroll apenas se necessário em telas minúsculas */
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            min-width: 500px; /* Garante que os dados não fiquem esmagados */
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8fafc;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        .btn-questions {
+            display: inline-block;
+            background-color: #1e40af;
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-questions:hover {
+            background-color: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .audio-player-box {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .banca-badge {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="max-w-4xl mx-auto px-6 py-12">
+
+    <header class="mb-12 border-b-2 border-blue-900 pb-6">
+        <div class="flex items-center gap-3 mb-4">
+            <span class="banca-badge">Instituto AOCP</span>
+            <span class="text-gray-400">|</span>
+            <span class="text-sm font-medium text-gray-500 uppercase tracking-widest">Concurso IFCE - Professor</span>
+        </div>
+        <h1 class="text-4xl font-extrabold text-gray-900 leading-tight mb-4">
+            Processo Administrativo Federal <br>
+            <span class="text-blue-700">Lei nº 9.784/1999</span>
+        </h1>
+        <p class="text-xl text-gray-600">Material de revisão técnica e memorização focada em acertos.</p>
+    </header>
+
+    <section class="audio-player-box shadow-sm">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="bg-blue-100 p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-bold text-gray-800">Podcast de Memorização</h3>
+                <p class="text-sm text-gray-500">Resumo narrado dos pontos críticos (Art. 1º ao 69º)</p>
+            </div>
+        </div>
+        <audio controls class="w-full">
+            <source src="aula_lei_9784_ifce.mp3" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+    </section>
+
+    <main>
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-700 rounded-full inline-block"></span>
+                1. Abrangência e Princípios Fundamentais
+            </h2>
+            <div class="space-y-4">
+                <p>A Lei 9.784/99 estabelece normas básicas sobre o processo administrativo no âmbito da <span class="highlight">Administração Federal Direta e Indireta</span>.</p>
+                
+                <div class="bg-blue-50 p-5 rounded-xl border-l-4 border-blue-600">
+                    <p class="font-bold text-blue-900 mb-2">Aplicação em Outros Poderes (Art. 1º, §1º):</p>
+                    <p>Aplica-se aos órgãos dos Poderes <span class="highlight">Legislativo e Judiciário da União</span> quando no desempenho de <span class="highlight">função administrativa</span>. Isso cai muito! A banca adora dizer que não se aplica ao Judiciário.</p>
+                </div>
+
+                <div class="mt-6">
+                    <p class="font-bold text-gray-800 mb-3 underline">Os 11 Princípios Explícitos (Art. 2º):</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                        <div class="p-2 border rounded">• Legalidade</div>
+                        <div class="p-2 border rounded">• Finalidade</div>
+                        <div class="p-2 border rounded">• Motivação</div>
+                        <div class="p-2 border rounded">• Razoabilidade</div>
+                        <div class="p-2 border rounded">• Proporcionalidade</div>
+                        <div class="p-2 border rounded">• Moralidade</div>
+                        <div class="p-2 border rounded">• Ampla Defesa</div>
+                        <div class="p-2 border rounded">• Contraditório</div>
+                        <div class="p-2 border rounded">• Segurança Jurídica</div>
+                        <div class="p-2 border rounded">• Interesse Público</div>
+                        <div class="p-2 border rounded">• Eficiência</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-700 rounded-full inline-block"></span>
+                2. Definições Básicas para a Prova
+            </h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Conceito</th>
+                            <th>Definição Legal (Art. 1º, §2º)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-bold">Órgão</td>
+                            <td>Unidade de atuação integrante da estrutura da Administração direta e da estrutura da Administração indireta. <span class="highlight">SEM personalidade jurídica</span>.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold">Entidade</td>
+                            <td>Unidade de atuação dotada de <span class="highlight">personalidade jurídica própria</span>.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold">Autoridade</td>
+                            <td>O servidor ou agente público dotado de <span class="highlight">poder de decisão</span>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-700 rounded-full inline-block"></span>
+                3. Competência Administrativa
+            </h2>
+            <ul class="space-y-4">
+                <li>• <strong>Irrenunciabilidade:</strong> A competência é irrenunciável e se exerce pelos órgãos administrativos a que foi atribuída como própria, salvo delegação e avocação legalmente admitidas.</li>
+                <li>• <strong>Delegação:</strong> Pode ser feita a órgãos <span class="highlight">não subordinados</span> (horizontal). É revogável a qualquer tempo.</li>
+                <li>• <strong>Avocação:</strong> Tem caráter excepcional, por motivos relevantes devidamente justificados, e ocorre entre <span class="highlight">órgãos hierarquicamente subordinados</span>.</li>
+            </ul>
+            
+            <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <p class="font-bold text-red-800 mb-2">⚠ Vedado Delegar (Art. 13 - Decore!):</p>
+                <ol class="list-decimal ml-6 space-y-1 text-sm font-medium">
+                    <li>Edição de atos de caráter <span class="highlight">normativo</span>;</li>
+                    <li>Decisão de <span class="highlight">recursos administrativos</span>;</li>
+                    <li>Matérias de competência <span class="highlight">exclusiva</span> do órgão ou autoridade.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-700 rounded-full inline-block"></span>
+                4. Impedimento vs. Suspeição
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="border p-4 rounded-xl">
+                    <p class="font-bold text-gray-800 border-b pb-2 mb-2">Impedimento (Art. 18)</p>
+                    <p class="text-sm">Situações <span class="highlight">objetivas</span>. A autoridade <strong>deve</strong> comunicar o impedimento. A omissão é <span class="highlight">falta grave</span> para fins disciplinares.</p>
+                </div>
+                <div class="border p-4 rounded-xl">
+                    <p class="font-bold text-gray-800 border-b pb-2 mb-2">Suspeição (Art. 20)</p>
+                    <p class="text-sm">Situações <span class="highlight">subjetivas</span> (amizade íntima ou inimizade notória com interessado ou parentes até o <span class="highlight">terceiro grau</span>).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-700 rounded-full inline-block"></span>
+                5. Tabela de Prazos Cruciais
+            </h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ato / Situação</th>
+                            <th>Prazo Legal</th>
+                            <th>Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Regra Geral (Omissão)</strong></td>
+                            <td><span class="highlight">5 dias</span></td>
+                            <td>Prorrogável por igual período.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intimação (Antecedência)</strong></td>
+                            <td><span class="highlight">3 dias úteis</span></td>
+                            <td>Mínimo para o comparecimento.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Decisão do Processo</strong></td>
+                            <td>Até <span class="highlight">30 dias</span></td>
+                            <td>Prorrogável por mais 30 mediante justificativa.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interposição de Recurso</strong></td>
+                            <td><span class="highlight">10 dias</span></td>
+                            <td>Contados da ciência ou divulgação oficial.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Decisão de Recurso</strong></td>
+                            <td>Até <span class="highlight">30 dias</span></td>
+                            <td>Pode ser prorrogado.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reconsideração (Autoridade)</strong></td>
+                            <td><span class="highlight">5 dias</span></td>
+                            <td>Se não reconsiderar, envia ao superior.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-4 text-sm text-gray-500"><strong>Contagem:</strong> Exclui-se o dia do começo e inclui-se o do vencimento. Só se inicia/vence em <span class="highlight">dia de expediente</span> no órgão.</p>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-700 rounded-full inline-block"></span>
+                6. Autotutela: Anulação, Revogação e Convalidação
+            </h2>
+            <div class="space-y-4">
+                <p>A Administração deve anular seus próprios atos, quando eivados de vício de <span class="highlight">legalidade</span>, e pode revogá-los por motivo de <span class="highlight">conveniência ou oportunidade</span>.</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-sm text-gray-700 uppercase">Prazo Decadencial (Art. 54)</p>
+                        <p class="text-sm">O direito da Administração de anular atos favoráveis aos destinatários decai em <span class="highlight">5 anos</span>, salvo comprovada má-fé.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-bold text-sm text-gray-700 uppercase">Convalidação (Art. 55)</p>
+                        <p class="text-sm">Se houver defeitos <span class="highlight">sanáveis</span>, que não lesem o interesse público nem prejuízo a terceiros, a decisão pode ser convalidada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-700 rounded-full inline-block"></span>
+                7. Recursos Administrativos
+            </h2>
+            <ul class="space-y-4">
+                <li>• <strong>Hierarquia:</strong> O recurso sobe até no máximo <span class="highlight">3 instâncias</span> administrativas, salvo disposição legal diversa.</li>
+                <li>• <strong>Efeito Suspensivo:</strong> Regra é <span class="highlight">NÃO ter efeito suspensivo</span>. Só haverá se houver justo receio de prejuízo de difícil reparação e a lei previr.</li>
+                <li>• <strong>Legitimidade:</strong> Associações podem recorrer em defesa de direitos coletivos ou difusos.</li>
+                <li>• <strong>Desistência:</strong> O interessado pode desistir total ou parcialmente do pedido, mas isso <span class="highlight">não impede o prosseguimento</span> do processo se a Administração considerar que há interesse público.</li>
+            </ul>
+        </section>
+
+        <section class="section-card border-none bg-blue-50 p-8 rounded-2xl">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+                ⭐ Checklist de Acerto (Foco IFCE)
+            </h2>
+            <ul class="space-y-3 font-medium text-gray-800">
+                <li class="flex items-start gap-2">
+                    <span class="text-green-600">✔</span>
+                    <span>O processo pode iniciar <strong>de ofício</strong> (não depende só de pedido).</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-600">✔</span>
+                    <span><strong>Advogado é facultativo:</strong> A falta de defesa técnica por advogado não ofende a Constituição (Súmula Vinculante 5).</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-600">✔</span>
+                    <span><strong>Proibição de reformatio in pejus na REVISÃO:</strong> Na revisão de processo punitivo, não pode haver agravamento da sanção. (No recurso comum, pode!).</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-600">✔</span>
+                    <span><strong>Prioridade de Tramitação:</strong> Pessoas com idade &ge; 60 anos, portadores de deficiência ou doenças graves.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-green-600">✔</span>
+                    <span><strong>Inexistência de taxas:</strong> É vedada a cobrança de despesas processuais, ressalvadas as previstas em lei.</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="mt-16 text-center">
+        <p class="text-gray-500 mb-8 max-w-lg mx-auto">
+            "A constância é o segredo da aprovação. Revise os prazos e os casos de impedimento um dia antes da prova."
+        </p>
+        <div class="pb-20">
+            <a href="lei_9784questoes.html" class="btn-questions shadow-xl">
+                🚀 Praticar com Questões Inéditas
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>
