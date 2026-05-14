@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Didática e Formação de Professores - AOCP</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-color: #2c3e50;
+            --accent-color: #34495e;
+            --correct-bg: #e8f5e9;
+            --correct-text: #2e7d32;
+            --wrong-bg: #ffebee;
+            --wrong-text: #c62828;
+            --border-color: #e0e0e0;
+            --max-width: 850px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Georgia, serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--accent-color);
+        }
+
+        .intro {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+
+        .question-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .question-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 0.5rem;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 0.8rem;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .option-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .option-item input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        /* Classes de Resultado */
+        .option-item.correct {
+            background-color: var(--correct-bg);
+            border-color: var(--correct-text);
+            color: var(--correct-text);
+            font-weight: bold;
+        }
+
+        .option-item.wrong {
+            background-color: var(--wrong-bg);
+            border-color: var(--wrong-text);
+            color: var(--wrong-text);
+        }
+
+        .resolution-box {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: #fcfcfc;
+            border-left: 4px solid var(--accent-color);
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 1.2rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #2c3e50;
+        }
+
+        #result-summary {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: #fff;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+
+        #score-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            .question-card { padding: 1rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Simulado de Didática e Formação de Professores</h1>
+    <p class="intro">Modelo Instituto AOCP - Caderno de Avaliação Técnica</p>
+</header>
+
+<div class="container">
+    <div id="result-summary">
+        <p id="score-message">Simulado Concluído!</p>
+        <p id="score-text">0 / 10</p>
+        <p>Confira as resoluções detalhadas abaixo.</p>
+    </div>
+
+    <form id="quiz-form">
+        <div id="questions-container"></div>
+        <button type="button" class="btn-submit" id="submit-btn" onclick="evaluateQuiz()">Finalizar Simulado e Ver Resoluções</button>
+    </form>
+</div>
+
+<footer>
+    Baseado em abordagens conceituais, metodológicas e tendências pedagógicas.
+</footer>
+
+<script>
+    const quizData = [
+        {
+            id: 1,
+            q: "A análise das tendências pedagógicas na educação brasileira é frequentemente estruturada a partir da classificação proposta por José Carlos Libâneo, que divide as teorias educacionais entre o grupo das Liberais e o grupo das Progressistas. No contexto de uma instituição escolar que adota uma prática pautada na transmissão de conteúdos científicos universais como condição para a participação efetiva e crítica dos alunos na sociedade, assinale a alternativa que identifica corretamente a tendência pedagógica correspondente.",
+            options: [
+                "A) Pedagogia Liberal Tradicional, pautada na preparação intelectual e moral dos alunos para assumirem seu papel na sociedade, mantendo o foco na autoridade do professor.",
+                "B) Pedagogia Liberal Renovada Não-Diretiva, centrada no desenvolvimento do autoaperfeiçoamento e nas relações interpessoais, onde o professor atua como facilitador.",
+                "C) Pedagogia Liberal Tecnicista, articulada ao modelo produtivo, priorizando a técnica e a eficiência operacional em detrimento dos conteúdos sociais.",
+                "D) Pedagogia Progressista Crítico-Social dos Conteúdos, que defende o domínio de conteúdos sólidos e científicos como ferramenta de transformação social e superação das desigualdades.",
+                "E) Pedagogia Progressista Libertadora, fundamentada na educação popular e na conscientização política, utilizando temas geradores para a superação da opressão."
+            ],
+            correct: 3, // D
+            resolution: "<strong>Resolução:</strong> A Pedagogia Progressista Crítico-Social dos Conteúdos (D) destaca-se por enfatizar que a transformação social exige o domínio real e sólido dos conhecimentos científicos e universais pela classe trabalhadora. Para esta tendência, o conteúdo é o instrumento que permite ao aluno ler a realidade de forma científica e atuar sobre ela de forma consciente."
+        },
+        {
+            id: 2,
+            q: "Considere a atuação de um pedagogo em um Instituto Federal que, ao analisar o planejamento docente, detecta que os professores organizam suas atividades de forma restrita aos conteúdos específicos de suas disciplinas, sem articulação com as demais áreas do conhecimento. No que tange à organização do currículo e à interdisciplinaridade, assinale a alternativa correta em conformidade com as abordagens contemporâneas da Didática.",
+            options: [
+                "A) A interdisciplinaridade pressupõe a eliminação das disciplinas específicas, substituindo-as por um saber generalista que não exige domínio técnico-científico por parte do professor.",
+                "B) A abordagem interdisciplinar propõe a integração dos conteúdos das diferentes disciplinas, promovendo uma visão mais ampla e conectada do conhecimento e estimulando o pensamento crítico dos alunos.",
+                "C) A multidisciplinaridade é sinônimo de interdisciplinaridade, pois ambas referem-se à justaposição de conteúdos de diferentes áreas sem a necessidade de coordenação ou objetivos comuns.",
+                "D) A organização curricular por disciplinas isoladas é a única forma de garantir o aprofundamento científico necessário para a formação técnica e tecnológica de excelência.",
+                "E) A interdisciplinaridade deve ser evitada no Ensino Médio, uma vez que a fragmentação do conhecimento facilita a memorização necessária para os exames de larga escala."
+            ],
+            correct: 1, // B
+            resolution: "<strong>Resolução:</strong> A alternativa (B) reflete o entendimento de que a interdisciplinaridade combate a fragmentação do saber, permitindo ao estudante construir uma visão de totalidade da realidade. Isso é fundamental na Educação Profissional e Tecnológica (EPT), integrando trabalho, ciência e cultura."
+        },
+        {
+            id: 3,
+            q: "A Didática Fundamental, em contraposição à Didática Instrumental, propõe uma visão multidimensional do processo de ensino-aprendizagem. Segundo essa perspectiva, a prática pedagógica deve ser compreendida através da articulação de três dimensões essenciais. Assinale a alternativa que apresenta essas dimensões.",
+            options: [
+                "A) Dimensão Administrativa, Dimensão Pedagógica e Dimensão Financeira.",
+                "B) Dimensão Cognitiva, Dimensão Procedimental e Dimensão Atitudinal.",
+                "C) Dimensão Técnica, Dimensão Humana e Dimensão Política.",
+                "D) Dimensão Instrumental, Dimensão Avaliativa e Dimensão Curricular.",
+                "E) Dimensão Teórica, Dimensão Prática e Dimensão Experimental."
+            ],
+            correct: 2, // C
+            resolution: "<strong>Resolução:</strong> A Didática Fundamental articula as dimensões Técnica (planejamento/métodos), Humana (relações interpessoais/afetividade) e Política (compromisso social/fins da educação). A visão instrumental focava apenas no 'como fazer'."
+        },
+        {
+            id: 4,
+            q: "No processo de ensino-aprendizagem, a relação professor-aluno assume um papel central na mediação do conhecimento. Sobre essa interação e as influências da afetividade no desenvolvimento cognitivo, assinale a alternativa correta.",
+            options: [
+                "A) O processo de ensino e aprendizagem envolve a influência contínua da afetividade entre professor-aluno-conhecimento-ambiente, mediada pelo professor para a interação das relações entre sujeitos e objetos de conhecimento.",
+                "B) No processo de ensino e aprendizagem, a dimensão afetiva deve ocupar um lugar secundário, pois a prioridade absoluta é a transmissão técnica do conteúdo científico.",
+                "C) O ambiente de ensino deve ser marcado por uma pedagogia diretiva e autoritária, visando garantir que o aprendizado ocorra sem interferências emocionais ou subjetivas.",
+                "D) A relação professor-aluno é unidirecional, caracterizando-se pela influência exclusiva do professor sobre o aluno, sem que a subjetividade do discente altere a prática docente.",
+                "E) A autoridade do professor baseia-se estritamente no poder institucional, dispensando a competência profissional, moral ou técnica no manejo da turma."
+            ],
+            correct: 0, // A
+            resolution: "<strong>Resolução:</strong> A perspectiva crítica de mediação entende que a afetividade e a cognição funcionam de forma dialética. O vínculo emocional com o conhecimento e com o docente são motores para a aprendizagem profunda."
+        },
+        {
+            id: 5,
+            q: "O planejamento pedagógico é um instrumento de racionalização da ação docente. De acordo com José Carlos Libâneo, para que os planos de aula sejam efetivamente instrumentos de orientação, eles devem seguir determinados princípios estruturantes. Sobre os elementos do planejamento, assinale a alternativa correta.",
+            options: [
+                "A) O plano de aula é um documento rígido que deve ser seguido sem qualquer alteração, independentemente das reações ou dificuldades apresentadas pelos alunos.",
+                "B) O planejamento deve prever objetivos, conteúdos e métodos a partir da consideração das exigências postas pela realidade social e das condições socioculturais dos alunos.",
+                "C) Os conteúdos de ensino são elementos fixos e imutáveis, devendo ser transmitidos de forma idêntica em qualquer contexto histórico ou social.",
+                "D) A definição de métodos de ensino é uma tarefa secundária no planejamento, devendo o professor priorizar apenas a seleção dos conteúdos.",
+                "E) O planejamento pedagógico é uma tarefa meramente burocrática e administrativa, sem relação direta com a eficácia do processo de aprendizagem em sala de aula."
+            ],
+            correct: 1, // B
+            resolution: "<strong>Resolução:</strong> Segundo Libâneo, o planejamento deve articular a teoria pedagógica à prática social, considerando a realidade dos alunos e os objetivos educacionais como guias dinâmicos da ação."
+        },
+        {
+            id: 6,
+            q: "A avaliação da aprendizagem é um componente didático que cumpre diferentes funções no cotidiano escolar. Em uma perspectiva mediadora e crítica, a principal função da avaliação deve ser:",
+            options: [
+                "A) Classificar os alunos entre 'aptos' e 'não aptos' para fins de seleção e exclusão dentro do sistema educacional.",
+                "B) Punir os alunos que não atingem o nível de comportamento esperado, utilizando a nota como instrumento de controle disciplinar.",
+                "C) Verificar se os objetivos educacionais foram alcançados e, em caso negativo, buscar alternativas e novas estratégias para que o aluno atinja a aprendizagem.",
+                "D) Medir o acúmulo de informações memorizadas pelos estudantes ao final de cada ciclo letivo, sem preocupação com o processo de construção do saber.",
+                "E) Padronizar as turmas por níveis de conhecimentos prévios, eliminando a diversidade e a heterogeneidade como princípios educativos."
+            ],
+            correct: 2, // C
+            resolution: "<strong>Resolução:</strong> Na avaliação mediadora, avalia-se para conhecer e intervir. Caso o aluno não atinja o objetivo, o professor busca novas estratégias didáticas para garantir o sucesso da aprendizagem."
+        },
+        {
+            id: 7,
+            q: "A formação de professores tem sido discutida sob o paradigma do 'professor reflexivo', que propõe a superação da racionalidade técnica. Sobre a formação continuada e o desenvolvimento profissional docente, assinale a alternativa correta.",
+            options: [
+                "A) O conhecimento docente é formado exclusivamente pela formação inicial acadêmica, sendo a prática de sala de aula um campo de mera aplicação de teorias.",
+                "B) A reflexão-na-ação, a reflexão-sobre-a-ação e a reflexão sobre a reflexão-na-ação são momentos essenciais em que o professor reconstrói sua identidade e prática pedagógica.",
+                "C) A formação continuada deve focar estritamente em treinamentos pontuais para o uso de novas ferramentas tecnológicas, sem abordar a dimensão política da docência.",
+                "D) O professor reflexivo é aquele que segue rigorosamente as orientações dos manuais didáticos e das editoras, evitando questionamentos sobre a realidade social.",
+                "E) A prática reflexiva é um ato individual e isolado, que não deve envolver a troca de experiências com os pares ou a equipe pedagógica."
+            ],
+            correct: 1, // B
+            resolution: "<strong>Resolução:</strong> O paradigma do professor reflexivo (Schön/Pimenta) propõe que o docente é um produtor de saberes, reconstruindo sua prática através da análise crítica constante do seu fazer cotidiano."
+        },
+        {
+            id: 8,
+            q: "O avanço das Tecnologias de Informação e Comunicação (TICs) impacta diretamente a Didática, especialmente em modalidades como a Educação a Distância (EAD) e o Ensino Híbrido. Sobre a organização didática nesses ambientes, assinale a alternativa correta.",
+            options: [
+                "A) O uso de tecnologias digitais deve substituir completamente a mediação do professor, tornando-o dispensável no processo de aprendizagem.",
+                "B) O excesso de poluição visual e animações nos Ambientes Virtuais de Aprendizagem (AVA) é recomendado para manter a atenção dos estudantes.",
+                "C) As tecnologias da comunicação e informação na didática devem facilitar o acesso aos conteúdos educacionais e promover a interatividade real entre alunos e professores.",
+                "D) O ensino híbrido caracteriza-se pela separação total entre os momentos presenciais e virtuais, sem que haja integração ou planejamento unificado.",
+                "E) A Didática para EAD é idêntica à Didática presencial, não exigindo métodos, técnicas ou linguagens específicas para o ambiente virtual."
+            ],
+            correct: 2, // C
+            resolution: "<strong>Resolução:</strong> As tecnologias devem ser instrumentos de interatividade. O professor continua sendo a figura central no planejamento e curadoria, atuando na mediação pedagógica digital."
+        },
+        {
+            id: 9,
+            q: "A Pedagogia Histórico-Crítica, formulada por Dermeval Saviani, apresenta uma proposta metodológica para a superação da visão fragmentada do ensino. Sobre essa tendência e sua base filosófica, é correto afirmar que:",
+            options: [
+                "A) Utiliza o Materialismo Histórico-Dialético como marco referencial, compreendendo a educação como um ato político vinculado à transformação social.",
+                "B) Defende que a educação formal não deve ser ancorada no conhecimento científico acumulado, priorizando apenas o senso comum dos alunos.",
+                "C) Baseia-se exclusivamente na teoria humanística do conhecimento, focando no bem-estar emocional do aluno em detrimento do saber sistematizado.",
+                "D) Propõe que o método de ensino deve desfavorecer o diálogo, priorizando a iniciativa isolada do professor como detentor do saber.",
+                "E) É uma concepção que nasceu para atender às necessidades da classe burguesa, visando à manutenção do status quo através da memorização."
+            ],
+            correct: 0, // A
+            resolution: "<strong>Resolução:</strong> A Pedagogia Histórico-Crítica (Saviani) fundamenta-se no Materialismo Histórico-Dialético. Ela defende que a escola deve instrumentalizar a classe trabalhadora com o saber científico para fins de transformação social."
+        },
+        {
+            id: 10,
+            q: "De acordo com a Lei de Diretrizes e Bases da Educação Nacional (LDB nº 9.394/96), incumbe aos docentes participar de determinadas atividades essenciais para a organização escolar. Assinale a alternativa que apresenta uma dessas incumbências.",
+            options: [
+                "A) Definir isoladamente o currículo da instituição, sem necessidade de articulação com o Projeto Político-Pedagógico (PPP).",
+                "B) Participar da elaboração da proposta pedagógica do estabelecimento de ensino e estabelecer estratégias de recuperação para alunos de menor rendimento.",
+                "C) Zelar pela aprendizagem apenas dos alunos que demonstram interesse, ignorando aqueles com dificuldades de aprendizagem.",
+                "D) Isentar-se da colaboração com as atividades de articulação da escola com as famílias e a comunidade.",
+                "E) Elaborar e cumprir o plano de trabalho de forma independente da proposta pedagógica da unidade escolar."
+            ],
+            correct: 1, // B
+            resolution: "<strong>Resolução:</strong> O Artigo 13 da LDB estabelece que é dever do docente participar do PPP e garantir estratégias de recuperação, vinculando a função à responsabilidade pelo sucesso de todos os alunos."
+        }
+    ];
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        quizData.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `q-card-${index}`;
+
+            let optionsHtml = '';
+            item.options.forEach((opt, optIndex) => {
+                optionsHtml += `
+                    <label class="option-item" id="label-${index}-${optIndex}">
+                        <input type="radio" name="q${index}" value="${optIndex}">
+                        ${opt}
+                    </label>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="question-header">Questão ${index + 1}</div>
+                <div class="question-text">${item.q}</div>
+                <div class="options-list">${optionsHtml}</div>
+                <div class="resolution-box" id="res-${index}">${item.resolution}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function evaluateQuiz() {
+        let score = 0;
+        const form = document.getElementById('quiz-form');
+        
+        quizData.forEach((item, index) => {
+            const selected = form.querySelector(`input[name="q${index}"]:checked`);
+            const resolutionBox = document.getElementById(`res-${index}`);
+            
+            // Mostrar resolução
+            resolutionBox.style.display = 'block';
+
+            // Marcar a correta
+            const correctLabel = document.getElementById(`label-${index}-${item.correct}`);
+            correctLabel.classList.add('correct');
+
+            if (selected) {
+                const selectedVal = parseInt(selected.value);
+                if (selectedVal === item.correct) {
+                    score++;
+                } else {
+                    // Se errou, marca a errada em vermelho
+                    const wrongLabel = document.getElementById(`label-${index}-${selectedVal}`);
+                    wrongLabel.classList.add('wrong');
+                }
+            }
+
+            // Desabilitar inputs após envio
+            const inputs = form.querySelectorAll(`input[name="q${index}"]`);
+            inputs.forEach(input => input.disabled = true);
+        });
+
+        // Mostrar resumo
+        const summary = document.getElementById('result-summary');
+        const scoreText = document.getElementById('score-text');
+        summary.style.display = 'block';
+        scoreText.innerText = `${score} / ${quizData.length}`;
+        
+        // Scroll para o topo para ver o resultado
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Esconder botão de envio
+        document.getElementById('submit-btn').style.display = 'none';
+    }
+
+    // Inicializar
+    window.onload = renderQuestions;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Ação Docente numa Perspectiva Crítica</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #2d3436;
+            --accent-color: #0984e3;
+            --card-bg: #ffffff;
+            --border-color: #dfe6e9;
+            --correct-color: #27ae60;
+            --wrong-color: #d63031;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #636e72;
+            font-size: 1.1rem;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        .question-header {
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--accent-color);
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-label:hover {
+            background-color: #f1f2f6;
+            border-color: var(--accent-color);
+        }
+
+        .option-label input {
+            margin-right: 15px;
+            margin-top: 6px;
+        }
+
+        .option-label.selected {
+            border-color: var(--accent-color);
+            background-color: #e1f5fe;
+        }
+
+        /* Classes para feedback pós-conclusão */
+        .option-label.correct-answer {
+            background-color: #d1f2eb !important;
+            border-color: var(--correct-color) !important;
+            color: #0e6251;
+            font-weight: 600;
+        }
+
+        .option-label.wrong-answer {
+            background-color: #f9ebea !important;
+            border-color: var(--wrong-color) !important;
+            color: #922b21;
+        }
+
+        .resolution-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 4px;
+            display: none;
+            font-size: 1rem;
+        }
+
+        .resolution-box h4 {
+            margin-top: 0;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        #submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: background 0.3s;
+        }
+
+        #submit-btn:hover {
+            background-color: #0873c4;
+        }
+
+        #result-section {
+            display: none;
+            text-align: center;
+            background: #ffffff;
+            border: 2px solid var(--accent-color);
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        #score-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-color);
+        }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #b2bec3;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px 15px; }
+            header h1 { font-size: 1.4rem; }
+            .question-text { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulado Pedagógico: Ação Docente e Planejamento</h1>
+        <p>Padrão Instituto AOCP | 10 Questões Inéditas e Comentadas</p>
+    </header>
+
+    <div id="quiz-form">
+        <!-- As questões serão inseridas aqui via JavaScript -->
+    </div>
+
+    <button id="submit-btn" onclick="checkAnswers()">Finalizar Simulado e Ver Resoluções</button>
+
+    <div id="result-section">
+        <h2>Resultado Final</h2>
+        <div id="score-display">0 / 10</div>
+        <p id="score-text">Você concluiu o simulado! Confira abaixo a resolução de cada questão.</p>
+    </div>
+
+    <div class="disclaimer">
+        Página gerada para fins educacionais baseada em tendências pedagógicas e perfil da banca AOCP.
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            id: 1,
+            question: "No âmbito da organização do trabalho pedagógico, o planejamento de ensino é frequentemente definido como um processo de racionalização, organização e coordenação da ação docente. Segundo a perspectiva de Libâneo (1994, 2013), o planejamento não deve ser um ato puramente burocrático, mas uma atividade de reflexão que articula a escola com o contexto social. A respeito das características e funções do planejamento de ensino, assinale a alternativa correta.",
+            options: [
+                "O planejamento de ensino deve ser encarado como um instrumento rígido e absoluto, servindo como uma garantia de que o currículo oficial seja cumprido sem interferências da realidade local.",
+                "Na perspectiva crítica, o planejamento é um processo de racionalização da ação docente que independe do nível de preparo e das condições socioculturais dos alunos, priorizando os objetivos técnicos.",
+                "O planejamento docente caracteriza-se por ser um processo contínuo e dinâmico que deve apresentar flexibilidade, objetividade e coerência, servindo como guia para a ação e não como uma imposição inflexível.",
+                "A eficácia do planejamento de ensino reside na sua capacidade de dissociar a atividade escolar da problemática social, focando exclusivamente no domínio de conteúdos científicos isolados.",
+                "O plano de ensino, como documento de planejamento, deve priorizar a memorização de informações em detrimento da problematização da realidade, garantindo a produtividade técnica."
+            ],
+            correct: 2,
+            resolution: "Para Libâneo, o planejamento é um processo de racionalização, organização e coordenação da ação docente. Deve ser contínuo (não se encerra no início do ano), flexível (ajusta-se a imprevistos), objetivo (exequível) e coerente (ligação lógica entre objetivos e métodos). É um guia, não uma camisa de força."
+        },
+        {
+            id: 2,
+            question: "Durante a semana de planejamento pedagógico em um Instituto Federal, um grupo de docentes promove uma reflexão coletiva e intencional sobre suas práticas, visando identificar necessidades de aprimoramento em suas estratégias de ensino. De acordo com a perspectiva crítica e as diretrizes da Educação Profissional e Tecnológica (EPT), essa ação docente é caracterizada por",
+            options: [
+                "elaborar o planejamento focando apenas nas demandas imediatas do mercado de trabalho, ignorando a formação integral do sujeito.",
+                "estruturar o planejamento a partir de estratégias previamente definidas por órgãos superiores, realizando apenas ajustes metodológicos pontuais durante a execução.",
+                "formular um currículo integrado que busque superar a dicotomia entre instrução profissional e instrução geral, trabalho manual e trabalho intelectual, vinculando-se à concepção de escola politécnica.",
+                "organizar o planejamento priorizando conteúdos instrumentais-tecnicistas, ressaltando que o essencial é o uso de técnicas teleológicas para aplicação do conhecimento científico.",
+                "centralizar a ação docente na transmissão de informação aos alunos, reduzindo o papel do estudante a um receptor passivo de conhecimentos técnicos."
+            ],
+            correct: 2,
+            resolution: "Nos IFs, a ação docente crítica busca a formação omnilateral e a superação da dicotomia entre trabalho manual e intelectual. O currículo integrado é a ferramenta para que o aluno se reconheça como sujeito crítico, unindo formação geral e profissional sob a ótica da politecnia."
+        },
+        {
+            id: 3,
+            question: "O Projeto Político Pedagógico (PPP) é um dos principais instrumentos de planejamento da escola, sendo a expressão da autonomia e da identidade da instituição. Segundo Vasconcellos (2010), para que os planos sejam instrumentos eficazes para a ação, eles devem seguir uma estrutura lógica de marcos constituintes. Assinale a alternativa que apresenta corretamente as três etapas constituintes do PPP conforme este autor.",
+            options: [
+                "Marco Referencial, Marco Político-Filosófico e Marco Operativo.",
+                "Marco Diagnóstico, Marco Cultural e Marco Operativo.",
+                "Marco Situacional, Marco Técnico e Marco Avaliativo.",
+                "Marco Normativo, Marco Metodológico e Marco Institucional.",
+                "Marco Doutrinário, Marco Pedagógico e Marco Burocrático."
+            ],
+            correct: 0,
+            resolution: "Celso Vasconcellos propõe três marcos: 1. Marco Referencial (onde se quer chegar, incluindo o Situacional, Político-Filosófico e Pedagógico); 2. Diagnóstico (identificar necessidades); 3. Marco Operativo (o que fazer para mudar)."
+        },
+        {
+            id: 4,
+            question: "As metodologias ativas são estratégias de ensino que buscam colocar o estudante como protagonista do seu processo de aprendizagem, exigindo do professor um papel de mediador e facilitador. Sobre as características e os tipos de metodologias ativas comumente abordados pelo Instituto AOCP, assinale a alternativa que contém apenas estratégias válidas desse grupo.",
+            options: [
+                "Aula expositiva tradicional, memorização de textos, estudo dirigido individual e avaliação somativa.",
+                "Aprendizagem baseada em projetos, aprendizagem por meio de jogos, método do caso, aprendizagem em equipe e ensino híbrido.",
+                "Instrução programada, repetição mecânica de exercícios, currículo fragmentado e ditado de conteúdos.",
+                "Palestras magistrais, uso exclusivo de livros didáticos, silêncio absoluto em sala e provas de múltipla escolha para classificação.",
+                "Ensino tecnicista, condicionamento de comportamento, treinamento de habilidades motoras isoladas e currículo instrumental."
+            ],
+            correct: 1,
+            resolution: "Metodologias ativas focam no protagonismo do aluno. Exemplos clássicos cobrados pela AOCP incluem: Aprendizagem Baseada em Projetos (PBL), Gamificação, Estudo de Caso, Aprendizagem em Equipe (TBL) e Ensino Híbrido."
+        },
+        {
+            id: 5,
+            question: "A avaliação da aprendizagem é uma tarefa didática necessária e permanente do trabalho docente, que deve acompanhar todo o processo de ensino-aprendizagem. Sob uma perspectiva crítica e mediadora, conforme Luckesi (2011), a avaliação escolar deve",
+            options: [
+                "atuar como um instrumento classificatório e seletivo, visando identificar os alunos que possuem aptidão para o progresso acadêmico.",
+                "limitar-se à verificação de resultados finais para a atribuição de notas e conceitos, cumprindo uma função meramente burocrática.",
+                "ser compreendida como um ato amoroso e acolhedor que diagnostica a situação de aprendizagem para subsidiar a tomada de decisão em favor do desenvolvimento do aluno.",
+                "comparar o desempenho de dois ou mais alunos na sala de aula para estimular a competitividade e a produtividade individual.",
+                "focar na medição de conhecimentos adquiridos através da memorização, garantindo a uniformidade dos resultados entre os estudantes."
+            ],
+            correct: 2,
+            resolution: "Luckesi define a avaliação crítica como diagnóstico. Ela não deve classificar ou excluir, mas sim 'acolher' a situação atual do aluno para fundamentar decisões que promovam o seu crescimento e desenvolvimento integral."
+        },
+        {
+            id: 6,
+            question: "No campo da Didática, o processo de ensino e aprendizagem é estruturado por elementos fundamentais que orientam e direcionam a ação pedagógica. Em questões recentes do Instituto AOCP (ex: IF-MA 2023), esses elementos são apontados como essenciais para tornar a prática docente eficaz. Assinale a alternativa que apresenta corretamente esses elementos didáticos.",
+            options: [
+                "Infraestrutura escolar, recursos financeiros, merenda escolar e transporte docente.",
+                "Conteúdo, método, avaliação, material didático e professor.",
+                "Normas de convivência, atas de reunião, regimento escolar e histórico de faltas.",
+                "Apenas o currículo formal e as diretrizes nacionais do Ministério da Educação.",
+                "Planejamento burocrático e fiscalização administrativa da coordenação pedagógica."
+            ],
+            correct: 1,
+            resolution: "A Didática clássica (Libâneo e outros adotados pela AOCP) estrutura o ensino em: Conteúdo (o que), Método (como), Avaliação (verificação), Material (ferramentas) e a figura mediadora do Professor."
+        },
+        {
+            id: 7,
+            question: "A Pedagogia Histórico-Crítica, proposta por Dermeval Saviani, defende que a função da escola é a socialização do saber sistematizado, tornando o conhecimento científico acessível às classes trabalhadoras como ferramenta de luta. Sobre a aplicação dessa tendência na ação docente, assinale a alternativa correta.",
+            options: [
+                "O ensino deve partir exclusivamente do interesse espontâneo do aluno, sem a interferência direta ou diretiva do professor.",
+                "A educação deve ser neutra, focando na transmissão técnica de conteúdos sem relação com a prática social ou a realidade política.",
+                "O processo pedagógico deve partir da prática social inicial, passar pela problematização e instrumentalização, visando a catarse e uma nova prática social superior.",
+                "A escola deve priorizar o currículo oculto em detrimento do conhecimento clássico, visando a adaptação do indivíduo ao mercado.",
+                "O aprendizado deve ocorrer de forma assistencialista, simplificando os conteúdos para que os alunos das classes populares não se sintam excluídos."
+            ],
+            correct: 2,
+            resolution: "Saviani propõe 5 momentos: Prática Social Inicial, Problematização, Instrumentalização, Catarse (síntese) e Prática Social Final. O objetivo é a apropriação do saber erudito pelas massas para transformação social."
+        },
+        {
+            id: 8,
+            question: "O ensino híbrido (blended learning) é uma modalidade de metodologia ativa que tem ganhado destaque nas discussões sobre inovação na ação docente. Segundo autores como Bacich e Moran (2018), o ensino híbrido favorece a personalização da aprendizagem. Sobre as características do ensino híbrido, assinale a alternativa correta.",
+            options: [
+                "Consiste na substituição total das aulas presenciais por plataformas digitais, eliminando a necessidade de interação física entre professor e aluno.",
+                "Centraliza o processo no professor através da proposta da sala de aula invertida, onde o docente dita os vídeos que os alunos devem apenas assistir.",
+                "É uma metodologia que combina momentos de estudo individual online, onde o aluno tem controle sobre o tempo e o ritmo, com momentos presenciais de discussão e colaboração.",
+                "Caracteriza-se pela manutenção da aula expositiva tradicional, utilizando a tecnologia apenas como um suporte para projetar slides e textos.",
+                "Restringe a interação social em sala de aula, pois o foco exclusivo é o uso de softwares educativos de repetição e treino."
+            ],
+            correct: 2,
+            resolution: "O Ensino Híbrido não é apenas usar computador, mas integrar o online e o presencial. O aluno tem controle sobre o tempo e ritmo no digital, enquanto o presencial é potencializado para colaboração e mediação docente."
+        },
+        {
+            id: 9,
+            question: "A teoria curricular é um campo de disputa política e pedagógica que fundamenta a ação docente. Libâneo (2001) destaca que existem diferentes níveis de currículo que operam simultaneamente na escola. Assinale a alternativa que descreve corretamente o currículo real.",
+            options: [
+                "Refere-se ao currículo estabelecido pelos sistemas de ensino, expresso em diretrizes, objetivos e planos oficiais.",
+                "É o conjunto de influências e aprendizagens não explícitas que ocorrem no ambiente escolar, através das relações sociais e da cultura institucional.",
+                "É o currículo que de fato acontece na sala de aula, em decorrência do projeto pedagógico e da execução dos planos de ensino pelos docentes e alunos.",
+                "Corresponde exclusivamente aos manuais didáticos e livros de texto adotados pela coordenação pedagógica.",
+                "Trata-se do currículo sonhado pela equipe gestora, que permanece no campo das ideias sem nunca ser executado."
+            ],
+            correct: 2,
+            resolution: "Libâneo divide em: Formal (documentos oficiais), Oculto (implícito/relações) e Real (o que de fato acontece na aula entre professor e alunos)."
+        },
+        {
+            id: 10,
+            question: "O planejamento educacional possui uma dimensão política constitutiva, pois expressa concepções de educação, de sociedade e de sujeito. Na perspectiva da ação docente crítica, o planejamento é compreendido como um ato que",
+            options: [
+                "deve ser neutro e meramente procedimental, focando na organização técnica dos meios para atingir fins puramente instrucionais.",
+                "envolve a reflexão sistemática sobre as condições concretas de aprendizagem e as contradições entre o currículo prescrito e o currículo vivido.",
+                "serve primordialmente para fiscalizar o cumprimento das horas-aula e a entrega de documentos burocráticos à secretaria de educação.",
+                "se organiza pela definição prévia de objetivos mensuráveis e pela seleção de meios eficientes, ignorando os efeitos formativos não antecipados.",
+                "deve ser dissociado do Projeto Político Pedagógico (PPP), uma vez que cada disciplina deve seguir sua própria lógica científica interna."
+            ],
+            correct: 1,
+            resolution: "O planejamento crítico é político-pedagógico. Exige refletir sobre a realidade do aluno e as contradições do sistema, buscando uma prática que vá além do técnico e atinja a emancipação."
+        }
+    ];
+
+    function initQuiz() {
+        const quizForm = document.getElementById('quiz-form');
+        let html = '';
+
+        quizData.forEach((q, index) => {
+            html += `
+            <div class="question-card" id="q-card-${index}">
+                <span class="question-header">QUESTÃO ${index + 1}</span>
+                <span class="question-text">${q.question}</span>
+                <ul class="options-list">
+                    ${q.options.map((opt, i) => `
+                        <li class="option-item">
+                            <label class="option-label" id="label-${index}-${i}">
+                                <input type="radio" name="question-${index}" value="${i}">
+                                <span>${String.fromCharCode(65 + i)}) ${opt}</span>
+                            </label>
+                        </li>
+                    `).join('')}
+                </ul>
+                <div class="resolution-box" id="res-${index}">
+                    <h4>Gabarito Comentado</h4>
+                    <p><strong>Alternativa Correta: ${String.fromCharCode(65 + q.correct)}</strong></p>
+                    <p>${q.resolution}</p>
+                </div>
+            </div>
+            `;
+        });
+
+        quizForm.innerHTML = html;
+
+        // Adicionar listener para marcar visualmente a opção selecionada
+        document.querySelectorAll('.option-label input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const name = e.target.name;
+                const parent = e.target.closest('.options-list');
+                parent.querySelectorAll('.option-label').forEach(label => label.classList.remove('selected'));
+                e.target.closest('.option-label').classList.add('selected');
+            });
+        });
+    }
+
+    function checkAnswers() {
+        let score = 0;
+        let unanswered = false;
+
+        quizData.forEach((q, index) => {
+            const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+            
+            if (!selected) {
+                unanswered = true;
+            } else if (parseInt(selected.value) === q.correct) {
+                score++;
+            }
+
+            // Mostrar resoluções
+            document.getElementById(`res-${index}`).style.display = 'block';
+
+            // Feedback Visual nas opções
+            q.options.forEach((opt, i) => {
+                const label = document.getElementById(`label-${index}-${i}`);
+                if (i === q.correct) {
+                    label.classList.add('correct-answer');
+                } else if (selected && parseInt(selected.value) === i) {
+                    label.classList.add('wrong-answer');
+                }
+            });
+        });
+
+        // Mostrar Resultado no Topo
+        document.getElementById('result-section').style.display = 'block';
+        document.getElementById('score-display').innerText = `${score} / 10`;
+        
+        // Rolar para o resultado
+        document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+
+        // Desabilitar botão e inputs
+        document.getElementById('submit-btn').disabled = true;
+        document.getElementById('submit-btn').style.opacity = '0.5';
+        document.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
+        
+        if (unanswered) {
+            alert("Atenção: Você não respondeu todas as questões. Confira as resoluções de todo o conteúdo abaixo.");
+        }
+    }
+
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: A Avaliação no Processo de Ensino-Aprendizagem</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #2d3436;
+            --primary-color: #0984e3;
+            --secondary-color: #636e72;
+            --border-color: #dfe6e9;
+            --success-color: #27ae60;
+            --error-color: #d63031;
+            --card-bg: #ffffff;
+            --max-width: 850px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Georgia, serif; /* Fonte com boa legibilidade para textos longos */
+            line-height: 1.65;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-label:hover {
+            background-color: #f1f2f6;
+            border-color: var(--primary-color);
+        }
+
+        .option-label input {
+            margin-right: 15px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        /* Styles for results */
+        .option-label.correct {
+            background-color: #e6f7ee;
+            border-color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .option-label.incorrect {
+            background-color: #fff0f0;
+            border-color: var(--error-color);
+        }
+
+        .resolution-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            display: none; /* Hidden until finish */
+        }
+
+        .resolution-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0773c5;
+        }
+
+        #result-summary {
+            display: none;
+            text-align: center;
+            background: #e1f5fe;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .score-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .question-card { padding: 20px; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Simulado: Avaliação no Processo de Ensino-Aprendizagem</h1>
+            <p class="subtitle">Estilo Instituto AOCP - 10 Questões Completas</p>
+        </header>
+
+        <div id="result-summary">
+            <p>Simulado Concluído!</p>
+            <div class="score-text" id="score-display">0 / 10</div>
+            <p>Confira as resoluções detalhadas abaixo.</p>
+        </div>
+
+        <form id="quiz-form">
+            <div id="quiz-container">
+                <!-- Questões serão inseridas via JS -->
+            </div>
+
+            <div class="controls">
+                <button type="button" id="submit-btn" class="btn">Finalizar e Ver Resoluções</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                q: "Uma instituição de ensino técnico e profissionalizante, ao reestruturar seu Projeto Político-Pedagógico (PPP), estabeleceu que a avaliação da aprendizagem deve ser compreendida como um processo dinâmico e multidimensional. Para operacionalizar essa diretriz, a coordenação pedagógica orientou os docentes a implementarem três momentos avaliativos distintos em cada unidade temática: o primeiro, destinado a identificar o nível de prontidão e as âncoras cognitivas dos estudantes antes de novos conteúdos; o segundo, focado no acompanhamento das hipóteses construídas pelos alunos durante as atividades práticas, permitindo a regulação imediata do ensino; e o terceiro, voltado para a síntese dos resultados alcançados em relação aos objetivos curriculares previstos, com fins de certificação e progressão. Com base na taxonomia das funções da avaliação, essas modalidades são classificadas, respectivamente, como:",
+                options: [
+                    "Avaliação Institucional; Avaliação Somativa; Avaliação Diagnóstica.",
+                    "Avaliação Diagnóstica; Avaliação Formativa; Avaliação Somativa.",
+                    "Avaliação Qualitativa; Avaliação Processual; Avaliação Finalística.",
+                    "Avaliação de Larga Escala; Avaliação de Desempenho; Avaliação de Redes.",
+                    "Avaliação Dialógica; Avaliação Cognitiva; Avaliação Meritocrática."
+                ],
+                correct: 1,
+                resolution: "A análise dos três momentos descritos no enunciado remete às funções clássicas: o mapeamento de âncoras cognitivas inicial é a Diagnóstica; o acompanhamento processual para regulação é a Formativa; e a síntese final para certificação é a Somativa."
+            },
+            {
+                q: "Cipriano Luckesi, em sua obra \"Avaliação da Aprendizagem Escolar: estudos e proposições\" (2011), realiza uma crítica contundente ao que denomina \"pedagogia do exame\", que historicamente moldou as práticas educativas brasileiras. Segundo a análise do autor, a centralidade dos exames no cotidiano escolar produz consequências específicas no comportamento de professores e alunos. Sobre as características da pedagogia do exame defendidas por Luckesi, assinale a alternativa correta:",
+                options: [
+                    "A pedagogia do exame promove a autonomia do educando, uma vez que o sucesso nos testes depende exclusivamente do esforço individual e da autogestão do conhecimento.",
+                    "O foco da escola desloca-se do processo de ensino-aprendizagem para a obtenção de notas, transformando a avaliação em um instrumento de controle, pressão social e exclusão dos alunos que não atingem padrões médios.",
+                    "Os exames escolares, na perspectiva de Luckesi, são ferramentas fundamentais para o diagnóstico pedagógico, permitindo que o professor acolha o erro como ponto de partida para a intervenção.",
+                    "A pedagogia do exame caracteriza-se pelo uso de instrumentos qualitativos e pareceres descritivos que priorizam a evolução subjetiva do estudante em detrimento da classificação.",
+                    "O sistema de exames fortalece o compromisso social da escola, pois garante a padronização dos resultados e a isonomia no acesso aos níveis superiores de ensino."
+                ],
+                correct: 1,
+                resolution: "Para Luckesi, a pedagogia do exame opera por meio do medo e do controle. O foco desloca-se da aprendizagem para a nota, resultando em exclusão e transformando a avaliação em um instrumento de pressão social."
+            },
+            {
+                q: "Jussara Hoffmann, expoente da teoria da \"Avaliação Mediadora\", propõe uma ruptura com o modelo tradicional de correção e atribuição de conceitos. Para a autora, avaliar mediatamente exige do professor uma postura investigativa e provocativa. Considerando os princípios da avaliação mediadora postulados por Hoffmann, assinale a alternativa que apresenta a conduta docente esperada em uma situação de erro por parte do estudante:",
+                options: [
+                    "O professor deve aplicar sanções pedagógicas e notas baixas para que o aluno perceba a gravidade do erro e se sinta motivado a estudar mais para a recuperação final.",
+                    "O erro deve ser ignorado para não afetar a autoestima do aluno, priorizando-se o avanço nos conteúdos previstos no cronograma escolar.",
+                    "O professor deve interpretar o erro como uma \"pista\" do estágio de raciocínio do aluno, oferecendo contra-argumentos, novas questões desafiadoras e materiais complementares que possibilitem a superação da dificuldade de forma processual.",
+                    "A avaliação mediadora preconiza que o erro seja corrigido imediatamente pelo professor no quadro negro, fornecendo a resposta correta para que o aluno a copie e memorize.",
+                    "O docente deve encaminhar o aluno com erros persistentes para o atendimento educacional especializado, uma vez que a avaliação mediadora é voltada apenas para alunos com desempenho regular."
+                ],
+                correct: 2,
+                resolution: "A Avaliação Mediadora propõe que o erro perca seu caráter punitivo e ganhe status epistemológico. O professor deve investigar o porquê do erro e oferecer provocações que levem o aluno a reformular suas hipóteses."
+            },
+            {
+                q: "A Lei de Diretrizes e Bases da Educação Nacional (LDB 9.394/96), em seu Artigo 24, estabelece critérios rigorosos para a organização da educação básica nos níveis fundamental e médio. No que tange à avaliação do desempenho escolar, a legislação brasileira determina que:",
+                options: [
+                    "A avaliação deve ser predominantemente quantitativa, visando à objetividade e à comparabilidade nacional dos resultados escolares.",
+                    "Deve-se priorizar o desempenho obtido em exames finais de encerramento de ciclo, em detrimento dos resultados parciais obtidos ao longo do ano letivo.",
+                    "É obrigatória a realização de provas mensais e bimestrais padronizadas pela direção escolar, proibindo-se o uso de trabalhos em grupo como critério avaliativo.",
+                    "Deve haver a prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados ao longo do período sobre os de eventuais provas finais.",
+                    "A avaliação deve servir exclusivamente para classificar os estudantes em níveis de proficiência, sendo vedada a utilização de critérios de progressão parcial."
+                ],
+                correct: 3,
+                resolution: "Conforme o Art. 24, inciso V, alínea 'a' da LDB, a avaliação deve ser contínua e cumulativa, com prevalência dos aspectos qualitativos sobre os quantitativos e dos resultados processuais sobre eventuais provas finais."
+            },
+            {
+                q: "Lev Vygotsky, ao discutir a relação entre desenvolvimento e aprendizagem, introduz o conceito de \"Zona de Desenvolvimento Proximal\" (ZPD), que possui implicações diretas para a prática avaliativa. Em uma perspectiva sociointeracionista, a avaliação da aprendizagem deve ser capaz de:",
+                options: [
+                    "Medir apenas o desenvolvimento real, ou seja, aquilo que o aluno já é capaz de realizar de forma totalmente independente e consolidada.",
+                    "Identificar o desenvolvimento potencial do estudante, avaliando o que ele consegue realizar com o auxílio do professor ou em colaboração com pares mais experientes.",
+                    "Ignorar as influências culturais e sociais, focando apenas nos processos biológicos de maturação do sistema nervoso central.",
+                    "Ser aplicada de forma individual e isolada, em ambiente controlado, para garantir que não haja interferência externa no raciocínio do aluno.",
+                    "Priorizar a memorização de conceitos científicos complexos, independentemente do nível de maturidade cognitiva apresentado pelo estudante."
+                ],
+                correct: 1,
+                resolution: "Na perspectiva de Vygotsky, a avaliação deve olhar para o futuro do desenvolvimento, identificando o que o aluno consegue realizar com mediação (ZPD), permitindo que o professor atue onde o aprendizado está amadurecendo."
+            },
+            {
+                q: "A avaliação na Educação Infantil apresenta especificidades normativas e pedagógicas que a distinguem dos demais níveis de ensino. De acordo com as Diretrizes Curriculares Nacionais para a Educação Infantil e a LDB 9.394/96, a avaliação nesta etapa deve ser realizada mediante:",
+                options: [
+                    "Aplicação de testes psicométricos para identificar precocemente crianças com superdotação ou deficiências cognitivas.",
+                    "Acompanhamento e registro do desenvolvimento das crianças, com o objetivo explícito de seleção e classificação para o ingresso no Ensino Fundamental.",
+                    "Avaliação somativa mensal, visando atribuir notas de 0 a 10 que servirão de base para a retenção da criança caso não atinja os objetivos de aprendizagem.",
+                    "Acompanhamento e registro do desenvolvimento das crianças, sem o objetivo de promoção, mesmo para o acesso ao Ensino Fundamental.",
+                    "Exames de proficiência em linguagem e matemática ao final de cada ano letivo, conforme padrões estabelecidos pelo Ministério da Educação."
+                ],
+                correct: 3,
+                resolution: "Na Educação Infantil, a avaliação é realizada para acompanhamento e registro do desenvolvimento, sem finalidade de retenção ou promoção, conforme os princípios de humanização e desenvolvimento integral desta etapa."
+            },
+            {
+                q: "Considere a seguinte situação hipotética: um professor de História, ao corrigir as avaliações dissertativas de uma turma de 9º ano, percebe que a maioria dos estudantes não compreendeu a relação de causalidade entre a crise de 1929 e a ascensão dos regimes totalitários na Europa. Em vez de apenas lançar as notas baixas no sistema, o professor decide retomar o conteúdo utilizando um documentário e um debate mediado, aplicando uma nova atividade diagnóstica em seguida. Essa postura docente reflete uma concepção de avaliação como:",
+                options: [
+                    "Um instrumento de punição e controle disciplinar, visando manter o silêncio e a ordem na sala de aula.",
+                    "Um processo burocrático de preenchimento de diários de classe, necessário para o cumprimento das obrigações administrativas do cargo.",
+                    "Um mecanismo dialógico e regulador do ensino, onde os resultados obtidos servem de feedback para a reconstrução da prática pedagógica.",
+                    "Uma etapa final e estanque do processo educativo, que se encerra com a atribuição da nota e a devolução da prova.",
+                    "Uma ferramenta de rotulação dos estudantes entre \"bons\" e \"maus\" alunos, facilitando a organização de salas de aula por nível de inteligência."
+                ],
+                correct: 2,
+                resolution: "Quando o professor utiliza os resultados da avaliação para reorientar sua própria prática e garantir que os alunos aprendam o que não ficou claro, ele usa a avaliação como mecanismo regulador e dialógico."
+            },
+            {
+                q: "Cipriano Luckesi (2005) discute a importância da \"disposição para acolher\" como ponto de partida para qualquer prática avaliativa que se pretenda diagnóstica e inclusiva. Sobre essa disposição subjetiva do avaliador, é correto afirmar que:",
+                options: [
+                    "Trata-se de uma postura passiva do professor, que deve aceitar qualquer resposta do aluno, mesmo que errada, para não gerar conflitos no ambiente escolar.",
+                    "Refere-se à capacidade do professor de suspender o julgamento prévio e a exclusão, recebendo o dado da realidade (o desempenho do aluno) tal como ele é, para somente então planejar a intervenção necessária.",
+                    "É uma técnica de relaxamento aplicada antes das provas para reduzir a ansiedade dos estudantes e melhorar os resultados estatísticos.",
+                    "Significa que o professor deve avaliar apenas os aspectos afetivos e sociais, ignorando o desempenho acadêmico e os conteúdos científicos.",
+                    "É uma disposição natural e inata de todo educador, dispensando estudos teóricos ou reflexões éticas sobre o ato de avaliar."
+                ],
+                correct: 1,
+                resolution: "O acolhimento em Luckesi significa receber a realidade do aluno sem pré-julgamentos, permitindo identificar a necessidade de intervenção sem excluir o estudante do processo pedagógico."
+            },
+            {
+                q: "A avaliação institucional, componente essencial do Sistema Nacional de Avaliação da Educação Básica (Saeb), diferencia-se da avaliação da aprendizagem realizada em sala de aula. Sobre as funções da avaliação de redes e sistemas, analise as assertivas abaixo e assinale a alternativa correta:",
+                options: [
+                    "A avaliação de redes foca exclusivamente no desempenho individual de cada aluno, servindo de base para a reprovação em massa em escolas com baixo Ideb.",
+                    "O principal objetivo da avaliação institucional externa é fornecer dados em larga escala que permitam o monitoramento da qualidade do ensino e a formulação de políticas públicas educacionais.",
+                    "A avaliação de larga escala substitui a necessidade da avaliação realizada pelo professor, pois é mais precisa e imparcial.",
+                    "Os resultados da avaliação externa não devem ser compartilhados com as escolas, para evitar o estigma social das instituições com piores índices.",
+                    "A avaliação externa é opcional para as redes estaduais e municipais, possuindo apenas caráter consultivo e sem impacto no financiamento da educação."
+                ],
+                correct: 1,
+                resolution: "Diferente da avaliação de sala de aula, a avaliação de rede (SAEB) tem foco macro: coletar dados para monitorar a qualidade do sistema e subsidiar políticas públicas educacionais em larga escala."
+            },
+            {
+                q: "No contexto das metodologias ativas e do uso de Tecnologias Digitais de Informação e Comunicação (TDIC), a avaliação da aprendizagem assume novos contornos. De acordo com a literatura pedagógica contemporânea e as diretrizes da Base Nacional Comum Curricular (BNCC), o uso de tecnologias no processo avaliativo deve:",
+                options: [
+                    "Substituir completamente o papel do professor, uma vez que algoritmos de inteligência artificial são capazes de avaliar a subjetividade humana com perfeição.",
+                    "Ser utilizado apenas como ferramenta de diversão e entretenimento, sem qualquer vinculação com os objetivos de aprendizagem previstos no currículo.",
+                    "Funcionar como um suporte para a diversificação de instrumentos, permitindo feedbacks mais rápidos, a criação de portfólios digitais e o acompanhamento personalizado das trajetórias de aprendizagem.",
+                    "Restringir-se à aplicação de questionários de múltipla escolha (quizzes), visando à automatização da correção e à redução da carga horária docente.",
+                    "Ser evitado, pois o uso de dispositivos digitais em sala de aula desvia o foco do aluno e impede a realização de avaliações sérias e rigorosas."
+                ],
+                correct: 2,
+                resolution: "As tecnologias no processo avaliativo devem diversificar os instrumentos (portfólios, feedbacks rápidos) e permitir uma visão mais personalizada da trajetória de cada estudante."
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const summary = document.getElementById('result-summary');
+        const scoreDisplay = document.getElementById('score-display');
+
+        // Renderizar questões
+        function loadQuiz() {
+            quizData.forEach((data, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question-card');
+                questionDiv.id = `q-card-${index}`;
+
+                let optionsHTML = '';
+                data.options.forEach((option, optIndex) => {
+                    const char = String.fromCharCode(65 + optIndex); // A, B, C...
+                    optionsHTML += `
+                        <li class="option-item">
+                            <label class="option-label" id="label-${index}-${optIndex}">
+                                <input type="radio" name="question${index}" value="${optIndex}">
+                                <span>(${char}) ${option}</span>
+                            </label>
+                        </li>
+                    `;
+                });
+
+                questionDiv.innerHTML = `
+                    <span class="question-text">Questão ${index + 1}</span>
+                    <p style="margin-bottom: 25px;">${data.q}</p>
+                    <ul class="options-list">
+                        ${optionsHTML}
+                    </ul>
+                    <div class="resolution-box" id="res-${index}">
+                        <span class="resolution-title">Resolução e Comentário</span>
+                        <p>${data.resolution}</p>
+                    </div>
+                `;
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function calculateResults() {
+            let score = 0;
+            const form = document.getElementById('quiz-form');
+
+            quizData.forEach((data, qIndex) => {
+                const selected = form.querySelector(`input[name="question${qIndex}"]:checked`);
+                const resolutionBox = document.getElementById(`res-${qIndex}`);
+                
+                // Mostrar a resolução
+                resolutionBox.style.display = 'block';
+
+                // Destacar respostas
+                data.options.forEach((_, optIndex) => {
+                    const label = document.getElementById(`label-${qIndex}-${optIndex}`);
+                    
+                    if (optIndex === data.correct) {
+                        label.classList.add('correct');
+                    }
+                    
+                    if (selected && parseInt(selected.value) === optIndex && optIndex !== data.correct) {
+                        label.classList.add('incorrect');
+                    }
+                });
+
+                if (selected && parseInt(selected.value) === data.correct) {
+                    score++;
+                }
+            });
+
+            // Mostrar resumo
+            summary.style.display = 'block';
+            scoreDisplay.textContent = `${score} / ${quizData.length}`;
+            
+            // Rolar para o topo para ver o resultado
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Desativar inputs para evitar mudar após o fim
+            const allInputs = form.querySelectorAll('input');
+            allInputs.forEach(input => input.disabled = true);
+            submitBtn.style.display = 'none';
+        }
+
+        submitBtn.addEventListener('click', calculateResults);
+
+        // Inicializar
+        loadQuiz();
+    </script>
+</body>
+</html>

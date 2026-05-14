@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Estudo: Avaliação da Aprendizagem - IFCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1f2937;
+            scroll-behavior: smooth;
+        }
+
+        mark {
+            background-color: #fef08a; /* Amarelo suave */
+            color: #1f2937;
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .section-card {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            min-width: 600px; /* Garante legibilidade em telas muito pequenas */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+
+        .flashcard {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .flashcard:hover {
+            border-color: #27ae60;
+        }
+
+        .label-ifce {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-10 text-center md:text-left">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Avaliação no Processo de Ensino-Aprendizagem</h1>
+            <p class="text-lg text-gray-600 italic">Aula Didática & Resumo Estratégico para Professor EBTT - IFCE</p>
+            <div class="mt-4 inline-flex items-center text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200">
+                Banca Instituo AOCP
+            </div>
+        </header>
+
+        <!-- Player de Áudio -->
+        <div class="bg-gray-50 border border-gray-200 p-6 rounded-2xl mb-10">
+            <div class="flex items-center gap-3 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+                <span class="font-bold text-gray-700">Revisão Auditiva:</span>
+            </div>
+            <audio controls class="w-full">
+                <!-- ESPAÇO PARA O ARQUIVO MP3 -->
+                <source src="aula_avaliacao_completa.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <p class="text-xs text-gray-500 mt-2 text-center italic">Dica: Ouça o áudio enquanto acompanha os grifos abaixo.</p>
+        </div>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">01</span>
+                Definição e Dimensões Essenciais
+            </h2>
+            <div class="space-y-4 text-gray-700">
+                <p>A avaliação nos Institutos Federais deve ser um <mark>processo dialógico</mark> que retroalimenta o ensino. O maior peguinha da AOCP é confundir <strong>Exame</strong> com <strong>Avaliação</strong>.</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="border border-red-100 bg-red-50/30 p-4 rounded-xl">
+                        <h4 class="font-bold text-red-700 mb-2">Exame (Luckesi)</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Pontual e Classificatório</li>
+                            <li>• <mark>Excludente</mark> e Autoritário</li>
+                            <li>• Foco apenas na nota/produto</li>
+                        </ul>
+                    </div>
+                    <div class="border border-green-100 bg-green-50/30 p-4 rounded-xl">
+                        <h4 class="font-bold text-green-700 mb-2">Avaliação (Real)</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Processual e Diagnóstica</li>
+                            <li>• <mark>Inclusiva</mark> e Democrática</li>
+                            <li>• Foco na aprendizagem/meio</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">02</span>
+                As Três Funções (Mantra da Prova)
+            </h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Função</th>
+                            <th>Momento</th>
+                            <th>Foco Principal</th>
+                            <th>Termos Chave para AOCP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-bold text-blue-700">Diagnóstica</td>
+                            <td>Início / Durante</td>
+                            <td>Conhecimentos prévios</td>
+                            <td><mark>Subsunçores</mark>, Mapeamento, Preventiva.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-green-700">Formativa</td>
+                            <td>Durante</td>
+                            <td>Regular o ensino</td>
+                            <td><mark>Feedback</mark>, Processual, Mediadora.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-orange-700">Somativa</td>
+                            <td>Final</td>
+                            <td>Classificar / Certificar</td>
+                            <td>Produto, <mark>Nota</mark>, Inventário.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">03</span>
+                Legislação e Normas Técnicas
+            </h2>
+            <div class="space-y-6">
+                <div class="bg-white p-4 border-l-4 border-blue-500 shadow-sm">
+                    <h3 class="font-bold text-blue-800 mb-2 italic">LDB Art. 24, V: A Regra de Ouro</h3>
+                    <p class="text-gray-700">A avaliação deve ser <strong>contínua e cumulativa</strong>. Guarde a hierarquia:</p>
+                    <ul class="list-disc ml-5 mt-2 text-gray-600 space-y-1">
+                        <li><mark>Qualitativo > Quantitativo</mark></li>
+                        <li><mark>Processo > Provas Finais</mark></li>
+                        <li>Recuperação: <mark>Obrigatória e Preferencialmente Paralela</mark></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-3 underline decoration-green-500">Normativas IFCE (ROD)</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <span class="text-xs font-bold text-gray-400">NOTAS</span>
+                            <p class="text-sm">Nota mínima: <mark>6,0 (Técnico)</mark> e <mark>7,0 (Graduação)</mark>.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <span class="text-xs font-bold text-gray-400">PROVA FINAL</span>
+                            <p class="text-sm">Direito à Final se média <mark>> 3,0</mark>. Aprovação final com média <mark>≥ 5,0</mark>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">04</span>
+                O Trio de Ouro dos Teóricos
+            </h2>
+            <div class="space-y-4">
+                <div class="flex gap-4 items-start">
+                    <div class="hidden sm:block text-2xl">🎓</div>
+                    <div>
+                        <p><strong>Cipriano Luckesi:</strong> A avaliação é um ato de <mark>acolhimento</mark>. Combate a "Pedagogia do Exame".</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div class="hidden sm:block text-2xl">🌱</div>
+                    <div>
+                        <p><strong>Jussara Hoffmann:</strong> <mark>Avaliação Mediadora</mark>. O erro é um "trampolim". Ação-Reflexão-Ação.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div class="hidden sm:block text-2xl">📐</div>
+                    <div>
+                        <p><strong>Celso Vasconcellos:</strong> Avaliação vinculada ao <mark>Planejamento</mark>. Superação da burocracia das notas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">05</span>
+                Geografia: Avaliação na Prática EBTT
+            </h2>
+            <p class="text-gray-700 mb-4">A AOCP avalia se o professor sabe aplicar a teoria à disciplina:</p>
+            <ul class="space-y-3">
+                <li class="flex items-center gap-2">
+                    <span class="text-green-500">✔</span> <strong>Raciocínio Geográfico:</strong> Avaliar a <mark>análise espacial</mark> (Espaço, Lugar, Território).
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-green-500">✔</span> <strong>Instrumentos:</strong> Mapas temáticos, trabalhos de campo e currículo integrado.
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-green-500">✔</span> <strong>Crítica:</strong> Avaliar se o aluno lê o mundo e as desigualdades através do espaço.
+                </li>
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">06</span>
+                Checklist de Peguinhas (AOCP)
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="p-4 border border-orange-200 rounded-xl bg-orange-50/30">
+                    <h4 class="font-bold text-orange-800 mb-2">❌ Cuidado com:</h4>
+                    <ul class="text-sm space-y-2 text-orange-900">
+                        <li>• Termos: "apenas", "exclusivamente", "unilateral".</li>
+                        <li>• Dizer que avaliação e medição são sinônimos.</li>
+                        <li>• Afirmar que a recuperação é punitiva.</li>
+                    </ul>
+                </div>
+                <div class="p-4 border border-green-200 rounded-xl bg-green-50/30">
+                    <h4 class="font-bold text-green-800 mb-2">✅ Busque por:</h4>
+                    <ul class="text-sm space-y-2 text-green-900">
+                        <li>• "Contínua", "Processual", "Emancipatória".</li>
+                        <li>• "Reorientação da prática docente".</li>
+                        <li>• "Democratização do saber".</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Flash-Cards para Memorização Rápida</h2>
+            
+            <div class="flashcard">
+                <span class="label-ifce">QUESTÃO DE PROVA</span>
+                <p class="font-medium text-gray-800">A avaliação somativa atende plenamente aos princípios da LDB?</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Resposta:</strong> Não. A LDB prioriza a <mark>formativa</mark>. A somativa é apenas o registro burocrático final.</p>
+            </div>
+
+            <div class="flashcard">
+                <span class="label-ifce">AUTOR CLÁSSICO</span>
+                <p class="font-medium text-gray-800">Qual o conceito principal de Jussara Hoffmann?</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Resposta:</strong> <mark>Avaliação Mediadora</mark>. Onde o professor intervém para desafiar o aluno a ir além.</p>
+            </div>
+
+            <div class="flashcard">
+                <span class="label-ifce">LEGISLAÇÃO</span>
+                <p class="font-medium text-gray-800">Qual a regra para recuperação no IFCE?</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Resposta:</strong> <mark>Obrigatória</mark> e deve ser, preferencialmente, <mark>paralela</mark> ao período letivo.</p>
+            </div>
+        </section>
+
+        <div class="text-center py-10 border-t border-gray-100">
+            <p class="text-gray-500 mb-6 font-medium">Pronto para testar seus conhecimentos?</p>
+            <a href="avaliacao_aprendizagemquestoes.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transform hover:-translate-y-1 transition duration-300">
+                PRATICAR COM QUESTÕES →
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-gray-400 text-xs pb-10">
+        &copy; 2024 Guia de Estudo Especializado - Foco IFCE / EBTT
+    </footer>
+
+</body>
+</html>

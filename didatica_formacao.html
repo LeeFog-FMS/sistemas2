@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo Didática - IFCE / AOCP</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --accent-green: #27ae60;
+            --highlight-yellow: #fff9c4;
+            --border-color: #eeeeee;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--accent-green);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 2rem; color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .audio-section {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .audio-section p { margin-top: 0; font-weight: bold; color: var(--accent-green); }
+        audio { width: 100%; }
+
+        section { margin-bottom: 45px; }
+        h2 { 
+            color: #2c3e50; 
+            font-size: 1.5rem; 
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h3 { color: var(--accent-green); font-size: 1.2rem; margin-top: 30px; }
+
+        .highlight {
+            background-color: var(--highlight-yellow);
+            font-weight: 600;
+            padding: 0 3px;
+        }
+
+        .table-container {
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden; /* Remove scroll horizontal se possível */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            table-layout: auto;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        th { background-color: #f9f9f9; font-weight: bold; color: #333; }
+
+        .info-box {
+            background-color: #fafafa;
+            border-left: 5px solid var(--accent-green);
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .peguinha {
+            background-color: #fff5f5;
+            border: 1px dashed #e74c3c;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .btn-footer {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 60px auto;
+            background-color: var(--accent-green);
+            color: white;
+            text-align: center;
+            padding: 18px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-footer:hover { transform: translateY(-2px); }
+
+        @media (max-width: 640px) {
+            th, td { padding: 8px; font-size: 0.85rem; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Didática e Formação de Professores</h1>
+        <p class="subtitle">Foco Total: Concurso IFCE - Banca Instituto AOCP</p>
+    </header>
+
+    <div class="audio-section">
+        <p>🎧 Revisão em Áudio (Substitua o arquivo abaixo):</p>
+        <audio controls>
+            <source src="revisao_didatica_ifce.mp3" type="audio/mpeg">
+            Seu navegador não suporta áudio.
+        </audio>
+    </div>
+
+    <section>
+        <h2>1. Definição e O Papel da Didática</h2>
+        <p>A Didática não é apenas "técnica". Para Libâneo (referência da banca), ela estuda o <strong>processo de ensino em sua globalidade</strong>. </p>
+        <div class="info-box">
+            <ul>
+                <li><strong>Dimensão Política:</strong> Para que ensinar? (Objetivos sociais).</li>
+                <li><strong>Dimensão Técnica:</strong> Como ensinar? (Métodos e organização).</li>
+                <li><strong>Nexo:</strong> É o elo entre a <span class="highlight">Teoria Pedagógica</span> e a <span class="highlight">Prática de Sala de Aula</span>.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Abordagens do Processo (Mizukami)</h2>
+        <p>A AOCP costuma cobrar a identificação dessas 5 abordagens através de termos-chave:</p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Abordagem</th>
+                        <th>Palavra-Chave</th>
+                        <th>Foco Principal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tradicional</strong></td>
+                        <td>Memória / Verdade</td>
+                        <td>Professor como autoridade máxima.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Comportamentalista</strong></td>
+                        <td><span class="highlight">Skinner / Reforço</span></td>
+                        <td>Controle de comportamento e eficiência.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Humanista</strong></td>
+                        <td>Rogers / Sentimento</td>
+                        <td>Autoavaliação e relação interpessoal.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cognitivista</strong></td>
+                        <td>Piaget / Construção</td>
+                        <td>Processos mentais e erro construtivo.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sociocultural</strong></td>
+                        <td>Freire / Diálogo</td>
+                        <td>Conscientização e cultura do aluno.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Formação Docente: Racionalidades e Saberes</h2>
+        <h3>Modelos de Racionalidade (Donald Schön)</h3>
+        <ul>
+            <li><strong>Racionalidade Técnica:</strong> Professor como <span class="highlight">executor de manuais</span>. Aplica regras prontas.</li>
+            <li><strong>Racionalidade Prática:</strong> Professor <span class="highlight">Reflexivo</span>. Reflexão <em>na</em> ação e <em>sobre</em> a ação.</li>
+            <li><strong>Racionalidade Crítica:</strong> Professor como <span class="highlight">Intelectual Transformador</span>. Prática política.</li>
+        </ul>
+
+        <h3>Saberes da Docência (Selma Garrido Pimenta)</h3>
+        <p>A identidade do professor é formada por três tipos de saberes:</p>
+        <ol>
+            <li><strong>Saberes da Experiência:</strong> O cotidiano, o "chão da escola".</li>
+            <li><strong>Saberes do Conhecimento:</strong> A matéria específica (Geografia).</li>
+            <li><strong>Saberes Pedagógicos:</strong> A didática, a psicologia e a estrutura do ensino.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>4. Tendências Pedagógicas (O Topo das Questões)</h2>
+        <p>Dividem-se em <strong>Liberais</strong> (mantêm o sistema) e <strong>Progressistas</strong> (transformam o sistema).</p>
+        
+        <div class="peguinha">
+            <strong>⚠️ Atenção à Inversão:</strong> A banca troca <span class="highlight">Crítico-Social dos Conteúdos (Libâneo)</span> por <span class="highlight">Histórico-Crítica (Saviani)</span>.
+            <br><em>Dica:</em> Libâneo foca no <strong>conteúdo universal</strong> como arma; Saviani foca na <strong>superação da marginalidade</strong> pelo saber.
+        </div>
+
+        <h3>A. Liberais</h3>
+        <ul>
+            <li><strong>Tradicional:</strong> Intelectual e moral.</li>
+            <li><strong>Renovada Progressivista:</strong> "Aprender a aprender". Foco no aluno ativo.</li>
+            <li><strong>Tecnicista:</strong> Eficiência e produtividade (mão de obra).</li>
+        </ul>
+
+        <h3>B. Progressistas</h3>
+        <ul>
+            <li><strong>Libertadora:</strong> Diálogo e Temas Geradores (Freire).</li>
+            <li><strong>Libertária:</strong> Autogestão e coletivo.</li>
+            <li><strong>Crítico-Social dos Conteúdos:</strong> Conteúdo científico + Crítica social.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>5. Radar AOCP: Peguinhas e EBTT</h2>
+        <div class="info-box">
+            <strong>Checklist de Prova:</strong>
+            <ul>
+                <li><strong>Avaliação:</strong> Diagnóstica (Início), Formativa (Processo), Somativa (Final/Notas).</li>
+                <li><strong>IFCE (Lei 11.892):</strong> Foco na <span class="highlight">Indissociabilidade</span> entre Ensino, Pesquisa e Extensão.</li>
+                <li><strong>EPT:</strong> Trabalho como princípio educativo e <span class="highlight">Formação Humana Integral</span>.</li>
+                <li><strong>LDB Art. 13:</strong> Docentes <strong>participam</strong> da elaboração da proposta (não a fazem isolados).</li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="btn-container">
+        <a href="didatica_formacaoquestoes.html" class="btn-footer">Ir para o Banco de Questões</a>
+    </div>
+
+</div>
+
+</body>
+</html>
