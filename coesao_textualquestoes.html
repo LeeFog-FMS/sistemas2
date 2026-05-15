@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Coesão Textual e Referenciação - Instituto AOCP</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --container-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #546e7a;
+            --accent-color: #2980b9;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Georgia, serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .question-card {
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .text-support {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: #34495e;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .enunciado {
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option-item:hover {
+            background-color: #f1f8ff;
+            border-color: var(--accent-color);
+        }
+
+        .option-item input {
+            margin-right: 15px;
+            margin-top: 7px;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #1f6391;
+        }
+
+        /* Results Section */
+        #results-section {
+            display: none;
+            margin-top: 50px;
+            padding: 40px;
+            background: #fff;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+        }
+
+        .score-box {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .resolution-card {
+            border-top: 1px solid var(--border-color);
+            padding-top: 25px;
+            margin-top: 25px;
+        }
+
+        .correct-answer-label {
+            color: var(--success-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .resolution-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            background: #fcfcfc;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .selected-correct {
+            background-color: #d4edda !important;
+            border-color: #c3e6cb !important;
+        }
+
+        .selected-wrong {
+            background-color: #f8d7da !important;
+            border-color: #f5c6cb !important;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulado Especializado: Coesão e Referenciação</h1>
+        <p class="subtitle">Padrão Instituto AOCP - 10 Questões Inéditas e Adaptadas</p>
+    </header>
+
+    <form id="quiz-form">
+        <!-- Questão 1 -->
+        <div class="question-card" id="q1">
+            <span class="question-number">Questão 1</span>
+            <div class="text-support">
+                <strong>Texto de apoio:</strong><br>
+                A ciência contemporânea costuma ser descrita como uma sucessão linear de descobertas, cada uma delas atribuída a uma mente excepcional. Essa descrição, embora simplista e confortável para o senso comum, é incompleta. Ideias científicas não emergem no vazio. Elas dependem de um sistema complexo que contém instrumentos, linguagem e dados acumulados... Nesse contexto, a inovação não é o produto isolado de um gênio, mas o resultado de uma infraestrutura que a sustenta.
+            </div>
+            <p class="enunciado">Considerando os mecanismos de coesão e referenciação presentes no texto acima, assinale a alternativa correta.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q1" value="A"> A) O pronome demonstrativo "Essa", em "Essa descrição", desempenha uma função de coesão catafórica, pois antecipa a ideia de que a descrição é incompleta.</label>
+                <label class="option-item"><input type="radio" name="q1" value="B"> B) Em "atribuída a uma mente excepcional. Essa descrição...", o termo destacado funciona como um mecanismo de reiteração anafórica, retomando o conceito de a ciência ser vista como uma sucessão linear.</label>
+                <label class="option-item"><input type="radio" name="q1" value="C"> C) No trecho "Elas dependem de um sistema complexo", o pronome pessoal reto "Elas" refere-se anaphoricamente ao termo "comunidades".</label>
+                <label class="option-item"><input type="radio" name="q1" value="D"> D) O termo "o seguinte", que precede os dois-pontos, estabelece uma relação de coesão anafórica.</label>
+                <label class="option-item"><input type="radio" name="q1" value="E"> E) O pronome relativo "que", em "infraestrutura que a sustenta", tem como referente a palavra "produto".</label>
+            </div>
+        </div>
+
+        <!-- Questão 2 -->
+        <div class="question-card" id="q2">
+            <span class="question-number">Questão 2</span>
+            <div class="text-support">
+                <strong>Texto de apoio:</strong><br>
+                A gestão de recursos hídricos... exige um consumo hídrico massivo. Esses sistemas, a pleno vapor, precisam de ventilação constante para evitar o superaquecimento. Esse resfriamento, para ser eficiente e de menor custo, utiliza muita água, um recurso escasso em diversas regiões do globo. Diante desse cenário, é preciso 'beber da fonte'... No entanto, a Agência Internacional de Energia estima que, até 2026, o consumo de energia e água por esses centros atingirá níveis comparáveis ao do Japão, o qual já enfrenta desafios significativos em sua infraestrutura.
+            </div>
+            <p class="enunciado">Quanto aos elementos de coesão empregados no texto, assinale a alternativa que identifica corretamente a função do termo destacado.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q2" value="A"> A) Em "Esses sistemas", o pronome demonstrativo é utilizado para estabelecer uma coesão catafórica.</label>
+                <label class="option-item"><input type="radio" name="q2" value="B"> B) O termo "Esse resfriamento" retoma a ideia expressa no período anterior por meio de uma anáfora, consolidando a progressão temática ao especificar o tipo de sistema.</label>
+                <label class="option-item"><input type="radio" name="q2" value="C"> C) No trecho "o qual já enfrenta desafios", o pronome relativo "o qual" retoma o termo "Japão", funcionando como um recurso de substituição.</label>
+                <label class="option-item"><input type="radio" name="q2" value="D"> D) O pronome possessivo "sua", em "sua infraestrutura", refere-se anaphoricamente à "Agência Internacional de Energia".</label>
+                <label class="option-item"><input type="radio" name="q2" value="E"> E) Em "Essa é a verdadeira 'busca profunda'", o pronome destacado atua na coesão catafórica.</label>
+            </div>
+        </div>
+
+        <!-- Questão 3 -->
+        <div class="question-card" id="q3">
+            <span class="question-number">Questão 3</span>
+            <div class="text-support">
+                <strong>Texto de apoio:</strong><br>
+                A saúde mental no ambiente de trabalho tornou-se um dos temas mais discutidos... Especialistas destacam que 47% dos colaboradores que responderam a pesquisas afirmam que o estresse no trabalho impacta negativamente seu bem-estar mental... As relações sociais podem contribuir para que a prevenção do adoecimento mental aconteça, mas estas precisam ser cultivadas com intenção.
+            </div>
+            <p class="enunciado">Com base na análise dos elementos linguísticos do texto, assinale a alternativa correta.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q3" value="A"> A) O pronome possessivo "seu", presente em "seu bem-estar mental", faz referência aos "especialistas".</label>
+                <label class="option-item"><input type="radio" name="q3" value="B"> B) Em "alcançar esse patamar", o pronome demonstrativo "esse" possui função catafórica.</label>
+                <label class="option-item"><input type="radio" name="q3" value="C"> C) No trecho "Para garanti-las", o pronome pessoal oblíquo "las" tem como referente o termo "estratégias".</label>
+                <label class="option-item"><input type="radio" name="q3" value="D"> D) O pronome demonstrativo "estas", em "estas precisam ser cultivadas", é um recurso de coesão anafórico que remete às "relações sociais".</label>
+                <label class="option-item"><input type="radio" name="q3" value="E"> E) O termo "esta", em "pois esta é a única forma", atua na coesão catafórica do texto.</label>
+            </div>
+        </div>
+
+        <!-- Questão 4 -->
+        <div class="question-card" id="q4">
+            <span class="question-number">Questão 4</span>
+            <div class="text-support">
+                <strong>Texto de apoio:</strong><br>
+                O futebol, no Brasil, é esse fenômeno que leva à glória... Pelé ou Neymar, esse menino serve de espelho às esperanças de um povo inteiro a quem o futebol oferece uma oportunidade... Muitos desses jovens artistas, de cujo trabalho todos gostavam, enfrentam um problema exclusivo: a exclusão de planos de seguridade social.
+            </div>
+            <p class="enunciado">Assinale a alternativa que apresenta a análise correta dos mecanismos de referenciação e coesão textual.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q4" value="A"> A) O pronome relativo "quem", em "a quem o futebol oferece", tem como antecedente o substantivo "futebol".</label>
+                <label class="option-item"><input type="radio" name="q4" value="B"> B) No trecho "de cujo trabalho todos gostavam", o pronome relativo "cujo" estabelece uma relação de posse e retoma anaphoricamente o termo "jovens artistas".</label>
+                <label class="option-item"><input type="radio" name="q4" value="C"> C) O pronome pessoal oblíquo "os", em "o custo que os mantém ativos", funciona como um artigo definido.</label>
+                <label class="option-item"><input type="radio" name="q4" value="D"> D) Em "seu custo médio anual", o pronome possessivo "seu" faz referência catafórica ao termo "estudo recente".</label>
+                <label class="option-item"><input type="radio" name="q4" value="E"> E) O termo "o que", presente em "o que já o situa", é uma conjunção integrante.</label>
+            </div>
+        </div>
+
+        <!-- Questão 5 -->
+        <div class="question-card" id="q5">
+            <span class="question-number">Questão 5</span>
+            <div class="text-support">
+                <strong>Textos:</strong><br>
+                1. "Tem muita gente que implica com mentira. Se fosse tão ruim, estaria na lista das pedras que Moisés recebeu..."<br>
+                2. "O multitasking também reduz a criatividade, que é estimulada quando a mente está livre... Antes não dependíamos tanto da tecnologia, a qual hoje se tornou onipresente..."
+            </div>
+            <p class="enunciado">Assinale a alternativa em que o termo destacado funciona como um pronome relativo que retoma um antecedente e exerce função coesiva de anáfora.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q5" value="A"> A) Na frase "Tem muita gente que implica...", o "que" tem função de conjunção subordinativa adverbial.</label>
+                <label class="option-item"><input type="radio" name="q5" value="B"> B) Em "pedras que Moisés recebeu", o "que" é um pronome relativo que tem como antecedente o substantivo "pedras".</label>
+                <label class="option-item"><input type="radio" name="q5" value="C"> C) No trecho "narrativas fantásticas que serviam...", o "que" funciona como uma conjunção coordenativa.</label>
+                <label class="option-item"><input type="radio" name="q5" value="D"> D) Em "criatividade, que é estimulada...", o "que" é uma conjunção integrante.</label>
+                <label class="option-item"><input type="radio" name="q5" value="E"> E) Na expressão "tecnologia, a qual hoje se tornou...", o termo destacado é empregado de forma exofórica.</label>
+            </div>
+        </div>
+
+        <!-- Questão 6 -->
+        <div class="question-card" id="q6">
+            <span class="question-number">Questão 6</span>
+            <div class="text-support">
+                <strong>Texto de apoio:</strong><br>
+                Quando recebemos uma ligação, ela interrompe algo... É preciso saber de antemão qual será a duração do telefonema, pois existem opções com as quais podemos nos comunicar hoje sem causar tal intrusão. O vício em tecnologia pode estar ligado a quadros de depressão...
+            </div>
+            <p class="enunciado">Considerando os elementos de coesão e referenciação, analise as assertivas abaixo e assinale a alternativa correta.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q6" value="A"> A) No trecho "ela interrompe algo", o pronome pessoal "ela" retoma anaphoricamente o termo "ligação".</label>
+                <label class="option-item"><input type="radio" name="q6" value="B"> B) Em "opções com as quais", o termo destacado é um pronome relativo que retoma a palavra "telefonema".</label>
+                <label class="option-item"><input type="radio" name="q6" value="C"> C) O pronome demonstrativo "este", em "este exercício", possui natureza catafórica, pois retoma "vício em tecnologia".</label>
+                <label class="option-item"><input type="radio" name="q6" value="D"> D) Em "isso funciona como um farol", o pronome "isso" faz referência catafórica.</label>
+                <label class="option-item"><input type="radio" name="q6" value="E"> E) O termo "consigo mesmo" funciona como um mecanismo de coesão por sinonímia.</label>
+            </div>
+        </div>
+
+        <!-- Questão 7 -->
+        <div class="question-card" id="q7">
+            <span class="question-number">Questão 7</span>
+            <div class="text-support">
+                <strong>Frases:</strong><br>
+                1. "A receita para não sofrer é muito simples: basta 'matar' o amor."<br>
+                2. "Isso significa que a empresa pretendia remover da atmosfera a mesma quantidade de CO2 que emite."
+            </div>
+            <p class="enunciado">Assinale a alternativa que descreve corretamente o mecanismo de coesão catafórica ou anafórica nos trechos acima.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q7" value="A"> A) No primeiro texto, há uma catáfora, pois a explicação do referente ("matar o amor") surge depois do termo que o anuncia ("a receita").</label>
+                <label class="option-item"><input type="radio" name="q7" value="B"> B) No segundo texto, em "Isso significa que...", o pronome destacado estabelece uma coesão catafórica.</label>
+                <label class="option-item"><input type="radio" name="q7" value="C"> C) O termo "essas estruturas" funciona como uma anáfora que retoma especificamente a palavra "Japão".</label>
+                <label class="option-item"><input type="radio" name="q7" value="D"> D) Em "a mesma quantidade de CO2 que emite", o termo "que" estabelece uma relação catafórica.</label>
+                <label class="option-item"><input type="radio" name="q7" value="E"> E) No primeiro texto, ocorre uma dêixis situacional externa ao texto.</label>
+            </div>
+        </div>
+
+        <!-- Questão 8 -->
+        <div class="question-card" id="q8">
+            <span class="question-number">Questão 8</span>
+            <p class="enunciado">Assinale a alternativa em que o termo destacado funciona como pronome relativo, ou seja, tem a função de retomar um termo antecedente.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q8" value="A"> A) "Acreditamos <strong>que</strong> a música de Villa-Lobos é universal."</label>
+                <label class="option-item"><input type="radio" name="q8" value="B"> B) "Os anos <strong>que</strong> se passaram consolidaram sua fama."</label>
+                <label class="option-item"><input type="radio" name="q8" value="C"> C) "Dizem <strong>que</strong> o público não compreendeu a vanguarda."</label>
+                <label class="option-item"><input type="radio" name="q8" value="D"> D) "O regime exigia <strong>que</strong> os funcionários fossem leais."</label>
+                <label class="option-item"><input type="radio" name="q8" value="E"> E) "É necessário <strong>que</strong> a música seja preservada."</label>
+            </div>
+        </div>
+
+        <!-- Questão 9 -->
+        <div class="question-card" id="q9">
+            <span class="question-number">Questão 9</span>
+            <p class="enunciado">Assinale a alternativa em que o elemento destacado atua na coesão anafórica do texto, retomando um substantivo anteriormente mencionado.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q9" value="A"> A) "Esses sistemas de auditoria precisam de ventilação para evitar erros."</label>
+                <label class="option-item"><input type="radio" name="q9" value="B"> B) "A empresa emite relatórios; o qual é analisado pelo conselho."</label>
+                <label class="option-item"><input type="radio" name="q9" value="C"> C) "A contabilidade é uma ferramenta; <strong>ela</strong> garante a transparência."</label>
+                <label class="option-item"><input type="radio" name="q9" value="D"> D) "O seguinte ponto é vital: a transparência dos dados."</label>
+                <label class="option-item"><input type="radio" name="q9" value="E"> E) "Este ano comemoramos uma data importante; 2024."</label>
+            </div>
+        </div>
+
+        <!-- Questão 10 -->
+        <div class="question-card" id="q10">
+            <span class="question-number">Questão 10</span>
+            <div class="text-support">
+                "O multitasking reduz a criatividade, a qual é estimulada quando a mente está livre. Antes não dependíamos tanto da tecnologia, mas hoje ela é onipresente. O multitasking também traz riscos que devem ser monitorados."
+            </div>
+            <p class="enunciado">Analise o emprego dos pronomes relativos e pessoais no texto acima e assinale a alternativa correta.</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q10" value="A"> A) O pronome relativo "a qual" foi empregado em substituição ao vocábulo "que" para garantir a referenciação à expressão "criatividade".</label>
+                <label class="option-item"><input type="radio" name="q10" value="B"> B) O pronome pessoal "ela" refere-se anaphoricamente ao termo "mente".</label>
+                <label class="option-item"><input type="radio" name="q10" value="C"> C) O termo "que", em "riscos que devem ser monitorados", é uma conjunção integrante.</label>
+                <label class="option-item"><input type="radio" name="q10" value="D"> D) O uso de "a qual" constitui um caso de hipérbato.</label>
+                <label class="option-item"><input type="radio" name="q10" value="E"> E) Todos os pronomes destacados no texto possuem função catafórica.</label>
+            </div>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="gradeQuiz()">Finalizar Simulado e Ver Resoluções</button>
+    </form>
+
+    <div id="results-section">
+        <div class="score-box">
+            <h2>Resultado do Simulado</h2>
+            <div class="score-circle" id="score-display">0/10</div>
+            <p id="score-text">Você acertou 0 questões.</p>
+        </div>
+        
+        <div id="resolutions-container">
+            <!-- Resolutions will be injected here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const answers = {
+        q1: 'B', q2: 'C', q3: 'D', q4: 'B', q5: 'B',
+        q6: 'A', q7: 'A', q8: 'B', q9: 'C', q10: 'A'
+    };
+
+    const resolutions = {
+        q1: "O pronome demonstrativo iniciado por 'ESS-' (essa) retoma o que já foi dito (anáfora). No caso, retoma o conceito da ciência como sucessão linear.",
+        q2: "O pronome 'o qual' retoma o substantivo antecedente 'Japão', funcionando como elemento de coesão anafórica.",
+        q3: "O demonstrativo 'estas' retoma as 'relações sociais' mencionadas no período anterior.",
+        q4: "O pronome 'cujo' estabelece relação de posse e retoma o antecedente 'jovens artistas'.",
+        q5: "O 'que' em 'pedras que Moisés recebeu' pode ser trocado por 'as quais', provando ser pronome relativo que retoma 'pedras'.",
+        q6: "O pronome 'ela' substitui diretamente o substantivo 'ligação' para evitar repetição.",
+        q7: "A catáfora ocorre aqui porque 'a receita' antecipa a informação que virá depois dos dois-pontos: 'matar o amor'.",
+        q8: "Somente em B o 'que' retoma um substantivo ('anos'). Nas outras opções, trata-se de conjunção integrante completando verbos ou adjetivos.",
+        q9: "O pronome pessoal 'ela' é o recurso anafórico clássico para substituir o substantivo 'contabilidade'.",
+        q10: "'A qual' retoma 'criatividade'. Em B, 'ela' retoma 'tecnologia'. Em C, 'que' é pronome relativo."
+    };
+
+    function gradeQuiz() {
+        let score = 0;
+        const form = document.getElementById('quiz-form');
+        const resultsSection = document.getElementById('results-section');
+        const resolutionsContainer = document.getElementById('resolutions-container');
+        resolutionsContainer.innerHTML = '<h3>Resoluções Detalhadas:</h3>';
+
+        for (let i = 1; i <= 10; i++) {
+            const qKey = 'q' + i;
+            const selected = form.querySelector(`input[name="${qKey}"]:checked`);
+            const correctAnswer = answers[qKey];
+            
+            let isCorrect = false;
+            if (selected && selected.value === correctAnswer) {
+                score++;
+                isCorrect = true;
+            }
+
+            // Highlighting in the form
+            const questionDiv = document.getElementById(qKey);
+            const options = questionDiv.querySelectorAll('.option-item');
+            
+            options.forEach(opt => {
+                const input = opt.querySelector('input');
+                if (input.value === correctAnswer) {
+                    opt.classList.add('selected-correct');
+                } else if (selected && input === selected && !isCorrect) {
+                    opt.classList.add('selected-wrong');
+                }
+            });
+
+            // Adding to resolution section
+            const resDiv = document.createElement('div');
+            resDiv.className = 'resolution-card';
+            resDiv.innerHTML = `
+                <strong>Questão ${i}:</strong> 
+                <span class="correct-answer-label">${isCorrect ? '✅ Acertou' : '❌ Errou'} (Gabarito: ${correctAnswer})</span>
+                <div class="resolution-text">${resolutions[qKey]}</div>
+            `;
+            resolutionsContainer.appendChild(resDiv);
+        }
+
+        // Final score display
+        document.getElementById('score-display').innerText = `${score}/10`;
+        document.getElementById('score-text').innerText = `Você acertou ${score} de 10 questões. Confira as resoluções abaixo.`;
+        
+        resultsSection.style.display = 'block';
+        window.scrollTo({ top: resultsSection.offsetTop - 50, behavior: 'smooth' });
+        
+        // Disable all inputs after submission
+        const allInputs = form.querySelectorAll('input');
+        allInputs.forEach(input => input.disabled = true);
+        form.querySelector('button').disabled = true;
+        form.querySelector('button').innerText = "Simulado Concluído";
+    }
+</script>
+
+</body>
+</html>

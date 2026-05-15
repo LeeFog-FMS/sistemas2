@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado AOCP - Análise do Discurso</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-color: #2d3436;
+            --accent-color: #0984e3;
+            --correct-color: #27ae60;
+            --wrong-color: #d63031;
+            --border-color: #dfe6e9;
+            --max-width: 800px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Georgia, serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            max-width: var(--max-width);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .container {
+            width: 90%;
+            max-width: var(--max-width);
+            padding: 20px 0;
+        }
+
+        .question-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option-item:hover {
+            background-color: #f1f2f6;
+        }
+
+        .option-item input {
+            margin-right: 15px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        .option-item label {
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Classes de correção */
+        .correct-answer {
+            border-color: var(--correct-color) !important;
+            background-color: #e8f8f0 !important;
+        }
+
+        .wrong-selection {
+            border-color: var(--wrong-color) !important;
+            background-color: #fdf2f2 !important;
+        }
+
+        #submit-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto;
+            padding: 15px 30px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #submit-btn:hover {
+            transform: translateY(-2px);
+            background-color: #0873c4;
+        }
+
+        #results-section {
+            display: none;
+            margin-top: 40px;
+            padding: 40px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .resolution-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #fff;
+            border-left: 4px solid var(--accent-color);
+            font-size: 0.95rem;
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            .question-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Simulado: Análise do Discurso</h1>
+    <p>Padrão Instituto AOCP | Compreensão vs. Interpretação</p>
+</header>
+
+<div class="container">
+    <form id="quiz-form">
+        <!-- Questão 01 -->
+        <div class="question-card" id="q1">
+            <span class="question-text">Questão 01: Com base nos conceitos de análise do discurso e na distinção entre o que é explicitamente dito e o que se pode inferir, assinale a alternativa CORRETA sobre o reconhecimento de pressupostos, subentendidos e intenções comunicativas em um texto.</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q1" value="A" id="q1a"><label for="q1a">(A) O reconhecimento de pressupostos e subentendidos exige que o leitor transcenda a literalidade do texto, realizando inferências fundamentadas tanto no contexto situacional quanto nas implicações lógicas de afirmações específicas.</label></div>
+                <div class="option-item"><input type="radio" name="q1" value="B" id="q1b"><label for="q1b">(B) Pressupostos são classificados como afirmações de superfície, identificáveis sem a necessidade de análise de marcadores linguísticos, uma vez que sua natureza é sempre explícita e direta.</label></div>
+                <div class="option-item"><input type="radio" name="q1" value="C" id="q1c"><label for="q1c">(C) Subentendidos referem-se a informações que o autor deixa implícitas de forma inequívoca, permitindo uma interpretação única que dispensa o conhecimento de mundo ou a análise do contexto por parte do leitor.</label></div>
+                <div class="option-item"><input type="radio" name="q1" value="D" id="q1d"><label for="q1d">(D) As intenções comunicativas de uma produção textual restringem-se ao que é verbalizado pelo autor, não sendo necessário considerar os elementos implícitos para a plena compreensão da mensagem.</label></div>
+                <div class="option-item"><input type="radio" name="q1" value="E" id="q1e"><label for="q1e">(E) Na análise do discurso, pressupostos e subentendidos são considerados elementos acessórios e irrelevantes, visto que o sentido real de um texto é sempre expresso de forma clara e objetiva.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res1">
+                <strong>Resolução:</strong> Alternativa (A). O reconhecimento de implícitos exige navegar entre diferentes profundidades. A compreensão foca no explícito, enquanto a análise do discurso busca o que está por trás das palavras através de inferências lógicas.
+            </div>
+        </div>
+
+        <!-- Questão 02 -->
+        <div class="question-card" id="q2">
+            <span class="question-text">Questão 02: No fragmento "O uso do verbo 'transformaram' (l. 03) instaura no texto um pressuposto: o de que a criação da empresa foi o primeiro passo para uso da inteligência artificial", analise a validade dos pressupostos a partir dos marcadores linguísticos e assinale a alternativa que descreve corretamente essa dinâmica discursiva.</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q2" value="A" id="q2a"><label for="q2a">(A) O verbo "transformaram" atua como um gatilho de pressuposição, indicando necessariamente que houve uma mudança de um estado anterior para um novo estado.</label></div>
+                <div class="option-item"><input type="radio" name="q2" value="B" id="q2b"><label for="q2b">(B) O uso do pronome "alguns" em uma sentença não é capaz de gerar pressupostos sobre a totalidade do grupo referido, tratando-se apenas de uma delimitação quantitativa explícita.</label></div>
+                <div class="option-item"><input type="radio" name="q2" value="C" id="q2c"><label for="q2c">(C) O adjetivo "novo" é um marcador puramente descritivo e não permite ao leitor pressupor a existência de um objeto ou situação precedente da mesma categoria.</label></div>
+                <div class="option-item"><input type="radio" name="q2" value="D" id="q2d"><label for="q2d">(D) Pressupostos baseados em verbos de mudança de estado, como "transformar", dependem exclusivamente do conhecimento de mundo do leitor, sem base em marcadores textuais.</label></div>
+                <div class="option-item"><input type="radio" name="q2" value="E" id="q2e"><label for="q2e">(E) A análise de pressupostos é uma tarefa de compreensão literal, focada apenas no que está grafado na superfície do texto.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res2">
+                <strong>Resolução:</strong> Alternativa (A). Verbos de mudança de estado como "transformar" ou "deixar de" carregam a carga de um estado anterior implícito necessário para a coerência da frase.
+            </div>
+        </div>
+
+        <!-- Questão 03 -->
+        <div class="question-card" id="q3">
+            <span class="question-text">Questão 03: Considere o fragmento adaptado de um texto sobre a obra de Lewis Carroll: "Agora, que chegaste à idade avançada de 15 anos, Maria da Graça, eu te dou este livro; Alice no País das Maravilhas. Este livro é doido, Maria. Isto é: o sentido dele está em ti.". Sobre a análise dos implícitos e a construção do sentido, assinale a alternativa correta.</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q3" value="A" id="q3a"><label for="q3a">(A) A expressão "idade avançada de 15 anos" deve ser interpretada de forma literal, indicando que o autor considera a adolescência como o estágio final da vida humana.</label></div>
+                <div class="option-item"><input type="radio" name="q3" value="B" id="q3b"><label for="q3b">(B) O uso da locução "isto é" cumpre a função de retificar uma informação errônea apresentada anteriormente, anulando o sentido da frase precedente.</label></div>
+                <div class="option-item"><input type="radio" name="q3" value="C" id="q3c"><label for="q3c">(C) A afirmação "o sentido dele está em ti" subentende que a interpretação da obra literária não é inerente ao texto, mas sim uma construção do leitor a partir de sua própria subjetividade.</label></div>
+                <div class="option-item"><input type="radio" name="q3" value="D" id="q3d"><label for="q3d">(D) O adjetivo "doido" é empregado com o objetivo de desqualificar a obra literária, indicando que ela carece de valor artístico ou coerência interna.</label></div>
+                <div class="option-item"><input type="radio" name="q3" value="E" id="q3e"><label for="q3e">(E) O autor pressupõe que Maria da Graça possui um conhecimento técnico profundo sobre literatura, dada a complexidade da obra oferecida.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res3">
+                <strong>Resolução:</strong> Alternativa (C). O texto apresenta uma lição de hermenêutica: o sentido reside na interação entre o texto e a consciência do leitor ("está em ti").
+            </div>
+        </div>
+
+        <!-- Questão 04 -->
+        <div class="question-card" id="q4">
+            <span class="question-text">Questão 04: No texto "A morte da atenção", discute-se um suposto estudo da Microsoft indicando que a média de atenção humana regrediu para oito segundos, "um a menos do que o peixe-dourado...". Posteriormente, o texto revela que tal dado era um mito de origem indefinida. A partir da compreensão e interpretação desse texto, assinale a alternativa correta.</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q4" value="A" id="q4a"><label for="q4a">(A) O texto utiliza o dado dos oito segundos como uma evidência científica irrefutável para provar a superioridade cognitiva dos peixes em relação aos humanos.</label></div>
+                <div class="option-item"><input type="radio" name="q4" value="B" id="q4b"><label for="q4b">(B) Conclui-se, a partir da leitura, que não há base científica no texto que valide os números específicos de tempo médio de atenção mencionados para seres humanos ou peixes-dourados.</label></div>
+                <div class="option-item"><input type="radio" name="q4" value="C" id="q4c"><label for="q4c">(C) O autor defende que a tecnologia digital, como o TikTok, não possui qualquer impacto negativo na capacidade de foco das gerações atuais.</label></div>
+                <div class="option-item"><input type="radio" name="q4" value="D" id="q4d"><label for="q4d">(D) Depreende-se que a massificação de smartphones é a única e exclusiva causa para o declínio da atenção humana mencionado no artigo.</label></div>
+                <div class="option-item"><input type="radio" name="q4" value="E" id="q4e"><label for="q4e">(E) O texto afirma explicitamente que o declínio da atenção é um fenômeno restrito aos usuários de redes sociais nos Estados Unidos.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res4">
+                <strong>Resolução:</strong> Alternativa (B). O texto cita os números mas depois os classifica como "mito", portanto, não há validação científica dos dados citados.
+            </div>
+        </div>
+
+        <!-- Questão 05 -->
+        <div class="question-card" id="q5">
+            <span class="question-text">Questão 05: No artigo "Exercitar a mente ativa é o caminho para mantê-la saudável", afirma-se que: "Pesquisadores... mostraram que assistir TV por longos períodos após os 60 anos foi associado a um risco maior de desenvolver demência. Ler e usar um computador, por outro lado, foram apontados como uma forma de se proteger...". Com base na análise, é correto afirmar que:</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q5" value="A" id="q5a"><label for="q5a">(A) O texto estabelece uma relação de causa e efeito direta entre o simples ato de sentar e o desenvolvimento inevitável de patologias cognitivas.</label></div>
+                <div class="option-item"><input type="radio" name="q5" value="B" id="q5b"><label for="q5b">(B) A expressão "por outro lado" instaura uma oposição semântica que subentende que o tipo de atividade realizada durante o sedentarismo é o fator determinante para a saúde mental.</label></div>
+                <div class="option-item"><input type="radio" name="q5" value="C" id="q5c"><label for="q5c">(C) Infere-se que o uso do computador é a única atividade capaz de reverter quadros de demência já diagnosticados em idosos.</label></div>
+                <div class="option-item"><input type="radio" name="q5" value="D" id="q5d"><label for="q5d">(D) O texto pressupõe que idosos que não assistem televisão possuem uma capacidade intelectual inerentemente superior aos demais.</label></div>
+                <div class="option-item"><input type="radio" name="q5" value="E" id="q5e"><label for="q5e">(E) Está explicitamente escrito que a leitura é menos eficaz do que o uso do computador na proteção contra doenças cognitivas.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res5">
+                <strong>Resolução:</strong> Alternativa (B). O conectivo opõe atividades passivas (TV) a ativas (Leitura/PC), subentendendo que o esforço cognitivo é o que protege o cérebro.
+            </div>
+        </div>
+
+        <!-- Questão 06 -->
+        <div class="question-card" id="q6">
+            <span class="question-text">Questão 06: Analise a manchete "Petrobras é vítima de novos furtos" sob a ótica dos pressupostos linguísticos e assinale a alternativa que identifica corretamente o implícito e seu marcador.</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q6" value="A" id="q6a"><label for="q6a">(A) O vocábulo "vítima" funciona como marcador de pressuposição, indicando que a empresa nunca havia sofrido ataques anteriormente.</label></div>
+                <div class="option-item"><input type="radio" name="q6" value="B" id="q6b"><label for="q6b">(B) O adjetivo "novos" atua como gatilho de pressuposição, estabelecendo como fato já ocorrido a existência de furtos anteriores na instituição.</label></div>
+                <div class="option-item"><input type="radio" name="q6" value="C" id="q6c"><label for="q6c">(C) A palavra "furtos" subentende que os crimes foram cometidos por funcionários internos da empresa, dependendo do conhecimento de mundo do leitor.</label></div>
+                <div class="option-item"><input type="radio" name="q6" value="D" id="q6d"><label for="q6d">(D) A manchete é meramente informativa e não contém qualquer elemento que permita ao leitor identificar informações não explicitadas.</label></div>
+                <div class="option-item"><input type="radio" name="q6" value="E" id="q6e"><label for="q6e">(E) O pressuposto da frase é que a Petrobras é a única empresa brasileira que sofre com a criminalidade urbana.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res6">
+                <strong>Resolução:</strong> Alternativa (B). O adjetivo "novos" pressupõe a existência de furtos anteriores; do contrário, a palavra "novos" seria logicamente desnecessária.
+            </div>
+        </div>
+
+        <!-- Questão 07 -->
+        <div class="question-card" id="q7">
+            <span class="question-text">Questão 07: No enunciado "João parou de fumar", a análise dos mecanismos de coesão e coerência textual permite afirmar que:</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q7" value="A" id="q7a"><label for="q7a">(A) Existe um subentendido de que João está enfrentando graves problemas respiratórios que o obrigaram a abandonar o vício.</label></div>
+                <div class="option-item"><input type="radio" name="q7" value="B" id="q7b"><label for="q7b">(B) O verbo "parou" instaura o pressuposto de que João mantinha o hábito de fumar em um período anterior ao enunciado.</label></div>
+                <div class="option-item"><input type="radio" name="q7" value="C" id="q7c"><label for="q7c">(C) A frase não permite qualquer inferência, limitando-se a comunicar um estado presente de abstinência.</label></div>
+                <div class="option-item"><input type="radio" name="q7" value="D" id="q7d"><label for="q7d">(D) O pressuposto central é que João jamais voltará a fumar, dada a contundência da afirmação.</label></div>
+                <div class="option-item"><input type="radio" name="q7" value="E" id="q7e"><label for="q7e">(E) O subentendido é que João seguiu conselhos médicos rigorosos para preservar sua saúde.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res7">
+                <strong>Resolução:</strong> Alternativa (B). Verbos que indicam cessação ("parar", "deixar de") são gatilhos gramaticais de que a ação ocorria no passado.
+            </div>
+        </div>
+
+        <!-- Questão 08 -->
+        <div class="question-card" id="q8">
+            <span class="question-text">Questão 08: Em relação aos textos que abordam a fome e a degradação humana (como os de Manuel Bandeira), analise as assertivas sobre interpretação e análise do discurso:</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q8" value="A" id="q8a"><label for="q8a">(A) O tema central do discurso literário foca na idealização da natureza como refúgio para as populações marginalizadas.</label></div>
+                <div class="option-item"><input type="radio" name="q8" value="B" id="q8b"><label for="q8b">(B) A conclusão de que o ser descrito no lixo é um homem constitui uma interpretação que subentende a crítica à desumanização provocada pela miséria extrema.</label></div>
+                <div class="option-item"><input type="radio" name="q8" value="C" id="q8c"><label for="q8c">(C) O autor utiliza uma linguagem formal e arcaica para pressupor que a fome é um problema superado pela sociedade brasileira moderna.</label></div>
+                <div class="option-item"><input type="radio" name="q8" value="D" id="q8d"><label for="q8d">(D) A identificação do "bicho" como um homem é uma informação de compreensão imediata, explicitada no título do poema.</label></div>
+                <div class="option-item"><input type="radio" name="q8" value="E" id="q8e"><label for="q8e">(E) O texto subentende que a pobreza é uma condição necessária para o desenvolvimento da sensibilidade poética.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res8">
+                <strong>Resolução:</strong> Alternativa (B). A força do poema está no subentendido social: a miséria desumaniza o homem ao ponto de ele ser confundido com um animal (bicho).
+            </div>
+        </div>
+
+        <!-- Questão 09 -->
+        <div class="question-card" id="q9">
+            <span class="question-text">Questão 09: Sobre a distinção entre compreensão e interpretação nas provas do Instituto AOCP, assinale a alternativa que descreve corretamente o comportamento esperado do candidato.</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q9" value="A" id="q9a"><label for="q9a">(A) Questões de compreensão exigem que o candidato realize deduções subjetivas baseadas em suas experiências pessoais fora do texto.</label></div>
+                <div class="option-item"><input type="radio" name="q9" value="B" id="q9b"><label for="q9b">(B) Questões de interpretação demandam que o candidato vá além do que está escrito, identificando ideias implícitas e conclusões lógicas autorizadas pelo texto e pelo contexto.</label></div>
+                <div class="option-item"><input type="radio" name="q9" value="C" id="q9c"><label for="q9c">(C) A compreensão foca em aspectos conotativos, enquanto a interpretação foca em aspectos estritamente denotativos e literais.</label></div>
+                <div class="option-item"><input type="radio" name="q9" value="D" id="q9d"><label for="q9d">(D) Interpretar um texto é o mesmo que parafrasear suas sentenças, mantendo-se fiel apenas à superfície gramatical.</label></div>
+                <div class="option-item"><input type="radio" name="q9" value="E" id="q9e"><label for="q9e">(E) A análise do discurso é irrelevante para a interpretação, pois o sentido textual é independente da intenção comunicativa do autor.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res9">
+                <strong>Resolução:</strong> Alternativa (B). Compreensão = o que está no papel. Interpretação = o que se deduz do que está no papel + lógica + contexto.
+            </div>
+        </div>
+
+        <!-- Questão 10 -->
+        <div class="question-card" id="q10">
+            <span class="question-text">Questão 10: Analise o uso de pronomes e advérbios como gatilhos de sentido em textos contemporâneos e assinale a alternativa correta.</span>
+            <div class="options-list">
+                <div class="option-item"><input type="radio" name="q10" value="A" id="q10a"><label for="q10a">(A) O uso do advérbio "ainda" em "O relatório ainda não está pronto" pressupõe que o documento era esperado e que há uma expectativa de sua conclusão.</label></div>
+                <div class="option-item"><input type="radio" name="q10" value="B" id="q10b"><label for="q10b">(B) Advérbios de tempo, como "ontem", funcionam como subentendidos que dependem apenas da vontade do leitor para serem interpretados.</label></div>
+                <div class="option-item"><input type="radio" name="q10" value="C" id="q10c"><label for="q10c">(C) O uso de artigos definidos ("O presidente") não é capaz de gerar pressupostos sobre a existência ou unicidade do referente.</label></div>
+                <div class="option-item"><input type="radio" name="q10" value="D" id="q10d"><label for="q10d">(D) Pronomes como "alguns" indicam que a totalidade de um grupo é afetada por uma determinada ação, sem margem para exceções.</label></div>
+                <div class="option-item"><input type="radio" name="q10" value="E" id="q10e"><label for="q10e">(E) Marcadores linguísticos de pressuposição são opcionais e não influenciam a coerência global do texto.</label></div>
+            </div>
+            <div class="resolution-box hidden" id="res10">
+                <strong>Resolução:</strong> Alternativa (A). "Ainda" indica que a situação é temporária e gera uma expectativa de mudança no estado atual (de não pronto para pronto).
+            </div>
+        </div>
+
+        <button type="button" id="submit-btn" onclick="finishQuiz()">Finalizar e Ver Resoluções</button>
+    </form>
+
+    <div id="results-section">
+        <div class="score-display" id="score-text"></div>
+        <p style="text-align: center;">As resoluções detalhadas foram desbloqueadas abaixo de cada questão.</p>
+        <button type="button" id="submit-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Revisar Questões</button>
+    </div>
+</div>
+
+<footer style="margin: 50px 0; color: #95a5a6; font-size: 0.8rem;">
+    Simulado Educacional - Foco em Interpretação de Texto
+</footer>
+
+<script>
+    const correctAnswers = {
+        q1: 'A', q2: 'A', q3: 'C', q4: 'B', q5: 'B',
+        q6: 'B', q7: 'B', q8: 'B', q9: 'B', q10: 'A'
+    };
+
+    function finishQuiz() {
+        const form = document.getElementById('quiz-form');
+        const formData = new FormData(form);
+        let score = 0;
+        let total = 10;
+
+        // Verificar respostas e aplicar estilos
+        for (let i = 1; i <= total; i++) {
+            const questionKey = 'q' + i;
+            const selected = formData.get(questionKey);
+            const correct = correctAnswers[questionKey];
+            const questionDiv = document.getElementById(questionKey);
+            
+            // Mostrar resolução
+            document.getElementById('res' + i).classList.remove('hidden');
+
+            // Marcar acertos/erros visualmente
+            const options = questionDiv.querySelectorAll('.option-item');
+            options.forEach(opt => {
+                const input = opt.querySelector('input');
+                if (input.value === correct) {
+                    opt.classList.add('correct-answer');
+                }
+                if (selected === input.value && selected !== correct) {
+                    opt.classList.add('wrong-selection');
+                }
+            });
+
+            if (selected === correct) {
+                score++;
+            }
+        }
+
+        // Exibir placar
+        const resultsSection = document.getElementById('results-section');
+        const scoreText = document.getElementById('score-text');
+        resultsSection.style.display = 'block';
+        scoreText.innerHTML = `<strong>Seu resultado: ${score} de ${total} acertos</strong>`;
+        
+        // Desativar inputs
+        const inputs = document.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+
+        // Esconder botão de finalizar
+        document.getElementById('submit-btn').style.display = 'none';
+
+        // Rolar até o resultado
+        resultsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

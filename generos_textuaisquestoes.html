@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado AOCP: Tipologia e Gêneros</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --container-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #2980b9;
+            --correct-color: #27ae60;
+            --wrong-color: #c0392b;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Georgia, serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--container-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        header {
+            border-bottom: 2px solid var(--accent-color);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #1a252f;
+            margin: 0;
+        }
+
+        .quiz-info {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+
+        .question-block {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .text-fragment {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-left: 4px solid var(--accent-color);
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option-item:hover {
+            background-color: #f0f7ff;
+            border-color: var(--accent-color);
+        }
+
+        .option-item input {
+            margin-right: 15px;
+            margin-top: 7px;
+        }
+
+        .option-item.selected {
+            background-color: #e8f4fd;
+            border-color: var(--accent-color);
+        }
+
+        /* Classes para o resultado */
+        .option-item.correct {
+            background-color: #e8f8f0;
+            border-color: var(--correct-color);
+            color: var(--correct-color);
+            font-weight: bold;
+        }
+
+        .option-item.incorrect {
+            background-color: #fdeaea;
+            border-color: var(--wrong-color);
+            color: var(--wrong-color);
+        }
+
+        .resolution-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f4f7f6;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            border: 1px solid #d1d8d7;
+        }
+
+        .resolution-box h4 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1c638e;
+        }
+
+        #result-summary {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed var(--accent-color);
+        }
+
+        #score-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+                padding: 20px;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulado: Tipologia e Gêneros Textuais</h1>
+        <p class="quiz-info">Padrão Instituto AOCP | 10 Questões com Resolução</p>
+    </header>
+
+    <form id="quiz-form">
+        <div id="questions-container">
+            <!-- Questões serão injetadas via JS -->
+        </div>
+
+        <button type="button" id="btn-finish" class="btn-submit" onclick="calculateResults()">Finalizar Simulado e Ver Resoluções</button>
+    </form>
+
+    <div id="result-summary">
+        <div id="score-text"></div>
+        <p>Confira as resoluções detalhadas abaixo de cada questão.</p>
+        <button onclick="window.location.reload()" style="background: none; border: 1px solid #777; padding: 5px 15px; cursor: pointer; border-radius: 4px;">Reiniciar Simulado</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            number: 1,
+            textFragment: `“O filósofo Daniel Dennett propõe uma fórmula para alcançar a felicidade: ‘Procure algo mais... encontrar a felicidade do lado de fora, no consumo de mercadorias e de experiências.”`,
+            question: "Sobre a tipologia e o gênero textual predominantes no texto acima, assinale a alternativa correta.",
+            options: [
+                "O texto apresenta majoritariamente a tipologia narrativa, uma vez que utiliza verbos no pretérito para relatar a trajetória histórica da filosofia de Daniel Dennett.",
+                "Trata-se de uma sequência predominantemente injuntiva, visto que o autor utiliza a citação de Dennett (“Procure algo mais importante...”) para dar ordens diretas ao leitor sobre como atingir a felicidade.",
+                "O fragmento é um exemplar do gênero textual artigo de opinião, no qual o autor utiliza uma tese central para criticar a mercantilização da espiritualidade e o narcisismo contemporâneo.",
+                "O texto classifica-se como uma notícia, pois foca na divulgação de um fato recente e objetivo envolvendo o filósofo citado, sem apresentar juízos de valor ou marcas de subjetividade.",
+                "A tipologia predominante é a descritiva, caracterizada pelo detalhamento minucioso do perfil psicológico do “cidadão comum do Ocidente”, utilizando prioritariamente adjetivos e verbos de estado."
+            ],
+            answer: 2,
+            resolution: "Gabarito: C. O texto “A indústria do espírito” é assinado por Jordi Soler e apresenta uma crítica ácida sobre como o capitalismo moderno sequestrou práticas espirituais. O artigo de opinião é marcado pela tese central e juízos de valor, o que se confirma no fragmento."
+        },
+        {
+            number: 2,
+            textFragment: `“Se a consciência já parece bastante misteriosa quando tentamos circunscrevê-la a um cérebro humano, ela fica ainda mais impenetrável quando se considera que a própria noção de corpo humano pode ser inadequada. Com efeito, já há alguns anos vem ganhando espaço na biologia e na medicina a ideia de que precisamos pensar o corpo humano não como uma entidade à parte...”`,
+            question: "Com base na organização textual e na intenção do autor, assinale a alternativa correta.",
+            options: [
+                "O autor utiliza uma sequência narrativa para relatar como as bactérias evoluíram ao longo de milênios dentro do corpo humano, focando na progressão temporal dos fatos.",
+                "Trata-se de um artigo com sequências argumentativas que traz um fato científico atual e uma reflexão sobre esse fato, utilizando verbos no presente e a primeira pessoa do plural para aproximar autor e leitor.",
+                "O texto possui função predominantemente conativa, pois o objetivo central de Schwartsman é convencer o leitor a mudar seus hábitos de higiene para preservar a flora intestinal.",
+                "A estrutura textual é típica de um edital público, utilizando linguagem técnica e prescritiva para normatizar o pensamento científico sobre a consciência humana.",
+                "Predomina no texto a tipologia expositiva pura, cujo único objetivo é definir o conceito de “espécies microscópicas” sem apresentar qualquer posicionamento crítico ou reflexivo."
+            ],
+            answer: 1,
+            resolution: "Gabarito: B. O autor Hélio Schwartsman utiliza o 'plural de modéstia' ('precisamos pensar') para incluir o leitor na reflexão. O texto não apenas expõe ciência, mas argumenta sobre uma mudança de paradigma, usando o tempo presente para tratar de fatos atuais."
+        },
+        {
+            number: 3,
+            textFragment: `“Documentos – textuais, cartográficos, iconográficos, fonográficos etc. – são preciosas fontes de informação, e subtraí-los, extraviá-los, danificar ou destruir é pôr em risco a nossa memória. Sem memória, é impossível haver cultura e, sem cultura, nada resta da sociedade. Descuidar do patrimônio arquivístico, portanto, é o mesmo que abandonar uma parte de nós mesmos, de nossa humanidade.”`,
+            question: "Sobre as características linguísticas e a tipologia textual predominante no trecho a seguir, assinale a alternativa correta:",
+            options: [
+                "O uso de advérbios de modo e de intensidade, aliados a verbos no pretérito imperfeito do indicativo, caracteriza a tipologia narrativa presente no texto.",
+                "O emprego de operadores argumentativos (como “portanto”) e de verbos no presente do indicativo (“são”, “é”, “resta”) confirma a predominância da tipologia argumentativa.",
+                "A presença de verbos com valor imperativo e de pronomes pessoais de segunda pessoa caracteriza o texto como predominantemente expositivo-instrucional.",
+                "O texto utiliza prioritariamente verbos no pretérito perfeito e advérbios de tempo e lugar para descrever a localização física dos documentos citados.",
+                "Trata-se de uma sequência descritiva pura, na qual o autor enumera os tipos de documentos (textuais, cartográficos etc.) com o intuito de catalogá-los cientificamente."
+            ],
+            answer: 1,
+            resolution: "Gabarito: B. O conectivo 'portanto' é um operador argumentativo conclusivo. O uso do presente do indicativo dá um caráter de verdade universal às afirmações do autor, sustentando sua tese sobre a importância da preservação documental."
+        },
+        {
+            number: 4,
+            textFragment: `“Quem já teve a oportunidade de conviver minimamente com uma criança, sabe que o processo de aprender a falar pode render boas histórias. As crianças, antes de desenvolverem 100% dessa habilidade, parece que criam um dialeto...”`,
+            question: "Considerando o gênero e a função social do texto acima, assinale a alternativa correta.",
+            options: [
+                "Trata-se de um artigo de opinião científico, visto que o objetivo principal é discutir, por meio de uma linguagem extremamente técnica, a fonética infantil.",
+                "É um texto instrucional que visa informar os leitores sobre os procedimentos pedagógicos necessários para alfabetizar crianças rapidamente.",
+                "Trata-se de uma crônica, gênero que parte de um tema cotidiano (a fala das crianças) para promover uma reflexão leve e subjetiva sobre a comunicação humana.",
+                "O texto é uma carta aberta, pois o uso do pronome “você” indica que a autora está convocando a sociedade civil para uma manifestação em prol da educação.",
+                "Classifica-se como uma notícia, pois relata um evento específico e inédito ocorrido com o sobrinho da autora em uma data determinada."
+            ],
+            answer: 2,
+            resolution: "Gabarito: C. A crônica é caracterizada por tratar de assuntos cotidianos com leveza e subjetividade. O texto foge do rigor científico ou da objetividade da notícia ao usar expressões como 'render boas histórias'."
+        },
+        {
+            number: 5,
+            textFragment: null,
+            question: "Sobre a tipologia injuntiva e sua manifestação nos gêneros textuais modernos cobrados pelo Instituto AOCP, assinale a alternativa correta.",
+            options: [
+                "A sequência injuntiva é aquela que visa descrever objetos e cenas detalhadamente, permitindo que o leitor visualize o que está sendo dito.",
+                "Gêneros como receitas culinárias, manuais de instrução e editais de concursos públicos são exemplos de textos onde a tipologia injuntiva ou instrucional predomina.",
+                "O objetivo principal da tipologia injuntiva é persuadir o leitor por meio de argumentos lógicos, visando mudar sua opinião sobre um tema polêmico.",
+                "Em textos predominantemente injuntivos, nota-se a ausência de verbos no imperativo, priorizando-se o uso do pretérito mais-que-perfeito para indicar ações passadas.",
+                "A injunção é exclusiva do gênero literário conto, sendo utilizada para narrar as ações heroicas dos personagens de forma cronológica."
+            ],
+            answer: 1,
+            resolution: "Gabarito: B. A tipologia injuntiva (ou instrucional) tem o objetivo de guiar o comportamento do leitor. Editais prescrevem regras e receitas prescrevem passos, sendo os exemplos clássicos solicitados pela banca AOCP."
+        },
+        {
+            number: 6,
+            textFragment: null,
+            question: "A respeito do gênero textual notícia e sua função social, analise as assertivas a seguir:\nI. A notícia tem como função principal divulgar um fato socialmente relevante.\nII. Diferente da reportagem, a notícia foca na cobertura objetiva sem o aprofundamento investigativo.\nIII. A notícia é um gênero opinativo por excelência.",
+            options: [
+                "I apenas.",
+                "II apenas.",
+                "I e II apenas.",
+                "II e III apenas.",
+                "I, II e III."
+            ],
+            answer: 2,
+            resolution: "Gabarito: C. As assertivas I e II estão corretas. A III está incorreta porque a notícia busca a objetividade e a neutralidade; o gênero opinativo é o artigo de opinião ou o editorial."
+        },
+        {
+            number: 7,
+            textFragment: null,
+            question: "Sobre as tipologias textuais, assinale a alternativa correta.",
+            options: [
+                "A tipologia narrativa é utilizada para apresentar conceitos e ideias de maneira impessoal e técnica.",
+                "A tipologia dissertativa é caracterizada pela defesa de uma ideia e exposição de uma opinião por meio de argumentações estruturadas.",
+                "A tipologia expositiva serve prioritariamente para contar uma história, envolvendo obrigatoriamente tempo e personagens.",
+                "A tipologia descritiva visa instruir ou ensinar sobre algo com o objetivo de levar a uma ação prática imediata.",
+                "A tipologia injuntiva foca no detalhamento de pessoas e locais, utilizando adjetivos para criar uma imagem mental."
+            ],
+            answer: 1,
+            resolution: "Gabarito: B. A dissertação argumentativa é a base dos textos que defendem teses. As outras alternativas trocam as definições entre narrativa (contar), expositiva (apresentar), descritiva (detalhar) e injuntiva (instruir)."
+        },
+        {
+            number: 8,
+            textFragment: null,
+            question: "No processo de compreensão de um texto, no caso de textos que discutem direitos constitucionais, a função da linguagem predominante e o gênero textual são, respectivamente:",
+            options: [
+                "Função emotiva e gênero conto.",
+                "Função metalinguística e gênero crônica.",
+                "Função referencial e gênero informativo ou artigo de divulgação.",
+                "Função fática e gênero notícia de entretenimento.",
+                "Função conativa e gênero poema épico."
+            ],
+            answer: 2,
+            resolution: "Gabarito: C. Textos técnicos ou institucionais focam no referente (o assunto), buscando clareza e objetividade, o que caracteriza a função referencial e os gêneros informativos."
+        },
+        {
+            number: 9,
+            textFragment: null,
+            question: "Considere a estrutura linguística de um edital de concurso. Qual é a característica predominante que permite classificá-lo como um texto de base injuntiva/prescritiva?",
+            options: [
+                "A narração da biografia dos fundadores da instituição que promove o concurso.",
+                "O uso recorrente de verbos no futuro do presente e no infinitivo para indicar obrigações e procedimentos que o candidato deve seguir.",
+                "A descrição poética das salas de aula onde as provas serão aplicadas.",
+                "A defesa veemente de uma tese política sobre a importância do serviço público no Brasil.",
+                "O uso de gírias e expressões informais para aproximar a banca examinadora do candidato jovem."
+            ],
+            answer: 1,
+            resolution: "Gabarito: B. A linguagem prescritiva dos editais utiliza o infinitivo ('apresentar', 'pagar') ou o futuro ('deverá') para estabelecer as normas que regem o certame."
+        },
+        {
+            number: 10,
+            textFragment: null,
+            question: "Quando um autor utiliza uma citação de uma autoridade no início de seu texto, sua intenção comunicativa é:",
+            options: [
+                "Criar um suspense fictício para iniciar uma história de aventura.",
+                "Fornecer uma base de autoridade (argumento de autoridade) para sustentar a tese que será defendida ao longo do artigo de opinião.",
+                "Instruir o leitor sobre como consertar um aparelho eletrônico usando a filosofia.",
+                "Relatar cronologicamente a vida do filósofo citado, transformando o texto em uma biografia.",
+                "Descrever detalhadamente a aparência física do filósofo para que o leitor possa reconhecê-lo."
+            ],
+            answer: 1,
+            resolution: "Gabarito: B. A citação de autoridades é um recurso de fundamentação. Serve para conferir credibilidade à tese do autor, mostrando que pensadores renomados corroboram sua visão."
+        }
+    ];
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        questions.forEach((q, idx) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            block.id = `q-block-${idx}`;
+
+            let html = `
+                <span class="question-number">Questão ${q.number}</span>
+                ${q.textFragment ? `<div class="text-fragment">${q.textFragment}</div>` : ''}
+                <span class="question-text">${q.question}</span>
+                <ul class="options-list">
+            `;
+
+            q.options.forEach((opt, optIdx) => {
+                html += `
+                    <li>
+                        <label class="option-item" id="label-${idx}-${optIdx}">
+                            <input type="radio" name="question-${idx}" value="${optIdx}">
+                            <span>${String.fromCharCode(65 + optIdx)}) ${opt}</span>
+                        </label>
+                    </li>
+                `;
+            });
+
+            html += `
+                </ul>
+                <div class="resolution-box" id="resolution-${idx}">
+                    <h4>Resolução Comentada</h4>
+                    <p>${q.resolution}</p>
+                </div>
+            `;
+
+            block.innerHTML = html;
+            container.appendChild(block);
+        });
+
+        // Add visual feedback on click
+        document.querySelectorAll('.option-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const name = this.querySelector('input').name;
+                document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                    input.parentElement.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+    }
+
+    function calculateResults() {
+        let score = 0;
+        let unanswered = false;
+
+        questions.forEach((q, idx) => {
+            const selected = document.querySelector(`input[name="question-${idx}"]:checked`);
+            const resolutionBox = document.getElementById(`resolution-${idx}`);
+            
+            // Mostrar resolução
+            resolutionBox.style.display = 'block';
+
+            if (selected) {
+                const userAnswer = parseInt(selected.value);
+                const label = document.getElementById(`label-${idx}-${userAnswer}`);
+                const correctLabel = document.getElementById(`label-${idx}-${q.answer}`);
+
+                if (userAnswer === q.answer) {
+                    score++;
+                    label.classList.add('correct');
+                } else {
+                    label.classList.add('incorrect');
+                    correctLabel.classList.add('correct');
+                }
+            } else {
+                unanswered = true;
+                const correctLabel = document.getElementById(`label-${idx}-${q.answer}`);
+                correctLabel.classList.add('correct');
+            }
+        });
+
+        // Exibir resumo
+        const summary = document.getElementById('result-summary');
+        const scoreText = document.getElementById('score-text');
+        summary.style.display = 'block';
+        scoreText.innerText = `Você acertou ${score} de ${questions.length} questões!`;
+        
+        if(score >= 8) scoreText.style.color = 'var(--correct-color)';
+        else if(score >= 5) scoreText.style.color = '#f39c12';
+        else scoreText.style.color = 'var(--wrong-color)';
+
+        // Desabilitar inputs e botão
+        document.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
+        document.getElementById('btn-finish').style.display = 'none';
+
+        // Scroll para o topo dos resultados
+        summary.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.onload = renderQuestions;
+</script>
+
+</body>
+</html>
