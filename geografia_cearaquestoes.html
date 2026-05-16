@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Dinâmicas Populacionais no Ceará</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #2c3e50;
+            --primary-color: #34495e;
+            --accent-color: #2980b9;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+            --border-color: #dcdde1;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+        }
+
+        .option-item label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .option-item label:hover {
+            background-color: #f1f2f6;
+        }
+
+        .option-item input {
+            margin-top: 5px;
+            margin-right: 15px;
+        }
+
+        .option-item input:checked + span {
+            font-weight: bold;
+        }
+
+        .option-item label.selected {
+            border-color: var(--accent-color);
+            background-color: #e8f4fd;
+        }
+
+        button#submit-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        button#submit-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        #results-section {
+            display: none;
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            width: 100%;
+        }
+
+        .score-box {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .resolution-card {
+            margin-top: 20px;
+            padding: 20px;
+            border-left: 5px solid var(--accent-color);
+            background-color: #f8f9fa;
+            margin-bottom: 20px;
+        }
+
+        .resolution-header {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .correct { color: var(--success-color); font-weight: bold; }
+        .wrong { color: var(--error-color); font-weight: bold; }
+
+        .correct-bg { background-color: #d4edda !important; border-color: #c3e6cb !important; }
+        .wrong-bg { background-color: #f8d7da !important; border-color: #f5c6cb !important; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .question-card { padding: 20px; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Simulado: Dinâmicas Populacionais</h1>
+        <p>Instituto AOCP | Ceará e Nordeste | Dados Censo 2022</p>
+    </header>
+
+    <div class="container" id="quiz-container">
+        <!-- Questões serão geradas aqui via JS para manter o HTML limpo -->
+    </div>
+
+    <button id="submit-btn" onclick="calculateScore()">Finalizar Simulado e Ver Resoluções</button>
+
+    <div id="results-section" class="container">
+        <div class="score-box">
+            <div id="score-circle" class="score-circle">0/10</div>
+            <h2 id="score-message">Você concluiu o simulado!</h2>
+        </div>
+        <div id="resolutions-list"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                question: "A história das migrações no Ceará é marcada por episódios de grande vulnerabilidade social decorrentes das secas. Durante os anos de 1915 e 1932, o poder público adotou uma estratégia de segregação para evitar que os retirantes alcançassem a capital Fortaleza, sob o argumento de preservar a ordem urbana e evitar a propagação de doenças. Essas estruturas de confinamento, localizadas próximas a ferrovias, ficaram conhecidas como:",
+                options: [
+                    "Redutos de Apoio Logístico.",
+                    "Vilas Operárias Emergenciais.",
+                    "Campos de Concentração (ou Currais).",
+                    "Colônias Agrícolas de Assistência.",
+                    "Centros de Triagem de Migrantes."
+                ],
+                correct: 2,
+                resolution: "A questão aborda o aspecto histórico das migrações internas no Ceará. Durante as secas de 1915 e 1932, foram criados os 'Campos de Concentração' ou 'Currais' para confinar retirantes e impedir sua entrada em Fortaleza. Exemplos históricos incluem os campos do Patu (Senador Pompeu) e do Crato. Esta prática de biopolítica visava o controle sanitário e social da capital, sendo um tema recorrente em provas que exigem história regional ligada à demografia."
+            },
+            {
+                id: 2,
+                question: "No que tange aos resultados definitivos do Censo Demográfico de 2022 divulgados pelo IBGE, o estado do Ceará consolidou-se como uma das unidades federativas mais populosas do Brasil. Assinale a alternativa que apresenta corretamente a população residente total do estado e sua respectiva posição no ranking nacional.",
+                options: [
+                    "8.451.644 habitantes; 9º lugar.",
+                    "9.058.155 habitantes; 7º lugar.",
+                    "8.794.957 habitantes; 8º lugar.",
+                    "9.232.000 habitantes; 8º lugar.",
+                    "8.791.688 habitantes; 10º lugar."
+                ],
+                correct: 2,
+                resolution: "De acordo com os dados consolidados do Censo 2022, a população do Ceará é de 8.794.957 habitantes, o que posiciona o estado como a 8ª unidade federativa mais populosa do país, atrás de São Paulo, Minas Gerais, Rio de Janeiro, Bahia, Paraná, Rio Grande do Sul e Pernambuco."
+            },
+            {
+                id: 3,
+                question: "Com relação ao crescimento populacional do Ceará no período intercensitário 2010-2022, é correto afirmar que o estado registrou:",
+                options: [
+                    "Um crescimento de 15,5%, superando todas as estimativas iniciais do IBGE devido à migração de retorno.",
+                    "Uma estabilidade absoluta, sem variação nominal no número de habitantes nos últimos doze anos.",
+                    "Um crescimento de 4,02%, representando uma das menores taxas de incremento de sua série histórica, indicando desaceleração demográfica.",
+                    "Um crescimento negativo de 2%, sendo o estado que mais perdeu população em termos absolutos no Nordeste.",
+                    "Um crescimento de 8,9%, igualando-se exatamente à média de crescimento da população brasileira no mesmo período."
+                ],
+                correct: 2,
+                resolution: "O crescimento populacional do Ceará entre 2010 e 2022 foi de 4,02%. Este valor confirma a tendência de queda rítmica no crescimento vegetativo. O aumento de apenas 340 mil pessoas em doze anos representa um dos menores índices percentuais da história do estado, refletindo a transição demográfica em curso."
+            },
+            {
+                id: 4,
+                question: "Fortaleza, a capital do Ceará, apresentou no Censo 2022 uma característica demográfica singular que a coloca em destaque entre todas as capitais brasileiras. Assinale a alternativa que identifica corretamente esse indicador.",
+                options: [
+                    "Possui a maior área territorial urbana contínua do Brasil.",
+                    "É a capital com a maior taxa de crescimento geométrico anual entre 2010 e 2022.",
+                    "Apresenta a maior densidade demográfica (habitantes por km²) entre as capitais do país.",
+                    "É a única capital do Nordeste a registrar saldo migratório positivo superior a 100 mil pessoas.",
+                    "Detém o maior percentual de população residente em domicílios rurais entre as metrópoles nacionais."
+                ],
+                correct: 2,
+                resolution: "Fortaleza destaca-se no Censo 2022 por ser a capital mais densa do Brasil, com 7.775 hab/km². Este indicador mede o grau de concentração de pessoas por área, e Fortaleza superou São Paulo (7.528 hab/km²), demonstrando um tecido urbano extremamente compacto e uma alta pressão sobre o solo urbano."
+            },
+            {
+                id: 5,
+                question: "A organização territorial do Ceará em 14 Regiões de Planejamento permite ao IPECE monitorar as desigualdades internas. De acordo com os dados socioeconômicos e demográficos recentes, qual região concentra os maiores valores de renda média nominal mensal e a maior taxa de urbanização do estado?",
+                options: [
+                    "Sertão dos Inhamuns.",
+                    "Serra da Ibiapaba.",
+                    "Sertão de Canindé.",
+                    "Grande Fortaleza.",
+                    "Centro-Sul."
+                ],
+                correct: 3,
+                resolution: "A Região de Planejamento da Grande Fortaleza é a área de maior dinamismo econômico e demográfico do estado. Segundo o IPECE, ela concentra os maiores valores de renda média das pessoas responsáveis pelos domicílios e possui as maiores taxas de urbanização, com diversos municípios superando a marca de 90% de população urbana."
+            },
+            {
+                id: 6,
+                question: "O fenômeno do transbordamento metropolitano na Região Metropolitana de Fortaleza (RMF) resultou em taxas de crescimento expressivas em municípios limítrofes, enquanto o núcleo central (Fortaleza) registrou uma leve redução populacional nominal. Assinale o município que registrou o maior crescimento populacional percentual do estado entre 2010 e 2022, alcançando aproximadamente 80-89% de aumento.",
+                options: [
+                    "Caucaia.",
+                    "Maracanaú.",
+                    "Itaitinga.",
+                    "Sobral.",
+                    "Aquiraz."
+                ],
+                correct: 2,
+                resolution: "Itaitinga registrou o maior aumento populacional percentual do estado (89,5% no dado bruto ou 80% conforme ajustes de prévia). Esse crescimento extraordinário deve-se à proximidade com Fortaleza e à instalação de equipamentos infraestruturais e logísticos, caracterizando um processo de expansão metropolitana acelerada."
+            },
+            {
+                id: 7,
+                question: "No contexto das dinâmicas migratórias interestaduais, o Censo 2022 revelou que São Paulo continua sendo o principal destino dos naturais do Ceará que vivem fora do estado. Qual o percentual aproximado de cearenses emigrantes que residem no estado de São Paulo?",
+                options: [
+                    "12,2%.",
+                    "25,0%.",
+                    "35,3%.",
+                    "47,7%.",
+                    "55,0%."
+                ],
+                correct: 2,
+                resolution: "O Censo 2022 aponta que dos cerca de 1,5 milhão de cearenses que moram fora do estado de nascimento, 35,3% residem no estado de São Paulo. São Paulo continua sendo o principal polo econômico de atração para a migração nordestina histórica e contemporânea."
+            },
+            {
+                id: 8,
+                question: "O conceito de 'Migração de Retorno' tornou-se central para entender a demografia cearense atual. Sobre os fluxos migratórios recentes no Ceará (período de data fixa 2017-2022), assinale a alternativa correta.",
+                options: [
+                    "O Ceará registrou o saldo migratório mais negativo da história, com a saída de 500 mil pessoas para a região Norte.",
+                    "O estado apresentou um saldo migratório de quase equilíbrio, com uma diferença de apenas 697 pessoas entre imigrantes e emigrantes.",
+                    "A migração de retorno foi nula, uma vez que nenhum natural do Ceará voltou ao estado após 2010.",
+                    "O principal fluxo de imigrantes para o Ceará provém de estados da região Sul, como Santa Catarina e Paraná.",
+                    "O saldo migratório foi positivo em 200 mil pessoas, devido exclusivamente à chegada de imigrantes internacionais."
+                ],
+                correct: 1,
+                resolution: "A análise de data fixa (2017-2022) do IBGE revelou que o Ceará atingiu um estágio de equilíbrio migratório. Com 135.791 imigrantes e 136.488 emigrantes, o saldo negativo de 697 pessoas indica uma forte migração de retorno e uma capacidade de retenção populacional que não existia em décadas anteriores."
+            },
+            {
+                id: 9,
+                question: "A densidade demográfica média do estado do Ceará em 2022 foi de 59,07 hab/km². Entretanto, essa média mascara realidades distintas no interior. Qual das alternativas abaixo apresenta corretamente a tendência observada em pequenos municípios com menos de 50 mil habitantes?",
+                options: [
+                    "Esses municípios dobraram sua população devido à interiorização das indústrias.",
+                    "Houve uma redução no número total de municípios nesta faixa de tamanho e uma diminuição de sua população total.",
+                    "A densidade demográfica nesses municípios superou a da Região Metropolitana de Fortaleza.",
+                    "Houve uma inversão completa da pirâmide etária, com o aumento súbito da população jovem nessas áreas.",
+                    "A taxa de urbanização desses municípios atingiu 100%, eliminando as zonas rurais."
+                ],
+                correct: 1,
+                resolution: "O Censo 2022 revelou um esvaziamento de pequenas cidades. O número de municípios com menos de 50 mil habitantes caiu de 151 para 147, e a população total residente nessas cidades diminuiu de 3.069.010 para 2.927.958, indicando que as populações estão se deslocando para centros urbanos de médio e grande porte."
+            },
+            {
+                id: 10,
+                question: "De acordo com os dados de composição urbano-rural do Censo 2022 no Ceará, assinale a alternativa que indica corretamente o perfil da população estadual.",
+                options: [
+                    "A maioria da população cearense (cerca de 60%) ainda reside em áreas rurais.",
+                    "O Ceará possui uma taxa de urbanização de 76,89%, com mais de 6,7 milhões de pessoas vivendo em cidades.",
+                    "O estado é o único do Brasil onde a população rural cresceu mais do que a urbana nos últimos doze anos.",
+                    "A urbanização é uniforme, com todos os 184 municípios apresentando mais de 90% de sua população em áreas urbanas.",
+                    "A população rural cearense concentra-se exclusivamente na Região Metropolitana de Fortaleza."
+                ],
+                correct: 1,
+                resolution: "O Ceará é um estado majoritariamente urbano. O Censo 2022 registrou 8.794.957 habitantes, dos quais 6.762.118 (76,89%) vivem em cidades e 2.032.839 (23,11%) vivem em zonas rurais. A urbanização é uma tendência consolidada, embora ainda existam municípios com forte predominância rural no interior."
+            }
+        ];
+
+        const container = document.getElementById('quiz-container');
+
+        // Carregar Questões
+        quizData.forEach((q, qIndex) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `q-card-${qIndex}`;
+
+            const qText = document.createElement('div');
+            qText.className = 'question-text';
+            qText.innerHTML = `${q.id}. ${q.question}`;
+            card.appendChild(qText);
+
+            const optionsList = document.createElement('ul');
+            optionsList.className = 'options';
+
+            q.options.forEach((opt, optIndex) => {
+                const li = document.createElement('li');
+                li.className = 'option-item';
+                
+                const label = document.createElement('label');
+                label.setAttribute('for', `q${qIndex}o${optIndex}`);
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = `question${qIndex}`;
+                radio.value = optIndex;
+                radio.id = `q${qIndex}o${optIndex}`;
+                
+                // Evento para destacar selecionado
+                radio.addEventListener('change', () => {
+                    const allLabels = card.querySelectorAll('label');
+                    allLabels.forEach(l => l.classList.remove('selected'));
+                    label.classList.add('selected');
+                });
+
+                const span = document.createElement('span');
+                const letter = String.fromCharCode(65 + optIndex);
+                span.innerHTML = `${letter}) ${opt}`;
+
+                label.appendChild(radio);
+                label.appendChild(span);
+                li.appendChild(label);
+                optionsList.appendChild(li);
+            });
+
+            card.appendChild(optionsList);
+            container.appendChild(card);
+        });
+
+        function calculateScore() {
+            let score = 0;
+            const resolutionsList = document.getElementById('resolutions-list');
+            resolutionsList.innerHTML = '';
+
+            quizData.forEach((q, qIndex) => {
+                const selected = document.querySelector(`input[name="question${qIndex}"]:checked`);
+                const qCard = document.getElementById(`q-card-${qIndex}`);
+                
+                let isCorrect = false;
+                if (selected && parseInt(selected.value) === q.correct) {
+                    score++;
+                    isCorrect = true;
+                }
+
+                // Pintar as alternativas no card original
+                const labels = qCard.querySelectorAll('label');
+                labels.forEach((label, lIndex) => {
+                    label.classList.remove('selected');
+                    if (lIndex === q.correct) {
+                        label.classList.add('correct-bg');
+                    } else if (selected && parseInt(selected.value) === lIndex && lIndex !== q.correct) {
+                        label.classList.add('wrong-bg');
+                    }
+                });
+
+                // Criar card de resolução
+                const resCard = document.createElement('div');
+                resCard.className = 'resolution-card';
+                
+                const letterCorrect = String.fromCharCode(65 + q.correct);
+                const statusHtml = isCorrect 
+                    ? `<span class="correct">✔ ACERTOU</span>` 
+                    : `<span class="wrong">✘ ERROU (Resposta Correta: ${letterCorrect})</span>`;
+
+                resCard.innerHTML = `
+                    <div class="resolution-header">Questão ${q.id} - ${statusHtml}</div>
+                    <p><strong>Gabarito: ${letterCorrect}</strong></p>
+                    <p style="margin-top:10px;">${q.resolution}</p>
+                `;
+                resolutionsList.appendChild(resCard);
+            });
+
+            // Mostrar Resultados
+            document.getElementById('score-circle').innerText = `${score}/10`;
+            document.getElementById('results-section').style.display = 'block';
+            document.getElementById('submit-btn').innerText = 'Simulado Finalizado';
+            document.getElementById('submit-btn').disabled = true;
+
+            // Scroll suave para o resultado
+            window.scrollTo({
+                top: document.getElementById('results-section').offsetTop - 20,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>

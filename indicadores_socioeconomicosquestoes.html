@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Indicadores Socioeconômicos e IDH - Estilo AOCP</title>
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-color: #2d3436;
+            --primary-color: #0984e3;
+            --success-color: #27ae60;
+            --error-color: #d63031;
+            --border-color: #dfe6e9;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --card-bg: #ffffff;
+            --explanation-bg: #f1f2f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            max-width: 850px;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e272e;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #636e72;
+        }
+
+        main {
+            width: 100%;
+            max-width: 850px;
+            padding: 20px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            transition: transform 0.2s;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #1e272e;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f8f9fa;
+            border-color: var(--primary-color);
+        }
+
+        input[type="radio"] {
+            margin-top: 6px;
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .option-label.selected {
+            background-color: #e3f2fd;
+            border-color: var(--primary-color);
+        }
+
+        /* Classes para o resultado */
+        .option-label.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+        }
+
+        .option-label.incorrect {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--explanation-bg);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto;
+            padding: 18px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(9, 132, 227, 0.3);
+        }
+
+        .btn-submit:hover {
+            background-color: #0873c4;
+            transform: translateY(-2px);
+        }
+
+        .result-summary {
+            display: none;
+            text-align: center;
+            background: #ffffff;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .score-text {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .footer-note {
+            text-align: center;
+            padding: 40px;
+            color: #b2bec3;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .question-card {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Simulado de Geografia e Sociedade</h1>
+    <p class="subtitle">Indicadores Socioeconômicos, IDH e Desenvolvimento Regional (Foco: Nordeste e Ceará)</p>
+</header>
+
+<main id="quiz-container">
+    <!-- O resumo dos resultados aparecerá aqui após o envio -->
+    <div id="result-summary" class="result-summary">
+        <h2>Resultado do Simulado</h2>
+        <div id="score-display" class="score-text">0 / 10</div>
+        <p id="score-comment"></p>
+        <button onclick="window.location.reload()" style="background:none; border: 1px solid var(--primary-color); color: var(--primary-color); padding: 8px 16px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Refazer Simulado</button>
+    </div>
+
+    <form id="quiz-form">
+        <!-- Questões serão inseridas aqui via JS -->
+    </form>
+
+    <button type="button" id="submit-btn" class="btn-submit" onclick="gradeQuiz()">Finalizar e Ver Resoluções</button>
+</main>
+
+<div class="footer-note">
+    Documento técnico baseado em dados do PNUD, IBGE, IPECE (2025) e Padrão Instituto AOCP.
+</div>
+
+<script>
+    const quizData = [
+        {
+            id: 1,
+            question: "Questão 01 - No que concerne à gênese e à aplicação metodológica do Índice de Desenvolvimento Humano (IDH), instrumento concebido pelo Programa das Nações Unidas para o Desenvolvimento (PNUD) para mensurar o progresso das nações para além do crescimento econômico estritamente contábil, assinale a alternativa correta.",
+            options: [
+                "O IDH é uma métrica unidimensional fundamentada na variação do Produto Interno Bruto (PIB) nominal per capita, ignorando variáveis de ordem demográfica ou educacional.",
+                "A dimensão da longevidade, um dos pilares do índice, é aferida pela taxa de mortalidade infantil acumulada no decênio anterior ao censo.",
+                "A metodologia atual de cálculo do IDH utiliza a média geométrica dos índices normalizados das três dimensões que o compõem: longevidade (saúde), educação (conhecimento) e renda (padrão de vida).",
+                "Para o cálculo da dimensão educação, o PNUD considera apenas o percentual de adultos alfabetizados.",
+                "O IDH é classificado em uma escala que varia de 1 a 10, sendo que valores acima de 8 indicam desenvolvimento humano muito alto."
+            ],
+            correct: 2, // C
+            explanation: "O IDH utiliza a média geométrica das três dimensões (Saúde, Educação e Renda) desde a reforma metodológica de 2010. A média geométrica penaliza desequilíbrios entre as dimensões. A escala correta é de 0 a 1."
+        },
+        {
+            id: 2,
+            question: "Questão 02 - O Coeficiente de Gini constitui o principal parâmetro internacional para a análise da concentração de renda. Sobre os mecanismos matemáticos e a interpretação socioeconômica deste indicador, assinale a alternativa correta.",
+            options: [
+                "O índice de Gini é representado graficamente por meio da Curva de Lorenz, onde o valor zero corresponde à desigualdade máxima.",
+                "Numericamente, o coeficiente varia entre 0 e 1, em que o valor 1 representa a situação de perfeita igualdade.",
+                "Na prática estatística, o Índice de Gini costuma realizar a comparação entre o rendimento acumulado por diferentes estratos, permitindo aferir o grau de disparidade na distribuição.",
+                "A relação entre o Coeficiente de Gini e o IDH é inversamente proporcional de forma absoluta (IDH alto sempre significa Gini zero).",
+                "O Coeficiente de Gini mede o volume total de riquezas produzidas por um país (PIB)."
+            ],
+            correct: 2, // C
+            explanation: "O coeficiente varia de 0 (perfeita igualdade) a 1 (desigualdade máxima). Ele é derivado da Curva de Lorenz e permite comparar a concentração de renda entre diferentes fatias da população."
+        },
+        {
+            id: 3,
+            question: "Questão 03 - Considerando a configuração estrutural da economia na região Nordeste e a evolução recente de seus agregados econômicos, assinale a alternativa correta.",
+            options: [
+                "O setor secundário é o principal motor da economia nordestina, respondendo por mais de 75% do Valor Adicionado (VA) regional.",
+                "O setor terciário (serviços) detém a hegemonia econômica no Nordeste, respondendo por cerca de 72,4% do valor adicionado da região, com peso significativo da administração pública.",
+                "A agropecuária nordestina possui uma participação média no PIB regional de apenas 1%.",
+                "A atividade de 'eletricidade, gás, água e esgoto' apresentou retração sistemática na região entre 2002 e 2020.",
+                "A indústria extrativa na região Nordeste perdeu relevância relativa no cenário nacional entre 2002 e 2020."
+            ],
+            correct: 1, // B
+            explanation: "O setor terciário domina a economia nordestina (72,4%). Um ponto importante para a banca AOCP é o peso da administração pública no Nordeste (24,8%), que é superior à média brasileira (16,8%)."
+        },
+        {
+            id: 4,
+            question: "Questão 04 - A região Nordeste é dividida em sub-regiões (Zona da Mata, Agreste, Sertão e Meio-Norte). Sobre a análise comparativa dessas áreas, assinale a alternativa correta.",
+            options: [
+                "O Sertão nordestino caracteriza-se pela homogeneidade econômica absoluta, baseada exclusivamente na pecuária de subsistência.",
+                "A sub-região do Meio-Norte, que compreende o Maranhão e o Piauí, destaca-se pelo extrativismo vegetal e pela expansão da fronteira agrícola e complexo minero-metalúrgico.",
+                "O Agreste funciona como a única sub-região onde o setor secundário supera o terciário.",
+                "A Zona da Mata é atualmente a área de menor densidade demográfica e menor participação no setor de serviços.",
+                "As disparidades de IDH entre as sub-regiões nordestinas foram totalmente eliminadas no início do século XXI."
+            ],
+            correct: 1, // B
+            explanation: "O Meio-Norte é uma zona de transição marcada pelo extrativismo tradicional (carnaúba/babaçu) e pela modernização via agronegócio da soja e exportação de minérios via Porto de Itaqui."
+        },
+        {
+            id: 5,
+            question: "Questão 05 - No contexto da análise comparativa entre os estados que integram o Nordeste, a concentração do PIB revela assimetrias profundas. Assinale a alternativa correta.",
+            options: [
+                "A economia nordestina é altamente desconcentrada, com cada estado contribuindo com fatias rigorosamente iguais.",
+                "Os estados da Bahia, Pernambuco e Ceará formam o tripé de sustentação econômica da região, somando mais de 60% do PIB total do Nordeste.",
+                "O Rio Grande do Norte e Sergipe foram os estados que apresentaram os maiores ganhos de participação no PIB nacional entre 2002 e 2020.",
+                "O estado do Maranhão apresenta a menor relevância proporcional do setor primário em sua economia interna.",
+                "A pauta de exportação do Ceará permanece inalterada desde 1970, baseada estritamente em algodão e couros."
+            ],
+            correct: 1, // B
+            explanation: "Bahia, Pernambuco e Ceará concentram aproximadamente 62,8% da riqueza da região. O Ceará, em particular, modernizou sua pauta com a siderurgia no Porto do Pecém."
+        },
+        {
+            id: 6,
+            question: "Questão 06 - O Estado do Ceará estabeleceu uma divisão em 14 Regiões de Planejamento. Sobre essa estrutura e seus fundamentos, assinale a alternativa correta.",
+            options: [
+                "As 14 Regiões de Planejamento foram criadas apenas para fins de coleta de dados censitários do IBGE.",
+                "A divisão regional permite um detalhamento maior do território, integrando municípios com características geográficas e socioeconômicas semelhantes.",
+                "Todas as 14 Regiões de Planejamento apresentam o mesmo Índice de Desenvolvimento Humano Municipal (IDH-M).",
+                "A Região do Maciço de Baturité é a que detém o maior dinamismo industrial do estado.",
+                "O Cariri é caracterizado por uma economia estritamente agrário-pastoril de baixa produtividade."
+            ],
+            correct: 1, // B
+            explanation: "As 14 regiões visam aperfeiçoar o planejamento estadual, indo além das antigas 8 macrorregiões, permitindo políticas públicas mais focalizadas nas realidades locais."
+        },
+        {
+            id: 7,
+            question: "Questão 07 - A análise do rendimento nominal médio mensal (Censo 2022/IPECE 2025) revela as disparidades internas no Ceará. Assinale a alternativa correta.",
+            options: [
+                "Fortaleza detém o maior rendimento médio mensal entre todos os 184 municípios cearenses.",
+                "O município de Eusébio registra a maior renda média do estado (R$ 4.607,83), superando inclusive a capital, Fortaleza.",
+                "A Região do Maciço de Baturité apresenta valores médios superiores aos da Grande Fortaleza.",
+                "Em todas as Regiões de Planejamento do Ceará, os rendimentos ficaram abaixo do salário-mínimo.",
+                "A desigualdade intramunicipal no Ceará é inexistente."
+            ],
+            correct: 1, // B
+            explanation: "O Eusébio tornou-se um enclave de alta renda na Região Metropolitana, abrigando condomínios de luxo e setores dinâmicos, o que eleva sua média salarial acima da capital."
+        },
+        {
+            id: 8,
+            question: "Questão 08 - Sobre os padrões de vulnerabilidade socioeconômica no estado do Ceará, assinale a alternativa correta.",
+            options: [
+                "A vulnerabilidade social no Ceará ocorre de forma aleatória, sem padrões de distribuição regionalizada.",
+                "Regiões como o Maciço de Baturité e o Sertão de Canindé figuram entre as áreas de menor rendimento médio e maior vulnerabilidade.",
+                "A vulnerabilidade socioeconômica no semiárido cearense é um fenômeno totalmente superado.",
+                "A saúde é o único fator que determina a pobreza no interior cearense segundo o IVSE.",
+                "A descentralização das ações de combate à pobreza concentrou todos os recursos em Fortaleza."
+            ],
+            correct: 1, // B
+            explanation: "Estudos de autocorrelação espacial (como o Índice de Moran) mostram que a pobreza no Ceará é regionalizada, com clusters de alta vulnerabilidade em áreas como o Sertão de Canindé e o Maciço de Baturité."
+        },
+        {
+            id: 9,
+            question: "Questão 09 - Considerando o papel dos polos de desenvolvimento regional no Ceará, assinale a alternativa correta.",
+            options: [
+                "Além da Grande Fortaleza, as regiões do Sertão de Sobral e do Cariri destacam-se como polos urbanos consolidados.",
+                "O desenvolvimento econômico cearense é caracterizado pela ausência completa de cidades médias.",
+                "A região da Serra da Ibiapaba possui uma economia baseada exclusivamente no turismo de massa.",
+                "O Sertão dos Inhamuns apresenta a maior densidade de indústrias de alta tecnologia do estado.",
+                "As disparidades internas no Ceará são explicadas exclusivamente pela pluviosidade."
+            ],
+            correct: 0, // A
+            explanation: "Sobral (Indústria/Educação) e o Cariri (Comércio/Serviços/Turismo Religioso) são os principais polos de interiorização do desenvolvimento que ajudam a equilibrar a economia estadual."
+        },
+        {
+            id: 10,
+            question: "Questão 10 - Sobre a evolução recente dos indicadores estruturais e de exportação do Ceará e Nordeste, assinale a alternativa correta.",
+            options: [
+                "A indústria nordestina foi imune ao fechamento da Ford na Bahia em 2021.",
+                "A siderurgia consolidou-se como o principal item de exportação do Ceará, representando quase 20% da pauta em 2020.",
+                "O PIB do Nordeste representa, historicamente, mais de 50% do PIB brasileiro.",
+                "Soja e Óleo Combustível deixaram de ser itens relevantes na pauta de exportação do Nordeste.",
+                "O Ceará não apresentou déficit comercial em sua balança entre 2010 e 2020."
+            ],
+            correct: 1, // B
+            explanation: "A Companhia Siderúrgica do Pecém (CSP) mudou o perfil econômico do Ceará, tornando o aço o principal produto de exportação do estado, gerando ganho de participação no PIB nacional."
+        }
+    ];
+
+    function renderQuestions() {
+        const form = document.getElementById('quiz-form');
+        quizData.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `q-card-${index}`;
+            
+            let optionsHtml = '';
+            q.options.forEach((opt, optIndex) => {
+                const letter = String.fromCharCode(65 + optIndex);
+                optionsHtml += `
+                    <li class="option-item">
+                        <label class="option-label" id="label-${index}-${optIndex}">
+                            <input type="radio" name="q${index}" value="${optIndex}" onchange="highlightSelection(${index}, ${optIndex})">
+                            <span>${letter}) ${opt}</span>
+                        </label>
+                    </li>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="question-text">${q.question}</div>
+                <ul class="options-list">${optionsHtml}</ul>
+                <div class="explanation" id="exp-${index}">
+                    <strong>Resolução Comentada:</strong><br>
+                    ${q.explanation}
+                </div>
+            `;
+            form.appendChild(card);
+        });
+    }
+
+    function highlightSelection(qIndex, optIndex) {
+        // Remove a classe 'selected' de todas as opções daquela questão
+        for (let i = 0; i < 5; i++) {
+            const label = document.getElementById(`label-${qIndex}-${i}`);
+            if (label) label.classList.remove('selected');
+        }
+        // Adiciona à selecionada
+        document.getElementById(`label-${qIndex}-${optIndex}`).classList.add('selected');
+    }
+
+    function gradeQuiz() {
+        let score = 0;
+        const form = document.getElementById('quiz-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        quizData.forEach((q, index) => {
+            const selected = form.querySelector(`input[name="q${index}"]:checked`);
+            const explanationDiv = document.getElementById(`exp-${index}`);
+            explanationDiv.style.display = 'block';
+
+            // Desabilitar inputs
+            const inputs = form.querySelectorAll(`input[name="q${index}"]`);
+            inputs.forEach(input => input.disabled = true);
+
+            if (selected) {
+                const userAnswer = parseInt(selected.value);
+                if (userAnswer === q.correct) {
+                    score++;
+                    document.getElementById(`label-${index}-${userAnswer}`).classList.add('correct');
+                } else {
+                    document.getElementById(`label-${index}-${userAnswer}`).classList.add('incorrect');
+                    document.getElementById(`label-${index}-${q.correct}`).classList.add('correct');
+                }
+            } else {
+                // Se não respondeu, apenas mostra a correta
+                document.getElementById(`label-${index}-${q.correct}`).classList.add('correct');
+            }
+        });
+
+        // Mostrar resumo
+        const summary = document.getElementById('result-summary');
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreComment = document.getElementById('score-comment');
+        
+        summary.style.display = 'block';
+        scoreDisplay.innerText = `${score} / 10`;
+        
+        if(score >= 8) scoreComment.innerText = "Excelente desempenho! Você domina bem os indicadores regionais.";
+        else if(score >= 5) scoreComment.innerText = "Bom desempenho. Revise os comentários das questões que errou para fixar o conteúdo.";
+        else scoreComment.innerText = "Continue estudando. Os indicadores socioeconômicos exigem atenção aos detalhes estatísticos e regionais.";
+
+        submitBtn.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.onload = renderQuestions;
+</script>
+
+</body>
+</html>

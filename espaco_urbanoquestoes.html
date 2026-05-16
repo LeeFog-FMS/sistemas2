@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Desigualdades no Espaço Urbano Contemporâneo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfcfc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        input[type="radio"]:checked + .option-text {
+            color: #2b6cb0;
+            font-weight: 600;
+        }
+
+        input[type="radio"]:checked + .option-label {
+            border-color: #3182ce;
+            background-color: #ebf8ff;
+        }
+
+        .resolution-box {
+            border-left: 4px solid #3182ce;
+            background-color: #f8fafc;
+        }
+
+        .correct {
+            color: #2f855a;
+            font-weight: bold;
+        }
+
+        .incorrect {
+            color: #c53030;
+            font-weight: bold;
+        }
+
+        #results-section {
+            display: none;
+        }
+    </style>
+</head>
+<body class="py-10 px-4">
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Cabeçalho -->
+        <header class="mb-12 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Simulado de Geografia Urbana</h1>
+            <p class="text-lg text-gray-600">Foco: Desigualdades, Segregação e o Papel do Capital Financeiro</p>
+            <div class="mt-6 h-1 w-24 bg-blue-600 mx-auto rounded-full"></div>
+        </header>
+
+        <!-- Formulário do Quiz -->
+        <form id="quiz-form">
+            <div id="questions-container" class="space-y-8">
+                <!-- As questões serão inseridas aqui pelo JavaScript -->
+            </div>
+
+            <div class="mt-12 text-center">
+                <button type="submit" id="submit-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+                    Finalizar Quiz e Ver Resultados
+                </button>
+            </div>
+        </form>
+
+        <!-- Seção de Resultados -->
+        <section id="results-section" class="mt-16 border-t-2 border-gray-200 pt-10">
+            <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100 text-center mb-10">
+                <h2 class="text-3xl font-bold mb-4">Resultado</h2>
+                <div class="text-5xl font-extrabold text-blue-600 mb-2" id="score-display">0/10</div>
+                <p class="text-gray-600 text-lg" id="score-message"></p>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-8 text-gray-800">Resoluções Comentadas</h3>
+            <div id="resolutions-container" class="space-y-12">
+                <!-- As resoluções serão inseridas aqui -->
+            </div>
+
+            <div class="mt-12 text-center pb-20">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-blue-600 font-semibold hover:underline">
+                    Voltar ao topo ↑
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "No que tange aos estudos da urbanização brasileira e à configuração das redes urbanas, a análise dos fluxos populacionais e da concentração de serviços revela padrões de desequilíbrio estrutural. Considere o fenômeno em que se observa uma massiva concentração técnica, produtiva e populacional em um único centro urbano, ou em um número extremamente reduzido de cidades, em detrimento de uma distribuição equitativa pela rede nacional. Este processo, frequentemente associado à incapacidade do mercado de trabalho formal em absorver o excedente de mão de obra oriundo do êxodo rural, resulta em uma hipertrofia do setor terciário e na proliferação de submoradias. De acordo com a bibliografia clássica de Milton Santos e as dinâmicas de crescimento urbano, tal fenômeno é definido como:",
+                options: [
+                    "Gentrificação socioespacial, caracterizada pela expulsão de populações de baixa renda para a valorização de ativos imobiliários em áreas centrais dotadas de infraestrutura.",
+                    "Macrocefalia urbana, que se manifesta pela concentração desproporcional de atividades e população, gerando inchaço e problemas socioeconômicos derivados da atratividade técnica e produtiva redirecionada para grandes centros.",
+                    "Conurbação metropolitana, processo resultante da união física de manchas urbanas de municípios limítrofes, estabelecendo uma integração funcional e de fluxos de transporte.",
+                    "Hierarquização local, na qual as cidades de pequeno porte assumem o papel de centros sub-regionais para otimizar a distribuição de recursos financeiros e administrativos.",
+                    "Copenhaguização, que consiste em uma estratégia de planejamento voltada à mobilidade sustentável e eliminação de externalidades negativas como as ilhas de calor e a poluição hídrica."
+                ],
+                answer: 1,
+                resolution: "A análise da urbanização em países de industrialização tardia, como o Brasil, revela o fenômeno da **Macrocefalia Urbana**. Este conceito descreve um desequilíbrio estrutural na rede urbana, onde uma ou poucas cidades concentram uma parcela desproporcional da população nacional, das atividades econômicas, dos serviços de saúde e educação, e do poder político. Diferente de um crescimento saudável, a macrocefalia é frequentemente comparada a um 'inchaço', pois o aumento da população urbana não é acompanhado por uma oferta equivalente de empregos no setor formal."
+            },
+            {
+                id: 2,
+                text: "A produção do espaço urbano contemporâneo não é um processo neutro, sendo profundamente pautada pela lógica do capital financeiro e pela atuação de agentes imobiliários. Segundo a crítica de Ermínia Maricato, a aplicação da legislação urbanística muitas vezes favorece a exclusão, permitindo que a valorização da terra seja capturada por interesses privados enquanto a população pobre é empurrada para áreas sem lei ou infraestrutura. No contexto da segregação socioespacial e do papel do capital financeiro, assinale a alternativa correta.",
+                options: [
+                    "O capital financeiro atua de forma orquestrada com o Estado para garantir que a dispersão dos limites metropolitanos elimine a desigualdade social e a segregação espacial em áreas periféricas.",
+                    "A retenção de terras ociosas em áreas centrais para fins de especulação imobiliária é uma prática que concretiza a função social da propriedade e assegura o direito à cidade para as classes populares.",
+                    "A segregação urbana é fruto de uma lógica de mercado onde a terra é tratada como mercadoria e ativo financeiro, resultando em uma cidade fragmentada onde o acesso aos serviços é ditado pelo poder aquisitivo e pela seletividade espacial.",
+                    "A produção do espaço urbano restringe-se exclusivamente a dinâmicas técnicas de engenharia, sem considerar dimensões políticas, simbólicas ou a atuação de movimentos sociais na disputa pelo excedente social.",
+                    "O processo de metropolização acelerado observado no Brasil desde o início do século XX facilitou o acesso democrático aos bens e serviços, impedindo a formação de aglomerados subnormais."
+                ],
+                answer: 2,
+                resolution: "A terra urbana não é apenas um suporte físico, mas um ativo financeiro que deve gerar lucros crescentes. A segregação socioespacial é o resultado material dessa lógica. O capital financeiro investe em áreas onde o Estado já proveu infraestrutura ou onde há potencial de valorização futura, enquanto a especulação imobiliária cria uma escassez artificial que empurra a classe trabalhadora para as periferias desassistidas."
+            },
+            {
+                id: 3,
+                text: "O fenômeno da gentrificação tem sido central nas discussões sobre a requalificação de centros históricos e áreas portuárias. Este processo envolve uma reestruturação urbana que altera o perfil socioeconômico de determinados bairros. Sobre a gentrificação e seus mecanismos de operação nas cidades modernas, assinale a alternativa correta.",
+                options: [
+                    "A gentrificação diferencia-se da revitalização urbana por ser um processo espontâneo de ocupação de áreas centrais por moradores de baixa renda visando a moradia social.",
+                    "Trata-se de um processo de 'enobrecimento' urbano onde investimentos em infraestrutura e melhorias estéticas elevam o valor da terra, resultando na substituição da população original de menor renda por estratos sociais mais elevados.",
+                    "É um instrumento previsto no Estatuto da Cidade para garantir a regularização fundiária e a permanência de moradores em terrenos ocupados sem risco de especulação imobiliária.",
+                    "A gentrificação ocorre prioritariamente em áreas rurais de expansão agrícola, onde o capital financeiro busca transformar latifúndios em centros de inovação tecnológica.",
+                    "Esse fenômeno é caracterizado pela descentralização industrial e pela migração de empresas do setor terciário para as periferias, promovendo a equidade espacial e a redução dos fluxos pendulares."
+                ],
+                answer: 1,
+                resolution: "A gentrificação é o processo de transformação de bairros populares em áreas de elite. O mecanismo básico envolve investimentos públicos e privados que elevam o valor do solo, provocando a 'expulsão branca' (por custos) dos antigos moradores em favor de uma classe de maior poder aquisitivo."
+            },
+            {
+                id: 4,
+                text: "Milton Santos, em sua obra 'A Urbanização Brasileira', discute a existência de 'cidadãos de diversas ordens' na metrópole contemporânea, evidenciando que a utilização do espaço urbano é profundamente desigual. Considerando a visão do autor sobre a segregação socioespacial e o meio técnico-científico-informacional, assinale a alternativa correta.",
+                options: [
+                    "A rede urbana é real e acessível de forma homogênea para todos os cidadãos, independentemente de sua classe social ou posse de recursos financeiros.",
+                    "O espaço urbano contemporâneo é marcado pela fragmentação, onde indivíduos com fartos recursos utilizam a metrópole em sua totalidade, enquanto os desprovidos de meios utilizam-na apenas parcialmente, como se vivessem em uma cidade pequena.",
+                    "A unicidade técnica permite que qualquer instrumento produtivo seja instalado em qualquer lugar com os mesmos resultados sociais, eliminando a seletividade espacial do capital.",
+                    "A segregação socioespacial no Brasil foi superada pela independência funcional entre os lugares e pela circulação irrestrita de informações em todas as camadas da população.",
+                    "O uso do espaço urbano por homens e mulheres de baixa renda é regido por regras que garantem a mobilidade plena e o acesso igualitário aos grandes centros de consumo."
+                ],
+                answer: 1,
+                resolution: "Milton Santos aponta que o habitante da periferia vive na metrópole mas não usufrui dela como um todo. Por falta de recursos e transporte eficiente, sua experiência urbana é restrita ao bairro e ao local de trabalho, o que fragmenta a cidadania em ordens distintas."
+            },
+            {
+                id: 5,
+                text: "A pesquisa 'Regiões de Influência das Cidades' (REGIC), conduzida pelo IBGE, é o principal instrumento para compreender a hierarquia urbana brasileira. De acordo com a metodologia da REGIC, as cidades brasileiras são classificadas em cinco grandes níveis. Assinale a alternativa que apresenta um nível que NÃO faz parte desta classificação oficial do IBGE:",
+                options: [
+                    "Metrópole.",
+                    "Capital Regional.",
+                    "Centro Sub-regional.",
+                    "Centro de Zona.",
+                    "Megalópole."
+                ],
+                answer: 4,
+                resolution: "A REGIC classifica os centros urbanos em: Metrópoles, Capitais Regionais, Centros Sub-regionais, Centros de Zona e Centros Locais. A **Megalópole** é um conceito geográfico de confluência de metrópoles, mas não uma categoria individual na hierarquia do IBGE."
+            },
+            {
+                id: 6,
+                text: "A dinâmica urbana atual é caracterizada pela fragmentação em centros e periferias, processo este impulsionado pela racionalidade do capital financeiro em conjunto com o Estado. Sobre essa organização do espaço urbano, assinale a alternativa correta.",
+                options: [
+                    "A rede de transporte e comunicação das grandes aglomerações urbanas beneficia de forma idêntica empresas e trabalhadores, facilitando a circulação e garantindo a centralização produtiva nas periferias.",
+                    "A conurbação e a dispersão metropolitana resultam de uma estratégia focada exclusivamente na diminuição da desigualdade social e na ampliação dos benefícios dos grandes centros para as áreas periféricas.",
+                    "As Regiões Metropolitanas, caracterizadas por aglomerações contínuas, foram instituídas para organizar o território, mas muitas vezes perpetuam a lógica de exclusão onde o centro concentra os serviços e a periferia a mão de obra desassistida.",
+                    "O processo de favelização é um fenômeno decorrente da organização eficiente do espaço urbano e do acesso democrático à terra garantido pelo mercado imobiliário.",
+                    "A ocupação do espaço urbano nas metrópoles brasileiras é marcada pela homogeneidade das densidades populacionais e pela distribuição equitativa de equipamentos públicos."
+                ],
+                answer: 2,
+                resolution: "As Regiões Metropolitanas no Brasil refletem a segregação: o núcleo central concentra investimentos, empregos especializados e infraestrutura, enquanto as periferias (e municípios limítrofes conurbados) frequentemente absorvem apenas a demanda habitacional precária."
+            },
+            {
+                id: 7,
+                text: "No âmbito do planejamento urbano, suponha que um investidor imobiliário adquira um lote de 2.000 m² em uma área central. Se o Plano Diretor define para esta zona um Coeficiente de Aproveitamento (CA) igual a 4 e uma Taxa de Ocupação (TO) máxima de 50%, qual será a área total máxima construída e a área máxima de projeção da edificação, respectivamente?",
+                options: [
+                    "8.000 m² e 1.000 m².",
+                    "4.000 m² e 2.000 m².",
+                    "10.000 m² e 500 m².",
+                    "2.000 m² e 1.000 m².",
+                    "5.000 m² e 2.500 m²."
+                ],
+                answer: 0,
+                resolution: "Cálculo: Projeção máxima = Área do Lote x TO (2000 x 0,5 = 1000 m²). Área Total Construída = Área do Lote x CA (2000 x 4 = 8000 m²)."
+            },
+            {
+                id: 8,
+                text: "A urbanização brasileira no século XX foi marcada por uma transição rápida do modelo agrário-exportador para o urbano-industrial. Sobre os reflexos desse desenvolvimento nas desigualdades contemporâneas, assinale a alternativa correta.",
+                options: [
+                    "A urbanização no Brasil ocorreu de forma lenta e planejada, evitando a macrocefalia urbana e garantindo a integração regional.",
+                    "O poder político e econômico no período agrário estava nas mãos de latifundiários, e a transição urbana manteve a concentração da propriedade da terra como um dos pilares da segregação socioespacial nas cidades.",
+                    "A modernização do setor portuário garantiu a descentralização econômica plena, eliminando a dependência das capitais em relação ao capital financeiro.",
+                    "A estrutura da população mostra que o crescimento populacional é homogêneo em todas as regiões, eliminando a necessidade de polos metropolitanos.",
+                    "A dispersão urbana é um fenômeno que ocorre independentemente da atuação do Estado, sendo fruto apenas de decisões individuais de moradia."
+                ],
+                answer: 1,
+                resolution: "A urbanização brasileira transportou a lógica da concentração fundiária do campo para a cidade. O controle da terra urbana pelas elites e pelo capital imobiliário é a raiz da segregação socioespacial contemporânea."
+            },
+            {
+                id: 9,
+                text: "A Geografia Crítica aponta que a segregação socioespacial também se manifesta na vulnerabilidade ambiental. Sobre a relação entre ocupação urbana, segregação e meio ambiente, assinale a alternativa correta.",
+                options: [
+                    "A urbanização ou requalificação de favelas é uma ferramenta de intervenção que recupera tanto o aspecto social quanto o ambiental, visto que essas comunidades frequentemente ocupam áreas ambientalmente frágeis por falta de opção no mercado formal.",
+                    "O monitoramento ambiental demonstra que a vegetação urbana é distribuída de maneira equânime entre centros de alta renda e periferias operárias.",
+                    "Áreas de preservação permanente (APPs) em ambiente urbano são rigorosamente protegidas pelo mercado imobiliário para evitar a valorização indevida do solo.",
+                    "A macrocefalia urbana contribui para a melhoria da qualidade ambiental nas grandes cidades, pois concentra a poluição em um único ponto.",
+                    "As mudanças climáticas e as ilhas de calor afetam exclusivamente as áreas periféricas, não havendo registros desse fenômeno em centros densamente edificados."
+                ],
+                answer: 0,
+                resolution: "A segregação empurra os pobres para áreas de risco (encostas, beiras de rios). A intervenção do Estado nessas áreas é fundamental para mitigar tanto a exclusão social quanto a degradação ambiental."
+            },
+            {
+                id: 10,
+                text: "O Estatuto da Cidade estabelece instrumentos para garantir a função social da propriedade. Considerando o risco de gentrificação, qual instrumento permite regularizar a permanência dos moradores sem o reconhecimento imediato de posse que permita a venda comercial livre do lote?",
+                options: [
+                    "Direito de superfície para fins comerciais.",
+                    "Concessão de Uso Especial para fins de Moradia (CUEM) ou Zonas Especiais de Interesse Social (ZEIS).",
+                    "Outorga onerosa do direito de construir acima do coeficiente básico.",
+                    "Operações Urbanas Consorciadas focadas em centros de convenções.",
+                    "IPTU progressivo no tempo para imóveis tombados pelo patrimônio histórico."
+                ],
+                answer: 1,
+                resolution: "A CUEM e as ZEIS são instrumentos que protegem a permanência da população de baixa renda em áreas valorizadas, retirando esses terrenos da lógica pura do mercado imobiliário e garantindo o direito à moradia."
+            }
+        ];
+
+        const container = document.getElementById('questions-container');
+        const form = document.getElementById('quiz-form');
+        const resultsSection = document.getElementById('results-section');
+        const resolutionsContainer = document.getElementById('resolutions-container');
+
+        // Renderizar questões
+        questions.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card p-6 md:p-8 rounded-xl shadow-sm mb-8';
+            
+            let optionsHTML = q.options.map((opt, i) => `
+                <div class="mb-3">
+                    <input type="radio" name="q${q.id}" id="q${q.id}_o${i}" value="${i}" class="hidden" required>
+                    <label for="q${q.id}_o${i}" class="option-label">
+                        <span class="mr-3 mt-1 flex-shrink-0 w-6 h-6 border-2 border-gray-300 rounded-full flex items-center justify-center text-xs font-bold text-gray-500">
+                            ${String.fromCharCode(65 + i)}
+                        </span>
+                        <span class="option-text">${opt}</span>
+                    </label>
+                </div>
+            `).join('');
+
+            card.innerHTML = `
+                <div class="flex items-center mb-6">
+                    <span class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded-full text-sm mr-3">Questão ${index + 1}</span>
+                </div>
+                <p class="text-lg font-medium text-gray-800 mb-8">${q.text}</p>
+                <div class="space-y-2">
+                    ${optionsHTML}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Lidar com o envio do formulário
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let score = 0;
+            const userAnswers = [];
+            
+            questions.forEach(q => {
+                const selected = form.querySelector(`input[name="q${q.id}"]:checked`);
+                const answerIndex = selected ? parseInt(selected.value) : null;
+                userAnswers.push(answerIndex);
+                if (answerIndex === q.answer) score++;
+            });
+
+            // Mostrar resultados
+            document.getElementById('score-display').innerText = `${score}/10`;
+            const msg = score >= 7 ? "Excelente desempenho! Você domina os conceitos da banca." : 
+                        score >= 5 ? "Bom resultado. Revise os pontos onde houve dúvida." : 
+                        "Continue estudando. A Geografia Urbana exige atenção aos detalhes teóricos.";
+            document.getElementById('score-message').innerText = msg;
+
+            // Gerar Resoluções
+            resolutionsContainer.innerHTML = '';
+            questions.forEach((q, index) => {
+                const isCorrect = userAnswers[index] === q.answer;
+                const resCard = document.createElement('div');
+                resCard.className = 'bg-white p-6 rounded-xl border border-gray-200 shadow-sm';
+                
+                resCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <h4 class="text-xl font-bold text-gray-800">Questão ${index + 1}</h4>
+                        <span class="ml-4 px-3 py-1 rounded-full text-sm ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                            ${isCorrect ? 'Você acertou' : 'Você errou'}
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-500 mb-1">Gabarito Oficial:</p>
+                        <p class="font-bold text-blue-700">${String.fromCharCode(65 + q.answer)}) ${q.options[q.answer]}</p>
+                    </div>
+                    <div class="resolution-box p-4 rounded-lg">
+                        <p class="text-gray-700"><strong class="text-blue-800">Resolução:</strong> ${q.resolution.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+                    </div>
+                `;
+                resolutionsContainer.appendChild(resCard);
+            });
+
+            resultsSection.style.display = 'block';
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('submit-btn').innerText = "Simulado Concluído";
+            document.getElementById('submit-btn').classList.replace('bg-blue-600', 'bg-gray-400');
+            
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

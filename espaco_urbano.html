@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula: Desigualdades no Espaço Urbano - IFCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: #1a202c;
+            background-color: #ffffff;
+        }
+
+        .highlight {
+            background-color: #fefcbf;
+            font-weight: 600;
+            padding: 0 2px;
+            border-bottom: 2px solid #faf089;
+        }
+
+        .important-box {
+            border-left: 4px solid #3182ce;
+            background-color: #f0f7ff;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .alert-box {
+            border-left: 4px solid #e53e3e;
+            background-color: #fff5f5;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .audio-player-container {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+        }
+
+        .btn-questoes {
+            display: inline-block;
+            background-color: #2b6cb0;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-questoes:hover {
+            background-color: #2c5282;
+            transform: translateY(-2px);
+        }
+
+        .step-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-color: #2b6cb0;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 0.8rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        
+        <div class="audio-player-container mb-8">
+            <h3 class="text-sm font-semibold text-gray-500 mb-2 uppercase tracking-wider">🎧 Podcast da Aula - Revisão Rápida</h3>
+            <audio controls class="w-full">
+                <source src="NOME_DO_ARQUIVO.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <p class="text-xs text-gray-400 mt-2 italic">* Renomeie seu áudio para "NOME_DO_ARQUIVO.mp3" e coloque na mesma pasta deste arquivo.</p>
+        </div>
+
+        <header class="mb-12 border-b-2 border-gray-100 pb-6">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+                Desigualdades no Espaço Urbano Contemporâneo
+            </h1>
+            <p class="text-lg text-gray-600">
+                Curso Intensivo para Professor EBTT - <span class="font-bold text-blue-700">IFCE</span> (Banca AOCP)
+            </p>
+        </header>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-4">1. Lógica da Produção do Espaço</h2>
+            <p class="mb-4">
+                A cidade contemporânea é moldada pela ação de agentes como o Estado e o mercado imobiliário. Sob o <span class="highlight">Capital Financeiro</span>, o espaço urbano torna-se uma <span class="highlight">mercadoria</span>.
+            </p>
+            <ul class="space-y-3 mb-6">
+                <li class="flex items-start">
+                    <span class="mr-2">🔹</span>
+                    <span><strong>Espaço como Ativo:</strong> Terrenos são "ativos locacionais" de alta liquidez.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">🔹</span>
+                    <span><strong>Valor de Troca vs. Valor de Uso:</strong> A busca pelo lucro (troca) ignora a função social da moradia (uso).</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-2">🔹</span>
+                    <span><strong>Fragmentação:</strong> A cidade deixa de ser contínua e vira um "arquipélago" de enclaves isolados.</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-4">2. Segregação e Fragmentação</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo de Segregação</th>
+                        <th>Público-Alvo</th>
+                        <th>Motivação Principal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Imposta (Periferização)</strong></td>
+                        <td>Classes de Baixa Renda</td>
+                        <td>Incapacidade econômica e custo do solo urbano.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Induzida (Autossegregação)</strong></td>
+                        <td>Classes de Alta Renda</td>
+                        <td>Busca por <span class="highlight">segurança, status</span> e isolamento.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="important-box">
+                <p><strong>Conceito de Enclave Fortificado:</strong> Termo comum em provas para descrever condomínios fechados que rompem com a vida pública da cidade, gerando a <span class="highlight">fragmentação urbana</span>.</p>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-4">3. Gentrificação: O Passo a Passo</h2>
+            <p class="mb-6">Para não errar na prova, memorize a sequência lógica deste processo de "enobrecimento":</p>
+            <div class="space-y-4 mb-8">
+                <div class="flex items-center"><span class="step-circle">1</span> <p>Área central ou histórica sofre degradação ou recebe investimento público inicial.</p></div>
+                <div class="flex items-center"><span class="step-circle">2</span> <p>Ocorre a valorização imobiliária e o custo de vida (aluguéis/impostos) sobe drasticamente.</p></div>
+                <div class="flex items-center"><span class="step-circle">3</span> <p>A <span class="highlight">população original de baixa renda é expulsa</span> por falta de condições financeiras.</p></div>
+                <div class="flex items-center"><span class="step-circle">4</span> <p>Novos comércios de luxo e residentes de alta renda ocupam o local.</p></div>
+                <div class="flex items-center"><span class="step-circle">5</span> <p><strong>Resultado Final:</strong> Elitização do espaço e perda da identidade popular.</p></div>
+            </div>
+            
+            <div class="alert-box">
+                <p><strong>⚠️ Atenção Banca AOCP:</strong> Diferencie de <strong>Revitalização</strong>. A revitalização visa melhoria técnica; a Gentrificação foca na <span class="highlight">troca de classe social</span> (elitização).</p>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-4">4. Macrocefalia e Hierarquia Urbana</h2>
+            <p class="mb-4">Macrocefalia não é apenas "cidade grande", é o <span class="highlight">crescimento desequilibrado</span> em relação ao resto do território.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <h4 class="font-bold text-blue-800 mb-2">Hierarquia (IBGE/REGIC)</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Metrópole Nacional</li>
+                        <li>• Metrópole Regional</li>
+                        <li>• Centro Regional</li>
+                        <li>• Centro de Zona</li>
+                    </ul>
+                </div>
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <h4 class="font-bold text-red-800 mb-2">Inchaço (Macrocefalia)</h4>
+                    <p class="text-sm">Hipertrofia do setor terciário, informalidade e colapso de infraestrutura.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-4">5. Teoria de Milton Santos (Obrigatório)</h2>
+            <p class="mb-4">Indispensável para o IFCE. A economia urbana se divide em dois circuitos:</p>
+            <ul class="list-disc pl-6 space-y-2 mb-6">
+                <li><strong>Circuito Superior:</strong> Moderno, tecnológico, capital intensivo, ligado ao sistema financeiro global.</li>
+                <li><strong>Circuito Inferior:</strong> Informal, intensivo em mão de obra, baseado na sobrevivência e redes locais de solidariedade (típico das periferias).</li>
+            </ul>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-4">6. Checklist Estratégico (Estatuto da Cidade)</h2>
+            <div class="important-box bg-green-50 border-green-600">
+                <p class="font-bold text-green-800 mb-2">Memorize estes números para a AOCP:</p>
+                <ul class="space-y-2">
+                    <li>✅ <strong>Plano Diretor:</strong> Obrigatório para cidades > <span class="font-bold">20.000 hab.</span></li>
+                    <li>✅ <strong>Revisão do Plano:</strong> A cada <span class="font-bold">10 anos</span> (Banca tenta trocar por 5 ou 15).</li>
+                    <li>✅ <strong>Conurbação:</strong> Encontro físico de manchas urbanas (pode levar à metropolização).</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="text-center py-12 border-t border-gray-100">
+            <p class="text-gray-500 mb-8 font-medium">Conteúdo revisado conforme Edital IFCE e Perfil Institucional AOCP.</p>
+            <a href="espaco_urbanoquestoes.html" class="btn-questoes">
+                📝 PRATICAR COM QUESTÕES
+            </a>
+        </footer>
+
+    </div>
+
+</body>
+</html>
