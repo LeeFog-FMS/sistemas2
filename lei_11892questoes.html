@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Interativo - Lei nº 11.892/2008 (Rede Federal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 min-h-screen flex flex-col selection:bg-brand-100 selection:text-brand-900">
+
+    <!-- Cabeçalho Principal -->
+    <header class="bg-white border-b border-stone-200 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-700 border border-brand-100 uppercase tracking-wider">
+                Banca Estilo Instituto AOCP
+            </span>
+            <h1 class="mt-3 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Simulado Interativo: Lei nº 11.892/2008
+            </h1>
+            <p class="mt-2 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
+                Criação dos Institutos Federais e da Rede Federal de Educação Profissional, Científica e Tecnológica.
+            </p>
+        </div>
+    </header>
+
+    <!-- Barra de Progresso Flutuante -->
+    <div id="progress-container" class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm py-4 px-4 transition-all duration-300">
+        <div class="max-w-4xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 w-full max-w-md">
+                <span class="text-sm font-medium text-slate-500 whitespace-nowrap">Seu Progresso:</span>
+                <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-brand-600 h-2.5 rounded-full transition-all duration-300 w-0"></div>
+                </div>
+                <span id="progress-text" class="text-sm font-semibold text-brand-700 whitespace-nowrap">0 / 10</span>
+            </div>
+            <button id="btn-submit-top" onclick="checkQuiz()" disabled
+                class="px-5 py-2 bg-slate-300 text-slate-500 font-semibold text-sm rounded-lg cursor-not-allowed transition-all duration-200 hover:scale-[1.01] focus:ring-2 focus:ring-brand-600 focus:ring-offset-2">
+                Finalizar Simulado
+            </button>
+        </div>
+    </div>
+
+    <!-- Container das Questões -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div id="quiz-container" class="space-y-8">
+            <!-- As questões serão injetadas dinamicamente via JS aqui -->
+        </div>
+
+        <!-- Painel de Resultados (Invisível no início) -->
+        <div id="result-panel" class="hidden mt-12 bg-white rounded-2xl border-2 border-brand-600/20 p-6 sm:p-10 shadow-lg text-center transform transition-all duration-500 scale-95 opacity-0">
+            <div class="inline-flex p-4 rounded-full bg-brand-50 text-brand-700 mb-4 animate-bounce">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-extrabold text-slate-900">Simulado Concluído!</h2>
+            <p class="mt-2 text-slate-600">Veja o seu desempenho detalhado abaixo.</p>
+            
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+                <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl">
+                    <span class="block text-sm text-slate-500 font-semibold uppercase tracking-wider">Acertos</span>
+                    <span id="score-text" class="text-4xl font-black text-brand-700 mt-1">0 / 10</span>
+                </div>
+                <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl">
+                    <span class="block text-sm text-slate-500 font-semibold uppercase tracking-wider">Aproveitamento</span>
+                    <span id="percentage-text" class="text-4xl font-black text-blue-600 mt-1">0%</span>
+                </div>
+            </div>
+
+            <div class="mt-6 max-w-lg mx-auto">
+                <p id="performance-feedback" class="text-lg font-medium text-slate-700 italic">
+                    Excelente progresso! Leia as resoluções de cada questão para fixar os pontos mais complexos da lei.
+                </p>
+            </div>
+
+            <div class="mt-8 flex justify-center gap-4">
+                <button onclick="resetQuiz()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md transition-colors focus:ring-2 focus:ring-brand-600 focus:ring-offset-2">
+                    Refazer Simulado
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-white border-t border-stone-200 py-8 px-4 text-center mt-auto">
+        <p class="text-sm text-slate-500">
+            Simulado Acadêmico Lei nº 11.892/2008 &copy; 2026. Feito com foco em performance de estudos.
+        </p>
+    </footer>
+
+    <!-- Script com lógica e banco de dados do Quiz -->
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                title: "Questão 1",
+                enunciado: "No que concerne à Lei nº 11.892, de 29 de dezembro de 2008, que institui a Rede Federal de Educação Profissional, Científica e Tecnológica e cria os Institutos Federais de Educação, Ciência e Tecnologia, analise as assertivas abaixo.",
+                assertivas: [
+                    "I. A criação dos Institutos Federais de Educação, Ciência e Tecnologia resultou da transformação de Escolas Técnicas e Agrotécnicas Federais, bem como de Centros Federais de Educação Tecnológica, com a finalidade de constituir a nova rede federal.",
+                    "II. Os Institutos Federais têm por objetivo ministrar educação profissional técnica de nível médio, prioritariamente na forma de cursos integrados, possuindo autonomia para oferecer cursos de pós-graduação stricto sensu.",
+                    "III. Os bens e direitos dos Institutos Federais serão utilizados ou aplicados, exclusivamente, para a consecução de seus objetivos, sendo absolutamente vedada a sua alienação sob qualquer hipótese ou contexto.",
+                    "IV. Os Institutos Federais possuem autonomia didático-pedagógica, administrativa e de gestão financeira e patrimonial."
+                ],
+                opcoes: {
+                    A: "II, III e IV, apenas.",
+                    B: "I, II e III, apenas.",
+                    C: "I, II e IV, apenas.",
+                    D: "III e IV, apenas.",
+                    E: "I, II, III e IV."
+                },
+                correta: "C",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: C</p>
+                    <p class="mb-3">A análise histórica e jurídica da Rede Federal de Educação Profissional, Científica e Tecnológica revela que a Lei nº 11.892/2008 estruturou uma das mais profundas reformas da política de ensino do país, promovendo a fusão, a transformação e a integração de instituições centenárias de ensino agrícola e técnico.</p>
+                    <ul class="space-y-2 list-disc pl-5 mb-3 text-slate-700">
+                        <li><strong>Item I está correto</strong>, uma vez que o marco regulatório promoveu a extinção jurídica de autarquias anteriores, promovendo a sua unificação e a consequente transformação das antigas Escolas Técnicas, Escolas Agrotécnicas e CEFETs na estrutura multicampi unificada dos novos Institutos Federais.</li>
+                        <li><strong>Item II está correto</strong>, pois as instituições receberam competência plena e equiparação universitária para atuar em todo o espectro acadêmico, o que engloba expressamente a prerrogativa e a autonomia didático-pedagógica para a criação e oferta de programas de pós-graduação <em>stricto sensu</em> (mestrados e doutorados).</li>
+                        <li><strong>Item III está incorreto</strong>, pois incorre em erro de absoluto extremismo jurídico ao afirmar que os bens e direitos "não podem ser alienados, independentemente do contexto". Os Institutos Federais, configurados como autarquias, submetem-se ao regime de direito público e ao regime de bens públicos dominicais ou de uso especial. Dessa forma, a alienação patrimonial é juridicamente possível, condicionada à comprovação do interesse público, à realização de avaliação prévia e à estrita observância do processo de licitação, com autorização de seu Conselho Superior.</li>
+                        <li><strong>Item IV está correto</strong>, porquanto reproduz de maneira literal as garantias de autonomia consagradas às autarquias no âmbito educacional federal, detalhando o tripé de gestão financeira, administrativa e patrimonial.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 2,
+                title: "Questão 2",
+                enunciado: "Considere a seguinte situação hipotética: Um docente, estrangeiro de nacionalidade italiana e detentor do título de doutor, pertence ao Quadro de Pessoal Ativo Permanente de um dos campi que integram o Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB). Ele conta com cinco anos de efetivo exercício em instituição federal de educação profissional e tecnológica, atuando na Carreira do Magistério do Ensino Básico, Técnico e Tecnológico, e deseja se candidatar ao cargo de Reitor da respectiva instituição.<br><br>Com base estritamente nas regras e requisitos previstos no Artigo 12 da Lei nº 11.892/2008, esse docente poderá se candidatar ao cargo desejado?",
+                opcoes: {
+                    A: "Sim, pois cumpre todos os requisitos de elegibilidade: pertence ao quadro permanente ativo, possui os cinco anos mínimos de efetivo exercício na rede federal de educação profissional e tecnológica e atende ao requisito de titulação.",
+                    B: "Não, visto que a nacionalidade estrangeira constitui impedimento absoluto para o exercício de cargos de direção máxima em autarquias educacionais brasileiras, restritos a brasileiros natos.",
+                    C: "Não, pois a legislação exige, cumulativamente com o título de doutor, o posicionamento simultâneo na Classe de Professor Titular ou equivalente da respectiva carreira.",
+                    D: "Não, pois o tempo mínimo exigido de efetivo exercício em instituição federal de educação profissional e tecnológica é de dez anos para concorrer ao cargo de Reitor.",
+                    E: "Sim, contudo sua candidatura dependerá de homologação discricionária prévia pelo Conselho Superior do respectivo Instituto Federal."
+                },
+                correta: "A",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: A</p>
+                    <p class="mb-3">O processo de provimento das funções de gestão máxima nos Institutos Federais obedece a regras de qualificação profissional, estabilidade e representação democrática. Para a elegibilidade ao cargo de Reitor, o docente deve atender, cumulativa e estritamente, aos requisitos objetivos detalhados no Artigo 12, § 1º, da Lei nº 11.892/2008.</p>
+                    
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full divide-y divide-stone-200 text-sm">
+                            <thead class="bg-stone-100">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Requisito Legal (Artigo 12, § 1º)</th>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Detalhamento Técnico da Norma</th>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Status no Caso Prático</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Vínculo Funcional Estável</td>
+                                    <td class="px-4 py-3 text-slate-600">Pertencer ao Quadro de Pessoal Ativo Permanente de qualquer dos campi que integram a respectiva autarquia.</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Atendido: Integrante do Quadro Permanente.</td>
+                                </tr>
+                                <tr class="bg-stone-50">
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Tempo Mínimo na Rede</td>
+                                    <td class="px-4 py-3 text-slate-600">Mínimo de 5 (cinco) anos de efetivo exercício em instituição federal de educação profissional e tecnológica.</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Atendido: Conta com cinco anos exatos.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Qualificação e Titulação</td>
+                                    <td class="px-4 py-3 text-slate-600">Possuir o título de doutor OU estar posicionado nas Classes DIV ou DV da Carreira EBTT.</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Atendido: O docente possui título de doutor.</td>
+                                </tr>
+                                <tr class="bg-stone-50">
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Nacionalidade</td>
+                                    <td class="px-4 py-3 text-slate-600">Inexistência de óbice nacional absoluto na Lei 11.892/08, aplicando-se o Artigo 37, I, da CF.</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Atendido: Capacidade eleitoral passiva interna assegurada.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p class="text-slate-700 mt-2">A nacionalidade do docente não representa um óbice legal para sua postulação ao pleito de Reitor. No âmbito das instituições de ensino federais brasileiras, a contratação de docentes e cientistas estrangeiros é permitida de forma ampla, gozando tais profissionais de plena igualdade de direitos funcionais com os servidores nacionais, respeitados os termos e as garantias da estabilidade funcional e do regime estatutário da Lei nº 8.112/90.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Questão 3",
+                enunciado: "Conforme os ditames da Lei Federal nº 11.892/2008, os Institutos Federais de Educação, Ciência e Tecnologia possuem diretrizes norteadoras claras sobre sua atuação. Assinale a alternativa que apresenta uma finalidade ou característica definida de forma correta e em estrita consonância com a referida lei:",
+                opcoes: {
+                    A: "Têm por finalidade e característica ofertar educação profissional e tecnológica, em todos os seus níveis e modalidades, formando e qualificando cidadãos com vistas na atuação profissional nos diversos setores da economia, com ênfase no desenvolvimento socioeconômico local, regional e nacional.",
+                    B: "Têm por objetivo realizar pesquisas aplicadas, estimulando o desenvolvimento de soluções técnicas e tecnológicas, estendendo seus benefícios à comunidade, embora possuam regulamentação e estrutura organizacional impeditivas ao desenvolvimento de programas de extensão.",
+                    C: "São legalmente impedidos de conceder bolsas de pesquisa a docentes, a ocupantes de cargo público efetivo, a detentores de função ou de emprego público e a pesquisadores externos ou de empresas.",
+                    D: "Têm como órgão executivo exclusivo a reitoria, composta por um Reitor, eleito por voto direto da comunidade escolar do respectivo Instituto Federal, e por cinco Pró-Reitores, vedada a existência de quaisquer conselhos ou colegiados deliberativos superiores.",
+                    E: "Possuem natureza jurídica de empresa pública e são instituições detentoras de autonomia administrativa, patrimonial, financeira, didático-pedagógica e disciplinar."
+                },
+                correta: "A",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: A</p>
+                    <p class="mb-3">A conceituação e a destinação social dos Institutos Federais buscam aproximar a formação acadêmica das demandas econômicas regionais. O Artigo 6º, inciso I, estabelece como finalidade basilar a promoção de uma educação profissional e tecnológica pluricurricular que atenda às realidades produtivas, focando no desenvolvimento local.</p>
+                    <p class="mb-2">Por que as outras alternativas estão incorretas?</p>
+                    <ul class="space-y-2 list-disc pl-5 text-slate-700">
+                        <li><strong>Alternativa B:</strong> Incorreta ao sugerir barreiras organizacionais e legais para as ações de extensão. A extensão científica e tecnológica é qualificada no Artigo 6º, inciso VII, como finalidade essencial do modelo educacional.</li>
+                        <li><strong>Alternativa C:</strong> Apresenta uma proibição fictícia de concessão de bolsas. Os Institutos Federais utilizam rotineiramente a concessão de bolsas de pesquisa e inovação tecnológica para servidores, discentes e pesquisadores externos.</li>
+                        <li><strong>Alternativa D:</strong> Ignora que o Reitor não administra isoladamente. A Reitoria divide funções deliberativas com o Conselho Superior, órgão máximo do Instituto Federal.</li>
+                        <li><strong>Alternativa E:</strong> Incorreta sobre a natureza jurídica. Os Institutos Federais não são empresas públicas de direito privado, mas autarquias federais de direito público.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 4,
+                title: "Questão 4",
+                enunciado: "No que se refere à estrutura organizacional e administrativa dos Institutos Federais, com base no Artigo 10 da Lei nº 11.892/2008, assinale a alternativa correta.",
+                opcoes: {
+                    A: "O Conselho Superior, de caráter exclusivamente consultivo, é presidido de forma rotativa pelos Diretores-Gerais de cada um dos campi do Instituto Federal.",
+                    B: "O Colégio de Dirigentes, de caráter consultivo e deliberativo, é o órgão máximo de tomada de decisão, composto por representantes paritários dos segmentos discente e docente.",
+                    C: "As presidências do Colégio de Dirigentes e do Conselho Superior serão exercidas pelo Reitor do respectivo Instituto Federal.",
+                    D: "O Conselho Superior será composto exclusivamente pelo Reitor, pelos Pró-Reitores e pelo Diretor-Geral de cada um dos campi que integram o Instituto Federal.",
+                    E: "O estatuto de cada Instituto Federal definirá a estrutura do Colégio de Dirigentes e do Conselho Superior, sendo vedada a participação de membros externos à comunidade escolar na composição do órgão máximo."
+                },
+                correta: "C",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: C</p>
+                    <p class="mb-3">A estrutura organizacional dos Institutos Federais é desenhada de modo a conjugar a eficiência gerencial com a participação direta da comunidade acadêmica nos processos decisórios. A presidência dos colegiados obedece a uma lógica de centralidade política, cabendo ao Reitor, de forma exclusiva e simultânea, o comando do Conselho Superior e do Colégio de Dirigentes.</p>
+                    
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full divide-y divide-stone-200 text-sm">
+                            <thead class="bg-stone-100">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Critério</th>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Conselho Superior</th>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Colégio de Dirigentes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Caráter</td>
+                                    <td class="px-4 py-3 text-slate-600">Natureza consultiva e deliberativa (órgão máximo).</td>
+                                    <td class="px-4 py-3 text-slate-600">Caráter estritamente consultivo e de apoio executivo.</td>
+                                </tr>
+                                <tr class="bg-stone-50">
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Presidência</td>
+                                    <td class="px-4 py-3 text-slate-600">Exercida unicamente pelo Reitor da instituição.</td>
+                                    <td class="px-4 py-3 text-slate-600">Exercida unicamente pelo Reitor da instituição.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Composição</td>
+                                    <td class="px-4 py-3 text-slate-600">Docentes, técnicos, estudantes, egressos, sociedade civil, MEC e diretores.</td>
+                                    <td class="px-4 py-3 text-slate-600">Composto pelo Reitor, Pró-Reitores e Diretores-Gerais dos campi.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "Questão 5",
+                enunciado: "O desenvolvimento da ação acadêmica dos Institutos Federais deve observar parâmetros quantitativos rígidos de oferta de vagas para assegurar o cumprimento de suas finalidades institucionais. De acordo com o Artigo 8º da Lei nº 11.892/2008, assinale a alternativa que apresenta a correta proporção de vagas exigida para cada nível ou modalidade de ensino:",
+                opcoes: {
+                    A: "Garantir o mínimo de 40% das vagas para educação profissional técnica de nível médio e o mínimo de 30% para cursos de pós-graduação lato sensu.",
+                    B: "Garantir o mínimo de 50% das vagas para atender à educação profissional técnica de nível médio, prioritariamente na forma de cursos integrados, e o mínimo de 20% das vagas para cursos de licenciatura.",
+                    C: "Garantir o mínimo de 60% das vagas para atender à educação profissional técnica de nível médio e o mínimo de 15% para cursos superiores de tecnologia.",
+                    D: "Garantir o mínimo de 50% das vagas para atender à educação profissional técnica de nível médio e o mínimo de 10% para cursos de bacharelado em engenharia.",
+                    E: "Garantir o mínimo de 70% das vagas para atender à educação profissional técnica de nível médio e o mínimo de 20% para a capacitação de docentes e servidores."
+                },
+                correta: "B",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: B</p>
+                    <p class="mb-3">Para preservar a finalidade de qualificação técnica voltada ao trabalho e evitar o desvirtuamento de sua vocação histórica, o legislador federal impôs travas e metas de vagas por intermédio do Artigo 8º da Lei nº 11.892/2008. A autarquia deve organizar sua política acadêmica para manter a harmonia entre a verticalização do ensino básico, técnico e tecnológico e as cotas mínimas estabelecidas na legislação.</p>
+                    
+                    <div class="my-5 p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex flex-col gap-3">
+                        <div class="flex items-center justify-between text-brand-900 text-sm font-semibold">
+                            <span>Vagas Mínimas - Ensino Técnico Médio (Prioridade Integrado):</span>
+                            <span class="text-lg bg-emerald-100 px-3 py-1 rounded-md">≥ 50%</span>
+                        </div>
+                        <div class="flex items-center justify-between text-brand-900 text-sm font-semibold">
+                            <span>Vagas Mínimas - Licenciaturas (Formação de Professores):</span>
+                            <span class="text-lg bg-emerald-100 px-3 py-1 rounded-md">≥ 20%</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-slate-700">A prioridade da formação de nível médio técnico integrado ao ensino regular, bem como a reserva expressa para a qualificação de novos formadores por meio de licenciaturas públicas gratuitas, constituem a espinha dorsal de metas da rede.</p>
+                `
+            },
+            {
+                id: 6,
+                title: "Questão 6",
+                enunciado: "O modelo estrutural dos Institutos Federais é caracterizado pela configuração multicampi. No que tange à gestão orçamentária de que trata o Artigo 9º da Lei nº 11.892/2008, assinale a alternativa correta:",
+                opcoes: {
+                    A: "Cada Instituto Federal possui dotação orçamentária unificada e centralizada na Reitoria, sem identificação orçamentária para os campi, de forma a unificar a prestação de contas.",
+                    B: "Cada campus possui dotação orçamentária e proposta financeira de forma plenamente autônoma e independente, inclusive para despesas de pessoal e encargos sociais de seus servidores.",
+                    C: "Cada Instituto Federal é organizado em estrutura multicampi, com proposta orçamentária anual identificada para cada campus e a reitoria, exceto no que diz respeito a pessoal, encargos sociais e benefícios aos servidores.",
+                    D: "A proposta orçamentária anual do Instituto Federal deve destinar, no mínimo, 80% de seus recursos correntes para despesas de investimento da Reitoria.",
+                    E: "Os recursos orçamentários das unidades descentralizadas são administrados e fiscalizados de forma direta pelos conselhos municipais de educação."
+                },
+                correta: "C",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: C</p>
+                    <p class="mb-3">A descentralização financeira multicampi visa conceder agilidade de gestão e autonomia operacional aos campi do Instituto Federal. De acordo com o Artigo 9º, a proposta orçamentária anual do Instituto Federal é identificada de forma individualizada para a Reitoria e para cada um de seus campi.</p>
+                    <p class="mb-3 text-slate-700 font-medium">Estão excluídos da descentralização direta aos campi os recursos destinados ao pagamento de:</p>
+                    <ul class="space-y-1.5 list-disc pl-5 mb-3 text-slate-700">
+                        <li>Despesas de Pessoal Ativo e Inativo;</li>
+                        <li>Encargos Sociais relativos à folha salarial;</li>
+                        <li>Benefícios aos Servidores (tais como auxílio-alimentação, auxílio-transporte, etc).</li>
+                    </ul>
+                    <p class="text-slate-700">A individualização de rubricas assegura que o campus gerencie despesas de manutenção predial, investimentos laboratoriais e projetos acadêmicos, sem arcar com o peso contábil da folha salarial local, cuja execução é consolidada no caixa único da reitoria.</p>
+                `
+            },
+            {
+                id: 7,
+                title: "Questão 7",
+                enunciado: "A Lei nº 11.892/2008 preconiza que os Institutos Federais devem promover a verticalização do ensino profissional e tecnológico. De acordo com as diretrizes e objetivos estabelecidos na referida lei, o conceito de verticalização do ensino se traduz em:",
+                opcoes: {
+                    A: "Priorizar de forma progressiva a oferta de cursos de bacharelado tradicionais e pós-graduação stricto sensu clássicos, em detrimento do ensino técnico de nível médio.",
+                    B: "Centralizar a gestão pedagógica e administrativa na Reitoria, reduzindo a autonomia didática das unidades descentralizadas.",
+                    C: "Otimizar a infraestrutura física dos campi por meio da construção de prédios verticais para maximizar a capacidade de matrícula de estudantes.",
+                    D: "Integrar a formação profissional de diferentes níveis, desde a Formação Inicial e Continuada (FIC) até o nível de pós-graduação stricto sensu de mestrado e doutorado, dentro da mesma instituição de ensino.",
+                    E: "Limitar a oferta de cursos superiores de tecnologia a fim de concentrar os recursos orçamentários exclusivamente na oferta de cursos técnicos subsequentes."
+                },
+                correta: "D",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: D</p>
+                    <p class="mb-3">A verticalização do ensino constitui uma diretriz metodológica inovadora dos Institutos Federais. Esse conceito consiste na oferta continuada e integrada de variados níveis educacionais sob a égide de uma única estrutura institucional, compartilhando os mesmos recursos humanos, científicos, laboratoriais e de infraestrutura.</p>
+                    <p class="text-slate-700">Este modelo possibilita um encadeamento pedagógico em que o discente pode ingressar em um curso de Formação Inicial e Continuada (FIC) ou qualificação profissional rápida, migrar para a educação técnica profissional de nível médio integrado, prosseguir seus estudos na mesma instituição cursando um curso superior de tecnologia ou engenharia, e concluir sua trajetória acadêmica em programas de pós-graduação <em>stricto sensu</em> (mestrado e doutorado profissional).</p>
+                `
+            },
+            {
+                id: 8,
+                title: "Questão 8",
+                enunciado: "A Rede Federal de Educação Profissional, Científica e Tecnológica é constituída por diferentes instituições vinculadas ao Ministério da Educação. À luz do Artigo 1º, parágrafo único, da Lei nº 11.892/2008 (com redação dada pela Lei nº 12.677/2012), assinale a alternativa que indica quais dessas instituições possuem, por força de lei, natureza jurídica de autarquia:",
+                opcoes: {
+                    A: "Apenas os Institutos Federais de Educação, Ciência e Tecnologia.",
+                    B: "Os Institutos Federais, a Universidade Tecnológica Federal do Paraná (UTFPR), os Centros Federais de Educação Tecnológica (CEFET-RJ e CEFET-MG) e o Colégio Pedro II.",
+                    C: "Os Institutos Federais, as Escolas Técnicas Vinculadas às Universidades Federais e a Universidade Tecnológica Federal do Paraná.",
+                    D: "Os Centros Federais de Educação Tecnológica e as Escolas Técnicas Vinculadas às Universidades Federais, de forma exclusiva.",
+                    E: "Todas as instituições que compõem a Rede Federal de Educação Profissional, Científica e Tecnológica, sem exceções."
+                },
+                correta: "B",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: B</p>
+                    <p class="mb-3">O Artigo 1º da Lei nº 11.892/2008 institucionalizou a Rede Federal de Educação Profissional, Científica e Tecnológica e agrupou em sua estrutura uma gama diversificada de estabelecimentos de ensino. No entanto, o parágrafo único deste artigo estabelece uma divisão rigorosa no tocante à personalidade jurídica dessas instituições:</p>
+                    
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full divide-y divide-stone-200 text-sm">
+                            <thead class="bg-stone-100">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Instituição Integrante</th>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Natureza Jurídica Estipulada</th>
+                                    <th class="px-4 py-3 text-left font-bold text-slate-900">Autonomia Legal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Institutos Federais (IFs)</td>
+                                    <td class="px-4 py-3 text-slate-600">Autarquia Federal</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Plena Autonomia</td>
+                                </tr>
+                                <tr class="bg-stone-50">
+                                    <td class="px-4 py-3 font-semibold text-slate-900">UTFPR</td>
+                                    <td class="px-4 py-3 text-slate-600">Autarquia Federal</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Plena Autonomia</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-slate-900">CEFET-RJ e CEFET-MG</td>
+                                    <td class="px-4 py-3 text-slate-600">Autarquia Federal</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Plena Autonomia</td>
+                                </tr>
+                                <tr class="bg-stone-50">
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Colégio Pedro II</td>
+                                    <td class="px-4 py-3 text-slate-600">Autarquia Federal</td>
+                                    <td class="px-4 py-3 text-brand-700 font-semibold">Plena Autonomia</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-slate-900">Escolas Técnicas Vinculadas</td>
+                                    <td class="px-4 py-3 text-slate-600">Subordinação às Universidades Federais</td>
+                                    <td class="px-4 py-3 text-red-600 font-semibold">Sem personalidade autárquica própria</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-slate-700">A alteração promovida pela Lei nº 12.677/2012 incluiu expressamente o Colégio Pedro II no grupo de autarquias detentoras de autonomia própria. As Escolas Técnicas Vinculadas não possuem autonomia própria, sendo vinculadas administrativamente às suas respectivas Universidades.</p>
+                `
+            },
+            {
+                id: 9,
+                title: "Questão 9",
+                enunciado: "No processo de escolha dos dirigentes dos Institutos Federais, a indicação para o cargo de Reitor é precedida por processo de consulta à comunidade escolar. De acordo com o Artigo 12 da Lei nº 11.892/2008, o resultado desse processo de consulta é obtido atribuindo-se:",
+                opcoes: {
+                    A: "Peso majoritário de 50% para a manifestação do corpo docente e 25% para cada uma das demais categorias (servidores técnico-administrativos e discentes).",
+                    B: "Peso idêntico e proporcional à quantidade bruta de votantes em cada categoria, sem aplicação de ponderação percentual fixa.",
+                    C: "Peso de 1/3 para a manifestação do corpo docente, de 1/3 para a manifestação dos servidores técnico-administrativos e de 1/3 para a manifestação do corpo discente.",
+                    D: "Peso de 40% para a manifestação dos servidores técnico-administrativos, de 40% para os docentes e de 20% para os discentes regularmente matriculados.",
+                    E: "Peso de 60% para o segmento dos servidores ativos permanentes (docentes e técnico-administrativos) e 40% para o segmento dos estudantes maiores de 16 anos."
+                },
+                correta: "C",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: C</p>
+                    <p class="mb-3">A escolha do dirigente máximo dos Institutos Federais baseia-se em processo de consulta à comunidade escolar, assegurando a legitimidade da governança pedagógica descentralizada. O Artigo 12 prevê que a nomeação dos Reitores pelo Presidente da República é precedida de consulta direta na qual se adota a paridade tripartite de representação eleitoral.</p>
+                    <p class="text-slate-700">Esta sistemática eleitoral impede que a eleição de Reitores se transforme em um mero censo populacional em que a categoria de maior densidade bruta de eleitores (tipicamente os discentes) controle de forma absoluta o pleito eleitoral. Ao fixar o peso rígido de <strong>1/3 (um terço)</strong> para cada um dos segmentos (corpo docente, servidores técnico-administrativos e corpo discente), a lei preserva a paridade democrática interna.</p>
+                `
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                enunciado: "Os Institutos Federais são caracterizados como instituições de educação superior, básica e profissional, pluricurriculares e multicampi. Dentre os objetivos descritos no Artigo 7º da Lei nº 11.892/2008, assinale a alternativa que NÃO corresponde a um objetivo legalmente estabelecido para essas instituições:",
+                opcoes: {
+                    A: "Ministrar educação profissional técnica de nível médio, prioritariamente na forma de cursos integrados, para os concluintes do ensino fundamental e para o público da educação de jovens e adultos.",
+                    B: "Ministrar cursos de formação inicial e continuada ou qualificação profissional de trabalhadores, objetivando a capacitação, o aperfeiçoamento, a especialização e a atualização de profissionais.",
+                    C: "Ministrar, em nível de educação superior, cursos de pós-graduação stricto sensu de mestrado e doutorado que contribuam para promover o estabelecimento de bases sólidas em educação, ciência e tecnologia.",
+                    D: "Realizar pesquisas aplicadas, estimulando o desenvolvimento de soluções técnicas e tecnológicas, estendendo seus benefícios à comunidade.",
+                    E: "Ministrar, de forma prioritária e preferencial, cursos de graduação em medicina e bacharelados em direito, com foco no desenvolvimento de carreiras de estado típicas da administração pública."
+                },
+                correta: "E",
+                resolucao: `
+                    <p class="font-semibold text-slate-950 mb-3">Gabarito Correto: E</p>
+                    <p class="mb-3">Os Institutos Federais possuem vocação institucional atrelada à educação científica, tecnológica e profissional. Conforme se extrai do Artigo 7º da Lei nº 11.892/2008, os objetivos giram em torno da promoção do desenvolvimento tecnológico e da capacitação de profissionais nas ciências aplicadas.</p>
+                    <ul class="space-y-2 list-disc pl-5 text-slate-700 mb-3">
+                        <li>As alternativas A, B, C e D constituem objetivos expressos no rol do Artigo 7º.</li>
+                        <li>A alternativa E não corresponde a um objetivo legal. Embora as instituições detenham a prerrogativa acadêmica de ofertar cursos de graduação, elas não foram modeladas com o escopo de focar de forma prioritária em carreiras tradicionais clássicas de medicina ou do direito, cuja competência de alocação de recursos reside no desenho clássico das Universidades Federais tradicionais.</li>
+                    </ul>
+                `
+            }
+        ];
+
+        // Estado do Quiz
+        const userAnswers = {};
+        let isSubmitted = false;
+
+        // Elementos DOM
+        const quizContainer = document.getElementById('quiz-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const btnSubmitTop = document.getElementById('btn-submit-top');
+        const resultPanel = document.getElementById('result-panel');
+        const scoreText = document.getElementById('score-text');
+        const percentageText = document.getElementById('percentage-text');
+        const performanceFeedback = document.getElementById('performance-feedback');
+
+        // Inicializar aplicação
+        function initQuiz() {
+            quizContainer.innerHTML = '';
+            questionsData.forEach((q, idx) => {
+                const qCard = document.createElement('div');
+                qCard.id = `q-card-${q.id}`;
+                qCard.className = "bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300";
+
+                let assertivasHtml = '';
+                if (q.assertivas && q.assertivas.length > 0) {
+                    assertivasHtml = `
+                        <div class="mb-6 p-4 bg-stone-50 rounded-xl border border-stone-200/60 space-y-2 text-sm sm:text-base text-slate-700">
+                            ${q.assertivas.map(as => `<p class="leading-relaxed">${as}</p>`).join('')}
+                        </div>
+                    `;
+                }
+
+                let optionsHtml = '';
+                Object.entries(q.opcoes).forEach(([key, val]) => {
+                    optionsHtml += `
+                        <button id="opt-${q.id}-${key}" onclick="selectOption(${q.id}, '${key}')" 
+                            class="w-full flex items-start gap-3 p-4 rounded-xl border-2 border-stone-200 hover:border-brand-600/50 hover:bg-stone-50 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2">
+                            <span class="flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-lg bg-stone-100 text-slate-700 font-bold text-sm border border-stone-200 transition-all duration-200">
+                                ${key}
+                            </span>
+                            <span class="text-sm sm:text-base text-slate-700 font-medium leading-relaxed">${val}</span>
+                        </button>
+                    `;
+                });
+
+                qCard.innerHTML = `
+                    <div class="flex items-center justify-between gap-4 mb-4 pb-4 border-b border-stone-100">
+                        <span class="text-brand-700 font-bold uppercase tracking-wider text-xs sm:text-sm">Questão ${idx + 1} de 10</span>
+                        <span id="badge-status-${q.id}" class="hidden text-xs font-bold px-2.5 py-1 rounded-full"></span>
+                    </div>
+                    <div class="text-slate-900 text-base sm:text-lg font-semibold leading-relaxed mb-4">
+                        ${q.enunciado}
+                    </div>
+                    ${assertivasHtml}
+                    <div class="space-y-3 mt-4">
+                        ${optionsHtml}
+                    </div>
+                    
+                    <!-- Resolução oculta que aparecerá após o término -->
+                    <div id="resolution-${q.id}" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200 text-sm sm:text-base text-slate-800 leading-relaxed bg-brand-50/40 p-5 rounded-xl border border-brand-100/50">
+                        <div class="flex items-center gap-2 mb-3 text-brand-800 font-bold">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            Explicação e Resolução Comentada
+                        </div>
+                        <div class="text-slate-700 prose max-w-none">
+                            ${q.resolucao}
+                        </div>
+                    </div>
+                `;
+                quizContainer.appendChild(qCard);
+            });
+            updateProgress();
+        }
+
+        // Lógica de seleção de respostas
+        function selectOption(qId, key) {
+            if (isSubmitted) return; // Trava o quiz após envio
+            
+            userAnswers[qId] = key;
+            
+            // Remove estilos de ativos de todas as opções daquela questão específica
+            const q = questionsData.find(item => item.id === qId);
+            Object.keys(q.opcoes).forEach(k => {
+                const optElement = document.getElementById(`opt-${qId}-${k}`);
+                const badgeElement = optElement.querySelector('span');
+                optElement.classList.remove('border-brand-600', 'bg-brand-50/50');
+                optElement.classList.add('border-stone-200');
+                badgeElement.classList.remove('bg-brand-600', 'text-white', 'border-brand-600');
+                badgeElement.classList.add('bg-stone-100', 'text-slate-700', 'border-stone-200');
+            });
+
+            // Adiciona estilo de ativo na opção selecionada
+            const selectedOptElement = document.getElementById(`opt-${qId}-${key}`);
+            const selectedBadgeElement = selectedOptElement.querySelector('span');
+            selectedOptElement.classList.remove('border-stone-200');
+            selectedOptElement.classList.add('border-brand-600', 'bg-brand-50/50');
+            selectedBadgeElement.classList.remove('bg-stone-100', 'text-slate-700', 'border-stone-200');
+            selectedBadgeElement.classList.add('bg-brand-600', 'text-white', 'border-brand-600');
+
+            updateProgress();
+        }
+
+        // Atualizar barra de progresso
+        function updateProgress() {
+            const total = questionsData.length;
+            const answered = Object.keys(userAnswers).length;
+            const ratio = (answered / total) * 100;
+            
+            progressBar.style.width = `${ratio}%`;
+            progressText.innerText = `${answered} / ${total}`;
+
+            if (answered === total) {
+                btnSubmitTop.disabled = false;
+                btnSubmitTop.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+                btnSubmitTop.classList.add('bg-brand-600', 'text-white', 'hover:bg-brand-700');
+            } else {
+                btnSubmitTop.disabled = true;
+                btnSubmitTop.classList.remove('bg-brand-600', 'text-white', 'hover:bg-brand-700');
+                btnSubmitTop.classList.add('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+            }
+        }
+
+        // Avaliar e finalizar o Simulado
+        function checkQuiz() {
+            if (Object.keys(userAnswers).length < questionsData.length) return;
+            isSubmitted = true;
+            
+            let correctCount = 0;
+
+            questionsData.forEach(q => {
+                const userAnswer = userAnswers[q.id];
+                const isCorrect = (userAnswer === q.correta);
+                if (isCorrect) correctCount++;
+
+                const card = document.getElementById(`q-card-${q.id}`);
+                const badgeStatus = document.getElementById(`badge-status-${q.id}`);
+
+                // Exibe as resoluções
+                const resolutionDiv = document.getElementById(`resolution-${q.id}`);
+                resolutionDiv.classList.remove('hidden');
+
+                // Atualizar estilos visuais de feedback nas opções
+                Object.keys(q.opcoes).forEach(k => {
+                    const optElement = document.getElementById(`opt-${q.id}-${k}`);
+                    const badgeElement = optElement.querySelector('span');
+                    
+                    // Desabilitar hover e interações
+                    optElement.style.pointerEvents = "none";
+                    
+                    // Se for a alternativa correta
+                    if (k === q.correta) {
+                        optElement.classList.remove('border-stone-200', 'border-brand-600', 'bg-brand-50/50');
+                        optElement.classList.add('border-emerald-500', 'bg-emerald-50/70');
+                        badgeElement.classList.remove('bg-stone-100', 'bg-brand-600', 'text-slate-700', 'border-stone-200');
+                        badgeElement.classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
+                    }
+                    // Se o usuário errou e selecionou essa alternativa
+                    else if (userAnswer === k && !isCorrect) {
+                        optElement.classList.remove('border-stone-200', 'border-brand-600', 'bg-brand-50/50');
+                        optElement.classList.add('border-red-500', 'bg-red-50/70');
+                        badgeElement.classList.remove('bg-stone-100', 'bg-brand-600', 'text-slate-700', 'border-stone-200');
+                        badgeElement.classList.add('bg-red-500', 'text-white', 'border-red-500');
+                    }
+                });
+
+                // Atualizar o badge de status superior do card da questão
+                badgeStatus.classList.remove('hidden');
+                if (isCorrect) {
+                    badgeStatus.innerText = "Correto";
+                    badgeStatus.classList.add('bg-emerald-100', 'text-emerald-800');
+                    card.classList.add('ring-2', 'ring-emerald-500/20', 'border-emerald-100');
+                } else {
+                    badgeStatus.innerText = `Incorreto (Gabarito: ${q.correta})`;
+                    badgeStatus.classList.add('bg-red-100', 'text-red-800');
+                    card.classList.add('ring-2', 'ring-red-500/20', 'border-red-100');
+                }
+            });
+
+            // Exibir Painel de Resultados
+            const scorePercentage = (correctCount / questionsData.length) * 100;
+            scoreText.innerText = `${correctCount} / ${questionsData.length}`;
+            percentageText.innerText = `${scorePercentage}%`;
+
+            // Mensagem de Feedback adaptativa
+            if (scorePercentage >= 90) {
+                performanceFeedback.innerText = "Excelente! Desempenho fantástico. Você domina a Lei nº 11.892/2008 de forma consistente!";
+            } else if (scorePercentage >= 70) {
+                performanceFeedback.innerText = "Muito bom! Aproveitamento de aprovação. Continue refinando as resoluções comentadas para buscar os 100%.";
+            } else {
+                performanceFeedback.innerText = "Abaixo do esperado. Utilize a leitura cuidadosa das resoluções comentadas para cobrir suas lacunas de conhecimento.";
+            }
+
+            resultPanel.classList.remove('hidden');
+            setTimeout(() => {
+                resultPanel.classList.remove('scale-95', 'opacity-0');
+                resultPanel.classList.add('scale-100', 'opacity-100');
+            }, 100);
+
+            // Esconder barra de progresso flutuante por elegância e rolagem suave para o painel de resultados
+            document.getElementById('progress-container').classList.add('hidden');
+            resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reiniciar Quiz
+        function resetQuiz() {
+            // Limpa o estado
+            Object.keys(userAnswers).forEach(key => delete userAnswers[key]);
+            isSubmitted = false;
+            
+            // Oculta painel de resultados e traz a barra de navegação de volta
+            resultPanel.classList.add('hidden', 'scale-95', 'opacity-0');
+            document.getElementById('progress-container').classList.remove('hidden');
+            
+            // Reinicializa a view
+            initQuiz();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Rodar simulador assim que a página estiver pronta
+        window.onload = function() {
+            initQuiz();
+        };
+    </script>
+</body>
+</html>

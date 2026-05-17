@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudo Ativo: Ética no Serviço Público - IFCE</title>
+    <!-- Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b; /* Slate 800 para leitura confortável */
+        }
+
+        /* Estilo de marca-texto realista */
+        .highlight {
+            background-color: #fef08a; /* Amarelo suave */
+            padding: 0.1em 0.3em;
+            border-radius: 0.2em;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .highlight-danger {
+            background-color: #fecaca; /* Vermelho suave para vedações/erros */
+            padding: 0.1em 0.3em;
+            border-radius: 0.2em;
+            font-weight: 600;
+            color: #7f1d1d;
+        }
+
+        .highlight-success {
+            background-color: #bbf7d0; /* Verde suave */
+            padding: 0.1em 0.3em;
+            border-radius: 0.2em;
+            font-weight: 600;
+            color: #14532d;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white pb-20 selection:bg-yellow-200">
+
+    <!-- Container Principal de Leitura -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        
+        <!-- Cabeçalho Acadêmico -->
+        <header class="border-b border-gray-200 pb-8 mb-8 text-center sm:text-left">
+            <div class="inline-block bg-blue-50 text-blue-700 text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full mb-3">
+                Concurso Docente IFCE | Banca: Instituto AOCP
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Ética no Serviço Público
+            </h1>
+            <p class="text-lg text-slate-500 mt-2 font-medium">
+                Decreto Federal nº 1.171, de 22 de junho de 1994 (Código de Ética Profissional)
+            </p>
+            <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                    Guia de Memorização Ativa
+                </span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                    Foco em Pontos de Acerto
+                </span>
+            </div>
+        </header>
+
+        <!-- Player de Áudio Integrado -->
+        <section class="bg-gray-50 border border-gray-200 rounded-2xl p-5 mb-10 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                        <!-- Ícone de Play/Áudio -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-800">Audio-Aula de Ética</h3>
+                        <p class="text-xs text-slate-500">Ouça este resumo em formato de áudio enquanto revisa o texto.</p>
+                    </div>
+                </div>
+                
+                <!-- Player de Áudio Nativo Modificado para Alta Legibilidade -->
+                <div class="w-full sm:w-auto min-w-[280px] md:min-w-[350px]">
+                    <!-- Altere o valor do atributo 'src' abaixo para o nome do seu arquivo mp3 na mesma pasta -->
+                    <audio id="audioPlayer" class="w-full h-10 focus:outline-none" controls src="aula-etica-decreto-1171.mp3">
+                        Seu navegador não suporta o reprodutor de áudio.
+                    </audio>
+                    <div class="text-[10px] text-right text-slate-400 mt-1 italic">
+                        Arquivo: <span class="font-mono">aula-etica-decreto-1171.mp3</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA 1: O NÚCLEO CONDUTOR -->
+        <article class="space-y-10">
+            
+            <h2 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 uppercase tracking-wide">
+                PÁGINA 1: O Núcleo Condutor (Deontologia, Deveres e Vedações)
+            </h2>
+
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">0</span>
+                    As Regras Deontológicas (A Teoria do Dever)
+                </h3>
+                <p class="text-slate-600 leading-relaxed">
+                    A <span class="highlight">Deontologia</span> é o estudo dos deveres. No serviço público, ela estabelece que o servidor não trabalha para si, mas para o <span class="highlight-success">Bem Comum</span>.
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-sm text-slate-700 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <li><span class="font-bold">Dignidade e Decoro:</span> Devem acompanhar o servidor dentro e fora do serviço.</li>
+                    <li><span class="font-bold">Publicidade:</span> Todo ato deve ser público. <span class="highlight-danger">Exceção:</span> Apenas casos de segurança nacional, investigações policiais ou interesse superior do Estado e da Administração, devidamente preservados em processo previamente declarado sigiloso.</li>
+                    <li><span class="font-bold">Trabalho como Patrimônio:</span> O trabalho do servidor perante a comunidade deve ser visto como seu próprio patrimônio e do Estado.</li>
+                </ul>
+            </section>
+
+            <!-- 2. PRINCÍPIO DA MORALIDADE ADMINISTRATIVA -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">2</span>
+                    O Princípio da Moralidade Administrativa
+                </h3>
+                <div class="bg-gray-50 border border-gray-200 p-5 rounded-xl space-y-3">
+                    <p class="text-slate-700 leading-relaxed font-medium">
+                        ⚖️ <span class="text-blue-700 font-bold">A Fórmula Ética:</span> No julgamento de conduta, o servidor não deve decidir apenas entre o legal e o ilegal, o justo e o injusto, o conveniente e o inconveniente, ou o oportuno e o inoportuno.
+                    </p>
+                    <p class="text-slate-700 leading-relaxed">
+                        Ele deve, acima de tudo, decidir visando distinguir o <span class="highlight">honesto do desonesto</span>.
+                    </p>
+                    <div class="border-t border-gray-200 pt-3 flex items-center gap-2 text-xs text-slate-500">
+                        <span class="font-bold">Moralidade Administrativa</span> = Equilíbrio perfeito entre <span class="underline">Legalidade</span> e <span class="underline">Finalidade</span> (que é sempre o <span class="highlight-success">Bem Comum</span>).
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. CONCEITOS ESPECÍFICOS DE DANOS DA AOCP -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">3</span>
+                    Conceitos Específicos de Danos (Tipificação Expressa)
+                </h3>
+                <p class="text-slate-600 leading-relaxed">
+                    A banca Instituto AOCP cobra sistematicamente a natureza jurídica de certas condutas indevidas. Fique muito atento para não confundir danos materiais com danos éticos/morais:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="border border-gray-200 p-4 rounded-xl">
+                        <span class="text-xs font-bold uppercase text-red-500 tracking-wider">Atraso ou Longas Filas</span>
+                        <p class="text-sm font-semibold text-slate-800 mt-1">
+                            Representa <span class="highlight">grave dano moral</span> e caracteriza <span class="highlight">ato de desumanidade</span>.
+                        </p>
+                    </div>
+                    <div class="border border-gray-200 p-4 rounded-xl">
+                        <span class="text-xs font-bold uppercase text-red-500 tracking-wider">Tratar Mal o Usuário</span>
+                        <p class="text-sm font-semibold text-slate-800 mt-1">
+                            Caracteriza <span class="highlight">dano moral direto</span> ao cidadão (nunca apenas erro burocrático ou dano material).
+                        </p>
+                    </div>
+                    <div class="border border-gray-200 p-4 rounded-xl">
+                        <span class="text-xs font-bold uppercase text-red-500 tracking-wider">Imprudência</span>
+                        <p class="text-sm font-semibold text-slate-800 mt-1">
+                            Configurada pelo descaso de ordens legais, <span class="highlight">erros repetidos</span> e acúmulo de desvios operacionais.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. TABELA COMPARATIVA DE REVISÃO -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">4</span>
+                    Tabela Comparativa de Revisão: Deveres vs. Vedações
+                </h3>
+                <p class="text-slate-600 text-sm mb-4">
+                    A tabela a seguir foi ajustada para exibir seu conteúdo perfeitamente sem necessidade de rolagem lateral, quebrando as sentenças de forma adaptativa.
+                </p>
+
+                <!-- Tabela Responsiva sem Scroll Lateral -->
+                <div class="w-full border border-gray-200 rounded-xl overflow-hidden bg-white">
+                    <div class="grid grid-cols-1 md:grid-cols-2 bg-slate-100 border-b border-gray-200">
+                        <div class="p-4 font-bold text-sm text-slate-800 border-b md:border-b-0 md:border-r border-gray-200">
+                            Deveres Fundamentais (Obrigações de Fazer)
+                        </div>
+                        <div class="p-4 font-bold text-sm text-slate-800">
+                            Vedações Absolutas (Obrigações de Não Fazer)
+                        </div>
+                    </div>
+                    
+                    <div class="divide-y divide-gray-200">
+                        <!-- Linha 1 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Desempenho profissional</span>
+                                <p>Desempenhar as atribuições do cargo com rapidez, perfeição e rendimento técnico.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Desvio de finalidade</span>
+                                <p>Usar o cargo, amizades ou tempo de trabalho para obter qualquer favorecimento.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Linha 2 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Prestação de contas</span>
+                                <p><span class="highlight">Jamais retardar</span> qualquer prestação de contas de bens ou valores sob guarda.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Conivência ilícita</span>
+                                <p>Ser conivente com erro ou infração sob o pretexto de "solidariedade" profissional.</p>
+                            </div>
+                        </div>
+
+                        <!-- Linha 3 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Comunicação hierárquica</span>
+                                <p>Comunicar <span class="highlight">imediatamente</span> aos superiores atos que atentem contra o interesse público.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Retirada de bens</span>
+                                <p>Retirar qualquer documento ou bem da repartição <span class="highlight-danger">sem prévia autorização</span>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Linha 4 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Atualização normativa</span>
+                                <p>Manter-se atualizado com as normas de serviço e legislações vigentes do órgão.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Trabalho particular</span>
+                                <p>Desviar subordinado ou outros servidores para atividades de interesse exclusivamente privado.</p>
+                            </div>
+                        </div>
+
+                        <!-- Linha 5 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Transparência pública</span>
+                                <p>Facilitar de forma ostensiva a fiscalização de seus atos por quem de direito.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Informação privilegiada</span>
+                                <p>Fazer uso de informações privilegiadas em benefício próprio ou de terceiros.</p>
+                            </div>
+                        </div>
+
+                        <!-- Linha 6 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Prerrogativa de greve</span>
+                                <p>Zelar pelo direito de greve, mas protegendo sempre as exigências de segurança coletiva.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Embriaguez habitual</span>
+                                <p>Apresentar-se <span class="highlight-danger">embriagado no serviço ou habitualmente fora dele</span>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Novas Linhas Adicionadas para Completude -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Urbanidade e Polidez</span>
+                                <p>Tratar o público e colegas com urbanidade, disponibilidade e atenção.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Alteração de Documentos</span>
+                                <p>Alterar ou deturpar o teor de documentos que devam encaminhar para providências.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-slate-700">
+                            <div class="p-4 md:border-r border-gray-200 space-y-1">
+                                <span class="font-semibold text-blue-700">• Resistência a Pressões</span>
+                                <p>Resistir a pressões de superiores, contratantes ou outros que visem obter favores ilícitos.</p>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <span class="font-semibold text-red-600">• Exercício de Influência</span>
+                                <p>Fazer uso de informações privilegiadas em benefício próprio, de parentes ou amigos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PÁGINA 2: ESTRUTURA DA COMISSÃO, PENALIDADES E ENGENHARIA DE PROVA -->
+            <hr class="border-gray-200 my-8">
+
+            <h2 class="text-xl font-bold text-slate-900 border-l-4 border-blue-600 pl-3 uppercase tracking-wide">
+                PÁGINA 2: Estrutura da Comissão, Penalidades e Engenharia de Prova
+            </h2>
+
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">1</span>
+                    Conceito de Servidor Público (Abrangência Total)
+                </h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Para fins de apuração ética, o conceito de servidor é <span class="highlight">o mais amplo possível</span>. Não importa a natureza do vínculo ou a remuneração.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <span class="text-blue-800 font-bold text-sm block mb-1">Quem está incluído:</span>
+                        <ul class="text-xs text-blue-700 space-y-1">
+                            <li>• Efetivos e Comissionados</li>
+                            <li>• Contratados Temporários</li>
+                            <li>• <span class="font-bold">Voluntários e Estagiários</span></li>
+                            <li>• Prestadores de serviço terceirizados</li>
+                        </ul>
+                    </div>
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                        <span class="text-amber-800 font-bold text-sm block mb-1">Critério de Vínculo:</span>
+                        <p class="text-xs text-amber-700">
+                            Qualquer pessoa que, por força de lei, contrato ou qualquer ato jurídico, preste serviços de natureza permanente, temporária ou excepcional, <span class="highlight">ainda que sem retribuição financeira</span>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. A SANÇÃO ÉTICA: CENSURA -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">2</span>
+                    A Sanção Ética: Censura
+                </h3>
+                <p class="text-slate-600 leading-relaxed">
+                    A <span class="highlight">CENSURA</span> é a <span class="underline">única</span> pena expressa e direta que a Comissão de Ética pode legalmente aplicar ao servidor público.
+                </p>
+
+                <!-- Aviso Importante -->
+                <div class="bg-red-50 border border-red-200 p-4 rounded-xl flex gap-3 items-start">
+                    <div class="text-red-600 mt-0.5 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-red-800 text-sm">Cuidado com o Misturador de Leis!</h4>
+                        <p class="text-xs text-red-700 mt-1">
+                            A Comissão de Ética <span class="font-bold underline">não aplica</span> penas como: Advertência, Suspensão, Demissão, Multa ou Cassação de aposentadoria. Estas são sanções disciplinares e estatutárias reguladas pela <span class="font-bold">Lei nº 8.112/1990</span> (Estatuto do Servidor), não pelo Decreto nº 1.171/1994.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Os 3 Requisitos -->
+                <div class="border border-gray-200 rounded-xl p-5 space-y-3">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">Os 3 requisitos obrigatórios da pena de censura</span>
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-slate-700 font-medium">
+                        <li>Constar expressamente em parecer devidamente <span class="highlight">fundamentado por escrito</span>.</li>
+                        <li>Estar <span class="highlight">assinado por todos</span> os integrantes presentes na deliberação da Comissão de Ética.</li>
+                        <li>Ter comprovada e incontestável <span class="highlight">ciência do faltoso</span> (notificação oficial do infrator).</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- O ROTEIRO DAS PEGADINHAS -->
+            <hr class="border-gray-200 my-8">
+
+            <section class="space-y-4">
+                <h2 class="text-xl font-bold text-slate-900 border-l-4 border-amber-500 pl-3 uppercase tracking-wide">
+                    O Roteiro das Pegadinhas: Como o Instituto AOCP tenta te enganar
+                </h2>
+                <p class="text-slate-600 leading-relaxed">
+                    Decore e blinde-se contra as afirmativas incorretas geradas frequentemente pela banca em concursos federais e de carreiras EBTT (Ensino Básico, Técnico e Tecnológico):
+                </p>
+
+                <!-- Grid de Pegadinhas -->
+                <div class="space-y-4 mt-6">
+                    
+                    <!-- Pegadinha 1 -->
+                    <div class="border border-gray-200 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center gap-2 text-red-600 font-bold text-sm">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs uppercase">Erro Frequente</span>
+                            "A censura ética exige a ciência e anuência do faltoso para ser validada."
+                        </div>
+                        <div class="text-sm text-slate-600 pl-2 border-l-2 border-green-500">
+                            <span class="font-semibold text-green-700">✅ O Correto:</span> Exige apenas a <span class="highlight">ciência</span> (notificação/recebimento formal). A <span class="highlight-danger">anuência</span> (concordância ou assinatura de aceitação do erro) do infrator é totalmente irrelevante.
+                        </div>
+                    </div>
+
+                    <!-- Pegadinha 2 -->
+                    <div class="border border-gray-200 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center gap-2 text-red-600 font-bold text-sm">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs uppercase">Erro Frequente</span>
+                            "O servidor público pode omitir a verdade se ela for contrária aos interesses estratégicos da Administração Pública."
+                        </div>
+                        <div class="text-sm text-slate-600 pl-2 border-l-2 border-green-500">
+                            <span class="font-semibold text-green-700">✅ O Correto:</span> O direito à verdade é <span class="highlight">absoluto</span> para o servidor. A verdade não pode ser omitida. O código de ética protege a publicidade dos atos, excetuando apenas os casos de segurança nacional e investigações sigilosas previstos em lei, mas isso diz respeito à publicidade do ato, <span class="highlight">nunca justificando a mentira ou omissão de verdade</span> pelo servidor.
+                        </div>
+                    </div>
+
+                    <!-- Pegadinha 3 -->
+                    <div class="border border-gray-200 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center gap-2 text-red-600 font-bold text-sm">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs uppercase">Erro Frequente</span>
+                            "Constatada irregularidade, o servidor tem prazo de até 15 ou 30 dias para comunicar a chefia imediata."
+                        </div>
+                        <div class="text-sm text-slate-600 pl-2 border-l-2 border-green-500">
+                            <span class="font-semibold text-green-700">✅ O Correto:</span> A comunicação de atos de terceiros que prejudiquem o interesse público deve ser feita de forma <span class="highlight">imediata</span>. Qualquer fixação de prazo temporal (em dias) está errada.
+                        </div>
+                    </div>
+
+                    <!-- Pegadinha 4 -->
+                    <div class="border border-gray-200 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center gap-2 text-red-600 font-bold text-sm">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs uppercase">Erro Frequente</span>
+                            "Deixar filas se acumularem ou atender mal o usuário gera unicamente dano material e administrativo."
+                        </div>
+                        <div class="text-sm text-slate-600 pl-2 border-l-2 border-green-500">
+                            <span class="font-semibold text-green-700">✅ O Correto:</span> A conduta inadequada em guichês ou filas gera expressamente <span class="highlight">dano moral</span> e, nos casos de lentidão desnecessária, caracteriza <span class="highlight">ato de desumanidade</span>.
+                        </div>
+                    </div>
+
+                    <!-- Pegadinha 5 -->
+                    <div class="border border-gray-200 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center gap-2 text-red-600 font-bold text-sm">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs uppercase">Erro Frequente</span>
+                            "É vedado ao servidor do Poder Executivo Federal exercer qualquer atividade profissional ética."
+                        </div>
+                        <div class="text-sm text-slate-600 pl-2 border-l-2 border-green-500">
+                            <span class="font-semibold text-green-700">✅ O Correto:</span> A banca comumente remove a letra "a" da palavra para confundir leitores rápidos. A vedação real recai sobre o exercício de atividade profissional <span class="highlight-danger">aética</span> (contrária à ética).
+                        </div>
+                    </div>
+
+                    <!-- Pegadinha 6 -->
+                    <div class="border border-gray-200 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center gap-2 text-red-600 font-bold text-sm">
+                            <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs uppercase">Erro Frequente</span>
+                            "Em nome do corporativismo ou solidariedade profissional, tolera-se que o servidor ignore pequenos desvios de conduta."
+                        </div>
+                        <div class="text-sm text-slate-600 pl-2 border-l-2 border-green-500">
+                            <span class="font-semibold text-green-700">✅ O Correto:</span> É expressamente <span class="highlight-danger">vedado ser conivente</span> com erro ou infração à ética profissional, sendo o dever ético superior a qualquer argumento de solidariedade entre colegas de serviço.
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </article>
+
+        <!-- Seção de Ação / Próxima Etapa -->
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center">
+            <p class="text-slate-500 text-sm mb-4">
+                Pronto para transformar essa teoria em questões de prova e consolidar seu conhecimento?
+            </p>
+            <a href="codigo_eticaquestoes.html" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition duration-150">
+                <span>Praticar com Questões</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+            </a>
+        </footer>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Interativo: Código de Ética (Decreto nº 1.171/1994)</title>
+    <!-- Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fcfbfa',   // Fundo geral estilo papel/livro (off-white caloroso)
+                            100: '#f5f3ef',  // Tons neutros suaves de apoio
+                            200: '#eaddcd',
+                            700: '#3f3f46',  // Zinco escuro para legibilidade sem cansar
+                            800: '#27272a',
+                            900: '#18181b',  // Quase preto suave para textos destacados
+                        },
+                        accent: {
+                            emerald: '#0f766e', // Teal/Esmeralda elegante para acertos
+                            rose: '#be123c',    // Vermelho sofisticado para erros
+                            amber: '#b45309',   // Âmbar para informações e avisos
+                            navy: '#1e293b'     // Azul escuro para componentes neutros de foco
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ajustes finos de leitura e tipografia */
+        body {
+            background-color: #faf9f6; /* Alabaster quente para diminuir a luz azul refletida */
+            color: #27272a;
+            font-family: 'Inter', sans-serif;
+        }
+        .reading-text {
+            line-height: 1.75; /* Spacing excelente de leitura sugerido pela tipografia moderna */
+        }
+        /* Efeito suave de transição */
+        .transition-all-300 {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-24 antialiased selection:bg-teal-100">
+
+    <!-- BARRA DE PROGRESSO FLUTUANTE (TOP) -->
+    <div id="sticky-progress" class="sticky top-0 z-50 w-full bg-brand-50/90 backdrop-blur-md border-b border-brand-200 py-3 px-4 shadow-sm transition-all-300">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-xs font-semibold tracking-wider uppercase text-brand-700">Simulado Decreto 1.171/94</span>
+                <span id="progress-badge" class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-200 text-brand-900">0% Respondido</span>
+            </div>
+            <div class="w-1/2 bg-brand-200 rounded-full h-2.5 overflow-hidden">
+                <div id="progress-bar" class="bg-accent-navy h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div id="score-header-reveal" class="hidden text-sm font-bold text-accent-emerald"></div>
+        </div>
+    </div>
+
+    <!-- CABEÇALHO PRINCIPAL (EDITORIAL) -->
+    <header class="max-w-4xl mx-auto pt-12 pb-8 px-6 text-center border-b border-brand-200/60">
+        <span class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-widest uppercase rounded bg-accent-navy text-white">
+            ÉTICA NO SERVIÇO PÚBLICO
+        </span>
+        <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-brand-900 leading-tight mb-4">
+            Simulado Interativo de Questões Comentadas
+        </h1>
+        <p class="text-brand-700 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-sans font-light">
+            Análise do <strong class="font-semibold">Código de Ética Profissional do Servidor Público Civil do Poder Executivo Federal</strong> (Decreto nº 1.171/1994) no formato do Instituto AOCP.
+        </p>
+    </header>
+
+    <!-- NOTIFICAÇÃO CUSTOMIZADA (Substitui o alert()) -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300 max-w-md w-full bg-accent-navy text-white rounded-xl shadow-xl border border-brand-700 p-4">
+        <div class="flex items-start space-x-3">
+            <svg class="w-6 h-6 text-yellow-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <div class="flex-1">
+                <h3 id="toast-title" class="font-semibold text-sm">Aviso Importante</h3>
+                <p id="toast-body" class="text-xs text-brand-100 mt-1">Por favor, responda a todas as questões antes de finalizar o quiz.</p>
+            </div>
+            <button onclick="hideToast()" class="text-brand-100 hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></button>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-4xl mx-auto px-6 mt-8">
+
+        <!-- DASHBOARD DE RESULTADOS (INICIALMENTE OCULTO) -->
+        <section id="results-dashboard" class="hidden mb-12 transform scale-95 opacity-0 transition-all duration-500 bg-white border border-brand-200 rounded-2xl p-6 md:p-8 shadow-md">
+            <div class="text-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-accent-emerald">Resultados Obtidos</span>
+                <h2 class="font-serif text-3xl font-bold text-brand-900 mt-1">Desempenho Geral</h2>
+                
+                <!-- Placar -->
+                <div class="flex justify-center items-center space-x-6 my-6">
+                    <div class="text-center">
+                        <span id="final-score-fraction" class="block font-serif text-6xl font-black text-brand-900">0 <span class="text-brand-200">/</span> 10</span>
+                        <span class="text-xs font-medium text-brand-700 uppercase tracking-widest mt-1 block">Acertos</span>
+                    </div>
+                    <div class="h-16 w-px bg-brand-200"></div>
+                    <div class="text-center">
+                        <span id="final-percentage" class="block font-serif text-6xl font-black text-accent-emerald">0%</span>
+                        <span class="text-xs font-medium text-brand-700 uppercase tracking-widest mt-1 block">Aproveitamento</span>
+                    </div>
+                </div>
+
+                <!-- Mensagem de feedback dinâmico -->
+                <p id="performance-feedback" class="text-brand-700 max-w-lg mx-auto leading-relaxed mb-6 font-light">
+                    Carregando feedback do seu desempenho...
+                </p>
+
+                <!-- Ações de Navegação -->
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
+                    <a href="#gabarito-table-section" class="w-full sm:w-auto px-6 py-3 rounded-xl border border-brand-200 hover:bg-brand-100 text-brand-850 font-medium text-sm transition text-center">
+                        Ver Gabarito Resumido
+                    </a>
+                    <button onclick="resetQuiz()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-accent-navy hover:bg-brand-900 text-white font-medium text-sm shadow-sm transition">
+                        Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTAINER DE QUESTÕES -->
+        <div id="questions-container" class="space-y-12">
+            <!-- As questões serão injetadas dinamicamente aqui pelo JavaScript -->
+        </div>
+
+        <!-- SEÇÃO DE ENVIO -->
+        <section id="submission-area" class="mt-16 text-center py-8 border-t border-brand-200">
+            <p class="text-xs text-brand-700 mb-4 tracking-wider uppercase font-medium">Responda todas as perguntas para habilitar a correção oficial</p>
+            <button id="btn-submit-quiz" onclick="submitQuiz()" class="px-8 py-4 bg-brand-200 text-brand-700 cursor-not-allowed font-semibold text-base rounded-xl transition duration-300 w-full sm:w-auto shadow-sm">
+                Finalizar e Ver Resultados
+            </button>
+        </section>
+
+        <!-- SÍNTESE COMPARATIVA E GABARITO (REVELADOS DEPOIS DA SUBMISSÃO) -->
+        <section id="extra-study-section" class="hidden mt-16 space-y-12 pt-12 border-t border-brand-200 transform scale-95 opacity-0 transition-all duration-500">
+            
+            <!-- Tabela Gabarito Oficial -->
+            <div id="gabarito-table-section" class="bg-white border border-brand-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                <h3 class="font-serif text-2xl font-bold text-brand-900 mb-4">Gabarito Oficial</h3>
+                <p class="text-brand-700 text-sm mb-6 leading-relaxed">Consolidado das respostas de acordo com os dispositivos legais associados ao Decreto nº 1.171/1994:</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-brand-200 text-xs font-bold text-brand-700 uppercase tracking-widest">
+                                <th class="py-3 px-4">Questão</th>
+                                <th class="py-3 px-4">Gabarito</th>
+                                <th class="py-3 px-4">Assunto Principal</th>
+                                <th class="py-3 px-4">Dispositivo Legal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gabarito-table-body" class="text-sm divide-y divide-brand-100">
+                            <!-- Injetado dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Síntese Comparativa de Regimes Funcionais -->
+            <div class="bg-white border border-brand-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                <h3 class="font-serif text-2xl font-bold text-brand-900 mb-2">Síntese Comparativa de Regimes Funcionais</h3>
+                <p class="text-brand-700 text-sm mb-6 leading-relaxed">
+                    Diferenças fundamentais entre o regime de controle puramente ético (Decreto nº 1.171/1994) e o regime estatutário-disciplinar (Lei nº 8.112/1990) no serviço público federal brasileiro:
+                </p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-brand-100 border-b border-brand-200 text-xs font-bold text-brand-700 uppercase tracking-widest">
+                                <th class="py-3.5 px-4 w-1/4">Critério de Comparação</th>
+                                <th class="py-3.5 px-4 w-3/8">Regime Ético (Decreto nº 1.171/1994)</th>
+                                <th class="py-3.5 px-4 w-3/8">Regime Disciplinar (Lei nº 8.112/1990)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-brand-100 text-brand-800 leading-relaxed">
+                            <tr>
+                                <td class="py-4 px-4 font-semibold text-brand-900">Órgão Apurador</td>
+                                <td class="py-4 px-4">Comissões de Ética (setoriais e locais).</td>
+                                <td class="py-4 px-4">Comissões de Sindicância ou de Processo Administrativo Disciplinar (PAD).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-4 font-semibold text-brand-900">Foco de Análise</td>
+                                <td class="py-4 px-4">Moralidade, decoro, zelo e retidão de conduta profissional e pessoal.</td>
+                                <td class="py-4 px-4">Legalidade estrita, cumprimento das obrigações funcionais e deveres administrativos.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-4 font-semibold text-brand-900">Extensão Subjetiva</td>
+                                <td class="py-4 px-4">Conceito ampliado de servidor (inclui voluntários, estagiários e terceirizados).</td>
+                                <td class="py-4 px-4">Servidores públicos estatutários ativos, inativos e ocupantes de cargos em comissão.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-4 font-semibold text-brand-900">Penalidade Aplicável</td>
+                                <td class="py-4 px-4"><span class="bg-teal-50 text-teal-800 font-semibold px-2 py-0.5 rounded">Unicamente</span> a pena de censura de natureza moral.</td>
+                                <td class="py-4 px-4">Advertência, suspensão, demissão, cassação de aposentadoria e destituição de cargo.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-4 font-semibold text-brand-900">Repercussão da Vida Privada</td>
+                                <td class="py-4 px-4">Alta relevância; atos privados que maculem a imagem do cargo geram sanção ética.</td>
+                                <td class="py-4 px-4">Restrita às repercussões que guardem nexo causal direto com o exercício das atribuições do cargo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-24 border-t border-brand-200/60 py-8 text-center text-xs text-brand-700 tracking-wider">
+        <div class="max-w-4xl mx-auto px-6">
+            <p>CONCURSO PÚBLICO: ÉTICA NO SERVIÇO PÚBLICO FEDERAL</p>
+            <p class="mt-2 text-brand-200">Simulador Desenvolvido com Foco em Leitura Extensa e Estudo Ativo</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT DE CONFIGURAÇÃO E COMPORTAMENTO -->
+    <script>
+        // Banco de dados completo e íntegro do caderno de questões
+        const quizData = [
+            {
+                id: 1,
+                question: `De acordo com o regramento estabelecido pelo Código de Ética Profissional do Servidor Público Civil do Poder Executivo Federal, aprovado pelo Decreto nº 1.171, de 22 de junho de 1994, informe se é verdadeiro (V) ou falso (F) o que se afirma a seguir e assinale a alternativa com a sequência correta:<br><br>
+                <strong>( &nbsp; )</strong> A pena aplicável ao servidor público pela Comissão de Ética é a de advertência por escrito, devendo sua fundamentação constar do respectivo parecer, assinado por todos os seus integrantes, com ciência do faltoso.<br>
+                <strong>( &nbsp; )</strong> É vedado aos servidores públicos prejudicar deliberadamente a reputação de outros servidores ou de cidadãos que deles dependam.<br>
+                <strong>( &nbsp; )</strong> A função pública deve ser tida como exercício profissional e, portanto, se integra na vida particular de cada servidor público, de modo que os fatos e atos verificados na conduta do dia a dia em sua vida privada poderão acrescer ou diminuir o seu bom conceito na vida funcional.<br>
+                <strong>( &nbsp; )</strong> Toda ausência injustificada do servidor de seu local de trabalho é fator de desmoralização do serviço público, o que quase sempre conduz à desordem nas relações humanas.`,
+                options: [
+                    { key: "A", text: "F – V – V – V." },
+                    { key: "B", text: "V – V – F – F." },
+                    { key: "C", text: "V – V – F – V." },
+                    { key: "D", text: "F – V – V – F." },
+                    { key: "E", text: "F – F – F – V." }
+                ],
+                correct: "A",
+                subject: "Regras Deontológicas, Vedações e Penalidades",
+                law: "Incisos VI, XII, XV, 'b' e XXII.",
+                explanation: `O gabarito aponta para a <strong>alternativa A</strong>. A análise detalhada de cada item revela os seguintes aspectos legais e conceituais do Decreto nº 1.171/1994:<br><br>
+                <strong>A primeira proposição é falsa</strong> porque indica que a sanção aplicada pelas Comissões de Ética seria a de "advertência por escrito". Sob o aspecto estritamente normativo do Capítulo II, Inciso XXII do decreto federal em apreço, a única penalidade que as Comissões de Ética são competentes para aplicar é a <strong>pena de censura</strong>. As demais punições de caráter disciplinar (como a advertência e a suspensão) pertencem à órbita correcional regulada pela Lei nº 8.112/1990, de competência das corregedorias e autoridades administrativas mediante instauração de processo administrativo disciplinar.<br><br>
+                <strong>A segunda proposição é verdadeira</strong> por espelhar integralmente o comando do Inciso XV, alínea "b", que proíbe o servidor de prejudicar de forma deliberada a reputação alheia.<br><br>
+                <strong>A terceira proposição também se mostra verdadeira</strong> por encontrar amparo direto no Inciso VI, consolidando um dos mais importantes entendimentos da ética pública: a indissociabilidade entre a conduta privada do indivíduo e a dignidade do cargo que este ocupa perante a sociedade. A conduta particular do servidor projeta efeitos contínuos sobre a credibilidade das instituições públicas federais.<br><br>
+                <strong>A quarta proposição é verdadeira</strong> ao transcrever a redação literal do Inciso XII, reforçando que a assiduidade é um valor moral e uma necessidade operacional. O absenteísmo injustificado deteriora a harmonia interna das equipes e lesa o cidadão que depende do atendimento presencial.`
+            },
+            {
+                id: 2,
+                question: `O Decreto nº 1.171/1994 estabelece parâmetros de conduta que visam a resguardar a moralidade e a eficiência na Administração Pública Federal. Segundo o referido diploma normativo, estão entre os deveres fundamentais do servidor público federal, <strong>EXCETO</strong>:`,
+                options: [
+                    { key: "A", text: "jamais retardar qualquer prestação de contas, condição essencial da gestão dos bens, direitos e serviços da coletividade a seu cargo." },
+                    { key: "B", text: "zelar, no exercício do direito de greve, pelas exigências específicas da defesa da vida e da segurança coletiva." },
+                    { key: "C", text: "manter-se atualizado com as instruções, as normas de serviço e a legislação pertinentes ao órgão onde exerce suas funções." },
+                    { key: "D", text: "ter respeito à hierarquia, com temor de representar contra qualquer comprometimento indevido da estrutura em que se funda o poder estatal." },
+                    { key: "E", text: "comunicar imediatamente a seus superiores todo e qualquer ato ou fato contrário ao interesse público, exigindo as providências cabíveis." }
+                ],
+                correct: "D",
+                subject: "Deveres Fundamentais do Servidor",
+                law: "Inciso XIV, alínea 'h'.",
+                explanation: `O gabarito aponta para a <strong>alternativa D</strong>. A questão demanda a identificação da assertiva que contraria o elenco de deveres fundamentais do servidor público.<br><br>
+                O erro da alternativa D repousa na expressão "com temor de representar". Conforme estabelecido no Inciso XIV, alínea "h", do Decreto nº 1.171/1994, o servidor deve ter "respeito à hierarquia, porém <strong>sem nenhum temor de representar</strong> contra qualquer comprometimento indevido da estrutura em que se funda o Poder Estatal".<br><br>
+                A hierarquia administrativa serve à coordenação técnica e operacional das ações do Estado, não podendo ser utilizada como salvaguarda para o acobertamento de atos ilegais ou imorais. O silêncio ou a submissão cega decorrente do temor hierárquico configura, por si só, um comprometimento ético que vulnera o interesse público.<br><br>
+                As demais alternativas representam deveres expressos e inafastáveis previstos nas alíneas "d", "j", "t" e "g" do mesmo Inciso XIV, respectivamente.`
+            },
+            {
+                id: 3,
+                question: `Considerando as disposições do Decreto nº 1.171/1994 acerca dos deveres fundamentais e das vedações aplicáveis aos servidores públicos civis do Poder Executivo Federal, informe se é verdadeiro (V) ou falso (F) o que se afirma a seguir e assinale a alternativa com a sequência correta:<br><br>
+                <strong>( &nbsp; )</strong> O servidor deverá ter respeito à hierarquia, porém sem nenhum temor de representar contra qualquer comprometimento indevido da estrutura em que se funda o Poder Estatal.<br>
+                <strong>( &nbsp; )</strong> Deverá o servidor público exigir de seu superior hierárquico as providências cabíveis, ao cumprir seu dever de comunicar imediatamente a seus superiores todo e qualquer ato ou fato contrário ao interesse público.<br>
+                <strong>( &nbsp; )</strong> O servidor deverá participar dos movimentos e estudos que se relacionem com a melhoria do exercício de suas funções, tendo por escopo a realização do bem comum.<br>
+                <strong>( &nbsp; )</strong> Em situações excepcionais, devidamente justificadas pela chefia imediata, o servidor poderá deixar de utilizar os avanços técnicos e científicos que estejam ao seu alcance ou do seu conhecimento para atendimento do seu mister.`,
+                options: [
+                    { key: "A", text: "V – F – F – F." },
+                    { key: "B", text: "F – V – V – F." },
+                    { key: "C", text: "F – V – F – V." },
+                    { key: "D", text: "V – F – V – V." },
+                    { key: "E", text: "V – V – V – F." }
+                ],
+                correct: "E",
+                subject: "Deveres Fundamentais e Vedações",
+                law: "Inciso XIV, alíneas 'h', 'g', 'i' e Inciso XV, alínea 'e'.",
+                explanation: `O gabarito aponta para a <strong>alternativa E</strong>. A questão aborda o cruzamento de deveres fundamentais (Inciso XIV) com as vedações éticas (Inciso XV).<br><br>
+                <strong>A primeira afirmação é verdadeira</strong> por representar a literalidade do Inciso XIV, alínea "h". A autonomia ética do servidor exige que o respeito à cadeia de comando não anule seu dever de fiscalizar a lisura do ambiente público.<br><br>
+                <strong>A segunda afirmação é verdadeira</strong> ao traduzir o dever previsto na alínea "g" do Inciso XIV, que obriga o agente a comunicar as irregularidades encontradas e a exigir do seu superior as devidas providências. O ato de comunicar não se exaure no envio da informação; exige postura ativa para que a administração atue corretivamente.<br><br>
+                <strong>A terceira afirmação é verdadeira</strong> por espelhar a alínea "i" do Inciso XIV. O desenvolvimento de estudos e o engajamento com a melhoria funcional são vistos como instrumentos de realização do bem comum.<br><br>
+                <strong>A quarta afirmação é falsa</strong>. A vedação contida na alínea "e" do Inciso XV proíbe o servidor de "deixar de utilizar os avanços técnicos e científicos ao seu alcance ou do seu conhecimento para atendimento do seu mister". O Código de Ética não abre margem para "situações excepcionais justificadas pela chefia" a fim de legitimar a obsolescência ou a ineficiência do atendimento público, visto que a celeridade e o rendimento são deveres éticos indissociáveis do cargo.`
+            },
+            {
+                id: 4,
+                question: `As Comissões de Ética instituídas no âmbito do Poder Executivo Federal desempenham atribuições de natureza consultiva, educativa e também de fiscalização do comportamento dos agentes públicos. Nos termos do Decreto nº 1.171/1994, a referida comissão possui competência para conhecer concretamente de imputação ou de procedimento administrativo em que a pena aplicável ao servidor público é a de:`,
+                options: [
+                    { key: "A", text: "suspensão e sua fundamentação constará do respectivo parecer, assinado por todos os seus integrantes, com ciência e anuência do faltoso." },
+                    { key: "B", text: "demissão e sua fundamentação constará do respectivo parecer, assinado por todos os seus integrantes, com ciência do faltoso." },
+                    { key: "C", text: "censura e sua fundamentação constará do respectivo parecer, assinado por todos os seus integrantes, sendo dispensável a ciência do faltoso." },
+                    { key: "D", text: "multa e sua fundamentação constará do respectivo parecer, assinado por todos os seus integrantes, com ciência do faltoso." },
+                    { key: "E", text: "censura e sua fundamentação constará do respectivo parecer, assinado por todos os seus integrantes, com ciência do faltoso." }
+                ],
+                correct: "E",
+                subject: "Competência e Penalidades das Comissões de Ética",
+                law: "Inciso XXII.",
+                explanation: `O gabarito aponta para a <strong>alternativa E</strong>. Esta questão explora os limites da competência sancionatória das Comissões de Ética.<br><br>
+                O desenho institucional traçado pelo Decreto nº 1.171/1994, especificamente em seu Capítulo II, Inciso XXII, limita o poder de punição ética à aplicação da <strong>pena de censura</strong>. O parecer que conclui pelo cometimento da infração ética deve ser motivado, assinado por todos os integrantes da comissão e devidamente notificado ao servidor faltoso, garantindo-lhe a ciência formal do ato.<br><br>
+                É relevante destacar que a Comissão de Ética não possui competência para impor penalidades de demissão, suspensão, advertência correcional ou sanções pecuniárias. Caso a comissão verifique que a conduta do agente transborda o aspecto estritamente ético e configura infração disciplinar nos termos da Lei nº 8.112/1990 ou improbidade administrativa sob a Lei nº 8.429/1992, cumpre-lhe encaminhar cópia dos autos às autoridades correcionais competentes para que se adote o procedimento legal cabível.`
+            },
+            {
+                id: 5,
+                question: `Para fins de apuração do comprometimento ético sob a égide do Decreto nº 1.171/1994, o conceito de servidor público é delimitado de forma a abranger uma vasta gama de agentes que interagem com a estrutura estatal. Diante das regras contidas no Capítulo II do referido diploma, assinale a alternativa que define corretamente quem se submete a essa fiscalização ética:`,
+                options: [
+                    { key: "A", text: "Todo aquele que, por força de lei, contrato ou de qualquer ato jurídico, preste serviços de natureza permanente, temporária ou excepcional, ainda que sem retribuição financeira, desde que ligado direta ou indiretamente a qualquer órgão do poder estatal, como as autarquias, as fundações públicas, as entidades paraestatais, as empresas públicas e as sociedades de economia mista, ou em qualquer setor onde prevaleça o interesse do Estado." },
+                    { key: "B", text: "Apenas os agentes que mantêm vínculo estatutário com a Administração Pública Federal direta, excluindo-se os prestadores de serviço terceirizados e aqueles sem vínculo permanente com as fundações públicas." },
+                    { key: "C", text: "Exclusivamente os agentes que percebem retribuição financeira do erário público federal, vedada a apuração de desvios éticos em relação a agentes voluntários ou que atuam de forma excepcional e gratuita." },
+                    { key: "D", text: "Apenas os diretores e conselheiros das sociedades de economia mista e das empresas públicas federais, restando os demais funcionários subordinados exclusivamente aos seus respectivos regulamentos internos de pessoal." },
+                    { key: "E", text: "Unicamente os servidores públicos federais civis em exercício de cargos em comissão ou funções de confiança, não se aplicando as diretrizes do código aos servidores efetivos." }
+                ],
+                correct: "A",
+                subject: "Conceito Ampliado de Servidor Público",
+                law: "Inciso XXIV.",
+                explanation: `O gabarito aponta para a <strong>alternativa A</strong>. Esta questão examina a amplitude do conceito de servidor público adotado pelo microssistema ético federal.<br><br>
+                Com o intuito de evitar lacunas de responsabilização, o legislador consagrou no Inciso XXIV uma definição extremamente ampla e funcional de servidor público para fins de apuração de conduta ética. A sujeição às normas do decreto não depende da estabilidade do vínculo, da natureza civilista ou estatutária da contratação, tampouco da percepção de remuneração pelos cofres públicos.<br><br>
+                O fator determinante para a incidência do regime ético é a prestação de serviços a órgão do poder estatal, incluindo a administração direta, indireta autárquica e fundacional, as empresas estatais, as entidades paraestatais e qualquer organização sob delegação de atividade pública onde preponderar o interesse coletivo do Estado. Assim, estagiários, voluntários, comissionados temporários, terceirizados e empregados celetistas das estatais submetem-se de maneira uniforme ao controle ético. As demais alternativas trazem restrições arbitrárias que violam a teleologia da norma.`
+            },
+            {
+                id: 6,
+                question: `As Regras Deontológicas constantes da Seção I do Código de Ética do Servidor Público do Poder Executivo Federal estruturam os pilares filosóficos e morais da atuação do agente público. Com base nesses primados, assinale a alternativa correta:`,
+                options: [
+                    { key: "A", text: "O servidor público poderá desprezar o elemento ético de sua conduta nas hipóteses em que o ato administrativo praticado se amparar exclusivamente em critérios de conveniência e oportunidade do gestor." },
+                    { key: "B", text: "No âmbito da tomada de decisões da administração pública, basta que o servidor opte entre o que é legal e o que é ilegal, sendo o conceito de moralidade dissociável da finalidade do ato." },
+                    { key: "C", text: "A remuneração recebida pelo servidor é custeada por dotação orçamentária própria do Estado, de sorte que as exigências de contrapartida moral do cargo não possuem relação direta com os tributos pagos pelos cidadãos." },
+                    { key: "D", text: "O equilíbrio entre a legalidade e a finalidade na conduta do servidor público é o elemento capaz de consolidar a moralidade do ato administrativo." },
+                    { key: "E", text: "O decoro no exercício do cargo público é um atributo puramente interno do agente, não se exigindo que sua conduta na vida social aparente retidão, bastando que cumpra as obrigações formais do serviço." }
+                ],
+                correct: "D",
+                subject: "Regras Deontológicas e Moralidade Administrativa",
+                law: "Inciso III.",
+                explanation: `O gabarito aponta para a <strong>alternativa D</strong>. A questão exige reflexão teórica e conceitual sobre as Regras Deontológicas do Código de Ética.<br><br>
+                A moralidade da Administração Pública não se esgota na mera verificação de conformidade de um ato com as formalidades legais. De acordo com o estabelecido na Regra Deontológica III do Decreto nº 1.171/1994, "o equilíbrio entre a legalidade e a finalidade na conduta do servidor público é que poderá consolidar a moralidade do ato".<br><br>
+                Um ato administrativo pode ser formalmente legal, mas materialmente imoral se desviar-se do bem comum para satisfazer interesses privados, caprichos ou corporativismos. A legalidade sem finalidade legítima é uma casca vazia que frauda o interesse social.<br><br>
+                <strong>Esclarecimento das demais alternativas:</strong><br>
+                - O elemento ético é perene e jamais pode ser desprezado, independentemente de discricionariedade técnica.<br>
+                - O servidor não decide apenas entre o legal e o ilegal, mas também entre o honesto e o desonesto.<br>
+                - A remuneração é paga pelos tributos de toda a sociedade, exigindo-se contrapartida moral imediata na prestação do serviço.<br>
+                - O decoro exige que a conduta do servidor seja exemplar dentro e fora da repartição, unindo a retidão íntima com a aparência pública de honradez.`
+            },
+            {
+                id: 7,
+                question: `A imposição de limites à atuação dos agentes públicos visa a coibir o desvio de finalidade e a garantir a impessoalidade administrativa. À luz das vedações expressas contidas na Seção III do Código de Ética aprovado pelo Decreto nº 1.171/1994, assinale a alternativa correta:`,
+                options: [
+                    { key: "A", text: "É permitido ao servidor público retirar da repartição pública, sem autorização legal, documentos ou livros pertencentes ao patrimônio público, desde que com a finalidade de realizar tarefas funcionais em seu domicílio." },
+                    { key: "B", text: "O servidor público pode usar de seu cargo, facilidades e influências para obter favorecimento para outrem, desde que tal conduta decorra de espírito de solidariedade funcional." },
+                    { key: "C", text: "É vedado ao servidor público permitir que perseguições, simpatias, antipatias, caprichos, paixões ou interesses de ordem pessoal interfiram no trato com o público, com os jurisdicionados administrativos ou com colegas hierarquicamente superiores ou inferiores." },
+                    { key: "D", text: "É permitido ao servidor ser conivente com erro ou infração ao Código de Ética se o ato irregular tiver sido cometido por seu superior hierárquico imediato." },
+                    { key: "E", text: "É vedada a utilização de informações privilegiadas obtidas no âmbito de seu serviço em benefício próprio, sendo permitida, todavia, a divulgação destas para beneficiar familiares diretos." }
+                ],
+                correct: "C",
+                subject: "Vedações no Exercício do Cargo",
+                law: "Inciso XV, alínea 'f'.",
+                explanation: `O gabarito aponta para a <strong>alternativa C</strong>. Esta questão foca na incidência prática das vedações listadas na Seção III do Código de Ética.<br><br>
+                A alternativa C reproduz com precisão a alínea "f" do Inciso XV, vedando a interferência de sentimentos de ordem pessoal no exercício das funções públicas. O princípio da impessoalidade exige do servidor uma atuação neutra, objetiva e justa perante os administrados e seus pares na repartição, impedindo que simpatias ou animosidades guiem suas decisões administrativas.<br><br>
+                <strong>Inconsistência das demais proposições:</strong><br>
+                - A retirada de documentos ou livros pertencentes ao patrimônio público da repartição exige, de modo indispensável, prévia autorização legal, vedado o ato por iniciativa pessoal desautorizada, independentemente da intenção do agente (Inciso XV, alínea "l").<br>
+                - O uso de influência para favorecimentos pessoais ou de terceiros é peremptoriamente vedado, e o espírito de coleguismo não pode justificar atalhos imorais (Inciso XV, alínea "a").<br>
+                - A conivência com o erro de outrem por pretexto de solidariedade profissional é expressamente vedada na alínea "c" do Inciso XV.<br>
+                - O uso de informações privilegiadas obtidas no serviço é proibido em benefício próprio, de amigos ou de familiares (Inciso XV, alínea "m").`
+            },
+            {
+                id: 8,
+                question: `Qual é o significado de urbanidade e qual a correta aplicação dos deveres fundamentais do servidor público, em consonância com as regras contidas na Seção II do Decreto nº 1.171/1994? Assinale a alternativa que apresenta uma conduta incorreta ou contrária ao que prescreve o referido Código:`,
+                options: [
+                    { key: "A", text: "Tratar cuidadosamente os usuários dos serviços, aperfeiçoando o processo de comunicação e contato com o público." },
+                    { key: "B", text: "Abster-se de participar de quaisquer movimentos grevistas, sob o argumento de que a paralisação do serviço público viola as exigências específicas da segurança coletiva." },
+                    { key: "C", text: "Exercer suas atribuições com rapidez, perfeição e rendimento, buscando resolver situações procrastinatórias." },
+                    { key: "D", text: "Ser probo, reto, leal e justo, escolhendo sempre, quando estiver diante de duas opções, a melhor e a mais vantajosa para o bem comum." },
+                    { key: "E", text: "Jamais retardar qualquer prestação de contas, condição essencial da gestão dos bens, direitos e serviços da coletividade a seu cargo." }
+                ],
+                correct: "B",
+                subject: "Deveres Fundamentais e Direito de Greve",
+                law: "Inciso XIV, alínea 'j'.",
+                explanation: `O gabarito aponta para a <strong>alternativa B</strong>. A questão busca a identificação de um enunciado que contrarie os preceitos éticos relativos aos deveres e ao exercício da função pública.<br><br>
+                A alternativa B é incorreta sob a perspectiva do Decreto nº 1.171/1994, pois o Código de Ética não impõe ao servidor o dever de "abster-se de participar de quaisquer movimentos grevistas". Pelo contrário, a alínea "j" do Inciso XIV expressamente assegura a licitude do engajamento em movimentos grevistas, determinando como dever ético que o servidor, "no exercício do direito de greve", atente para a preservação das exigências específicas que garantam a vida e a segurança coletiva da sociedade.<br><br>
+                O direito de greve é garantia constitucional e a regulação ética visa a sua harmonização com o princípio da continuidade dos serviços públicos essenciais, e não à sua supressão. As demais alternativas listam com correção deveres descritos no rol do Inciso XIV.`
+            },
+            {
+                id: 9,
+                question: `A publicidade de qualquer ato administrativo constitui elemento de legitimação no serviço público. Conforme o regramento estatuído pelo Decreto Federal nº 1.171/1994 sobre o princípio da publicidade, assinale a alternativa correta:`,
+                options: [
+                    { key: "A", text: "A publicidade dos atos administrativos é um requisito absoluto de eficácia e moralidade, não comportando exceção sob nenhuma hipótese de sigilo." },
+                    { key: "B", text: "Os casos de segurança nacional, investigações policiais ou interesse superior do Estado e da administração pública estão dispensados da publicidade, devendo ser resguardados por sigilo tácito, independentemente de processo formal prévio." },
+                    { key: "C", text: "A omissão injustificada da publicidade de ato administrativo enseja mero descumprimento burocrático, não se configurando como comprometimento ético contra o bem comum." },
+                    { key: "D", text: "Salvo os casos de segurança nacional, investigações policiais ou interesse superior do Estado e da administração pública, a serem preservados em processo previamente declarado sigiloso nos termos da lei, a publicidade de qualquer ato administrativo constitui requisito de eficácia e moralidade, ensejando sua omissão comprometimento ético contra o bem comum, imputável a quem a negar." },
+                    { key: "E", text: "O dever de publicidade restringe-se aos atos decisórios de caráter finalístico emitidos pela autoridade máxima do órgão público, dispensando-se o controle ético sobre as decisões preliminares." }
+                ],
+                correct: "D",
+                subject: "Princípio da Publicidade e suas Exceções",
+                law: "Inciso VII.",
+                explanation: `O gabarito aponta para a <strong>alternativa D</strong>. A questão aborda o princípio da publicidade no ambiente ético-administrativo.<br><br>
+                A redação da alternativa D reproduz com exatidão o Inciso VII do Decreto nº 1.171/1994. A publicidade dos atos do Estado constitui regra geral de transparência e legitimação da atividade governamental perante a sociedade. A sua omissão desarrazoada impede o controle social e configura comprometimento ético punível, pois mitiga o direito à informação dos cidadãos.<br><br>
+                As únicas exceções autorizadas são aquelas formalmente justificadas por razões de segurança nacional, investigações de natureza policial ou interesse superior do Estado, e que constem de processo previamente formalizado e decretado sob sigilo nos estritos moldes fixados pela legislação. Não há respaldo para "sigilo tácito" ou dispensa de formalização, o que invalida as proposições concorrentes.`
+            },
+            {
+                id: 10,
+                question: `O Código de Ética do Servidor Público do Poder Executivo Federal estipula balizamentos claros a respeito da assiduidade e das relações humanas no ambiente organizacional. Sobre essas diretrizes éticas, assinale a alternativa correta:`,
+                options: [
+                    { key: "A", text: "Toda ausência injustificada do servidor de seu local de trabalho é fator de desmoralização do serviço público, o que quase sempre conduz à desordem nas relações humanas." },
+                    { key: "B", text: "A assiduidade do servidor é requisito restrito à mensuração de sua produtividade funcional e financeira, não exercendo qualquer reflexo de ordem moral ou disciplinar nas relações de trabalho." },
+                    { key: "C", text: "O servidor que trabalha em harmonia com a estrutura organizacional, respeitando seus colegas e cada concidadão, colabora e de todos pode receber colaboração, pois sua atividade pública é a grande oportunidade para o crescimento e o engrandecimento da Nação." },
+                    { key: "D", text: "O desvio de colega de trabalho para atender a interesse particular do servidor é conduta aceitável ética e profissionalmente, desde que não ocorra prejuízo direto ao erário público." },
+                    { key: "E", text: "A vida particular do servidor público não se comunica com a sua atuação profissional, razão pela qual atos praticados na esfera estritamente privada jamais repercutem em seu bom conceito na vida funcional." }
+                ],
+                correct: "A",
+                subject: "Assiduidade e Harmonia Organizacional",
+                law: "Inciso XII.",
+                explanation: `O gabarito aponta para a <strong>alternativa A</strong>. A questão trata dos reflexos morais da assiduidade e da harmonia das relações de trabalho.<br><br>
+                A alternativa A é correta ao transcrever textualmente o Inciso XII do Código de Ética, evidenciando que as ausências imotivadas desorganizam o serviço público, sobrecarregam os demais servidores e ensejam desordem crônica nas relações humanas organizacionais.<br><br>
+                A assiduidade não é mera métrica contábil, mas o cumprimento ético do pacto funcional firmado com a coletividade.<br><br>
+                <strong>Para compreender as inconsistências das demais proposições:</strong><br>
+                - A assiduidade repercute diretamente sobre as avaliações de desempenho moral e funcional, não se limitando a aspectos financeiros.<br>
+                - O servidor deve atuar em cooperação mútua dentro da estrutura organizacional, sendo o trabalho harmonioso e o respeito aos concidadãos a verdadeira oportunidade de engrandecimento da Nação (Inciso XIII).<br>
+                - O desvio de colega para interesses privados é expressamente vedado na alínea "j" do Inciso XV.<br>
+                - A vida privada do servidor influencia, positiva ou negativamente, o seu bom conceito profissional no ambiente funcional, nos termos da Regra Deontológica VI.`
+            }
+        ];
+
+        // Objeto de controle de respostas do usuário
+        let userAnswers = {};
+        let quizSubmitted = false;
+
+        // Função de Inicialização do App
+        window.addEventListener('DOMContentLoaded', () => {
+            renderQuestions();
+            updateProgress();
+        });
+
+        // Renderização Dinâmica das Questões com Layout Confortável para Leitura
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            quizData.forEach((item, index) => {
+                const questionNumber = index + 1;
+                
+                // Elemento pai da questão
+                const qCard = document.createElement('article');
+                qCard.id = `qcard-${item.id}`;
+                qCard.className = "bg-white border border-brand-200 rounded-2xl p-6 md:p-8 transition-all-300 shadow-sm focus-within:ring-2 focus-within:ring-brand-200";
+
+                // Header da Questão (Número e assunto)
+                const qHeader = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-100 pb-4 mb-6">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-8 h-8 rounded-lg bg-brand-800 text-white flex items-center justify-center font-bold text-sm">
+                                ${questionNumber}
+                            </span>
+                            <span class="font-serif text-lg font-bold text-brand-900">Questão ${questionNumber}</span>
+                        </div>
+                        <span class="inline-block px-2.5 py-1 text-xs font-semibold rounded bg-brand-100 text-brand-700 uppercase tracking-wider">
+                            ${item.subject}
+                        </span>
+                    </div>
+                `;
+
+                // Texto do enunciado (com recuo de leitura otimizado e fonte maior)
+                const qEnunciado = `
+                    <div class="font-sans text-brand-850 text-base md:text-[17px] leading-relaxed reading-text mb-6">
+                        ${item.question}
+                    </div>
+                `;
+
+                // Render das Opções de Resposta
+                let qOptions = `<div class="space-y-3" role="radiogroup" aria-label="Opções para questão ${questionNumber}">`;
+                item.options.forEach(opt => {
+                    const uniqueId = `q-${item.id}-opt-${opt.key}`;
+                    qOptions += `
+                        <label for="${uniqueId}" 
+                            id="label-${uniqueId}"
+                            class="flex items-start p-4 rounded-xl border border-brand-200 hover:border-brand-700 hover:bg-brand-50 cursor-pointer transition-all-300 group relative">
+                            <div class="flex items-center h-5 mt-0.5">
+                                <input id="${uniqueId}" 
+                                       type="radio" 
+                                       name="question-${item.id}" 
+                                       value="${opt.key}"
+                                       onclick="selectOption(${item.id}, '${opt.key}')"
+                                       class="w-4 h-4 text-brand-800 border-brand-200 focus:ring-brand-800 focus:ring-2"
+                                />
+                            </div>
+                            <div class="ml-3 text-sm md:text-base leading-relaxed text-brand-800 group-hover:text-brand-900 transition-colors flex">
+                                <span class="font-bold mr-2 text-brand-900 group-hover:text-brand-900">${opt.key})</span>
+                                <span>${opt.text}</span>
+                            </div>
+                        </label>
+                    `;
+                });
+                qOptions += `</div>`;
+
+                // Espaço reservado para a Resolução Comentada (Injetado em tempo de correção)
+                const qExplicacao = `
+                    <div id="explanation-${item.id}" class="hidden mt-6 pt-6 border-t border-brand-100 transform translate-y-2 opacity-0 transition-all duration-500">
+                        <!-- Injetado via Javascript pós submissão -->
+                    </div>
+                `;
+
+                qCard.innerHTML = qHeader + qEnunciado + qOptions + qExplicacao;
+                container.appendChild(qCard);
+            });
+        }
+
+        // Função para monitorar seleção das respostas
+        function selectOption(questionId, optionKey) {
+            if (quizSubmitted) return; // Bloqueia edições após submissão
+
+            userAnswers[questionId] = optionKey;
+            
+            // Destaca visualmente a opção ativa
+            const currentQuestion = quizData.find(q => q.id === questionId);
+            currentQuestion.options.forEach(opt => {
+                const targetId = `label-q-${questionId}-opt-${opt.key}`;
+                const label = document.getElementById(targetId);
+                if (opt.key === optionKey) {
+                    label.classList.add('border-brand-800', 'bg-brand-100/50');
+                } else {
+                    label.classList.remove('border-brand-800', 'bg-brand-100/50');
+                }
+            });
+
+            updateProgress();
+        }
+
+        // Atualização Dinâmica da Barra de Progresso superior
+        function updateProgress() {
+            const totalQuestions = quizData.length;
+            const answeredCount = Object.keys(userAnswers).length;
+            const percentage = Math.round((answeredCount / totalQuestions) * 100);
+
+            // Modifica o badge e a largura da barra
+            const badge = document.getElementById('progress-badge');
+            const bar = document.getElementById('progress-bar');
+            const btnSubmit = document.getElementById('btn-submit-quiz');
+
+            badge.innerText = `${percentage}% Respondido`;
+            bar.style.width = `${percentage}%`;
+
+            if (answeredCount === totalQuestions) {
+                btnSubmit.classList.remove('bg-brand-200', 'text-brand-700', 'cursor-not-allowed');
+                btnSubmit.classList.add('bg-accent-navy', 'text-white', 'hover:bg-brand-900');
+                btnSubmit.disabled = false;
+            } else {
+                btnSubmit.classList.add('bg-brand-200', 'text-brand-700', 'cursor-not-allowed');
+                btnSubmit.classList.remove('bg-accent-navy', 'text-white', 'hover:bg-brand-900');
+                btnSubmit.disabled = true;
+            }
+        }
+
+        // Função de envio do Quiz
+        function submitQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const totalQuestions = quizData.length;
+
+            if (answeredCount < totalQuestions) {
+                showToast("Faltam Questões", "Por favor, responda todas as 10 questões antes de realizar a correção.");
+                return;
+            }
+
+            quizSubmitted = true;
+            
+            // Desativa todos os radio buttons e inputs para evitar alteração de estado
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.disabled = true);
+
+            // Calcula o score final
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    score++;
+                }
+            });
+
+            // Mostra o Score e Feedback no topo
+            displayResults(score, totalQuestions);
+
+            // Realiza a varredura e colore as questões individualmente, mostrando cada explicação na tela
+            revealAnswersAndExplanations();
+
+            // Monta o Gabarito e a Tabela de Estudo
+            buildGabaritoTable();
+
+            // Rola suavemente para o topo de resultados
+            document.getElementById('results-dashboard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Exibe o painel de resultados no topo
+        function displayResults(score, total) {
+            const dashboard = document.getElementById('results-dashboard');
+            const scoreFraction = document.getElementById('final-score-fraction');
+            const percentageText = document.getElementById('final-percentage');
+            const feedbackText = document.getElementById('performance-feedback');
+
+            scoreFraction.innerHTML = `${score} <span class="text-brand-200">/</span> ${total}`;
+            const percentage = Math.round((score / total) * 100);
+            percentageText.innerText = `${percentage}%`;
+
+            // Textos de feedback com base em pontuação para estudo dinâmico
+            if (percentage === 100) {
+                feedbackText.innerHTML = "🏆 <strong class='font-bold text-brand-900'>Desempenho Perfeito!</strong> Você demonstrou domínio absoluto das regras éticas, das obrigações funcionais e da estrutura de punições aplicáveis ao funcionalismo civil do Poder Executivo Federal.";
+            } else if (percentage >= 80) {
+                feedbackText.innerHTML = "👏 <strong class='font-bold text-brand-900'>Excelente resultado!</strong> Sua pontuação é altamente competitiva e compatível com as notas de corte de topo da banca AOCP. Faça uma rápida revisão das questões que errou.";
+            } else if (percentage >= 50) {
+                feedbackText.innerHTML = "📈 <strong class='font-bold text-brand-900'>Bom desempenho, mas requer atenção.</strong> Você possui uma base conceitual consolidada, mas caiu em algumas pegadinhas típicas do Instituto AOCP. Estude as justificativas dos seus erros.";
+            } else {
+                feedbackText.innerHTML = "📖 <strong class='font-bold text-brand-900'>Atenção! É recomendável reestudar o Decreto.</strong> O Decreto nº 1.171/1994 é curto e costuma pontuar com facilidade em provas de concurso. Dedique um tempo maior de leitura do código de ética.";
+            }
+
+            // Exibe o container de feedback e tabelas adicionais de estudo
+            dashboard.classList.remove('hidden');
+            setTimeout(() => {
+                dashboard.classList.remove('scale-95', 'opacity-0');
+            }, 50);
+
+            const extraSection = document.getElementById('extra-study-section');
+            extraSection.classList.remove('hidden');
+            setTimeout(() => {
+                extraSection.classList.remove('scale-95', 'opacity-0');
+            }, 100);
+
+            // Atualiza o topo flutuante
+            const scoreReveal = document.getElementById('score-header-reveal');
+            scoreReveal.innerText = `Pontuação: ${score}/${total}`;
+            scoreReveal.classList.remove('hidden');
+        }
+
+        // Revela as respostas, colore os cards e injeta o comentário com design focado na leitura longa
+        function revealAnswersAndExplanations() {
+            quizData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correct;
+                const card = document.getElementById(`qcard-${q.id}`);
+
+                // Modifica a borda e as cores de cada opção para análise visual de erros/acertos
+                q.options.forEach(opt => {
+                    const uniqueId = `q-${q.id}-opt-${opt.key}`;
+                    const label = document.getElementById(`label-${uniqueId}`);
+                    
+                    // Reseta estilos hover/interativos
+                    label.classList.remove('hover:border-brand-700', 'hover:bg-brand-50', 'cursor-pointer');
+                    label.classList.add('cursor-default');
+
+                    if (opt.key === q.correct) {
+                        // Resposta correta oficial
+                        label.classList.add('border-teal-500', 'bg-teal-50/50');
+                        // Ícone visual de acerto
+                        label.innerHTML += `
+                            <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-teal-600">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        `;
+                    } else if (opt.key === userChoice && !isCorrect) {
+                        // Escolha errada do usuário
+                        label.classList.add('border-rose-500', 'bg-rose-50/50');
+                        // Ícone visual de erro
+                        label.innerHTML += `
+                            <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-rose-600">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        `;
+                    }
+                });
+
+                // Injeção da explicação longa com layout requintado
+                const expBox = document.getElementById(`explanation-${q.id}`);
+                expBox.innerHTML = `
+                    <div class="rounded-xl p-5 ${isCorrect ? 'bg-teal-50/30 border border-teal-100' : 'bg-amber-50/30 border border-amber-100'}">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="w-2 h-2 rounded-full ${isCorrect ? 'bg-teal-600' : 'bg-amber-600'}"></span>
+                            <span class="text-xs font-bold uppercase tracking-wider ${isCorrect ? 'text-teal-800' : 'text-amber-800'}">
+                                ${isCorrect ? 'Acertou! Resolução detalhada' : 'Errou! Explicação e justificativa'}
+                            </span>
+                        </div>
+                        <div class="font-sans text-sm md:text-base leading-relaxed text-brand-850">
+                            ${q.explanation}
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-brand-100 flex items-center justify-between text-xs text-brand-700">
+                            <span><strong>Tema principal:</strong> ${q.subject}</span>
+                            <span class="bg-brand-100 text-brand-800 font-mono px-2 py-0.5 rounded">${q.law}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Animando a exibição da explicação
+                expBox.classList.remove('hidden');
+                setTimeout(() => {
+                    expBox.classList.remove('translate-y-2', 'opacity-0');
+                }, 50);
+            });
+        }
+
+        // Construtor do Gabarito Oficial dinâmico
+        function buildGabaritoTable() {
+            const tbody = document.getElementById('gabarito-table-body');
+            tbody.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correct;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-brand-900">${index + 1}</td>
+                    <td class="py-3 px-4">
+                        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full font-bold text-xs ${isCorrect ? 'bg-teal-100 text-teal-800' : 'bg-rose-100 text-rose-800'}">
+                            ${q.correct}
+                        </span>
+                        ${!isCorrect ? `<span class="text-xs text-brand-700 ml-1.5">(você marcou ${userChoice})</span>` : ''}
+                    </td>
+                    <td class="py-3 px-4 text-brand-800 font-medium">${q.subject}</td>
+                    <td class="py-3 px-4 text-xs font-mono text-brand-700 bg-brand-50 rounded">${q.law}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Função de reinicialização para estudo cíclico
+        function resetQuiz() {
+            userAnswers = {};
+            quizSubmitted = false;
+
+            // Fecha painéis de controle e esconde elementos adicionais
+            const dashboard = document.getElementById('results-dashboard');
+            dashboard.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => dashboard.classList.add('hidden'), 500);
+
+            const extraSection = document.getElementById('extra-study-section');
+            extraSection.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => extraSection.classList.add('hidden'), 500);
+
+            document.getElementById('score-header-reveal').classList.add('hidden');
+
+            // Recria as questões
+            renderQuestions();
+            updateProgress();
+
+            // Rola suavemente para o cabeçalho
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Sistema dinâmico de avisos customizados (Toast)
+        function showToast(title, body) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-body').innerText = body;
+
+            toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
+            // Auto hide após 5 segundos
+            setTimeout(() => hideToast(), 5000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
+        }
+    </script>
+</body>
+</html>

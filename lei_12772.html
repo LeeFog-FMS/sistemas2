@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Review: Carreira EBTT IFCE - Lei 12.772/12</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        h1, h2, h3, .font-outfit { font-family: 'Outfit', sans-serif; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .glass-morphism { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col antialiased">
+
+    <!-- Header com Navegação -->
+    <header class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-700 text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-white/20 rounded-xl border border-white/30">
+                    <svg class="w-8 h-8 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Tutor Especialista IFCE</h1>
+                    <p class="text-xs text-emerald-300">Magistério Federal • Foco Total na Lei 12.772/12</p>
+                </div>
+            </div>
+            
+            <nav class="flex flex-wrap justify-center gap-1 sm:gap-2">
+                <button onclick="switchTab('resumo')" id="btn-resumo" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white/20 text-white shadow-inner">📖 Resumo</button>
+                <button onclick="switchTab('flashcards')" id="btn-flashcards" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all hover:bg-white/10 text-emerald-100">⚡ Flashcards</button>
+                <button onclick="switchTab('detector')" id="btn-detector" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all hover:bg-white/10 text-emerald-100">🔍 Peguinhas</button>
+                <button onclick="switchTab('simulador')" id="btn-simulador" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all hover:bg-white/10 text-emerald-100">📝 Simulado</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- TAB: RESUMO TÉCNICO (DETALHADO) -->
+        <section id="tab-resumo" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Coluna Principal (Estrutura e Progressão) -->
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <!-- Bloco 1: Atividades Docentes (NOVO) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="p-2 bg-blue-50 text-blue-600 rounded-lg">🎓</span>
+                            <h3 class="text-lg font-bold text-slate-900">1. O que é Atividade Docente? (Art. 2º)</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <p class="text-sm font-semibold text-slate-700">Atividades de Ensino, Pesquisa e Extensão:</p>
+                                <ul class="text-xs text-slate-600 space-y-1 ml-4 list-disc">
+                                    <li>Aulas presenciais ou a distância;</li>
+                                    <li>Orientação de estudantes;</li>
+                                    <li>Produção científica, artística e técnica.</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-sm font-semibold text-slate-700">Atividades de Gestão e Representação:</p>
+                                <ul class="text-xs text-slate-600 space-y-1 ml-4 list-disc">
+                                    <li>Cargos de direção e funções gratificadas;</li>
+                                    <li>Participação em conselhos e comissões;</li>
+                                    <li>Coordenação de cursos ou projetos.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloco 2: Estrutura Atualizada Pós-2025 -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="p-5 border-b border-slate-100 bg-slate-50/50">
+                            <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                                <span class="text-emerald-600">🏫</span> 2. Classes e Níveis (Lei 15.141/2025)
+                            </h3>
+                        </div>
+                        <div class="p-5 overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="text-xs text-slate-500 uppercase font-bold border-b">
+                                    <tr>
+                                        <th class="pb-3 pr-4">Classe</th>
+                                        <th class="pb-3 px-4">Níveis</th>
+                                        <th class="pb-3 px-4">Promoção Exige</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <tr>
+                                        <td class="py-3 pr-4 font-bold text-emerald-800">Classe A</td>
+                                        <td class="py-3 px-4">Único</td>
+                                        <td class="py-3 px-4 text-xs">Estágio Probatório (36 meses)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 pr-4 font-bold text-emerald-700">Classe B</td>
+                                        <td class="py-3 px-4">1 a 4</td>
+                                        <td class="py-3 px-4 text-xs">Interstício de 24 meses</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 pr-4 font-bold text-emerald-700">Classe C</td>
+                                        <td class="py-3 px-4">1 a 4</td>
+                                        <td class="py-3 px-4 text-xs">Interstício de 24 meses</td>
+                                    </tr>
+                                    <tr class="bg-amber-50/50">
+                                        <td class="py-3 pr-4 font-bold text-amber-800 italic">Titular</td>
+                                        <td class="py-3 px-4">Único</td>
+                                        <td class="py-3 px-4 text-xs font-semibold">Doutorado + Memorial/Tese</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-4 bg-red-50 text-red-800 text-[10px] leading-relaxed border-t border-red-100">
+                            <strong>⚠️ ALERTA AOCP:</strong> As classes iniciais foram aglutinadas pela Lei 15.141/25. Antigamente havia Classe D-I e D-II. <strong>Esqueça isso.</strong> Agora o ingresso é em Classe A, Nível 1.
+                        </div>
+                    </div>
+
+                    <!-- Bloco 3: CPPD - A Mente da Instituição (NOVO) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="p-2 bg-emerald-50 text-emerald-600 rounded-lg">🏛️</span>
+                            <h3 class="text-lg font-bold text-slate-900">3. CPPD (Comissão Permanente de Pessoal Docente)</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-4">Órgão consultivo obrigatório em cada IF. A banca ama perguntar "a quem compete assessorar o dirigente?".</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px]">
+                                <span class="font-bold text-emerald-700 block mb-1">Assessoramento:</span>
+                                Auxilia o dirigente máximo na formulação e execução da política de pessoal docente.
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px]">
+                                <span class="font-bold text-emerald-700 block mb-1">Desenvolvimento:</span>
+                                Emite pareceres sobre progressão, promoção, afasamentos e regimes de trabalho.
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px]">
+                                <span class="font-bold text-emerald-700 block mb-1">Vínculo:</span>
+                                É vinculada ao Gabinete do Reitor, mas possui autonomia técnica para avaliações.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna Lateral (Titular, RSC e Prazos) -->
+                <div class="lg:col-span-4 space-y-6">
+                    
+                    <!-- Ingresso: Fases do Concurso (NOVO) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                        <h3 class="font-bold text-slate-900 mb-4 border-b pb-2">🎯 Ingresso (Art. 8º)</h3>
+                        <div class="space-y-4">
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-[10px] flex-shrink-0">1</div>
+                                <div>
+                                    <p class="text-xs font-bold">Prova Escrita</p>
+                                    <p class="text-[10px] text-slate-500">Eliminatória e classificatória.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-[10px] flex-shrink-0">2</div>
+                                <div>
+                                    <p class="text-xs font-bold">Prova Didática</p>
+                                    <p class="text-[10px] text-slate-500">Aula teórica perante banca.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-[10px] flex-shrink-0">3</div>
+                                <div>
+                                    <p class="text-xs font-bold">Prova de Títulos</p>
+                                    <p class="text-[10px] text-slate-500">Classificatória. Valoriza especialização, mestrado e doutorado.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RSC e RT Detalhados -->
+                    <div class="bg-emerald-900 text-white rounded-2xl shadow-lg p-5">
+                        <h3 class="font-bold mb-3 flex items-center gap-2">
+                            <span class="text-emerald-400 text-xl">💰</span> RT e RSC
+                        </h3>
+                        <p class="text-[11px] text-emerald-200 leading-relaxed mb-4">
+                            A <strong>Retribuição por Titulação (RT)</strong> NÃO é cumulativa. Você recebe apenas pela maior titulação comprovada.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="p-2 bg-white/10 rounded-lg border border-white/10 text-[10px]">
+                                <span class="font-bold text-emerald-300">RSC-I + Graduação:</span> 
+                                Paga RT de Especialização.
+                            </div>
+                            <div class="p-2 bg-white/10 rounded-lg border border-white/10 text-[10px]">
+                                <span class="font-bold text-emerald-300">RSC-II + Especialização:</span> 
+                                Paga RT de Mestrado.
+                            </div>
+                            <div class="p-2 bg-white/10 rounded-lg border border-white/10 text-[10px]">
+                                <span class="font-bold text-emerald-300">RSC-III + Mestrado:</span> 
+                                Paga RT de Doutorado.
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-white/20 text-[10px] italic text-emerald-300">
+                            *O RSC não pode ser usado para progressão funcional, apenas para pagamento!
+                        </div>
+                    </div>
+
+                    <!-- Regimes de Trabalho -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                        <h3 class="font-bold text-slate-900 mb-3">🕒 Regimes de Trabalho</h3>
+                        <ul class="text-xs text-slate-600 space-y-3">
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                                <strong>20 horas:</strong> Sem exclusividade.
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                                <strong>40 horas:</strong> Sem exclusividade.
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                                <strong>D.E. (40h):</strong> Exclusividade absoluta.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: FLASHCARDS -->
+        <section id="tab-flashcards" class="hidden space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
+                <!-- Card CPPD -->
+                <div class="h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="w-full h-full relative transform-style-3d transition-transform duration-500 rounded-2xl shadow-md border border-slate-200">
+                        <div class="absolute inset-0 bg-white rounded-2xl p-6 flex flex-col justify-between backface-hidden">
+                            <span class="px-2 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded self-start uppercase">Órgãos Institucionais</span>
+                            <p class="text-slate-800 font-semibold text-center my-auto px-2">A qual órgão ou autoridade a CPPD (Comissão Permanente de Pessoal Docente) é vinculada no IFCE?</p>
+                            <span class="text-[10px] text-slate-400 text-center">Tocar para revelar</span>
+                        </div>
+                        <div class="absolute inset-0 bg-emerald-800 text-white rounded-2xl p-6 flex flex-col justify-between rotate-y-180 backface-hidden">
+                            <span class="px-2 py-1 bg-white/20 text-white text-[10px] font-bold rounded self-start">Resposta</span>
+                            <div class="my-auto px-2 text-center">
+                                <p class="font-bold text-emerald-300">Gabinete do Reitor</p>
+                                <p class="text-[11px] text-slate-200 mt-2">Embora tenha autonomia avaliativa, seu vínculo administrativo é direto com a Reitoria (Gabinete).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Atividades -->
+                <div class="h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="w-full h-full relative transform-style-3d transition-transform duration-500 rounded-2xl shadow-md border border-slate-200">
+                        <div class="absolute inset-0 bg-white rounded-2xl p-6 flex flex-col justify-between backface-hidden">
+                            <span class="px-2 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded self-start uppercase">Efetivo Exercício</span>
+                            <p class="text-slate-800 font-semibold text-center my-auto px-2">Atividades de coordenação de curso e cargos de direção contam como efetivo exercício docente?</p>
+                            <span class="text-[10px] text-slate-400 text-center">Tocar para revelar</span>
+                        </div>
+                        <div class="absolute inset-0 bg-emerald-800 text-white rounded-2xl p-6 flex flex-col justify-between rotate-y-180 backface-hidden">
+                            <span class="px-2 py-1 bg-white/20 text-white text-[10px] font-bold rounded self-start">Resposta</span>
+                            <div class="my-auto px-2 text-center">
+                                <p class="font-bold text-emerald-300">Sim, Integralmente!</p>
+                                <p class="text-[11px] text-slate-200 mt-2">Atividades de gestão e representação institucional são consideradas parte da carreira docente pela Lei 12.772 (Art. 2º).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card RT -->
+                <div class="h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="w-full h-full relative transform-style-3d transition-transform duration-500 rounded-2xl shadow-md border border-slate-200">
+                        <div class="absolute inset-0 bg-white rounded-2xl p-6 flex flex-col justify-between backface-hidden">
+                            <span class="px-2 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded self-start uppercase">Remuneração</span>
+                            <p class="text-slate-800 font-semibold text-center my-auto px-2">Um docente pode acumular os valores de RT de Mestrado e Doutorado ao mesmo tempo?</p>
+                            <span class="text-[10px] text-slate-400 text-center">Tocar para revelar</span>
+                        </div>
+                        <div class="absolute inset-0 bg-emerald-800 text-white rounded-2xl p-6 flex flex-col justify-between rotate-y-180 backface-hidden">
+                            <span class="px-2 py-1 bg-white/20 text-white text-[10px] font-bold rounded self-start">Resposta</span>
+                            <div class="my-auto px-2 text-center">
+                                <p class="font-bold text-emerald-300">Não!</p>
+                                <p class="text-[11px] text-slate-200 mt-2">A RT não é cumulativa (Art. 17). O docente recebe exclusivamente o valor referente à maior titulação apresentada.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: DETECTOR DE PEGUINHAS -->
+        <section id="tab-detector" class="hidden space-y-4">
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                    <span class="text-red-600">🕵️</span> O Radar de Armadilhas da AOCP
+                </h2>
+                
+                <div class="space-y-4">
+                    <!-- Peguinha CPPD -->
+                    <div class="p-4 border border-slate-100 rounded-xl bg-slate-50">
+                        <p class="text-sm font-bold text-red-600 mb-1">ARMADILHA: A Natureza da CPPD</p>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "A CPPD é um órgão deliberativo superior encarregado de votar o orçamento de pessoal docente..."
+                        </p>
+                        <div class="mt-2 text-[10px] bg-emerald-100 text-emerald-900 p-2 rounded">
+                            <strong>VERDADE:</strong> A CPPD é <strong>CONSULTIVA</strong> (Art. 26). Ela não delibera orçamento nem manda. Ela emite pareceres para assessorar o Reitor. Cuidado com termos fortes como "deliberar" ou "executar".
+                        </div>
+                    </div>
+
+                    <!-- Peguinha Titular -->
+                    <div class="p-4 border border-slate-100 rounded-xl bg-slate-50">
+                        <p class="text-sm font-bold text-red-600 mb-1">ARMADILHA: Memorial OU Tese?</p>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "Para a Classe Titular, o docente deve obrigatoriamente defender uma tese acadêmica inédita de doutorado..."
+                        </p>
+                        <div class="mt-2 text-[10px] bg-emerald-100 text-emerald-900 p-2 rounded">
+                            <strong>VERDADE:</strong> A lei dá uma <strong>ALTERNATIVIDADE</strong>. Pode ser memorial (relato da trajetória) <strong>OU</strong> defesa de tese (Art. 18, IV). A banca vai dizer que é apenas "Tese" para te derrubar.
+                        </div>
+                    </div>
+
+                    <!-- Peguinha 20h vs DE -->
+                    <div class="p-4 border border-slate-100 rounded-xl bg-slate-50">
+                        <p class="text-sm font-bold text-red-600 mb-1">ARMADILHA: Mudança de Regime</p>
+                        <p class="text-xs text-slate-700 leading-relaxed italic">
+                            "A mudança do regime de trabalho é um direito subjetivo do docente, bastando o requerimento administrativo..."
+                        </p>
+                        <div class="mt-2 text-[10px] bg-emerald-100 text-emerald-900 p-2 rounded">
+                            <strong>VERDADE:</strong> Depende de <strong>interesse institucional</strong> e existência de orçamento. Não é automático. Além disso, é vedada no estágio probatório!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: SIMULADO -->
+        <section id="tab-simulador" class="hidden">
+            <div id="quiz-app" class="max-w-3xl mx-auto glass-morphism p-6 sm:p-8 rounded-3xl shadow-xl border border-white">
+                <div id="quiz-container"></div>
+                <div id="quiz-nav" class="flex justify-between items-center mt-8">
+                    <button id="btn-prev" onclick="prevQ()" class="px-4 py-2 bg-slate-200 rounded-xl text-xs font-bold opacity-50 cursor-not-allowed" disabled>Anterior</button>
+                    <span id="quiz-progress" class="text-[10px] font-bold text-slate-400">Questão 1 de 5</span>
+                    <button id="btn-next" onclick="nextQ()" class="px-6 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-lg">Responder</button>
+                </div>
+                <div id="quiz-feedback" class="hidden mt-6"></div>
+                <div id="quiz-final" class="hidden text-center space-y-4 py-6">
+                    <span class="text-5xl">🎯</span>
+                    <h2 class="text-2xl font-bold">Simulado Finalizado!</h2>
+                    <p id="final-score" class="text-slate-600"></p>
+                    <button onclick="resetQuiz()" class="px-8 py-3 bg-emerald-800 text-white rounded-2xl font-bold shadow-xl">Tentar Novamente</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Lógica de Abas
+        function switchTab(tabId) {
+            const tabs = ['resumo', 'flashcards', 'detector', 'simulador'];
+            tabs.forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+                document.getElementById('btn-' + t).className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all hover:bg-white/10 text-emerald-100";
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white/20 text-white shadow-inner";
+        }
+
+        function flipCard(el) {
+            el.firstElementChild.classList.toggle('rotate-y-180');
+        }
+
+        // Simulado Expandido
+        const questions = [
+            {
+                q: "Com base na Lei nº 12.772/2012 e suas alterações, qual é a natureza jurídica e o vínculo administrativo da Comissão Permanente de Pessoal Docente (CPPD)?",
+                options: [
+                    "A) Deliberativa, vinculada à Pró-Reitoria de Ensino.",
+                    "B) Consultiva, vinculada ao Gabinete do Reitor.",
+                    "C) Executiva, vinculada à Pró-Reitoria de Gestão de Pessoas.",
+                    "D) Fiscalizatória, vinculada ao Conselho Superior."
+                ],
+                ans: 1,
+                exp: "A CPPD é consultiva e vinculada ao Gabinete do Reitor (Art. 26)."
+            },
+            {
+                q: "Para fins de promoção à Classe de Professor Titular no IFCE, um dos requisitos cumulativos é a defesa de memorial ou tese inédita perante uma banca especial. Qual a composição mínima de membros externos nesta banca?",
+                options: [
+                    "A) No mínimo 50% de membros externos.",
+                    "B) No mínimo 60% de membros externos.",
+                    "C) No mínimo 75% de membros externos.",
+                    "D) 100% de membros externos."
+                ],
+                ans: 2,
+                exp: "A banca deve ter no mínimo 75% de membros externos (Art. 18)."
+            },
+            {
+                q: "O docente EBTT que ingressar com título de Doutor terá direito à percepção da Retribuição por Titulação (RT) equivalente a esse título. Caso ele já tenha recebido o Reconhecimento de Saberes e Competências (RSC) nível III, como ficará seu pagamento?",
+                options: [
+                    "A) Receberá a RT de Doutorado somada a um bônus por RSC.",
+                    "B) Receberá a RT de Doutorado multiplicada pelo fator RSC.",
+                    "C) Receberá exclusivamente a RT de Doutorado, sem cumulação com RSC para fins de valor maior que o teto da titulação.",
+                    "D) Receberá apenas o vencimento básico, pois RSC e RT são excludentes."
+                ],
+                ans: 2,
+                exp: "A RT não é cumulativa e o RSC-III já equipara financeiramente ao Doutorado. Não há soma de valores (Art. 17)."
+            },
+            {
+                q: "Conforme o artigo 2º da Lei 12.772/12, qual das seguintes atividades NÃO é considerada como efetivo exercício docente?",
+                options: [
+                    "A) Atividades de extensão que visem o desenvolvimento científico.",
+                    "B) Atividades de cargos de direção em órgãos do MEC.",
+                    "C) Atividades de consultoria privada realizada durante o regime de Dedicação Exclusiva fora das exceções legais.",
+                    "D) Atividades de orientação de estudantes em projetos de iniciação científica."
+                ],
+                ans: 2,
+                exp: "Atividade privada no regime de DE é vedada, logo não é considerada atividade docente regular, podendo gerar processo disciplinar."
+            },
+            {
+                q: "Sobre a alteração do regime de trabalho, a Lei 12.772/12 estabelece que é VEDADA a mudança aos docentes que:",
+                options: [
+                    "A) Possuam menos de 10 anos de casa.",
+                    "B) Estejam em estágio probatório.",
+                    "C) Não possuam o título de Mestre ou Doutor.",
+                    "D) Estejam em gozo de férias prêmio."
+                ],
+                ans: 1,
+                exp: "O Artigo 22 veda expressamente a mudança de regime durante o estágio probatório."
+            }
+        ];
+
+        let cur = 0;
+        let score = 0;
+        let answered = false;
+
+        function renderQ() {
+            const container = document.getElementById('quiz-container');
+            const question = questions[cur];
+            answered = false;
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('btn-next').innerText = "Responder";
+            document.getElementById('quiz-progress').innerText = `Questão ${cur + 1} de ${questions.length}`;
+            
+            let opts = "";
+            question.options.forEach((o, i) => {
+                opts += `<button onclick="check(${i})" class="w-full text-left p-4 mb-2 rounded-xl border-2 border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all text-xs sm:text-sm">${o}</button>`;
+            });
+
+            container.innerHTML = `<h3 class="font-bold text-slate-800 text-sm sm:text-lg mb-4">${question.q}</h3><div class="space-y-2">${opts}</div>`;
+        }
+
+        function check(idx) {
+            if(answered) return;
+            answered = true;
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+            const isCorrect = idx === questions[cur].ans;
+            if(isCorrect) score++;
+
+            feedback.innerHTML = `
+                <div class="p-4 rounded-xl text-xs ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">
+                    <strong>${isCorrect ? 'Correto!' : 'Errado.'}</strong> ${questions[cur].exp}
+                </div>
+            `;
+            document.getElementById('btn-next').innerText = cur === questions.length - 1 ? "Ver Resultado" : "Próxima";
+        }
+
+        function nextQ() {
+            if(!answered) return;
+            if(cur < questions.length - 1) {
+                cur++;
+                renderQ();
+            } else {
+                showFinal();
+            }
+        }
+
+        function showFinal() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-nav').classList.add('hidden');
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            const f = document.getElementById('quiz-final');
+            f.classList.remove('hidden');
+            document.getElementById('final-score').innerText = `Você acertou ${score} de ${questions.length} questões!`;
+        }
+
+        function resetQuiz() {
+            cur = 0; score = 0;
+            document.getElementById('quiz-final').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-nav').classList.remove('hidden');
+            renderQ();
+        }
+
+        window.onload = renderQ;
+    </script>
+</body>
+</html>
