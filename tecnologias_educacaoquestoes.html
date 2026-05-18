@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo: TIC na Educação - Instituto AOCP</title>
+    <!-- Tailwind CSS para estruturação responsiva e componentes modernos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fbf9f6',   /* Creme sépia super suave para fundo confortável */
+                            100: '#f4ede4',  /* Tom de papel natural para contrastes leves */
+                            200: '#e6d9ca',
+                            800: '#2d251e',  /* Marrom carvão suave para excelente legibilidade */
+                            900: '#1c1712',
+                        },
+                        accent: {
+                            primary: '#1e3a8a', /* Azul escuro oficial/institucional */
+                            primaryLight: '#3b82f6',
+                            success: '#15803d', /* Verde suave para acertos */
+                            successBg: '#f0fdf4',
+                            error: '#b91c1c',   /* Vermelho suave para erros */
+                            errorBg: '#fef2f2',
+                            highlight: '#d97706', /* Amarelo âmbar para resoluções */
+                            highlightBg: '#fffbeb'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ajustes finos para maximizar o conforto ocular durante leituras extensas */
+        body {
+            background-color: #FAF8F5; /* Sépia quente muito claro */
+            color: #2D3139; /* Cinza grafite escuro (evita o contraste agressivo do preto puro) */
+            line-height: 1.75; /* Altura de linha ideal para leitura */
+        }
+        .question-text {
+            font-size: 1.15rem;
+            letter-spacing: -0.011em;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E6D9CA;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Cabeçalho Principal -->
+    <header class="border-b border-brand-100 bg-white/80 backdrop-blur sticky top-0 z-40 transition-shadow">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-center sm:text-left">
+                <span class="inline-block px-2.5 py-1 text-xs font-semibold bg-accent-primary/10 text-accent-primary rounded-full mb-1">
+                    Simulado Técnico Especializado
+                </span>
+                <h1 class="text-xl sm:text-2xl font-bold text-brand-800 tracking-tight">
+                    Novas Tecnologias de Informação e Comunicação na Educação
+                </h1>
+                <p class="text-xs sm:text-sm text-gray-500 font-medium">
+                    Questões Completas sob o Padrão Metodológico do <span class="font-semibold text-accent-primary">Instituto AOCP</span>
+                </p>
+            </div>
+            
+            <!-- Indicador Flutuante de Progresso -->
+            <div class="flex items-center gap-3 bg-brand-50 border border-brand-100 px-4 py-2 rounded-xl">
+                <div class="text-right">
+                    <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Respondidas</p>
+                    <p class="text-lg font-bold text-brand-800" id="progress-text">0 / 10</p>
+                </div>
+                <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-accent-primary transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Corpo Principal / Layout Centralizado de Leitura -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8">
+        
+        <!-- Bloco de Filtros Pós-Envio (Inicialmente Oculto) -->
+        <div id="filter-block" class="hidden mb-8 bg-white border border-brand-100 p-4 rounded-2xl shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-center sm:text-left">
+                <h3 class="font-bold text-brand-800">Filtre suas respostas</h3>
+                <p class="text-xs text-gray-500">Exiba os itens para revisão detalhada</p>
+            </div>
+            <div class="flex flex-wrap gap-2 justify-center">
+                <button onclick="filterQuestions('all')" id="btn-filter-all" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-accent-primary text-white transition-all">
+                    Todas (10)
+                </button>
+                <button onclick="filterQuestions('correct')" id="btn-filter-correct" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all">
+                    Corretas (<span id="count-correct">0</span>)
+                </button>
+                <button onclick="filterQuestions('incorrect')" id="btn-filter-incorrect" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all">
+                    Incorretas (<span id="count-incorrect">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulário de Questões -->
+        <form id="quiz-form" onsubmit="submitQuiz(event)" class="space-y-8">
+            <!-- As questões serão injetadas dinamicamente via JS -->
+            <div id="questions-container" class="space-y-8"></div>
+
+            <!-- Painel de Feedback Geral e Ações Finais -->
+            <div id="action-panel" class="bg-white border border-brand-100 p-6 sm:p-8 rounded-2xl shadow-sm text-center space-y-6 transition-all duration-300">
+                <div id="unanswered-warning" class="hidden p-4 bg-accent-errorBg border border-accent-error/20 text-accent-error rounded-xl text-sm font-medium">
+                    Por favor, responda a todas as questões antes de finalizar o simulado para receber sua pontuação completa.
+                </div>
+
+                <div id="score-card" class="hidden space-y-4">
+                    <div class="inline-flex items-center justify-center p-6 bg-brand-50 rounded-full border border-brand-100 relative">
+                        <span class="text-4xl sm:text-5xl font-extrabold text-accent-primary" id="score-display">0</span>
+                        <span class="text-xl font-bold text-gray-400 absolute bottom-3 right-3">/10</span>
+                    </div>
+                    <div class="max-w-md mx-auto">
+                        <h2 class="text-xl sm:text-2xl font-bold text-brand-800" id="performance-title">Processando...</h2>
+                        <p class="text-sm text-gray-500 mt-1" id="performance-feedback"></p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <button type="submit" id="submit-btn" class="w-full sm:w-auto px-8 py-4 bg-accent-primary hover:bg-blue-900 text-white font-bold rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                        Finalizar Simulado e Ver Resoluções
+                    </button>
+                    <button type="button" onclick="resetQuiz()" id="reset-btn" class="hidden w-full sm:w-auto px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"/></svg>
+                        Refazer Simulado
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="border-t border-brand-100 bg-white py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-2">
+            <p class="text-sm text-brand-800 font-semibold">Simulado de Estudo - Novas Tecnologias de Informação e Comunicação na Educação</p>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                Desenvolvido com diretrizes de usabilidade estrita e conforto óptico. Provas e análises pedagógicas na íntegra conforme os registros oficiais dos concursos aplicados pelo Instituto AOCP.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Banco de Dados das Questões na Íntegra -->
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                banca: "Instituto AOCP",
+                orgao: "Colégio Pedro II",
+                cargo: "Pedagogo",
+                ano: "2013",
+                statement: "Sobre as tecnologias em educação, assinale a alternativa correta.",
+                options: {
+                    A: "Mudam necessariamente a relação pedagógica.",
+                    B: "A comunicação torna-se mais sensorial e mais multidimensional e não linear.",
+                    C: "Reforçam uma visão progressista.",
+                    D: "Substituem o professor.",
+                    E: "São instrumentos de lazer."
+                },
+                correct: "B",
+                resolution: "A resolução desta questão reside na compreensão de que as tecnologias de informação e comunicação aplicadas ao ambiente escolar alteram a própria natureza dos processos de interação e recepção de mensagens. A introdução de novos suportes virtuais, como hipertextos, lousas eletrônicas e ambientes digitais de aprendizagem, afasta-se do modelo clássico e sequencial de leitura e escrita tipográfica. A linguagem da cultura digital caracteriza-se por uma profunda sinergia estética, na qual estímulos auditivos, visuais e sinestésicos convergem em trajetórias hipertextuais não lineares, gerando novas formas de apropriação cognitiva que tornam a comunicação marcadamente sensorial e multidimensional.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(A)</strong> está incorreta porque atribui às tecnologias uma força intrínseca de alteração automática das relações em sala de aula, ignorando que a tecnologia não muda necessariamente a prática pedagógica se o professor mantiver uma postura tradicional e puramente expositiva.<br>• <strong>(C)</strong> está incorreta porque a inserção instrumental das ferramentas virtuais pode, muito frequentemente, servir para reiterar práticas conservadoras e transmissivas de ensino, não estando necessariamente associada a visões progressistas.<br>• <strong>(D)</strong> apresenta um clássico distrator tecnicista ao propor que os computadores substituem o docente, quando, na verdade, sua presença qualifica e torna ainda mais indispensável a mediação do professor.<br>• <strong>(E)</strong> incorre em erro ao limitar o potencial das tecnologias educativas a puros instrumentos de entretenimento e lazer."
+            },
+            {
+                id: 2,
+                banca: "Instituto AOCP",
+                orgao: "Prefeitura de Betim - MG",
+                cargo: "Professor PI-L",
+                ano: "2020",
+                statement: "A tecnologia, as técnicas de informação e a comunicação são ferramentas de apoio pedagógico, promovendo a inclusão digital e a dinamização, no processo de ensino e aprendizagem. As Diretrizes Curriculares Nacionais para a educação básica (BRASIL, 2013) destacam a importância do trabalho com essas ferramentas. Nesse sentido, assinale a alternativa correta em relação às TICs na educação.",
+                options: {
+                    A: "As tecnologias de informação e comunicação perpassam transversalmente a proposta curricular, desde o Ensino Fundamental até o Ensino Médio, imprimindo direção aos projetos político-pedagógicos.",
+                    B: "É fundamental o estímulo à criação de métodos didático-pedagógicos utilizando-se de recursos tecnológicos de informação e comunicação a serem inseridos no cotidiano escolar, a fim de superar a distância entre estudantes que aprendem a receber informação com rapidez utilizando a linguagem digital e professores que dela ainda não se apropriaram.",
+                    C: "A modalidade Educação a Distância caracteriza-se pela mediação didático-pedagógica, nos processos de ensino e aprendizagem que ocorre com a utilização de meios e tecnologias de informação e comunicação, com estudantes e professores desenvolvendo atividades educativas presencialmente e no mesmo tempo-espaço.",
+                    D: "Acirram a distância entre estudantes que aprendem a receber informação com rapidez utilizando a linguagem digital e professores que dela ainda não se apropriaram.",
+                    E: "O uso das tecnologias de informação e comunicação, na proposta curricular, possibilita maior técnica e racionalidade, praticando o objetivo, que é para o bom rendimento nas avaliações nacionais e internacionais."
+                },
+                correct: "B",
+                resolution: "A fundamentação teórica desta questão encontra amparo no texto das Diretrizes Curriculares Nacionais para a Educação Básica (DCNs). O documento normativo nacional adota uma postura de enfrentamento da exclusão e da fragmentação curricular, asseverando ser imperativo que as instituições de ensino estimulem e criem novas abordagens didático-pedagógicas amparadas no uso de mídias de comunicação. O objetivo primordial dessa inserção é construir pontes que aproximem o universo de estudantes habituados ao fluxo veloz e dinâmico da linguagem digital daquele de docentes que, por razões históricas e de formação inicial, ainda demandam apropriação sistemática desses novos recursos de linguagem e comunicação. A superação desse abismo geracional se dá pela via do diálogo didático qualificado.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(A)</strong> erra ao afirmar que as TICs devem 'imprimir direção' aos projetos político-pedagógicos. Na verdade, é o Projeto Político-Pedagógico (PPP) construído democraticamente pela escola que deve orientar, governar e imprimir direção ao uso das tecnologias digitais.<br>• <strong>(C)</strong> distorce conceitualmente o formato da Educação a Distância ao afirmar que professores e alunos desenvolvem ações presenciais e no mesmo tempo-espaço físico.<br>• <strong>(D)</strong> é incorreta porque a meta da inclusão pedagógica de ferramentas virtuais é precisamente reduzir a exclusão e o distanciamento comunicativo entre as gerações escolares, e não acirrá-los.<br>• <strong>(E)</strong> falha ao defender que o uso das TICs deve visar à técnica e à racionalidade instrumentalizada, tendo por fim o alcance de metas quantitativas em testes e avaliações de larga escala."
+            },
+            {
+                id: 3,
+                banca: "Instituto AOCP",
+                orgao: "Prefeitura de Betim - MG",
+                cargo: "Professor",
+                ano: "2020",
+                statement: "As Tecnologias da Informação e Comunicação referidas como TICs são consideradas sinônimo das Tecnologias da Informação (TI). Em se tratando de informação e comunicação, as possibilidades tecnológicas apareceram como uma alternativa da era moderna, facilitando a educação com a inserção de computadores nas escolas. Assinale a alternativa correta sobre o seu uso na educação e no aprendizado.",
+                options: {
+                    A: "A inserção das TICs no cotidiano escolar permite o desenvolvimento do pensamento crítico criativo e a aprendizagem cooperativa, uma vez que torna possível a realização de atividades interativas.",
+                    B: "A inserção das TICs no cotidiano escolar anima o desenvolvimento do pensamento lógico, com interação entre aluno e máquina, o que faz que o professor seja o que soluciona os problemas técnicos.",
+                    C: "O papel da tecnologia no processo ensino-aprendizagem subentende uma concepção do fazer mais rápido, sendo a melhor ferramenta de aprendizado.",
+                    D: "A inserção das TICs no cotidiano escolar anima o desenvolvimento do pensamento técnico e a aprendizagem competitiva.",
+                    E: "O papel da tecnologia no processo ensino-aprendizagem se dá como ferramenta pedagógica que tem como fundamental mediador o computador."
+                },
+                correct: "A",
+                resolution: "A fundamentação pedagógica do item demonstra que as Novas Tecnologias de Informação e Comunicação (NTICs), quando inseridas sob a égide de um planejamento pedagógico de qualidade, convertem-se em poderosos dispositivos de mediação cognitiva. A sua relevância no cotidiano escolar dá-se pela viabilização de ambientes de aprendizagem que estimulam a autonomia intelectual, o raciocínio hipotético, a criatividade e a construção cooperativa do conhecimento. Ao propiciarem tarefas interativas em redes colaborativas, as TICs permitem que o discente assuma o papel de sujeito ativo na busca, seleção e organização de saberes.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(B)</strong> incorre em erro grave ao pregar o isolamento do aluno ('interação aluno-máquina') e ao esvaziar a função docente, relegando o professor ao papel marginal de consertador de avarias técnicas de equipamentos de informática.<br>• <strong>(C)</strong> equivoca-se ao abraçar uma lógica de eficiência temporal ('fazer mais rápido'), reduzindo a complexidade do fenômeno educacional à mera celeridade operacional.<br>• <strong>(D)</strong> apresenta um projeto educacional de cunho individualista e tecnicista ao associar a cultura digital escolar à aprendizagem puramente instrumental e competitiva.<br>• <strong>(E)</strong> incorre em erro ao eleger o computador como o fundamental e exclusivo mediador do aprendizado, retirando do foco a centralidade da interação intersubjetiva entre seres humanos."
+            },
+            {
+                id: 4,
+                banca: "Instituto AOCP",
+                orgao: "Instituto Federal do Ceará (IF-CE)",
+                cargo: "Professor EBTT - Filosofia",
+                ano: "2016",
+                statement: "São condições pedagógicas coerentes com a implementação de novas tecnologias de informação e comunicação no âmbito dos cursos técnicos integrados ao ensino médio do Instituto Federal, EXCETO:",
+                options: {
+                    A: "planejar o uso das tecnologias com objetivos pedagógicos e avaliação processual.",
+                    B: "utilizar as tecnologias para contextualizar conteúdos comuns e experiências estudantis.",
+                    C: "estruturar o uso das tecnologias para disponibilização sequencial de conteúdos.",
+                    D: "organizar atividades mediadas por tecnologias com metodologias ativas e colaborativas.",
+                    E: "revisar os papéis de docentes e estudantes na interação mediada pelas tecnologias."
+                },
+                correct: "C",
+                resolution: "Trata-se de uma questão de exclusão, modelo comum nas avaliações do Instituto AOCP, que busca identificar a conduta ou pressuposto incoerente com o referencial crítico e integrado de ensino profissional e técnico. A estruturação do uso de recursos virtuais voltada à disponibilização meramente linear, sequencial e estática de conteúdos reproduz as velhas bases da escola tradicional e transmissiva de cunho verbalista. Esse formato limita as amplas capacidades hipertextuais e interativas dos novos meios de informação, mantendo o educando na condição de espectador passivo e mero receptor de informações segmentadas.<br><br><strong>Por que as outras alternativas são coerentes?</strong><br>• As alternativas <strong>(A)</strong>, <strong>(B)</strong>, <strong>(D)</strong> e <strong>(E)</strong> constituem condições pedagógicas plenamente legítimas e preconizadas pelas teorias críticas da educação: o planejamento didático com avaliação processual (A), a contextualização com experiências discentes (B), o emprego de metodologias ativas e colaborativas (D) e a redefinição dialógica de papéis entre professores e estudantes no ambiente digital (E) são os pilares de uma integração das TICs sintonizada com a formação humana integral."
+            },
+            {
+                id: 5,
+                banca: "Instituto AOCP",
+                orgao: "Universidade Federal da Paraíba (UFPB)",
+                cargo: "Pedagogo",
+                ano: "2019",
+                statement: "A Terceira Revolução Tecnológica trouxe grandes influências no processo educativo, por meio do uso de Tecnologias da Informação e da Comunicação. A esse respeito, assinale a alternativa que apresenta uma contribuição legítima ou uma conduta correta sobre o uso das TICs.",
+                options: {
+                    A: "Prejudicam gravemente a qualidade do ensino escolar, por substituírem o livro didático tradicional e limitarem as formas de leitura dos discentes.",
+                    B: "Apoiam o trabalho do professor, servindo como elementos facilitadores para que ele possa organizar a sua ação didático-pedagógica.",
+                    C: "Deixaram de despertar o interesse dos estudantes pelo fato de os recursos tecnológicos já fazerem parte do cotidiano de todos eles de forma geral.",
+                    D: "Exigem do professor uma postura de ajuste irrestrito à linguagem informal e coloquial utilizada de maneira habitual em meios virtuais.",
+                    E: "Para o uso de TIC no processo educativo, compete ao professor desconsiderar todo ou qualquer tipo de conhecimento que os estudantes possuem, de forma a ensiná-los a usar as TIC com um senso crítico."
+                },
+                correct: "B",
+                resolution: "A denominada Terceira Revolução Tecnológica, ou Revolução Técnico-Científico-Informacional, reconfigurou de forma profunda os modos de produzir, circular e armazenar informações, gerando reflexos inexoráveis na esfera pedagógica. O acesso rápido e descentralizado a acervos globais de conhecimento, dados científicos, recursos audiovisuais e simulações complexas apoia o professor, atuando como elemento mediador que facilita a sua organização didático-pedagógica. Esse manancial oferece caminhos para que o docente estruture metodologias diversificadas, personalizando e enriquecendo as vivências formativas propostas em sala de aula.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(A)</strong> fundamenta-se em uma perspectiva de escassez e retrocesso, afirmando que as TICs prejudicam o ensino. Na verdade, elas expandem as fontes de estudo de forma complementar.<br>• <strong>(C)</strong> contradiz a prática docente contemporânea ao sustentar que os computadores escolares não despertam o interesse discente devido ao uso diário pessoal.<br>• <strong>(D)</strong> erra ao forçar o docente a um ajuste acrítico e irrestrito à linguagem informal e coloquial dos alunos nas redes.<br>• <strong>(E)</strong> prega a exclusão da bagagem histórico-cultural do estudante, contrariando as bases fundamentais da aprendizagem significativa e contextualizada."
+            },
+            {
+                id: 6,
+                banca: "Instituto AOCP",
+                orgao: "Universidade Federal do Oeste da Bahia (UFOB)",
+                cargo: "Técnico em Assuntos Educacionais",
+                ano: "2018",
+                statement: "Um dos recursos das novas Tecnologias da Informação e das Comunicações são os fóruns de discussão online. Em relação a esses fóruns, julgue o item a seguir:<br><br><em>'Têm o objetivo de proporcionar ao professor a demanda de orientações sobre procedimentos a serem observados na elaboração de trabalhos, prazos e forma de avaliação, além da informação acerca de notas e faltas.'</em>",
+                options: {
+                    A: "Certo.",
+                    B: "Errado."
+                },
+                correct: "B",
+                resolution: "O item está <strong>Errado (B)</strong> porque apresenta um reducionismo estritamente instrumental e burocrático sobre o conceito de fórum de discussão online. Os fóruns virtuais representam espaços pedagógicos de comunicação essencialmente assíncrona, cuja finalidade é promover o debate fundamentado, o confronto de ideias, a argumentação analítica e a construção colaborativa de conhecimento entre todos os sujeitos do processo educativo. Definir as suas funções pedagógicas prioritárias como um mero canal transmissor de orientações operacionais, avisos administrativos de prazos, lançamento de notas e contabilidade de faltas descaracteriza o potencial crítico e dialógico que fundamenta esse recurso educativo das NTICs. Estas demandas administrativas devem ser localizadas na secretaria ou diário eletrônico do docente, e não no espaço de discussão coletiva."
+            },
+            {
+                id: 7,
+                banca: "Instituto AOCP (Estilo Adaptado)",
+                orgao: "Tendências e Inovações Tecnológicas na Educação",
+                cargo: "Geral (Inovação Tecnológica)",
+                ano: "2025",
+                statement: "As novas tecnologias interativas introduziram novos ambientes e abordagens metodológicas na organização do trabalho pedagógico escolar, com destaque para ferramentas de simulação e virtualização, tais como a Realidade Virtual (VR) e a Realidade Aumentada (AR). Considerando as tendências dessas mídias aplicadas ao ensino e ao turismo educacional, assinale a alternativa correta.",
+                options: {
+                    A: "A Realidade Virtual (VR) sobrepõe dados gráficos tridimensionais diretamente ao ambiente físico natural do educando, limitando a visualização imersiva.",
+                    B: "A Realidade Aumentada (AR) cria um ecossistema digital paralelo e autônomo, isolando completamente o aluno do contato com o meio real que o circunda.",
+                    C: "A Realidade Virtual (VR) atua na criação de um ambiente digital imersivo que busca constituir um universo paralelo para interações completas, enquanto a Realidade Aumentada (AR) tem sido direcionada a setores como a educação para enriquecer o plano físico real com informações adicionais digitais.",
+                    D: "Ambas as mídias requerem a substituição irremediável da docência por sistemas automatizados de inteligência artificial voltados à impressão tridimensional de materiais de consumo físico.",
+                    E: "A aplicação prática da Realidade Aumentada (AR) restringe-se exclusivamente às rotinas industriais e comerciais, sem potencial de uso pedagógico ou de enriquecimento cultural."
+                },
+                correct: "C",
+                resolution: "A resolução desta questão reside na diferenciação empírica e conceitual entre as tecnologias de imersão e sobreposição. A <strong>Realidade Virtual (VR)</strong> bloqueia o mundo físico para projetar o usuário em um ambiente 3D totalmente gerado por computador, proporcionando uma imersão sensorial completa por meio de óculos específicos. Em contrapartida, a <strong>Realidade Aumentada (AR)</strong> mantém o usuário em seu ambiente real, porém sobrepondo dados digitais, simulações ou gráficos em tempo real no campo de visão real, integrando mídias para enriquecer a experiência de aprendizado sem isolar o estudante.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(A)</strong> inverte os conceitos, atribuindo à VR a lógica de sobreposição física que pertence à AR.<br>• <strong>(B)</strong> inverte os conceitos, atribuindo à AR o isolamento total e o ambiente autônomo da VR.<br>• <strong>(D)</strong> propõe um distrator absurdo que prevê a substituição irremediável do professor por softwares de IA e impressão 3D.<br>• <strong>(E)</strong> nega de forma taxativa o potencial educativo e cultural já amplamente demonstrado pela AR em museus, livros didáticos interativos e simulações científicas."
+            },
+            {
+                id: 8,
+                banca: "Instituto AOCP",
+                orgao: "Universidade Federal do Estado do Rio de Janeiro (UNIRIO) (Adaptada)",
+                cargo: "Pedagogo",
+                ano: "2026",
+                statement: "No contexto da gestão pedagógica e da articulação de projetos institucionais inovadores, o pedagogo deve atuar na integração sistemática das Novas Tecnologias de Informação e Comunicação (NTICs) ao currículo. Diante do desafio de alinhar inovação acadêmica, desenvolvimento local e responsabilidade social, assinale a alternativa que apresenta a conduta correta do pedagogo.",
+                options: {
+                    A: "Coordenar iniciativas de inovação estimulando tomadas de decisão fortemente centralizadas para padronizar os processos didáticos e evitar a heterogeneidade das práticas de ensino.",
+                    B: "Priorizar a estabilização e a racionalização burocrática dos fluxos internos de trabalho para garantir que os recursos digitais sejam aplicados apenas após a pacificação integral dos procedimentos administrativos.",
+                    C: "Desenvolver ações de atualização metodológica junto aos docentes e aos técnicos, incentivando a incorporação de recursos inovadores e de novas tecnologias, partindo de uma análise integrada das demandas do território e das políticas institucionais de médio prazo.",
+                    D: "Implantar plataformas de ensino híbrido com caráter prioritariamente técnico-instrumental, focando o rendimento institucional estrito nas avaliações em larga escala.",
+                    E: "Adiar a capacitação tecnológica da comunidade escolar até que todos os laboratórios físicos disponham de infraestrutura de última geração equivalente às redes privadas de ensino."
+                },
+                correct: "C",
+                resolution: "A atuação do pedagogo sob uma ótica crítico-transformadora exige a superação de posturas puramente burocráticas ou tecnocentristas. A alternativa <strong>(C)</strong> destaca a postura esperada desse profissional: liderar e apoiar a atualização metodológica de docentes e servidores técnicos focando no desenvolvimento local e nas demandas territoriais. As tecnologias não devem ser introduzidas como pacotes prontos, mas sim como catalisadores sociais articulados ao projeto institucional da escola.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(A)</strong> erra ao pregar a centralização de decisões pedagógicas, contrariando o princípio democrático e a autonomia docente.<br>• <strong>(B)</strong> subordina e paralisa a prática pedagógica transformadora em nome de uma racionalização burocrática e engessada.<br>• <strong>(D)</strong> reduz o ensino híbrido e o currículo tecnológico a fins meramente instrumentais para o alcance de índices e metas externas.<br>• <strong>(E)</strong> apoia-se em uma desculpa de infraestrutura ideal para atrasar o início do letramento e a apropriação digital da comunidade acadêmica."
+            },
+            {
+                id: 9,
+                banca: "Instituto AOCP (Estilo Adaptado)",
+                orgao: "Concepções de Linguagem e Integração Tecnológica",
+                cargo: "Geral (Fundamentos da Educação)",
+                ano: "2025",
+                statement: "\"A integração da tecnologia na educação é um fenômeno que transcende o mero uso de novos dispositivos em sala de aula [...]\". A partir dessa premissa, e considerando as discussões teóricas acerca da relação entre educação e novas tecnologias, assinale a alternativa correta.",
+                options: {
+                    A: "A incorporação de aparatos tecnológicos altera de forma automática e imediata o rendimento cognitivo dos estudantes, independentemente de mudanças nas estratégias de ensino.",
+                    B: "É essencial promover um uso equilibrado e crítico das tecnologias educacionais, garantindo que contribuam de forma efetiva para o desenvolvimento integral dos estudantes e para a redefinição dos paradigmas de ensino e aprendizagem no cenário contemporâneo.",
+                    C: "O caráter transformador das tecnologias digitais desobriga a equipe de coordenação escolar de realizar planejamentos pedagógicos focados na mediação humana.",
+                    D: "A utilização de plataformas digitais deve centrar-se no adestramento instrumental dos estudantes para fins de produtividade técnica imediata em avaliações de larga escala.",
+                    E: "As tecnologias de informação e comunicação representam recursos de aplicação estritamente complementar e secundária, sem reflexos estruturais na organização dos espaços e tempos da escola moderna."
+                },
+                correct: "B",
+                resolution: "A premissa fundamental da educação digital crítica é de que as tecnologias de informação e comunicação não operam milagres cognitivos por si sós; seu valor reside na intencionalidade do planejamento pedagógico. A alternativa <strong>(B)</strong> sintetiza com excelência a meta pedagógica moderna: as tecnologias devem cooperar ativamente para o desenvolvimento multidimensional e integral do estudante de maneira equilibrada e reflexiva, permitindo ressignificar os tempos e formatos tradicionais do ensino e aprendizagem.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(A)</strong> adota uma perspectiva determinista e ingênua de que a simples presença física dos computadores melhora os processos de aprendizagem espontaneamente.<br>• <strong>(C)</strong> incorre em erro ao ignorar que a mediação humana é a base indissociável de qualquer processo pedagógico mediado por tecnologias virtuais.<br>• <strong>(D)</strong> adota um viés utilitarista focado no adestramento técnico de curta duração com foco estrito em índices e avaliações estatísticas.<br>• <strong>(E)</strong> reduz de forma excessiva a importância histórica das TICs, tratando-as como perfumaria e ignorando o impacto estrutural da cultura digital na modernidade."
+            },
+            {
+                id: 10,
+                banca: "Instituto AOCP",
+                orgao: "Universidade Federal da Paraíba (UFPB) (Adaptada)",
+                cargo: "Técnico em Assuntos Educacionais",
+                ano: "2019",
+                statement: "A educação contemporânea é pautada por uma pluralidade de ideias, em que as instituições acadêmicas revelam-se repletas de relações complexas e intersetoriais. Diante desse cenário, assinale a alternativa que descreve corretamente as contribuições do Técnico em Assuntos Educacionais (TAE) para o desenvolvimento e a utilização das novas tecnologias na educação.",
+                options: {
+                    A: "O cargo de Técnico em Assuntos Educacionais deve exercer uma contribuição restrita ao suporte técnico de computadores e à manutenção operacional de cabos e projetores multimídia.",
+                    B: "O TAE contribui de forma multifacetada para além da dimensão administrativa, cooperando ativamente no planejamento pedagógico, na formação continuada de servidores, na assessoria didática para a inserção de recursos digitais e no fortalecimento de redes colaborativas de aprendizagem.",
+                    C: "A atuação do TAE deve limitar-se à fiscalização de prazos e ao lançamento burocrático de notas de frequência discente nos sistemas digitais da instituição.",
+                    D: "Cabe ao TAE ditar de forma centralizada os softwares e recursos virtuais a serem utilizados obrigatoriamente pelos docentes, sem necessidade de articulação com os planos de ensino locais.",
+                    E: "A contribuição do TAE na área tecnológica deve focar-se na substituição do trabalho docente por meio de pacotes de conteúdos digitais autoexplicativos e padronizados."
+                },
+                correct: "B",
+                resolution: "A atuação do Técnico em Assuntos Educacionais (TAE) na educação pública estende-se muito além das rotinas administrativas padronizadas. O TAE é um profissional de nível superior que atua no coração da gestão pedagógica, auxiliando na articulação de projetos, assessorando o corpo docente na introdução contextualizada de recursos digitais, coordenando capacitações de servidores e incentivando a cultura de inovação aberta, colaboração e cooperação. Sua atividade é interdisciplinar e de mediação direta.<br><br><strong>Por que as outras estão incorretas?</strong><br>• <strong>(A)</strong> restringe a atuação do TAE às atividades operacionais e de reparo de hardware, funções pertencentes à área de tecnologia da informação e suporte de redes.<br>• <strong>(C)</strong> minimiza a dimensão pedagógica do cargo, reduzindo-a ao lançamento mecânico de faltas e notas curriculares nos canais escolares.<br>• <strong>(D)</strong> sugere uma centralização autocrática contrária ao respeito à liberdade de cátedra e autonomia do planejamento docente de ensino.<br>• <strong>(E)</strong> prega a mercantilização ou esvaziamento da docência por meio da automatização e padronização digital acrítica."
+            }
+        ];
+
+        let userAnswers = {};
+        let isSubmitted = false;
+
+        // Função para Inicializar o Quiz na Tela
+        function initQuiz() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, idx) => {
+                const qNum = idx + 1;
+                
+                // Div do card da questão
+                const qCard = document.createElement('div');
+                qCard.id = `q-card-${q.id}`;
+                qCard.className = "bg-white border border-brand-100 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300 relative space-y-4 hover:border-brand-200";
+
+                // Header da questão
+                const headerHtml = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-brand-50">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="bg-accent-primary text-white text-xs font-bold px-3 py-1 rounded-full">
+                                Questão ${qNum}
+                            </span>
+                            <span class="bg-brand-100 text-brand-800 text-xs font-semibold px-2.5 py-1 rounded-md">
+                                ${q.banca}
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-1.5 text-xs text-gray-400 font-medium">
+                            <span>${q.orgao}</span>
+                            <span>•</span>
+                            <span>${q.cargo}</span>
+                            <span>•</span>
+                            <span>${q.ano}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Corpo do enunciado
+                const bodyHtml = `
+                    <div class="question-text font-serif text-brand-800 leading-relaxed font-normal">
+                        ${q.statement}
+                    </div>
+                `;
+
+                // Lista de opções
+                let optionsHtml = `<div class="space-y-3 mt-4" id="options-group-${q.id}">`;
+                Object.entries(q.options).forEach(([key, val]) => {
+                    optionsHtml += `
+                        <label id="opt-label-${q.id}-${key}" class="flex items-start gap-3 p-4 border border-brand-100 rounded-xl cursor-pointer hover:bg-brand-50/50 hover:border-brand-200 transition-all active:scale-[0.995]">
+                            <input type="radio" name="question-${q.id}" value="${key}" 
+                                   class="mt-1 w-4 h-4 text-accent-primary focus:ring-accent-primary accent-accent-primary" 
+                                   onchange="handleSelect(${q.id}, '${key}')"
+                                   ${isSubmitted ? 'disabled' : ''}>
+                            <div class="text-sm sm:text-base text-gray-700 leading-relaxed">
+                                <span class="font-bold text-brand-800 mr-1">(${key})</span> ${val}
+                            </div>
+                        </label>
+                    `;
+                });
+                optionsHtml += `</div>`;
+
+                // Container de Resolução (Oculto Inicialmente)
+                const resolutionHtml = `
+                    <div id="resolution-${q.id}" class="hidden mt-6 pt-6 border-t border-brand-100">
+                        <div class="p-5 bg-accent-highlightBg border-l-4 border-accent-highlight rounded-r-xl space-y-3">
+                            <div class="flex items-center gap-2 text-accent-highlight font-bold text-sm">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 .364l-.707 .707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                                GABARITO E ANÁLISE DETALHADA
+                            </div>
+                            <p class="text-xs text-gray-500 font-semibold uppercase">Gabarito Oficial: Alternativa ${q.correct}</p>
+                            <div class="text-sm text-brand-800 leading-relaxed space-y-2">
+                                ${q.resolution}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Montando o Card
+                qCard.innerHTML = headerHtml + bodyHtml + optionsHtml + resolutionHtml;
+                container.appendChild(qCard);
+            });
+            
+            updateProgress();
+        }
+
+        // Registrar seleção de alternativa
+        function handleSelect(questionId, optionKey) {
+            if (isSubmitted) return;
+            userAnswers[questionId] = optionKey;
+            
+            // Alterar estilo visual do item selecionado
+            const container = document.getElementById(`options-group-${questionId}`);
+            const labels = container.getElementsByTagName('label');
+            for (let label of labels) {
+                label.classList.remove('bg-brand-100', 'border-accent-primary/40', 'ring-1', 'ring-accent-primary/20');
+            }
+            
+            const selectedLabel = document.getElementById(`opt-label-${questionId}-${optionKey}`);
+            if (selectedLabel) {
+                selectedLabel.classList.add('bg-brand-100', 'border-accent-primary/40', 'ring-1', 'ring-accent-primary/20');
+            }
+
+            updateProgress();
+        }
+
+        // Atualizar barra de progresso no topo
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const progressPct = (answeredCount / quizData.length) * 100;
+            
+            document.getElementById('progress-text').innerText = `${answeredCount} / ${quizData.length}`;
+            document.getElementById('progress-bar').style.width = `${progressPct}%`;
+        }
+
+        // Enviar Quiz
+        function submitQuiz(event) {
+            event.preventDefault();
+            
+            // Verificar preenchimento total
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < quizData.length) {
+                const warning = document.getElementById('unanswered-warning');
+                warning.classList.remove('hidden');
+                warning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            // Ocultar aviso se houver
+            document.getElementById('unanswered-warning').classList.add('hidden');
+            
+            isSubmitted = true;
+            let correctAnswersCount = 0;
+
+            // Bloquear inputs e avaliar respostas
+            quizData.forEach(q => {
+                const selected = userAnswers[q.id];
+                const isCorrect = selected === q.correct;
+                if (isCorrect) correctAnswersCount++;
+
+                const container = document.getElementById(`options-group-${q.id}`);
+                const labels = container.getElementsByTagName('label');
+                
+                // Varre e muda as cores das bordas pós correção
+                for (let label of labels) {
+                    label.classList.remove('hover:bg-brand-50/50', 'hover:border-brand-200', 'cursor-pointer');
+                    label.classList.add('cursor-default');
+                }
+
+                // Destacar alternativa correta e a selecionada do usuário
+                Object.keys(q.options).forEach(key => {
+                    const label = document.getElementById(`opt-label-${q.id}-${key}`);
+                    const input = label.querySelector('input');
+                    input.disabled = true;
+
+                    if (key === q.correct) {
+                        // Resposta correta (Verde)
+                        label.classList.add('bg-accent-successBg', 'border-accent-success', 'ring-1', 'ring-accent-success/40');
+                        // Injetar selo de correto
+                        const indicator = document.createElement('span');
+                        indicator.className = "ml-auto text-accent-success font-bold text-xs flex items-center gap-1";
+                        indicator.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> Gabarito`;
+                        label.appendChild(indicator);
+                    } else if (key === selected && !isCorrect) {
+                        // Resposta errada do usuário (Vermelho)
+                        label.classList.add('bg-accent-errorBg', 'border-accent-error', 'ring-1', 'ring-accent-error/40');
+                        // Injetar selo de incorreto
+                        const indicator = document.createElement('span');
+                        indicator.className = "ml-auto text-accent-error font-bold text-xs flex items-center gap-1";
+                        indicator.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg> Sua Resposta`;
+                        label.appendChild(indicator);
+                    }
+                });
+
+                // Mostrar a resolução da questão na mesma página
+                document.getElementById(`resolution-${q.id}`).classList.remove('hidden');
+            });
+
+            // Gerar Placar e Mensagem de Feedback
+            showScore(correctAnswersCount);
+            
+            // Mostrar Filtros e Contagens
+            document.getElementById('filter-block').classList.remove('hidden');
+            document.getElementById('count-correct').innerText = correctAnswersCount;
+            document.getElementById('count-incorrect').innerText = quizData.length - correctAnswersCount;
+
+            // Ajustar botões finais
+            document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('reset-btn').classList.remove('hidden');
+
+            // Subir até o placar de desempenho
+            document.getElementById('score-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Apresentação do Placar de Resultados
+        function showScore(score) {
+            const scoreCard = document.getElementById('score-card');
+            const scoreDisplay = document.getElementById('score-display');
+            const title = document.getElementById('performance-title');
+            const feedback = document.getElementById('performance-feedback');
+
+            scoreCard.classList.remove('hidden');
+            scoreDisplay.innerText = score;
+
+            if (score === 10) {
+                title.innerText = "Excelente! Desempenho Impecável 🎯";
+                feedback.innerText = "Você demonstrou domínio completo sobre a inserção das novas tecnologias de informação e comunicação na educação sob a visão crítica do Instituto AOCP.";
+            } else if (score >= 8) {
+                title.innerText = "Parabéns! Excelente Aproveitamento 👏";
+                feedback.innerText = "Você alcançou pontuação de alta performance. Excelente base conceitual para exames públicos concorridos.";
+            } else if (score >= 5) {
+                title.innerText = "Bom Trabalho! Continue Focado 👍";
+                feedback.innerText = "Você possui boa noção dos conceitos principais. Revise as resoluções abaixo para ajustar falhas teóricas pontuais.";
+            } else {
+                title.innerText = "Precisa de Atenção! Foco na Teoria 📖";
+                feedback.innerText = "As diretrizes das TICs e os referenciais teóricos precisam de nova revisão. Leia atentamente as justificativas pedagógicas de cada questão abaixo.";
+            }
+        }
+
+        // Filtrar Questões na Revisão (Todas, Corretas ou Incorretas)
+        function filterQuestions(type) {
+            const btnAll = document.getElementById('btn-filter-all');
+            const btnCorrect = document.getElementById('btn-filter-correct');
+            const btnIncorrect = document.getElementById('btn-filter-incorrect');
+
+            // Resetar estilos dos botões
+            [btnAll, btnCorrect, btnIncorrect].forEach(btn => {
+                btn.className = "px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all";
+            });
+
+            if (type === 'all') {
+                btnAll.className = "px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-accent-primary text-white transition-all";
+                quizData.forEach(q => {
+                    document.getElementById(`q-card-${q.id}`).classList.remove('hidden');
+                });
+            } else if (type === 'correct') {
+                btnCorrect.className = "px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-accent-success text-white transition-all";
+                quizData.forEach(q => {
+                    const isCorrect = userAnswers[q.id] === q.correct;
+                    if (isCorrect) {
+                        document.getElementById(`q-card-${q.id}`).classList.remove('hidden');
+                    } else {
+                        document.getElementById(`q-card-${q.id}`).classList.add('hidden');
+                    }
+                });
+            } else if (type === 'incorrect') {
+                btnIncorrect.className = "px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-accent-error text-white transition-all";
+                quizData.forEach(q => {
+                    const isCorrect = userAnswers[q.id] === q.correct;
+                    if (!isCorrect) {
+                        document.getElementById(`q-card-${q.id}`).classList.remove('hidden');
+                    } else {
+                        document.getElementById(`q-card-${q.id}`).classList.add('hidden');
+                    }
+                });
+            }
+        }
+
+        // Reiniciar Quiz
+        function resetQuiz() {
+            userAnswers = {};
+            isSubmitted = false;
+
+            // Ocultar placares e filtros
+            document.getElementById('score-card').classList.add('hidden');
+            document.getElementById('filter-block').classList.add('hidden');
+            document.getElementById('submit-btn').classList.remove('hidden');
+            document.getElementById('reset-btn').classList.add('hidden');
+
+            // Recarregar questões limpas
+            initQuiz();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Iniciar ao carregar janela
+        window.onload = function() {
+            initQuiz();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: A Relação Professor-Aluno — Abordagens e Concepções</title>
+    <!-- Tailwind CSS para Estilização Moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter para legibilidade excelente e Merriweather para textos acadêmicos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        background: '#fcfbf9', // Tom off-white levemente quente para evitar cansaço visual
+                        paper: '#ffffff',
+                        ink: {
+                            primary: '#1c1917', // Grafite bem escuro ao invés de preto puro
+                            secondary: '#44403c',
+                            muted: '#78716c'
+                        },
+                        accent: {
+                            primary: '#0f766e', // Azul/Verde petróleo suave para foco
+                            hover: '#0d5e58',
+                            light: '#f0fdfa'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fcfbf9;
+            color: #1c1917;
+        }
+        /* Custom scrollbar para navegação fluida */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f0ec;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col selection:bg-teal-100 selection:text-teal-900">
+
+    <!-- Cabeçalho Principal -->
+    <header class="border-b border-stone-200 bg-white/80 backdrop-blur sticky top-0 z-40 transition-shadow duration-200">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-teal-50 rounded-lg text-teal-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84a50.58 50.58 0 00-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A57.778 57.778 0 0012 11.75a57.77 57.77 0 005.25-.425v3.675m-10.5 0a3.75 3.75 0 117.5 0" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-stone-900 tracking-tight">Simulado Teoria Pedagógica</h1>
+                    <p class="text-xs text-stone-500">Banca: Instituto AOCP</p>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Usuário -->
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <div class="text-xs font-semibold text-stone-600 whitespace-nowrap min-w-[90px]" id="progress-text">
+                    Respondido: 0/10
+                </div>
+                <div class="w-full sm:w-32 bg-stone-200 rounded-full h-2 overflow-hidden">
+                    <div id="progress-bar" class="bg-teal-600 h-2 rounded-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8">
+        
+        <!-- Apresentação do Simulado -->
+        <section class="mb-8 p-6 bg-stone-100 rounded-2xl border border-stone-200">
+            <h2 class="text-xl sm:text-2xl font-bold text-stone-900 mb-2 font-serif">A Relação Professor-Aluno: Abordagens e Concepções</h2>
+            <p class="text-stone-600 text-sm leading-relaxed mb-4">
+                Prepare-se com foco e inteligência. Este simulado foi estruturado a partir de questões originais e adaptadas do <strong>Instituto AOCP</strong>. Leia atentamente as concepções tradicionais, escolanovistas, tecnicistas e críticas que norteiam a dinâmica da sala de aula.
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs font-medium">
+                <span class="px-3 py-1.5 bg-stone-200 text-stone-800 rounded-full">10 Questões Completas</span>
+                <span class="px-3 py-1.5 bg-teal-50 text-teal-800 rounded-full">Gabarito Comentado Incorporado</span>
+                <span class="px-3 py-1.5 bg-amber-50 text-amber-800 rounded-full">Estilo Instituto AOCP</span>
+            </div>
+        </section>
+
+        <!-- Seção de Tabela Comparativa (Bloco II) Opcional/Colapsável -->
+        <section class="mb-10 bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+            <button id="toggle-matrix-btn" class="w-full px-6 py-4 flex items-center justify-between bg-stone-50 border-b border-stone-200 hover:bg-stone-100/80 transition-colors text-left focus:outline-none">
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-stone-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                    </svg>
+                    <span class="font-semibold text-stone-800 text-sm sm:text-base">Matriz Comparativa das Abordagens Pedagógicas (Bloco II)</span>
+                </div>
+                <svg id="toggle-matrix-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-stone-500 transition-transform duration-200">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </button>
+            <div id="matrix-content" class="hidden overflow-x-auto max-h-[500px] transition-all duration-300">
+                <table class="w-full text-left text-xs sm:text-sm border-collapse min-w-[700px]">
+                    <thead class="bg-stone-50 border-b border-stone-200 text-stone-700 uppercase tracking-wider sticky top-0 font-medium">
+                        <tr>
+                            <th class="p-4 border-r border-stone-200 w-[15%]">Abordagem / Tendência</th>
+                            <th class="p-4 border-r border-stone-200 w-[18%]">Papel do Professor</th>
+                            <th class="p-4 border-r border-stone-200 w-[18%]">Papel do Aluno</th>
+                            <th class="p-4 border-r border-stone-200 w-[20%]">Dinâmica da Relação</th>
+                            <th class="p-4 w-[29%]">Pressupostos Epistemológicos e Sociais</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-200 text-stone-600">
+                        <tr class="hover:bg-stone-50/50">
+                            <td class="p-4 border-r border-stone-200 font-semibold text-stone-800">Tradicional (Liberal)</td>
+                            <td class="p-4 border-r border-stone-200">Detentor exclusivo e autoridade máxima do saber elaborado.</td>
+                            <td class="p-4 border-r border-stone-200">Receptor passivo, assimilador e memorizador dos conteúdos transmitidos.</td>
+                            <td class="p-4 border-r border-stone-200">Unidirecional, hierárquica e pautada na obediência e disciplina rígida.</td>
+                            <td class="p-4">Racionalismo/Apriorismo; a escola visa à preparação intelectual e moral sem conexão social.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50/50 bg-stone-50/20">
+                            <td class="p-4 border-r border-stone-200 font-semibold text-stone-800">Renovada Progressivista</td>
+                            <td class="p-4 border-r border-stone-200">Organizador de experiências, facilitador e mediador do meio estimulante.</td>
+                            <td class="p-4 border-r border-stone-200">Sujeito ativo, autônomo, pesquisador que aprende por meio do próprio interesse.</td>
+                            <td class="p-4 border-r border-stone-200">Horizontalizada, democrática, baseada na cooperação, no afeto e no respeito mútuo.</td>
+                            <td class="p-4">Empirismo/Pragmatismo; o foco reside no "aprender a aprender" e na adaptação social.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50/50">
+                            <td class="p-4 border-r border-stone-200 font-semibold text-stone-800">Humanista (Não-Diretiva)</td>
+                            <td class="p-4 border-r border-stone-200">Terapeuta, aceitador incondicional e facilitador da autodescoberta.</td>
+                            <td class="p-4 border-r border-stone-200">Centro do processo educativo, responsável pelo próprio desenvolvimento.</td>
+                            <td class="p-4 border-r border-stone-200">Horizontalidade total, clima de calor interpessoal, empatia e ausência de diretividade.</td>
+                            <td class="p-4">Fenomenologia/Existencialismo; priorização da dimensão socioafetiva sobre a cognitiva.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50/50 bg-stone-50/20">
+                            <td class="p-4 border-r border-stone-200 font-semibold text-stone-800">Tecnicista (Liberal)</td>
+                            <td class="p-4 border-r border-stone-200">Técnico executor, programador de passos instrutivos e supervisor.</td>
+                            <td class="p-4 border-r border-stone-200">Receptor de estímulos, executor de tarefas e produtor eficiente.</td>
+                            <td class="p-4 border-r border-stone-200">Racional, instrumental, impessoal, mediada por recursos tecnológicos e burocráticos.</td>
+                            <td class="p-4">Positivismo/Behaviorismo; foco na produtividade, eficácia e preparação para o trabalho.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50/50">
+                            <td class="p-4 border-r border-stone-200 font-semibold text-stone-800">Libertadora (Progressista)</td>
+                            <td class="p-4 border-r border-stone-200">Animador cultural, mediador que atua horizontalmente de forma igualitária.</td>
+                            <td class="p-4 border-r border-stone-200">Sujeito ativo, crítico, coprodutor de cultura e parceiro no diálogo.</td>
+                            <td class="p-4 border-r border-stone-200">Dialógica, simétrica, horizontal e voltada para a conscientização política.</td>
+                            <td class="p-4">Filosofia Existencialista e Marxista; educação como instrumento de libertação e práxis.</td>
+                        </tr>
+                        <tr class="hover:bg-stone-50/50 bg-stone-50/20">
+                            <td class="p-4 border-r border-stone-200 font-semibold text-stone-800">Histórico-Crítica</td>
+                            <td class="p-4 border-r border-stone-200">Mediador intencional, ativo e cientificamente embasado do saber universal.</td>
+                            <td class="p-4 border-r border-stone-200">Sujeito ativo na apropriação dos instrumentos culturais sistematizados.</td>
+                            <td class="p-4 border-r border-stone-200">Dialética, mediada, com assimetria funcional necessária que visa à emancipação.</td>
+                            <td class="p-4">Materialismo Histórico-Dialético; a escola serve para superar a marginalidade social.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Painel de Resultados (Invisível no início) -->
+        <section id="results-panel" class="hidden mb-10 p-6 bg-white border border-stone-200 rounded-2xl shadow-md transition-all duration-300">
+            <div class="flex flex-col md:flex-row items-center gap-6 justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold text-stone-900 mb-1" id="results-headline"></h3>
+                    <p class="text-stone-600 text-sm mb-3">Você respondeu todas as 10 questões de avaliação teórica.</p>
+                    <div class="flex gap-4 text-sm">
+                        <span class="flex items-center gap-1.5 text-emerald-700 font-semibold">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                            <span id="correct-count">0</span> Acertos
+                        </span>
+                        <span class="flex items-center gap-1.5 text-rose-700 font-semibold">
+                            <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                            <span id="wrong-count">0</span> Erros
+                        </span>
+                        <span class="text-stone-600 font-semibold" id="score-percentage"></span>
+                    </div>
+                </div>
+                <!-- Anel de Progresso Circular -->
+                <div class="relative w-28 h-28 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90">
+                        <circle cx="56" cy="56" r="48" class="stroke-stone-200 fill-none" stroke-width="8" />
+                        <circle cx="56" cy="56" r="48" id="progress-ring-circle" class="stroke-teal-600 fill-none transition-all duration-500" stroke-width="8" stroke-dasharray="301.6" stroke-dashoffset="301.6" />
+                    </svg>
+                    <span class="absolute text-xl font-bold text-stone-900" id="progress-ring-text">0%</span>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-stone-100 flex flex-wrap gap-3">
+                <button onclick="restartQuiz()" class="px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold text-sm rounded-xl transition-all inline-flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                    Refazer Simulado
+                </button>
+                <a href="#questoes-container" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm hover:shadow-md transition-all inline-flex items-center gap-1.5">
+                    Análise das Questões Abaixo
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Container das Questões -->
+        <div id="questoes-container" class="space-y-8">
+            <!-- Gerado via JavaScript para manter robustez e facilidade de estado -->
+        </div>
+
+        <!-- Seção Inferior de Envio / Feedback global -->
+        <section class="mt-12 mb-20 flex flex-col items-center justify-center p-8 bg-stone-50 border border-stone-200 rounded-2xl" id="footer-actions">
+            <h3 class="text-lg font-bold text-stone-800 mb-2">Concluiu a leitura e seleção das respostas?</h3>
+            <p class="text-sm text-stone-500 mb-6 text-center max-w-md">Ao finalizar, você terá acesso imediato aos resultados e à resolução completa baseada nas teorias e metodologias oficiais de avaliação.</p>
+            <button id="submit-quiz-btn" onclick="submitQuiz()" class="px-8 py-4 bg-teal-700 hover:bg-teal-600 text-white font-bold text-base rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-teal-200">
+                Finalizar Simulado e Ver Gabarito
+            </button>
+            <p id="warning-message" class="text-rose-600 text-sm font-semibold mt-3 hidden"></p>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-stone-900 text-stone-400 py-10 mt-auto border-t border-stone-800">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            <p>© 2026 Preparatório de Concursos. Estilo Instituto AOCP.</p>
+            <p class="italic">"A educação é uma prática de liberdade, com sujeitos ativos em sua história."</p>
+        </div>
+    </footer>
+
+    <!-- Banco de Dados das Questões e Lógica de Interface -->
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                header: "Questão 1 (Instituto AOCP - UNIR - Pedagogo - Adaptada)",
+                context: "As relações humanas, embora complexas, são elementos fundamentais na realização comportamental e profissional de um indivíduo. Sobre o relacionamento interpessoal e o papel da afetividade no avanço do processo de ensino-aprendizagem, julgue o item a seguir:",
+                question: "No processo ensino-aprendizagem, a relação professor-aluno deve ser marcada pela bidirecionalidade, ou seja, pela influência existente do professor sobre o aluno, assim como do aluno sobre o professor.",
+                type: "tf", // True / False (Certo / Errado)
+                options: [
+                    "Certo",
+                    "Errado"
+                ],
+                correctIndex: 0,
+                resolution: "A conceituação contemporânea do processo de ensino-aprendizagem fundamenta-se na superação dos modelos comunicativos lineares, nos quais o professor figurava como o emissor monopolista do conhecimento e o aluno como receptor amorfo e passivo. Sob uma perspectiva didática crítica, a relação pedagógica é compreendida como um fenômeno inerentemente bidirecional. Essa bidirecionalidade implica o reconhecimento de que, embora exista uma intencionalidade diretiva por parte do professor, os sujeitos da relação influenciam-se e modificam-se mutuamente. O ato de ensinar é indissociável do ato de aprender; as estruturas de pensamento e as concepções prévias trazidas pelos alunos impõem ao docente a constante reorganização de suas estratégias de ensino, consubstanciando uma influência mútua e ininterrupta no ambiente escolar."
+            },
+            {
+                id: 2,
+                header: "Questão 2 (INSTITUTO AOCP - IF-CE - Professor EBTT - Filosofia - Adaptada)",
+                context: "Nos Institutos Federais, a educação é concebida como prática de liberdade, em que o estudante se reconhece como sujeito de sua própria história e capaz de intervir criticamente na realidade social. Com base nessa perspectiva emancipatória, a respeito da relação professor-aluno, assinale a alternativa correta.",
+                question: "",
+                type: "mc", // Multiple Choice
+                options: [
+                    "A) Configura-se como uma relação em que o professor transmite conteúdos previamente definidos, cabendo ao aluno assimilar passivamente o conhecimento que foi historicamente acumulado.",
+                    "B) Caracteriza-se pela centralidade absoluta da atuação docente, com ênfase na organização rígida das atividades e no controle do comportamento disciplinar dos estudantes.",
+                    "C) Constitui-se como uma interação espontânea entre professor e aluno, sendo essa relação baseada exclusivamente nas experiências histórico-sociais dos estudantes.",
+                    "D) Estabelece-se como uma interação pedagógica mediada, orientada por objetivos didáticos e pela participação ativa dos estudantes no processo de ensino-aprendizagem.",
+                    "E) Define-se como um vínculo baseado na cooperação estritamente entre os estudantes, com intervenção mínima do professor no processo educativo."
+                ],
+                correctIndex: 3,
+                resolution: "A análise da educação entendida como \"prática de liberdade\" exige o desmonte de abordagens de cunho mecânico ou meramente instrucionais.<br><br>• As alternativas A e B expressam a postura clássica da pedagogia tradicional e tecnicista, em que o conteúdo é transmitido unilateralmente para a assimilação apática do aluno, com foco no controle de comportamento.<br>• A alternativa C incorre no erro de qualificar a relação como \"espontânea\", o que descaracterizaria o planejamento rigoroso e científico necessário à mediação pedagógica.<br>• A alternativa E minimiza de forma indevida a presença do professor, caindo no espontaneísmo pedagógico não-diretivo.<br>• A alternativa D está correta porque a relação professor-aluno, sob o prisma libertador e crítico, materializa-se como uma interação pedagógica mediada e orientada por objetivos didáticos claros, na qual o professor interfere intencionalmente para assegurar que os discentes participem de modo reflexivo na construção do saber."
+            },
+            {
+                id: 3,
+                header: "Questão 3 (INSTITUTO AOCP - Prefeitura de Betim - MG - Professor PI-L - Adaptada)",
+                context: "No processo de ensino-aprendizagem, estão envolvidos diversos sujeitos responsáveis pela sua existência, tendo-se como figura de destaque a relação professor-aluno. Dentro desse contexto, o educador se encontra no papel de mediador. Nesse sentido, assinale a alternativa correta sobre a atuação do mediador.",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) O processo de ensino e aprendizagem envolve a influência contínua da afetividade entre professor-aluno-conhecimento-ambiente, mediada pelo professor para a interação das relações que se estabelecem entre os sujeitos (alunos) e os diversos objetos do conhecimento, bem como na disposição dos alunos diante das atividades propostas e desenvolvidas.",
+                    "B) No processo de ensino e aprendizagem, a dimensão afetiva ocupa lugar secundário tanto do ponto de vista da construção da pessoa quanto na construção do conhecimento pelo mediador.",
+                    "C) O ambiente de ensino e aprendizagem deve ser objetivo e rígido, de forma que o professor mediador busque conhecer seus alunos, o meio em que vivem, as relações que estabelecem nesse meio e padronizar as turmas por níveis de conhecimentos prévios.",
+                    "D) O ambiente escolar é formado para que o professor mediador alfabetize de modo funcional, ou seja, ensinando a ler e a escrever de forma que o aluno se comunique operacionalmente.",
+                    "E) O processo de ensino e aprendizagem deve desenvolver, por meio do professor mediador, uma pedagogia diretiva e autoritária, pois a intervenção no desenvolvimento da criança tem maior preocupação com o aprendizado técnico."
+                ],
+                correctIndex: 0,
+                resolution: "No contexto de uma didática focada no papel da mediação, a afetividade deixa de ser interpretada como um fator meramente secundário ou decorativo e assume o papel de base relacional que viabiliza o ato cognitivo.<br><br>• A alternativa A é a única correta, pois compreende que o ato de ensinar e aprender mobiliza de forma contínua a dimensão afetiva que se estabelece na relação professor-aluno-conhecimento-ambiente. O afeto atua como mediador das interações com o objeto de conhecimento e na predisposição motivacional dos alunos para a realização das atividades escolares.<br>• A alternativa B é incorreta porque subestima a afetividade.<br>• A alternativa C prega o engessamento e a homogeneização, desconsiderando a diversidade.<br>• A alternativa D limita a ação da escola a uma mera função instrumental-utilitária de comunicação básica.<br>• A alternativa E advoga por um autoritarismo que anula a natureza interativa do aprendizado."
+            },
+            {
+                id: 4,
+                header: "Questão 4 (INSTITUTO AOCP - IF-PB - Professor EBTT - Química/Filosofia - Adaptada)",
+                context: "Com base na perspectiva da Psicologia Histórico-Cultural, a relação professor-aluno deve ser compreendida como:",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) um processo de ensino diretivo e transmissivo, no qual o professor, detentor do conhecimento, comunica conteúdos prontos, cabendo ao aluno apenas reproduzir o saber acumulado historicamente.",
+                    "B) uma relação dialética e mediada, na qual o professor intervém intencional e conscientemente, promovendo a apropriação do patrimônio cultural e impulsionando o desenvolvimento psíquico do aluno.",
+                    "C) uma interação focada de forma exclusiva no desenvolvimento biológico e na maturação espontânea do estudante, assumindo o professor um papel neutro no processo de apropriação cognitiva.",
+                    "D) uma prática em que o educador deve se abster de qualquer tipo de intervenção estruturada, permitindo que a aprendizagem ocorra de maneira incidental e sem intencionalidade pedagógica.",
+                    "E) um modelo que prioriza o condicionamento mecânico de respostas e comportamentos, com foco na eficiência técnica e operacional do trabalho em sala de aula."
+                ],
+                correctIndex: 1,
+                resolution: "De acordo com os postulados da Psicologia Histórico-Cultural, capitaneados por Lev Vygotsky, o desenvolvimento psíquico superior do ser humano não é decorrência de processos maturacionais puramente biológicos ou endógenos, mas sim o produto da apropriação ativa da cultura mediada socialmente.<br><br>• A alternativa A descreve o modelo transmissivo tradicional, no qual se ignora o processo de constituição ativa do sujeito.<br>• A alternativa B é a correta, pois define a relação sob uma perspectiva dialética e mediada, situando o professor como um agente que intervém de modo intencional e consciente na Zona de Desenvolvimento Proximal do aluno, utilizando instrumentos e signos para possibilitar a internalização das funções psicológicas superiores e a consequente apropriação crítica do patrimônio cultural universal.<br>• As alternativas C, D e E falham ao propor a neutralidade, o absenteísmo ou o condicionamento comportamental mecanicista, posturas frontalmente contrárias à intervenção ativa e semiótica proposta por Vygotsky."
+            },
+            {
+                id: 5,
+                header: "Questão 5 (INSTITUTO AOCP - Prefeitura de Feira de Santana - BA - Professor - Adaptada)",
+                context: "A construção do conhecimento escolar é vista de modo distinto, dependendo da dimensão epistemológica que fundamente o trabalho docente. Sobre o papel do educador e do educando na construção do conhecimento escolar, assinale a alternativa correta.",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) Na escola tradicional, a pedagogia se caracteriza por acentuar o ensino matemático, no qual o aluno é educado para atingir sua plena realização como pessoa, cooperando com os colegas para a construção do conhecimento. Os conteúdos, os procedimentos didáticos, a relação professor-aluno não têm nenhuma relação com o cotidiano do aluno e muito menos com as realidades sociais.",
+                    "B) Na escola tradicional, a autoridade do conhecimento reside no aluno e exige uma atitude receptiva/passiva do professor perante o conteúdo escolar.",
+                    "C) Na escola tecnicista, a relação com o conhecimento é subjetiva, o professor é o mediador das informações e o aluno deve fixá-las de modo empírico.",
+                    "D) Na escola multiculturalista, não existe autoridade do conhecimento nem relação de poder, todos sabem algo e devem compartilhar seu saber com os colegas e professores na escola. É pelo compartilhar dos saberes comuns que se constrói o conhecimento escolar.",
+                    "E) Na escola crítico-social dos conteúdos, a relação com o conhecimento é pautada na rejeição do saber universal sistematizado, limitando-se o processo educativo à valorização do bom senso do estudante."
+                ],
+                correctIndex: 3,
+                resolution: "A análise epistemológica do trabalho docente investiga o modo como diferentes escolas pedagógicas encaram a relação com o saber e com o poder dentro do espaço escolar.<br><br>• A alternativa A mistura elementos da tendência tradicional com uma visão incoerente de cooperação pessoal ativa.<br>• A alternativa B inverte os polos da escola tradicional, na qual o poder e a autoridade residem unicamente no professor, e não no aluno.<br>• A alternativa C está incorreta porque o tecnicismo repousa sobre uma base puramente objetiva, neutra e operacional, rejeitando as subjetividades e vivências internas dos indivíduos.<br>• A alternativa E deturpa a abordagem histórico-crítica, cujo propósito essencial é a apropriação ativa do saber científico de modo que o educando desenvolva o pensamento lógico e categorial.<br>• A alternativa D é a correta, pois a perspectiva multiculturalista propõe a relativização e a descentração dos saberes dominantes, buscando mitigar as hierarquias dogmáticas e as relações opressoras de poder para construir o conhecimento por meio do compartilhamento horizontal de saberes diversos e plurais."
+            },
+            {
+                id: 6,
+                header: "Questão 6 (INSTITUTO AOCP - Inédita / Estilo AOCP)",
+                context: "No âmbito da concepção crítico-emancipatória da educação, formulada por Paulo Freire na obra Pedagogia do Oprimido, a análise da relação professor-aluno constitui um elemento-chave para a distinção entre a educação opressora e a educação libertadora. A respeito da concepção denominada \"Educação Bancária\", assinale a alternativa correta.",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) O educador e os educandos estabelecem uma comunicação horizontal e dialógica, na qual o diálogo se converte no instrumento central para a coprodução de saberes críticos.",
+                    "B) A relação caracteriza-se pelo reconhecimento de que todos os sujeitos do processo são produtores de cultura, anulando-se a dicotomia entre quem ensina e quem aprende.",
+                    "C) O professor atua como um animador cultural que se abstém de interferir na escolha dos conteúdos, priorizando a autoavaliação e a manifestação espontânea da turma.",
+                    "D) O educador assume a posição de sujeito ativo, detentor absoluto do saber a ser transmitido, enquanto os educandos são tratados como recipientes passivos e vazios a serem preenchidos por depósitos de informações.",
+                    "E) O vínculo pedagógico apoia-se na mediação científica, em que o professor estimula o estudante a superar as impressões cotidianas imediatas por meio do estudo de teorias sociais."
+                ],
+                correctIndex: 3,
+                resolution: "A teorização freireana acerca da relação pedagógica desvela as bases da dominação social reproduzidas por práticas escolares tradicionais.<br><br>• As alternativas A e B descrevem o oposto da educação bancária, ou seja, retratam a educação libertadora, de cunho dialógico e horizontal.<br>• A alternativa C associa-se às vertentes liberais renovadas e não-diretivas, pautadas no espontaneísmo, que diferem da postura engajada do educador freireano.<br>• A alternativa E está associada à apropriação dialética dos saberes elaborados típicos da pedagogia histórico-crítica.<br>• A alternativa D é a correta, pois a essência do conceito de educação bancária repousa na negação do diálogo e na coisificação do educando. O docente atua de forma unilateral como o sujeito cognitivo absoluto da relação, enquanto o estudante se limita a ser o depositário passivo de conteúdos alienantes e fragmentados."
+            },
+            {
+                id: 7,
+                header: "Questão 7 (INSTITUTO AOCP - Inédita / Estilo AOCP)",
+                context: "Ao discutir a prática escolar e a organização do trabalho didático, Cipriano Luckesi analisa que a relação professor-aluno perpassa a compreensão das tensões existentes entre autoridade pedagógica e autoritarismo. Tendo como base esse referencial analítico, assinale a alternativa correta.",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) A legítima autoridade pedagógica do professor caracteriza-se pelo controle coercitivo e minucioso do comportamento disciplinar do estudante, com o fim de assegurar a assimilação dos conteúdos.",
+                    "B) A autoridade pedagógica fundamenta-se no papel do professor como mediador da cultura elaborada, auxiliando intencionalmente o educando a transitar de uma leitura imediata do senso comum para uma visão crítica da prática social.",
+                    "C) O autoritarismo pedagógico constitui uma dimensão intrínseca e necessária ao processo educativo, pois garante o cumprimento estrito das etapas de instrução científica.",
+                    "D) A manutenção de uma relação democrática e livre de autoritarismo exige que o professor abra mão do planejamento estruturado, da diretividade e de qualquer mediação intencional do saber.",
+                    "E) O exercício da autoridade pedagógica ocorre de forma independente da dimensão socioafetiva, uma vez que a cognição se desenvolve de modo isolado no ambiente escolar."
+                ],
+                correctIndex: 1,
+                resolution: "A diferenciação conceitual formulada por Cipriano Luckesi entre autoridade pedagógica e autoritarismo visa libertar a prática docente do julgo da coerção arbitrária, sem que isso implique o abandono das funções de direção e ensino do professor.<br><br>• A alternativa A está incorreta porque reduz a autoridade pedagógica ao autoritarismo repressivo da disciplina corporal.<br>• A alternativa C comete o equívoco de legitimar o autoritarismo em sala de aula.<br>• A alternativa D aponta para o espontaneísmo ativista de viés laissez-faire, que prescinde do planejamento escolar estruturado.<br>• A alternativa E desconsidera a interdependência indissolúvel entre cognição e afeto.<br>• A alternativa B é a correta: a autoridade pedagógica sustenta-se na competência técnica, científica e ética do professor, que atua como o mediador responsável por guiar o estudante em direção à superação das visões acríticas e fragmentadas do cotidiano (senso comum), instrumentalizando-o para compreender criticamente as dinâmicas sociais mais complexas."
+            },
+            {
+                id: 8,
+                header: "Questão 8 (INSTITUTO AOCP - Inédita / Estilo AOCP)",
+                context: "A forma pela qual o professor interage com o aluno é intrinsecamente vinculada às finalidades sociais e políticas atribuídas à escola. Na perspectiva da Pedagogia Histórico-Crítica, a relação professor-aluno deve caracterizar-se por:",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) uma dinâmica pautada no não-direcionamento e no autodesenvolvimento livre, na qual o professor atua unicamente como um facilitador de aprendizagem socioafetiva.",
+                    "B) uma relação de caráter estritamente administrativo e instrumental, baseada na eficiência operacional e na subordinação de ambos os sujeitos a recursos instrucionais neutros.",
+                    "C) uma interação dialética e intencional, na qual se reconhece uma assimetria funcional temporária em que o docente atua de forma ativa na mediação dos conteúdos científicos para possibilitar a emancipação social do educando.",
+                    "D) uma horizontalidade absoluta na qual o conhecimento sistematizado perde a sua centralidade, priorizando-se exclusivamente a reprodução das vivências empíricas cotidianas da comunidade.",
+                    "E) um modelo de exclusão mútua em que os procedimentos didáticos e os conteúdos curriculares mantêm-se alheios às determinações histórico-sociais do cotidiano do educando."
+                ],
+                correctIndex: 2,
+                resolution: "A Pedagogia Histórico-Crítica opõe-se tanto ao dogmatismo autoritário da escola tradicional quanto ao espontaneísmo desregulador das correntes não-diretivas.<br><br>• A alternativa A representa a vertente liberal renovada não-diretiva, que prioriza a facilitação em detrimento dos conteúdos estruturados.<br>• A alternativa B caracteriza o tecnicismo instrumental, fundamentado na neutralidade técnica.<br>• A alternativa D esvazia o papel da escola ao limitar o currículo ao cotidiano imediato do estudante, caindo no relativismo.<br>• A alternativa E define o isolamento tradicional dos conteúdos escolares em relação ao meio social.<br>• A alternativa C expressa corretamente a base teórica da histórico-crítica: a relação pedagógica possui uma assimetria funcional necessária (o docente domina as formas didáticas e o conteúdo científico a ser transmitido), mas essa assimetria é orientada dialeticamente para a sua própria superação, tendo em vista que o acesso ao saber sistematizado visa armar culturalmente o aluno para a transformação emancipatória de sua prática social."
+            },
+            {
+                id: 9,
+                header: "Questão 9 (INSTITUTO AOCP - Inédita / Estilo AOCP)",
+                context: "De acordo com a classificação das abordagens teóricas de ensino proposta por Maria da Graça Nicoletti Mizukami, a relação professor-aluno reflete diferentes pressupostos epistemológicos e psicológicos. No que tange à caracterização dessa relação no âmbito da Abordagem Cognitivista, assinale a alternativa correta.",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) Pauta-se na horizontalidade e no afeto incondicional, com o professor atuando no papel de terapeuta e facilitador focado na autorrealização discente.",
+                    "B) Baseia-se no controle estrito de contingências ambientais e no adestramento comportamental, em que o professor manipula reforçadores e o aluno repete respostas padronizadas.",
+                    "C) Estabelece-se de forma transmissiva e diretiva, cabendo ao professor ensinar de forma verbalista conteúdos abstratos dissociados das estruturas cognitivas do aluno.",
+                    "D) Caracteriza-se pela interação em que o professor atua como um desafiador do pensamento, criando situações-problema e conflitos cognitivos para que o aluno estruture ativamente seus esquemas de conhecimento.",
+                    "E) Fundamenta-se na cogestão total do espaço escolar, com anulação dos objetivos didáticos predefinidos e do currículo oficial."
+                ],
+                correctIndex: 3,
+                resolution: "A caracterização das abordagens realizada por Maria da Graça Mizukami permite mapear as diferentes conexões que ligam os sujeitos do processo de ensino-aprendizagem.<br><br>• A alternativa A descreve as características fundamentais da abordagem humanista, com forte teor existencial e não-diretivo.<br>• A alternativa B descreve a abordagem behaviorista ou comportamentalista.<br>• A alternativa C retrata a abordagem tradicional transmissiva de conteúdos.<br>• A alternativa E está relacionada à abordagem sociocultural em suas leituras mais libertárias.<br>• A alternativa D é a correta, pois a abordagem cognitivista (alicerçada na epistemologia genética piagetiana) compreende o aluno como um construtor ativo de sua própria inteligência. Sob essa ótica, o papel da relação professor-aluno consiste na criação de conflitos cognitivos planejados e situações-problema desafiadoras que forcem o discente a mobilizar, reorganizar e ampliar seus esquemas lógicos e estruturas mentais assimiladoras."
+            },
+            {
+                id: 10,
+                header: "Questão 10 (INSTITUTO AOCP - Inédita / Estilo AOCP)",
+                context: "Ao longo da evolução histórica da Didática, a relação entre professor, aluno e conhecimento organizou-se segundo diferentes propostas metodológicas. A respeito da concepção que fundamenta a Tendência Liberal Renovada Progressivista (ou Escola Nova) no tocante a essa interação, assinale a alternativa correta.",
+                question: "",
+                type: "mc",
+                options: [
+                    "A) A relação professor-aluno é marcada pelo autoritarismo e pela distância social, prevalecendo a autoridade inquestionável do educador na transmissão de normas morais.",
+                    "B) O processo pedagógico centraliza-se na transmissão dogmática de conteúdos enciclopédicos, exigindo-se do estudante memorização mecânica e passividade receptiva.",
+                    "C) A dinâmica é pautada no \"aprender a aprender\" e no \"aprender fazendo\", de modo que a relação professor-aluno é horizontalizada, agindo o professor como um organizador de experiências estimulantes para o desenvolvimento ativo do aluno.",
+                    "D) A relação é de natureza eminentemente instrumental e técnica, estruturada por meio de programas instrucionais herméticos nos quais a afetividade e a criatividade são suprimidas.",
+                    "E) Baseia-se no diálogo sobre os problemas políticos e econômicos urgentes da sociedade, de forma a mobilizar docentes e discentes em lutas de caráter classista e sindical."
+                ],
+                correctIndex: 2,
+                resolution: "A pedagogia ativa ou escolanovista representou uma profunda revolução metodológica em oposição ao ensino tradicional.<br><br>• A alternativa A descreve as relações autoritárias da escola tradicional.<br>• A alternativa B também se reporta ao ensino tradicional focado na erudição enciclopédica verbal.<br>• A alternativa D descreve o tecnicismo instrucional e burocrático.<br>• A alternativa E descreve as correntes progressistas de matriz libertadora ou histórico-crítica de transformação política de classes.<br>• A alternativa C está correta ao apontar que o foco da Escola Nova desloca-se para o desenvolvimento de habilidades, competências e autonomia por meio da ação empírica direta (\"aprender fazendo\") e do autodesenvolvimento intelectual (\"aprender a aprender\"), assumindo o docente o papel de facilitador e organizador ativo das vivências e experiências concretas de aprendizagem."
+            }
+        ];
+
+        // Objeto global de estado do simulado
+        const userAnswers = {};
+        let quizSubmitted = false;
+
+        // Renderização dinâmica das questões na tela
+        function renderQuestions() {
+            const container = document.getElementById('questoes-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, idx) => {
+                const questionIndex = idx + 1;
+                const questionCard = document.createElement('article');
+                questionCard.id = `question-card-${q.id}`;
+                questionCard.className = "bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm transition-all duration-300 relative";
+                
+                // Cabeçalho da questão
+                let contentHTML = `
+                    <div class="flex items-center justify-between gap-4 mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md">Questão ${questionIndex}</span>
+                        <div id="status-badge-${q.id}" class="hidden"></div>
+                    </div>
+                    <div class="text-xs font-semibold text-stone-500 mb-3">${q.header}</div>
+                    <div class="text-stone-700 leading-relaxed font-serif text-base mb-4 bg-stone-50/50 p-4 rounded-xl border border-stone-100">${q.context}</div>
+                `;
+
+                if (q.question) {
+                    contentHTML += `<div class="text-stone-800 font-medium mb-6 leading-relaxed">${q.question}</div>`;
+                }
+
+                // Opções de Resposta
+                contentHTML += `<div class="space-y-3" id="options-group-${q.id}">`;
+                q.options.forEach((opt, optIdx) => {
+                    const isSelected = userAnswers[q.id] === optIdx;
+                    const optionId = `q-${q.id}-opt-${optIdx}`;
+                    
+                    contentHTML += `
+                        <label for="${optionId}" id="label-${optionId}" 
+                               class="flex items-start gap-3 p-4 rounded-xl border border-stone-200 hover:bg-stone-50/80 cursor-pointer transition-all duration-200 select-none relative group">
+                            <input type="radio" name="q-${q.id}" id="${optionId}" value="${optIdx}" 
+                                   ${isSelected ? 'checked' : ''} 
+                                   ${quizSubmitted ? 'disabled' : ''}
+                                   onchange="selectOption(${q.id}, ${optIdx})"
+                                   class="mt-1 w-4 h-4 text-teal-600 border-stone-300 focus:ring-teal-500 accent-teal-600 focus:ring-offset-0">
+                            <span class="text-sm font-normal text-stone-800 leading-relaxed">${opt}</span>
+                        </label>
+                    `;
+                });
+                contentHTML += `</div>`;
+
+                // Espaço reservado para a resolução pedagógica
+                contentHTML += `
+                    <div id="resolution-box-${q.id}" class="hidden mt-6 pt-6 border-t border-stone-200 transition-all duration-300">
+                        <div class="bg-teal-50/50 rounded-xl p-5 border border-teal-100/80">
+                            <h4 class="text-sm font-bold text-teal-900 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-teal-700">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
+                                </svg>
+                                Resolução Crítico-Pedagógica
+                            </h4>
+                            <div class="text-sm text-stone-700 leading-relaxed font-serif">${q.resolution}</div>
+                        </div>
+                    </div>
+                `;
+
+                questionCard.innerHTML = contentHTML;
+                container.appendChild(questionCard);
+            });
+            
+            updateProgressBar();
+            applySelectionStyles();
+        }
+
+        // Registrar resposta selecionada
+        function selectOption(questionId, optIdx) {
+            if (quizSubmitted) return;
+            userAnswers[questionId] = optIdx;
+            updateProgressBar();
+            applySelectionStyles();
+        }
+
+        // Atualizar barra de progresso no topo
+        function updateProgressBar() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const progressPercentage = (answeredCount / quizData.length) * 100;
+            
+            document.getElementById('progress-text').innerText = `Respondido: ${answeredCount}/${quizData.length}`;
+            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+        }
+
+        // Aplicar estilos visuais personalizados à opção selecionada
+        function applySelectionStyles() {
+            quizData.forEach(q => {
+                q.options.forEach((_, optIdx) => {
+                    const optionId = `q-${q.id}-opt-${optIdx}`;
+                    const label = document.getElementById(`label-${optionId}`);
+                    const input = document.getElementById(optionId);
+                    
+                    if (label) {
+                        if (input.checked) {
+                            // Se selecionado
+                            label.className = "flex items-start gap-3 p-4 rounded-xl border-2 border-teal-600 bg-teal-50/40 cursor-pointer transition-all duration-150 select-none relative shadow-sm";
+                        } else {
+                            // Se não selecionado
+                            label.className = "flex items-start gap-3 p-4 rounded-xl border border-stone-200 hover:bg-stone-50/80 cursor-pointer transition-all duration-150 select-none relative";
+                        }
+                    }
+                });
+            });
+        }
+
+        // Submissão do Simulado
+        function submitQuiz() {
+            const warning = document.getElementById('warning-message');
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < quizData.length) {
+                warning.innerText = `Por favor, responda a todas as ${quizData.length} questões antes de finalizar. (Respondidas: ${answeredCount}/${quizData.length})`;
+                warning.classList.remove('hidden');
+                return;
+            }
+
+            warning.classList.add('hidden');
+            quizSubmitted = true;
+
+            let score = 0;
+
+            // Processar cada questão e exibir correção individual
+            quizData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correctIndex;
+                if (isCorrect) score++;
+
+                // Desabilitar todas as opções e aplicar classes de Correção
+                const badge = document.getElementById(`status-badge-${q.id}`);
+                badge.classList.remove('hidden');
+                
+                if (isCorrect) {
+                    badge.innerHTML = `
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                            </svg>
+                            Correto
+                        </span>
+                    `;
+                    // Card com borda verde
+                    document.getElementById(`question-card-${q.id}`).classList.add('ring-2', 'ring-emerald-500/30', 'border-emerald-500');
+                } else {
+                    badge.innerHTML = `
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-rose-800 bg-rose-100 px-2.5 py-1 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                            </svg>
+                            Incorreto
+                        </span>
+                    `;
+                    // Card com borda vermelha
+                    document.getElementById(`question-card-${q.id}`).classList.add('ring-2', 'ring-rose-500/30', 'border-rose-300');
+                }
+
+                // Destacar acertos e erros nas opções de resposta
+                q.options.forEach((_, optIdx) => {
+                    const optionId = `q-${q.id}-opt-${optIdx}`;
+                    const label = document.getElementById(`label-${optionId}`);
+                    const input = document.getElementById(optionId);
+                    
+                    input.disabled = true;
+
+                    if (optIdx === q.correctIndex) {
+                        // Gabarito correto sempre ganha destaque verde
+                        label.className = "flex items-start gap-3 p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50/40 select-none relative shadow-sm";
+                    } else if (optIdx === userChoice) {
+                        // Se o usuário errou e selecionou esta alternativa
+                        label.className = "flex items-start gap-3 p-4 rounded-xl border-2 border-rose-500 bg-rose-50/30 select-none relative shadow-sm";
+                    } else {
+                        // Neutras não selecionadas
+                        label.className = "flex items-start gap-3 p-4 rounded-xl border border-stone-200 opacity-60 select-none relative";
+                    }
+                });
+
+                // Exibir a caixa de resolução
+                document.getElementById(`resolution-box-${q.id}`).classList.remove('hidden');
+            });
+
+            // Apresentar Painel de Resultados Geral
+            showResultsSummary(score);
+            document.getElementById('footer-actions').classList.add('hidden');
+        }
+
+        // Construir os indicadores e textos de performance de forma visual e amigável
+        function showResultsSummary(score) {
+            const resultsPanel = document.getElementById('results-panel');
+            resultsPanel.classList.remove('hidden');
+
+            const correctCount = document.getElementById('correct-count');
+            const wrongCount = document.getElementById('wrong-count');
+            const headline = document.getElementById('results-headline');
+            const percentageText = document.getElementById('score-percentage');
+
+            correctCount.innerText = score;
+            wrongCount.innerText = quizData.length - score;
+
+            const percentage = (score / quizData.length) * 100;
+            percentageText.innerText = `Aproveitamento: ${percentage}%`;
+
+            // Mensagem motivacional / pedagógica personalizada
+            if (percentage >= 90) {
+                headline.innerText = "Excelente Desempenho! 🎯";
+                headline.className = "text-2xl font-bold text-emerald-800 mb-1";
+            } else if (percentage >= 70) {
+                headline.innerText = "Bom Trabalho! 📚";
+                headline.className = "text-2xl font-bold text-teal-800 mb-1";
+            } else {
+                headline.innerText = "Continue Praticando! 💪";
+                headline.className = "text-2xl font-bold text-amber-800 mb-1";
+            }
+
+            // Atualização do Círculo de Progresso Circular (dasharray total aproximado 301.6 para r=48)
+            const circle = document.getElementById('progress-ring-circle');
+            const text = document.getElementById('progress-ring-text');
+            const circumference = 2 * Math.PI * 48; // 301.59
+            
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = offset;
+            
+            text.innerText = `${percentage}%`;
+
+            // Rolagem suave até o cabeçalho dos resultados
+            resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reinicializar o Simulado do zero
+        function restartQuiz() {
+            quizSubmitted = false;
+            // Limpar respostas antigas
+            for (const member in userAnswers) delete userAnswers[member];
+
+            // Resetar visibilidade dos blocos
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('footer-actions').classList.remove('hidden');
+            document.getElementById('warning-message').classList.add('hidden');
+
+            // Renderizar novamente limpando estados
+            renderQuestions();
+            
+            // Voltar ao topo de forma suave
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Controle do Painel Acordeão para a Matriz de Apoio do Bloco II
+        const toggleBtn = document.getElementById('toggle-matrix-btn');
+        const matrixContent = document.getElementById('matrix-content');
+        const toggleIcon = document.getElementById('toggle-matrix-icon');
+
+        toggleBtn.addEventListener('click', () => {
+            if (matrixContent.classList.contains('hidden')) {
+                matrixContent.classList.remove('hidden');
+                toggleIcon.classList.add('rotate-180');
+            } else {
+                matrixContent.classList.add('hidden');
+                toggleIcon.classList.remove('rotate-180');
+            }
+        });
+
+        // Inicializar aplicação
+        window.onload = function() {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>

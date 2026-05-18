@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Questões EPT - Instituto AOCP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-emerald-700/50 rounded-lg">
+                    <svg class="w-8 h-8 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Simulador de EPT</h1>
+                    <p class="text-xs text-emerald-200">Estilo de Banca: Instituto AOCP</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Modo Toggle -->
+                <div class="bg-teal-900/60 p-1 rounded-xl flex border border-teal-700">
+                    <button id="btnStudyMode" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-emerald-600 text-white shadow-sm">
+                        Modo Estudo
+                    </button>
+                    <button id="btnExamMode" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-teal-200 hover:text-white">
+                        Modo Simulado
+                    </button>
+                </div>
+
+                <!-- Timer (visible in exam mode) -->
+                <div id="timerContainer" class="hidden flex items-center gap-2 bg-red-950/40 text-red-300 px-3 py-1.5 rounded-lg border border-red-900/50 font-mono text-sm">
+                    <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="timerText">00:00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-6">
+        
+        <!-- Left Side: Dashboard / Question Box -->
+        <div class="flex-grow flex flex-col gap-6 lg:w-2/3">
+            
+            <!-- Progress Banner -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4 flex-grow">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Progresso</span>
+                    <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                        <div id="progressBar" class="bg-gradient-to-r from-emerald-500 to-teal-600 h-3 rounded-full transition-all duration-300" style="width: 10%;"></div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <span id="progressText" class="text-sm font-semibold text-slate-700">Questão 1 de 10</span>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex-grow flex flex-col">
+                <!-- Card Header -->
+                <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-2">
+                    <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100" id="questionCategory">
+                        Legislação da EPT
+                    </span>
+                    <span class="text-xs text-slate-400 font-medium">Banca: Instituto AOCP</span>
+                </div>
+
+                <!-- Card Body -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <!-- Text -->
+                        <div id="questionNumber" class="text-sm font-bold text-emerald-700 mb-2">QUESTÃO 1</div>
+                        <h2 id="questionText" class="text-lg font-medium text-slate-800 leading-relaxed mb-6">
+                            Carregando questão...
+                        </h2>
+
+                        <!-- Options Container -->
+                        <div id="optionsContainer" class="space-y-3 mb-6">
+                            <!-- Options rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Instant Explanation / Solution Box (Hidden by default in Exam Mode) -->
+                    <div id="explanationContainer" class="hidden bg-emerald-50/70 border border-emerald-200/60 rounded-xl p-5 mb-6 transition-all duration-300">
+                        <div class="flex items-start gap-3">
+                            <div class="p-1.5 bg-emerald-100 text-emerald-800 rounded-lg shrink-0 mt-0.5">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 .364l-.707 .707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-emerald-900 text-sm mb-1">Gabarito e Análise Pedagógica</h3>
+                                <p id="explanationText" class="text-sm text-slate-700 leading-relaxed">
+                                    Explicação detalhada...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Action Buttons -->
+                    <div class="flex justify-between items-center pt-4 border-t border-slate-100 mt-6">
+                        <button id="btnPrev" class="px-5 py-2 rounded-xl text-sm font-semibold border border-slate-200 hover:bg-slate-50 text-slate-600 transition duration-150 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            Anterior
+                        </button>
+                        
+                        <button id="btnAction" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold shadow-sm transition duration-150 flex items-center gap-2">
+                            <span>Verificar</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Sidebar Navigation and Statistics -->
+        <div class="w-full lg:w-1/3 flex flex-col gap-6">
+            
+            <!-- Quick Navigation Grid -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-4">Grade de Navegação</h3>
+                <div class="grid grid-cols-5 gap-2" id="navGrid">
+                    <!-- Nav buttons rendered dynamically -->
+                </div>
+
+                <div class="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2.5">
+                    <div class="flex items-center gap-2 text-xs text-slate-500">
+                        <span class="w-3.5 h-3.5 rounded bg-emerald-500 border border-emerald-600 inline-block"></span>
+                        <span>Respondida</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500">
+                        <span class="w-3.5 h-3.5 rounded bg-slate-100 border border-slate-300 inline-block"></span>
+                        <span>Não respondida</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Instructions / Stats Summary Card -->
+            <div id="summaryCard" class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Informações de Apoio</h3>
+                <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+                    <p>📚 <strong>Modo Estudo:</strong> Excelente para revisar teoria. Você descobre na hora se acertou e lê a resolução fundamentada em lei.</p>
+                    <p>⏱️ <strong>Modo Simulado:</strong> Teste seu tempo! O gabarito só é revelado após você clicar em "Finalizar Simulado".</p>
+                    <p>⚖️ <strong>Critérios AOCP:</strong> As questões exploram a literalidade das leis (LDB, Dec. 5.154, Lei dos IFs) e suas aplicações pedagógicas.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Results Modal (Presented when Simulado finishes) -->
+    <div id="resultsModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl border border-slate-100 transform transition-all max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-emerald-800 to-teal-950 p-6 text-white text-center relative">
+                <h2 class="text-2xl font-bold mb-1">Resultado do seu Simulado</h2>
+                <p class="text-emerald-200 text-sm">História, Legislação e Princípios de EPT</p>
+            </div>
+            
+            <!-- Modal Content (Scrollable) -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-grow">
+                <!-- Score Circle & Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <div class="flex flex-col items-center justify-center text-center">
+                        <div class="relative flex items-center justify-center w-28 h-28 rounded-full bg-emerald-100 text-emerald-800 mb-2 border-4 border-white shadow-sm">
+                            <span class="text-3xl font-extrabold" id="modalScore">0/10</span>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Acertos</span>
+                    </div>
+                    
+                    <div class="col-span-2 space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Tempo Total Gasto:</span>
+                            <span class="font-bold text-slate-700" id="modalTime">00:00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Taxa de Aproveitamento:</span>
+                            <span class="font-bold text-emerald-700" id="modalPercent">0%</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Desempenho:</span>
+                            <span class="font-bold" id="modalPerformance">A revisar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complete Question Review List -->
+                <div>
+                    <h3 class="font-bold text-slate-800 text-base mb-3">Revisão Rápida das Questões</h3>
+                    <div id="reviewList" class="space-y-3">
+                        <!-- Items rendered dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-5 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row gap-3">
+                <button id="btnCloseModal" class="flex-grow py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-center shadow-md transition duration-150">
+                    Ver Gabarito Completo e Resoluções
+                </button>
+                <button id="btnRestart" class="py-3 px-6 border border-slate-200 hover:bg-slate-100 text-slate-600 font-bold rounded-xl transition duration-150">
+                    Reiniciar Simulado
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Comentary / Resolution Section (Appears after submission or at bottom of page) -->
+    <section id="fullAnalysisSection" class="hidden bg-slate-100 border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                <svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Caderno de Resoluções e Análise Legislativa
+            </h2>
+            <p class="text-sm text-slate-500 mb-8">Confira os comentários e justificativas legais de cada uma das 10 questões propostas.</p>
+
+            <div id="fullAnalysisContainer" class="space-y-6">
+                <!-- Inserted dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-xs border-t border-slate-700">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Concursos EPT Brasil. Direcionado às diretrizes e eixos formativos estruturais da Rede Federal e Estaduais.</p>
+        </div>
+    </footer>
+
+    <!-- Questions Data & Logic -->
+    <script>
+        const questions = [
+            {
+                id: 1,
+                theme: "História e Legislação da EPT (LDB)",
+                category: "Legislação da EPT",
+                text: "No que se refere à evolução histórica e legislativa da Educação Profissional e Tecnológica (EPT) no Brasil, assinale a alternativa que indica corretamente qual diploma legal alterou a Lei de Diretrizes e Bases da Educação Nacional (LDB – Lei nº 9.394/1996) de forma a reestruturar especificamente a educação profissional técnica de nível médio.",
+                options: [
+                    { key: "A", text: "Lei nº 13.415/2017." },
+                    { key: "B", text: "Lei nº 11.741/2008." },
+                    { key: "C", text: "Lei nº 11.525/2007." },
+                    { key: "D", text: "Lei nº 9.475/2015." },
+                    { key: "E", text: "Lei nº 13.632/2018." }
+                ],
+                correct: "B",
+                resolution: "A reestruturação da educação profissional técnica de nível médio na LDB (Lei nº 9.394/1996) deu-se pela promulgação da <strong>Lei nº 11.741/2008</strong>. Esse diploma legal desempenhou um papel histórico crucial: ele revogou e ajustou distorções anteriores que haviam cindido a educação técnica e o ensino médio (durante a década de 1990) e inseriu, de forma sistemática e definitiva, os artigos de 39 a 42 da LDB, disciplinando a integração entre o ensino de nível médio e a formação profissional técnica.<br><br>A alternativa A (Lei nº 13.415/2017) corresponde ao itinerário formativo técnico e profissional decorrente da 'Reforma do Ensino Médio', mas não foi a responsável pela inserção estrutural original da EPT na LDB."
+            },
+            {
+                id: 2,
+                theme: "Princípios da Rede Federal: Verticalização",
+                category: "Funcionamento dos IFs",
+                text: "A Lei nº 11.892/2008 instituiu a Rede Federal de Educação Profissional, Científica e Tecnológica e criou os Institutos Federais de Educação, Ciência e Tecnologia (IFs). Dentre as diretrizes e os princípios norteadores de sua atuação, destaca-se o compromisso com a 'verticalização do ensino'. De acordo com as disposições legais e a concepção pedagógica da EPT, o conceito de verticalização do ensino consiste em:",
+                options: [
+                    { key: "A", text: "priorizar a oferta de cursos de pós-graduação stricto sensu em detrimento dos cursos técnicos de nível médio." },
+                    { key: "B", text: "integrar os itinerários formativos de modo a articular a formação profissional, desde a qualificação inicial (FIC) até a pós-graduação, dentro da própria instituição." },
+                    { key: "C", text: "reduzir progressivamente o número de cursos superiores de tecnologia para concentrar os investimentos na educação básica regular." },
+                    { key: "D", text: "limitar a autonomia pedagógica dos campi para assegurar uma hierarquia administrativa centralizada na reitoria." },
+                    { key: "E", text: "restringir o trânsito de estudantes entre os diferentes níveis de ensino como forma de evitar a sobreposição de eixos tecnológicos." }
+                ],
+                correct: "B",
+                resolution: "A verticalização constitui uma diretriz central e estruturante do funcionamento dos Institutos Federais, expressa na Lei nº 11.892/2008. Trata-se do alinhamento sequencial e pedagógico de cursos dentro de uma mesma área ou eixo tecnológico. Na prática, as instituições devem planejar currículos integrados de modo a viabilizar o fluxo contínuo de itinerários formativos do estudante, propiciando que este transite desde um curso básico de qualificação profissional (FIC), passando pelo ensino técnico de nível médio, graduação (como os Cursos Superiores de Tecnologia) até a pós-graduação, usufruindo de aproveitamento de estudos e otimização dos recursos físicos e docentes."
+            },
+            {
+                id: 3,
+                theme: "Ensino Técnico e Ensino Médio",
+                category: "Articulação de Ensino",
+                text: "O Decreto Federal nº 5.154/2004 regulamenta dispositivos da LDB no tocante à educação profissional e tecnológica. Com base nas formas de articulação da educação profissional técnica de nível médio com o ensino médio reguladas por esse decreto, assinale a alternativa correta.",
+                options: [
+                    { key: "A", text: "A forma integrada é oferecida somente a quem já tenha concluído o ensino fundamental, sendo o curso planejado de modo a conduzir o aluno à habilitação profissional técnica de nível médio, na mesma instituição de ensino, efetuada com matrícula única." },
+                    { key: "B", text: "A forma subsequente é oferecida somente a quem já tenha concluído o ensino fundamental, integrando os componentes curriculares em um projeto pedagógico unificado." },
+                    { key: "C", text: "A forma concomitante é oferecida exclusivamente a quem já tenha concluído o ensino médio, exigindo matrícula única para a formação geral e técnica." },
+                    { key: "D", text: "A forma integrada caracteriza-se por duas matrículas independentes que permitem ao estudante flexibilizar os tempos escolares em diferentes redes de ensino." },
+                    { key: "E", text: "A forma subsequente ocorre por meio de matrículas distintas, na mesma instituição ou em instituições diferentes, para quem já esteja cursando ou ingressando no ensino médio." }
+                ],
+                correct: "A",
+                resolution: "O Decreto nº 5.154/2004 reestabeleceu os mecanismos normativos de articulação entre o ensino médio e a educação técnica. Em conformidade com o Artigo 4º, § 1º, inciso I, a forma <strong>integrada</strong> caracteriza-se essencialmente por ser direcionada exclusivamente a quem concluiu o ensino fundamental, estruturada a partir de um projeto pedagógico unificado (que funde a formação geral e técnica sob um só currículo), ministrada na mesma instituição de ensino e efetuada sob matrícula única."
+            },
+            {
+                id: 4,
+                theme: "DCN Gerais para a EPT",
+                category: "Diretrizes Nacionais",
+                text: "A Resolução CNE/CP nº 1/2021 representa um avanço significativo na EPT no Brasil, pois institui as Diretrizes Curriculares Nacionais Gerais para esse segmento. Sobre a organização e o funcionamento da EPT de acordo com essas diretrizes, informe se é (V) verdadeiro ou (F) falso o que se afirma a seguir e assinale a alternativa com a sequência correta.<br><br>( ) Entende-se por itinerário formativo na EPT o conjunto de unidades curriculares, etapas ou módulos que compõem a sua organização em eixos tecnológicos e respectiva área tecnológica.<br>( ) Entre os critérios para planejamento e organização dos cursos de EPT, está a conciliação das demandas identificadas com a vocação e a capacidade da instituição ou rede de ensino, considerando as reais condições de viabilização da proposta pedagógica.<br>( ) A Educação Profissional Técnica de Nível Médio, incluindo saídas intermediárias de qualificação profissional técnica e cursos de especialização profissional técnica, também faz parte da EPT.<br>( ) A EPT pode se desenvolver em articulação com as etapas e as modalidades da educação básica, com exceção da educação superior.",
+                options: [
+                    { key: "A", text: "V – V – V – F." },
+                    { key: "B", text: "V – V – F – F." },
+                    { key: "C", text: "F – F – V – F." },
+                    { key: "D", text: "F – V – F – V." },
+                    { key: "E", text: "V – V – V – V." }
+                ],
+                correct: "A",
+                resolution: "A sequência correta é V-V-V-F. A última afirmativa é falsa porque as Diretrizes Curriculares Nacionais Gerais para a EPT (Resolução CNE/CP nº 1/2021) preveem expressamente que a EPT se articula de forma sistêmica e integradora tanto com a educação básica quanto com a <strong>educação superior</strong> (através de cursos superiores de tecnologia e pós-graduações)."
+            },
+            {
+                id: 5,
+                theme: "PROEJA e Integração",
+                category: "PROEJA",
+                text: "O Programa Nacional de Integração da Educação Profissional com a Educação Básica na Modalidade de Educação de Jovens e Adultos (PROEJA) abrange a formação inicial e continuada de trabalhadores e a educação profissional técnica de nível médio. Com base no Decreto nº 5.840/2006, assinale a alternativa correta sobre as cargas horárias e a organização dos seus cursos.",
+                options: [
+                    { key: "A", text: "Os cursos do PROEJA destinados à formação inicial e continuada de trabalhadores, articulados com o Ensino Médio, deverão contar com carga horária mínima de mil e quatrocentas horas, assegurando-se a destinação de, no mínimo, mil e duzentas horas para a formação geral e duzentas horas para a qualificação profissional." },
+                    { key: "B", text: "Os cursos de educação profissional técnica de nível médio do PROEJA deverão ser estruturados de forma independente da base nacional comum, cabendo às instituições ofertarem unicamente disciplinas práticas com carga horária máxima de mil horas." },
+                    { key: "C", text: "Os cursos do PROEJA integrados à educação básica não estão sujeitos às diretrizes do Conselho Nacional de Educação (CNE), devido às particularidades socioprofissionais de seu público-alvo." },
+                    { key: "D", text: "Os cursos de educação profissional técnica de nível médio e de formação inicial e continuada integrados à EJA são proibidos de ofertar certificações intermediárias ou saídas parciais para o mercado de trabalho." },
+                    { key: "E", text: "O PROEJA deve ser implementado de forma totalmente desvinculada do Plano de Desenvolvimento da Educação, constituindo um programa estanque e sem repasses do Fundo Nacional de Desenvolvimento da Educação (FNDE)." }
+                ],
+                correct: "A",
+                resolution: "O Decreto nº 5.840/2006 estabelece em seu Artigo 5º, § 1º, que os cursos de qualificação profissional (FIC) integrados ao Ensino Médio do PROEJA devem possuir uma carga horária mínima total de 1.400 horas, reservando cumulativamente ao menos 1.200 horas para a formação básica comum/geral e o mínimo de 200 horas destinadas especificamente à qualificação técnica do estudante."
+            },
+            {
+                id: 6,
+                theme: "Rede Federal e Ensino Superior",
+                category: "Funcionamento dos IFs",
+                text: "Conforme a Lei Federal nº 11.892/2008, que institui a Rede Federal de Educação Profissional, Científica e Tecnológica, são objetivos dos institutos federais ministrar em nível de educação superior:<br><br>I. cursos de formação inicial e continuada de trabalhadores, objetivando a capacitação, o aperfeiçoamento, a especialização e a atualização de profissionais jovens e adultos.<br>II. cursos de licenciatura, bem como programas especiais de formação pedagógica, com vistas à formação de professores para a educação básica, sobretudo nas áreas de ciências e matemática, e para a educação profissional.<br>III. cursos de bacharelado e engenharia, visando à formação de profissionais para os diferentes setores da economia e áreas do conhecimento.<br>IV. cursos de pós-graduação lato sensu de aperfeiçoamento e especialização, visando à formação de especialistas nas diferentes áreas do conhecimento.<br><br>Estão corretos:",
+                options: [
+                    { key: "A", text: "apenas II, III e IV." },
+                    { key: "B", text: "apenas I e IV." },
+                    { key: "C", text: "apenas I, III e IV." },
+                    { key: "D", text: "apenas II e III." },
+                    { key: "E", text: "apenas I, II e III." }
+                ],
+                correct: "A",
+                resolution: "Esta questão exige precisão sobre quais objetivos correspondem ao <strong>nível superior</strong>. As afirmativas II, III e IV enquadram-se perfeitamente em ofertas de nível superior. A afirmativa I (cursos de Formação Inicial e Continuada - FIC) descreve cursos de qualificação profissional básica, que não integram legalmente a estrutura acadêmica do nível superior."
+            },
+            {
+                id: 7,
+                theme: "Concepção do Currículo Integrado",
+                category: "Princípios da EPT",
+                text: "As discussões sobre o currículo integrado na Educação Profissional e Tecnológica têm buscado superar a histórica dualidade entre a formação geral e a formação técnica. Nessa perspectiva, de acordo com as concepções pedagógicas críticas e as diretrizes nacionais vigentes da EPT, o currículo deve:",
+                options: [
+                    { key: "A", text: "priorizar o atendimento às demandas imediatas do mercado de trabalho, estruturando-se em disciplinas isoladas voltadas à eficiência produtiva." },
+                    { key: "B", text: "manter a separação entre a formação propedêutica e a formação profissional, articulando-as apenas de forma pontual em projetos interdisciplinares." },
+                    { key: "C", text: "integrar conhecimentos científicos, culturais, tecnológicos e práticos, promovendo uma formação omnilateral e politécnica que una trabalho, ciência, cultura e tecnologia." },
+                    { key: "D", text: "enfatizar apenas o desenvolvimento de competências técnicas específicas, reduzindo o tempo destinado aos conteúdos de formação geral." },
+                    { key: "E", text: "organizar o percurso formativo em módulos independentes e autônomos, garantindo flexibilidade curricular, ainda que sem interdependência entre as áreas do conhecimento." }
+                ],
+                correct: "C",
+                resolution: "No paradigma do Ensino Médio Integrado, o currículo busca superar a divisão de classes que fragmenta a sociedade entre os intelectuais ('os que pensam') e os técnicos/operários ('os que fazem'). Desse modo, a teoria pedagógica crítica fundamenta a articulação do currículo em torno dos eixos do trabalho, da ciência, da tecnologia e da cultura, garantindo ao educando a formação omnilateral (integral)."
+            },
+            {
+                id: 8,
+                theme: "Histórico da Educação Profissional",
+                category: "História da EPT",
+                text: "As Escolas de Aprendizes Artífices, criadas no início do século XX, foram o marco inicial histórico da Rede Federal de Educação Profissional no Brasil. Assinale a alternativa que indica corretamente o Presidente da República responsável por assinar o ato de sua criação e o número do Decreto que as instituiu.",
+                options: [
+                    { key: "A", text: "Getúlio Vargas e Decreto nº 1.190/1939." },
+                    { key: "B", text: "Nilo Peçanha e Decreto nº 7.566/1909." },
+                    { key: "C", text: "Eurico Gaspar Dutra e Decreto nº 4.024/1961." },
+                    { key: "D", text: "Washington Luís e Decreto nº 5.154/1926." },
+                    { key: "E", text: "Prudente de Morais e Decreto nº 9.394/1904." }
+                ],
+                correct: "B",
+                resolution: "O marco de nascimento da atual Rede Federal ocorreu em <strong>23 de setembro de 1909</strong>, quando o presidente <strong>Nilo Peçanha</strong> promulgou o <strong>Decreto nº 7.566</strong>, estabelecendo em várias capitais brasileiras dezenove 'Escolas de Aprendizes Artífices', de cunho inicialmente marcadamente assistencialista e destinadas aos 'desprovidos da fortuna'."
+            },
+            {
+                id: 9,
+                theme: "Estrutura e Governança dos IFs",
+                category: "Funcionamento dos IFs",
+                text: "Nos termos da Lei Federal nº 11.892/2008, os Reitores dos Institutos Federais serão nomeados:",
+                options: [
+                    { key: "A", text: "pelo Presidente do Colégio de Dirigentes, para mandato de quatro anos, permitida uma recondução." },
+                    { key: "B", text: "pelo Presidente do Conselho Superior, para mandato de quatro anos, vedada a recondução." },
+                    { key: "C", text: "pelo Presidente da República, para mandato de quatro anos, permitida uma recondução." },
+                    { key: "D", text: "pelo Pró-Reitor, para mandato de quatro anos, permitida uma recondução." },
+                    { key: "E", text: "pelo Diretor-Geral do campus, para mandato de quatro anos, vedada a recondução." }
+                ],
+                correct: "C",
+                resolution: "De acordo com o Artigo 12 da Lei nº 11.892/2008, a nomeação do Reitor é ato de competência direta do <strong>Presidente da República</strong>, após processo eleitoral/consultivo democrático do qual participam todos os segmentos da instituição (docentes, técnicos-administrativos e discentes) com voto paritário (peso de um terço para cada)."
+            },
+            {
+                id: 10,
+                theme: "LDB e Cursos Especiais de EPT",
+                category: "Legislação da EPT",
+                text: "A Lei de Diretrizes e Bases da Educação Nacional (LDB - Lei nº 9.394/1996), em seu Artigo 40, trata do funcionamento e da organização curricular da Educação Profissional e Tecnológica. De acordo com as normas gerais ali estipuladas, as instituições de EPT, além dos seus cursos regulares, oferecerão cursos especiais, abertos à comunidade, sendo que a matrícula nesses cursos especiais é condicionada à:",
+                options: [
+                    { key: "A", text: "comprovação de conclusão do ensino médio regular e aprovação em processo seletivo oficial." },
+                    { key: "B", text: "capacidade de aproveitamento dos estudantes, e não necessariamente ao seu nível de escolaridade." },
+                    { key: "C", text: "comprovação de vínculo empregatício ativo em setor produtivo correlacionado ao curso." },
+                    { key: "D", text: "apresentação de diploma técnico anterior ou certificação de qualificação básica equivalente." },
+                    { key: "E", text: "idade mínima de dezoito anos e residência fixa no estado de localização da instituição." }
+                ],
+                correct: "B",
+                resolution: "O Artigo 40 da LDB rege expressamente o caráter inclusivo da EPT comunitária. A lei pontua que cursos especiais oferecidos para qualificação profissional rápida de trabalhadores e membros da sociedade deverão aceitar matrícula condicionada tão somente à <strong>capacidade de aproveitamento do candidato</strong>, eliminando a exigência compulsória de patamares mínimos de escolaridade anterior regular."
+            }
+        ];
+
+        // State variables
+        let currentIndex = 0;
+        let selectedAnswers = {}; // Map: questionId -> optionKey
+        let verifiedQuestions = {}; // Map: questionId -> boolean (only used in Study Mode)
+        let isStudyMode = true; 
+        let examSubmitted = false;
+        let timerSeconds = 0;
+        let timerInterval = null;
+
+        // Dom Elements
+        const btnStudyMode = document.getElementById('btnStudyMode');
+        const btnExamMode = document.getElementById('btnExamMode');
+        const timerContainer = document.getElementById('timerContainer');
+        const timerText = document.getElementById('timerText');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const questionCategory = document.getElementById('questionCategory');
+        const questionNumber = document.getElementById('questionNumber');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const explanationContainer = document.getElementById('explanationContainer');
+        const explanationText = document.getElementById('explanationText');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnAction = document.getElementById('btnAction');
+        const navGrid = document.getElementById('navGrid');
+        const resultsModal = document.getElementById('resultsModal');
+        const modalScore = document.getElementById('modalScore');
+        const modalTime = document.getElementById('modalTime');
+        const modalPercent = document.getElementById('modalPercent');
+        const modalPerformance = document.getElementById('modalPerformance');
+        const reviewList = document.getElementById('reviewList');
+        const btnCloseModal = document.getElementById('btnCloseModal');
+        const btnRestart = document.getElementById('btnRestart');
+        const fullAnalysisSection = document.getElementById('fullAnalysisSection');
+        const fullAnalysisContainer = document.getElementById('fullAnalysisContainer');
+
+        // Initializers
+        function initApp() {
+            setMode(true); // Default: Study Mode
+            renderNavigationGrid();
+            renderQuestion();
+            buildFullAnalysis();
+        }
+
+        // Timer actions
+        function startTimer() {
+            stopTimer();
+            timerSeconds = 0;
+            updateTimerText();
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                updateTimerText();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function updateTimerText() {
+            const h = Math.floor(timerSeconds / 3600).toString().padStart(2, '0');
+            const m = Math.floor((timerSeconds % 3600) / 60).toString().padStart(2, '0');
+            const s = (timerSeconds % 60).toString().padStart(2, '0');
+            timerText.innerText = `${h}:${m}:${s}`;
+        }
+
+        function getFormattedTime() {
+            const m = Math.floor((timerSeconds % 3600) / 60).toString().padStart(2, '0');
+            const s = (timerSeconds % 60).toString().padStart(2, '0');
+            return `${m}m ${s}s`;
+        }
+
+        // Toggle Modes
+        function setMode(study) {
+            isStudyMode = study;
+            examSubmitted = false;
+            explanationContainer.classList.add('hidden');
+            
+            if (study) {
+                btnStudyMode.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-emerald-600 text-white shadow-sm";
+                btnExamMode.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-teal-200 hover:text-white";
+                timerContainer.classList.add('hidden');
+                stopTimer();
+                btnAction.innerHTML = `<span>Verificar</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            } else {
+                btnExamMode.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-emerald-600 text-white shadow-sm";
+                btnStudyMode.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-teal-200 hover:text-white";
+                timerContainer.classList.remove('hidden');
+                startTimer();
+                updateActionButtonForExam();
+            }
+            renderQuestion();
+            renderNavigationGrid();
+        }
+
+        btnStudyMode.addEventListener('click', () => setMode(true));
+        btnExamMode.addEventListener('click', () => setMode(false));
+
+        // Question rendering logic
+        function renderQuestion() {
+            const q = questions[currentIndex];
+            
+            // Header information
+            questionCategory.innerText = q.category;
+            questionNumber.innerText = `QUESTÃO ${q.id} DE 10`;
+            questionText.innerHTML = q.text;
+
+            // Progress bar update
+            const progPercent = ((currentIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progPercent}%`;
+            progressText.innerText = `Questão ${currentIndex + 1} de ${questions.length}`;
+
+            // Reset options container
+            optionsContainer.innerHTML = '';
+            
+            const selectedOpt = selectedAnswers[q.id];
+            const isVerified = verifiedQuestions[q.id];
+
+            q.options.forEach((opt) => {
+                const optButton = document.createElement('button');
+                optButton.className = "w-full text-left p-4 rounded-xl border transition-all duration-150 flex items-start gap-3 focus:outline-none ";
+                
+                // Styling states
+                if (isStudyMode && isVerified) {
+                    // Exam evaluated in Study Mode
+                    if (opt.key === q.correct) {
+                        optButton.className += "border-emerald-500 bg-emerald-50 text-emerald-900 shadow-sm ring-1 ring-emerald-500";
+                    } else if (selectedOpt === opt.key) {
+                        optButton.className += "border-red-500 bg-red-50 text-red-950";
+                    } else {
+                        optButton.className += "border-slate-200 bg-white text-slate-400 opacity-60";
+                    }
+                    optButton.disabled = true;
+                } else if (examSubmitted) {
+                    // Simulado Mode already submitted
+                    if (opt.key === q.correct) {
+                        optButton.className += "border-emerald-500 bg-emerald-50 text-emerald-900 font-medium";
+                    } else if (selectedOpt === opt.key) {
+                        optButton.className += "border-red-400 bg-red-50 text-red-950";
+                    } else {
+                        optButton.className += "border-slate-150 bg-white text-slate-400 opacity-60";
+                    }
+                    optButton.disabled = true;
+                } else {
+                    // Normal state: Selectable
+                    if (selectedOpt === opt.key) {
+                        optButton.className += "border-emerald-600 bg-emerald-50/50 text-emerald-900 shadow-sm ring-1 ring-emerald-600 font-medium";
+                    } else {
+                        optButton.className += "border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:border-slate-300";
+                    }
+                }
+
+                // Inner content
+                optButton.innerHTML = `
+                    <span class="flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold border shrink-0 
+                    ${selectedOpt === opt.key ? 'bg-emerald-600 border-emerald-700 text-white' : 'bg-slate-100 border-slate-300 text-slate-600'}">
+                        ${opt.key}
+                    </span>
+                    <span class="text-sm mt-0.5">${opt.text}</span>
+                `;
+
+                optButton.addEventListener('click', () => {
+                    if (!isVerified && !examSubmitted) {
+                        selectedAnswers[q.id] = opt.key;
+                        renderQuestion();
+                        renderNavigationGrid();
+                        if (!isStudyMode) {
+                            updateActionButtonForExam();
+                        }
+                    }
+                });
+
+                optionsContainer.appendChild(optButton);
+            });
+
+            // Adjust buttons & Action states
+            if (currentIndex === 0) {
+                btnPrev.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                btnPrev.classList.remove('opacity-50', 'pointer-events-none');
+            }
+
+            // Explanatory container controls
+            if (isStudyMode && isVerified) {
+                explanationContainer.classList.remove('hidden');
+                explanationText.innerHTML = q.resolution;
+                btnAction.innerHTML = `<span>Avançar</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            } else if (examSubmitted) {
+                explanationContainer.classList.remove('hidden');
+                explanationText.innerHTML = q.resolution;
+                btnAction.innerHTML = `<span>Avançar</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            } else {
+                explanationContainer.classList.add('hidden');
+                if (isStudyMode) {
+                    btnAction.innerHTML = `<span>Verificar</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+                } else {
+                    updateActionButtonForExam();
+                }
+            }
+        }
+
+        // Action button states in Exam Mode
+        function updateActionButtonForExam() {
+            const isLast = currentIndex === questions.length - 1;
+            const answeredCount = Object.keys(selectedAnswers).length;
+            
+            if (isLast) {
+                if (answeredCount === questions.length) {
+                    btnAction.innerHTML = `<span>Finalizar</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                } else {
+                    btnAction.innerHTML = `<span>Concluir Simulado</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+                }
+            } else {
+                btnAction.innerHTML = `<span>Próxima</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            }
+        }
+
+        // Grid Navigation
+        function renderNavigationGrid() {
+            navGrid.innerHTML = '';
+            questions.forEach((q, i) => {
+                const navBtn = document.createElement('button');
+                navBtn.className = "h-11 rounded-lg text-sm font-bold border transition-all flex items-center justify-center ";
+                
+                const isSelected = i === currentIndex;
+                const hasAnswer = !!selectedAnswers[q.id];
+                const isCorrect = selectedAnswers[q.id] === q.correct;
+
+                if (isSelected) {
+                    navBtn.className += "border-slate-800 bg-slate-800 text-white shadow-sm ring-2 ring-slate-400";
+                } else {
+                    if (isStudyMode) {
+                        const isVerified = verifiedQuestions[q.id];
+                        if (isVerified) {
+                            if (isCorrect) {
+                                navBtn.className += "bg-emerald-100 border-emerald-400 text-emerald-800 hover:bg-emerald-200";
+                            } else {
+                                navBtn.className += "bg-red-100 border-red-300 text-red-800 hover:bg-red-200";
+                            }
+                        } else if (hasAnswer) {
+                            navBtn.className += "bg-emerald-50 border-emerald-300 text-emerald-700 hover:bg-emerald-100";
+                        } else {
+                            navBtn.className += "bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
+                        }
+                    } else {
+                        // Simulado mode
+                        if (examSubmitted) {
+                            if (isCorrect) {
+                                navBtn.className += "bg-emerald-100 border-emerald-400 text-emerald-800 hover:bg-emerald-200";
+                            } else {
+                                navBtn.className += "bg-red-100 border-red-300 text-red-800 hover:bg-red-200";
+                            }
+                        } else if (hasAnswer) {
+                            navBtn.className += "bg-emerald-500 border-emerald-600 text-white hover:bg-emerald-600";
+                        } else {
+                            navBtn.className += "bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
+                        }
+                    }
+                }
+
+                navBtn.innerText = q.id;
+                navBtn.addEventListener('click', () => {
+                    currentIndex = i;
+                    renderQuestion();
+                    renderNavigationGrid();
+                });
+                navGrid.appendChild(navBtn);
+            });
+        }
+
+        // Navigation button actions
+        btnPrev.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+                renderNavigationGrid();
+            }
+        });
+
+        btnAction.addEventListener('click', () => {
+            const q = questions[currentIndex];
+            
+            if (isStudyMode) {
+                // STUDY MODE actions
+                const isVerified = verifiedQuestions[q.id];
+                if (!isVerified) {
+                    // Force choose an answer
+                    if (!selectedAnswers[q.id]) {
+                        alertMessage("Selecione uma alternativa antes de verificar a resposta!");
+                        return;
+                    }
+                    verifiedQuestions[q.id] = true;
+                    renderQuestion();
+                    renderNavigationGrid();
+                } else {
+                    // Go to next question
+                    if (currentIndex < questions.length - 1) {
+                        currentIndex++;
+                        renderQuestion();
+                        renderNavigationGrid();
+                    } else {
+                        alertMessage("Você concluiu todas as questões! Você pode alternar para o 'Modo Simulado' ou revisar seu aproveitamento.");
+                    }
+                }
+            } else {
+                // SIMULADO MODE actions
+                if (currentIndex < questions.length - 1) {
+                    currentIndex++;
+                    renderQuestion();
+                    renderNavigationGrid();
+                } else {
+                    // Final option to submit
+                    submitExam();
+                }
+            }
+        });
+
+        // Trigger finish exam
+        function submitExam() {
+            stopTimer();
+            examSubmitted = true;
+            
+            // Calculate results
+            let score = 0;
+            questions.forEach(q => {
+                if (selectedAnswers[q.id] === q.correct) {
+                    score++;
+                }
+            });
+
+            // Set scores to modal
+            modalScore.innerText = `${score}/${questions.length}`;
+            modalTime.innerText = getFormattedTime();
+            
+            const percent = (score / questions.length) * 100;
+            modalPercent.innerText = `${percent}%`;
+
+            let performance = "";
+            if (percent === 100) performance = "Excelente! Desempenho Impecável 🎯";
+            else if (percent >= 80) performance = "Ótimo! Você está pronto para a prova 🚀";
+            else if (percent >= 60) performance = "Bom progresso, mas precisa reforçar detalhes! 📐";
+            else performance = "Precisa revisar as bases legais com urgência! 📚";
+            
+            modalPerformance.innerText = performance;
+
+            // Generate review layout
+            reviewList.innerHTML = '';
+            questions.forEach(q => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between p-3 rounded-lg border text-sm ";
+                
+                const userAns = selectedAnswers[q.id] || "Não resp.";
+                const isCorrect = userAns === q.correct;
+
+                if (isCorrect) {
+                    item.className += "bg-emerald-50 border-emerald-200 text-emerald-900";
+                    item.innerHTML = `
+                        <span class="font-medium">Questão ${q.id} - ${q.theme}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded-full">Acertou (Opção ${q.correct})</span>
+                        </div>
+                    `;
+                } else {
+                    item.className += "bg-red-50 border-red-200 text-red-950";
+                    item.innerHTML = `
+                        <span class="font-medium">Questão ${q.id} - ${q.theme}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded-full">Sua resposta: ${userAns}</span>
+                            <span class="text-xs bg-emerald-700 text-white px-2 py-0.5 rounded-full">Correto: ${q.correct}</span>
+                        </div>
+                    `;
+                }
+                reviewList.appendChild(item);
+            });
+
+            // Open Modal
+            resultsModal.classList.remove('hidden');
+        }
+
+        // Close Results Modal
+        btnCloseModal.addEventListener('click', () => {
+            resultsModal.classList.add('hidden');
+            fullAnalysisSection.classList.remove('hidden');
+            // Jump view directly to resolutions
+            fullAnalysisSection.scrollIntoView({ behavior: 'smooth' });
+            renderQuestion();
+            renderNavigationGrid();
+        });
+
+        // Restart Simulado
+        btnRestart.addEventListener('click', () => {
+            selectedAnswers = {};
+            verifiedQuestions = {};
+            currentIndex = 0;
+            resultsModal.classList.add('hidden');
+            fullAnalysisSection.classList.add('hidden');
+            setMode(false); // Retorna ao modo simulado zerado
+        });
+
+        // Custom replacement to window.alert()
+        function alertMessage(msg) {
+            const popup = document.createElement('div');
+            popup.className = "fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-5 py-3.5 rounded-xl shadow-xl z-50 flex items-center gap-2 border border-slate-700 transition-all duration-300 transform translate-y-2 opacity-0";
+            popup.innerHTML = `
+                <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span>${msg}</span>
+            `;
+            document.body.appendChild(popup);
+            setTimeout(() => {
+                popup.classList.remove('translate-y-2', 'opacity-0');
+            }, 50);
+
+            setTimeout(() => {
+                popup.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => popup.remove(), 300);
+            }, 3500);
+        }
+
+        // Compile static analysis guides at the bottom
+        function buildFullAnalysis() {
+            fullAnalysisContainer.innerHTML = '';
+            questions.forEach(q => {
+                const block = document.createElement('div');
+                block.className = "bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80";
+                
+                block.innerHTML = `
+                    <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3 mb-4">
+                        <span class="font-bold text-sm text-emerald-800">Questão ${q.id} - ${q.theme}</span>
+                        <span class="text-xs bg-slate-100 px-2.5 py-1 text-slate-500 rounded font-bold">GABARITO: ${q.correct}</span>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-4 font-medium">${q.text}</p>
+                    <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+                        <h4 class="text-xs font-bold text-emerald-900 mb-1.5 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 .364l-.707 .707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                            Fundamentação e Resolução:
+                        </h4>
+                        <div class="text-xs text-slate-700 leading-relaxed">${q.resolution}</div>
+                    </div>
+                `;
+                fullAnalysisContainer.appendChild(block);
+            });
+        }
+
+        // Initialize App on load
+        window.onload = function() {
+            initApp();
+        };
+    </script>
+</body>
+</html>

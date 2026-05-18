@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula EPT IFCE - Ficha de Memorização</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para ícones modernos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos de impressão e foco de leitura */
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: white; color: black; }
+        }
+        /* Transições suaves */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 font-sans leading-relaxed antialiased">
+
+    <!-- Container Principal Centralizado (Max-w ideal para leitura) -->
+    <main class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- Cabeçalho Principal -->
+        <header class="border-b border-slate-200 pb-6 mb-8 text-center sm:text-left">
+            <div class="inline-block bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                Material de Estudo Avançado • Concurso IFCE
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                História, Legislação e Funcionamento da EPT
+            </h1>
+            <p class="mt-2 text-base sm:text-lg text-slate-600">
+                Ficha de Memorização Ativa direcionada para a banca <strong class="text-slate-900">Instituto AOCP</strong>
+            </p>
+        </header>
+
+        <!-- SEÇÃO: REPRODUTOR DE ÁUDIO (Interativo e configurável) -->
+        <section class="no-print bg-slate-50 border border-slate-200 rounded-xl p-5 mb-10 transition-all hover:shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-slate-200 text-slate-700 rounded-lg">
+                        <i class="fa-solid fa-volume-high text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">Audioaula / Podcast de Revisão</h3>
+                        <p class="text-xs text-slate-500">Ouça o resumo do conteúdo enquanto acompanha o texto abaixo.</p>
+                    </div>
+                </div>
+                
+                <!-- Input interativo para definir o nome do arquivo MP3 -->
+                <div class="w-full sm:w-auto">
+                    <label for="audioSourceInput" class="block text-xs font-bold text-slate-600 mb-1">
+                        Nome do Arquivo de Áudio:
+                    </label>
+                    <div class="flex gap-2">
+                        <input type="text" id="audioSourceInput" 
+                               value="aula_ept_ifce.mp3" 
+                               class="bg-white border border-slate-300 text-slate-800 text-xs rounded px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400 w-full sm:w-48"
+                               placeholder="Ex: aula.mp3">
+                        <button onclick="updateAudioSource()" class="bg-slate-800 text-white text-xs px-3 py-1.5 rounded font-semibold hover:bg-slate-700 transition-all">
+                            Carregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player HTML5 -->
+            <div class="mt-4 pt-4 border-t border-slate-200">
+                <audio id="mainAudioPlayer" controls class="w-full">
+                    <source id="audioSource" src="aula_ept_ifce.mp3" type="audio/mpeg">
+                    Seu navegador não suporta a reprodução de áudio.
+                </audio>
+                <p id="audioStatusText" class="text-center text-xs text-slate-500 mt-2">
+                    Áudio atual: <span class="font-mono text-slate-700">aula_ept_ifce.mp3</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- PÁGINA 1: HISTÓRIA, FILOSOFIA E MARCOS LEGAIS ESQUEMATIZADOS -->
+        <article class="space-y-12">
+            
+            <div class="border-l-4 border-slate-800 pl-4 py-1">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 uppercase tracking-wide">
+                    PÁGINA 1: História, Filosofia e Marcos Legais Esquematizados
+                </h2>
+            </div>
+
+            <!-- Subseção 1 -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="text-slate-400">1.1</span> Evolução Histórica e Filosofia da EPT
+                </h3>
+                
+                <ul class="space-y-3 pl-1 text-slate-700">
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-slate-400 mt-1.5 text-xs"><i class="fa-solid fa-circle"></i></span>
+                        <span>
+                            <strong class="text-slate-900">O Dualismo Pedagógico:</strong> Divisão entre a formação propedêutica (elites) e a instrumental (trabalhadores).
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-slate-400 mt-1.5 text-xs"><i class="fa-solid fa-circle"></i></span>
+                        <span>
+                            <strong class="text-slate-900">Gênese Assistencialista (Decreto nº 7.566/1909):</strong> <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">"Desvalidos da fortuna"</mark>. Foco em moralização e contenção social.
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-slate-400 mt-1.5 text-xs"><i class="fa-solid fa-circle"></i></span>
+                        <span>
+                            <strong class="text-slate-900">Trabalho como Princípio Educativo:</strong> <comment-tag id="1">Defende a indissociabilidade entre teoria e prática, ciência e cultura.</comment-tag id="1" text="É fundamental incluir aqui os conceitos de Omnilateralidade e Politecnia. A AOCP costuma cobrar a EPT como uma formação integral que visa o desenvolvimento em todas as dimensões (corpo, mente e espírito), o que chamamos de formação omnilateral. Adicionei estes termos para garantir que você não perca questões teóricas puras sobre os fundamentos da EPT." type="suggestion"> Defende a indissociabilidade entre teoria e prática, ciência e cultura, visando a <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">Omnilateralidade</mark> (desenvolvimento total do ser humano) e a <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">Politecnia</mark> (domínio dos fundamentos científicos de todas as técnicas produtivas).
+                        </span>
+                    </li>
+                </ul>
+
+                <div class="my-6 p-4 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Transição Paradigmática da EPT</p>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-sm font-semibold">
+                        <div class="p-3 bg-white border border-slate-300 rounded-lg shadow-sm w-full md:w-52">
+                            <span class="block text-red-600 font-bold mb-1">Dualismo Histórico</span>
+                            <span class="text-xs text-slate-500 font-normal">Manual vs. Intelectual</span>
+                        </div>
+                        <div class="text-slate-400 transform rotate-90 md:rotate-0">
+                            <i class="fa-solid fa-arrow-right-long text-xl"></i>
+                        </div>
+                        <div class="p-3 bg-white border border-slate-300 rounded-lg shadow-sm w-full md:w-52">
+                            <span class="block text-emerald-600 font-bold mb-1">Integração Curricular</span>
+                            <span class="text-xs text-slate-500 font-normal">Formação Humana Integral</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subseção 2 -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="text-slate-400">1.2</span> O Esqueleto Jurídico dos Institutos Federais (Lei nº 11.892/2008)
+                </h3>
+                
+                <ul class="space-y-4 pl-1 text-slate-700">
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-slate-400 mt-1.5 text-xs"><i class="fa-solid fa-circle"></i></span>
+                        <span>
+                            <strong class="text-slate-900">Natureza Jurídica:</strong> Os IFs são <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">Autarquias Federais</mark>.
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-slate-400 mt-1.5 text-xs"><i class="fa-solid fa-circle"></i></span>
+                        <span>
+                            <strong class="text-slate-900">Missão IFCE (Territorialidade):</strong> <comment-tag id="2">Promover a educação profissional e tecnológica em todos os seus níveis.</comment-tag id="2" text="Faltou destacar o conceito de Territorialidade. O IFCE não é apenas uma escola técnica; sua lei de criação exige que ele atue no desenvolvimento socioeconômico regional. Adicionei o foco em Arranjos Produtivos Locais (APLs) aqui, pois isso cai muito em provas de Geografia do IFCE." type="suggestion"> Promover a educação profissional e tecnológica em todos os seus níveis, com forte foco na <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">interiorização e territorialidade</mark>, apoiando os Arranjos Produtivos, Sociais e Culturais Locais (<mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">APLs</mark>).
+                        </span>
+                    </li>
+                </ul>
+
+                <div class="my-6 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mb-4">Membros da Rede Federal de EPT (Lei 11.892/08)</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 text-center text-xs font-bold">
+                        <div class="bg-white p-2 border border-slate-200 rounded-lg shadow-sm">Institutos Federais (IFs)</div>
+                        <div class="bg-white p-2 border border-slate-200 rounded-lg shadow-sm">UTFPR</div>
+                        <div class="bg-white p-2 border border-slate-200 rounded-lg shadow-sm">CEFETs (MG / RJ)</div>
+                        <div class="bg-white p-2 border border-slate-200 rounded-lg shadow-sm">Escolas Vinculadas</div>
+                        <div class="bg-white p-2 border border-slate-200 rounded-lg shadow-sm">Colégio Pedro II</div>
+                    </div>
+                </div>
+
+                <ul class="space-y-4 pl-1 text-slate-700">
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-slate-400 mt-1.5 text-xs"><i class="fa-solid fa-circle"></i></span>
+                        <span>
+                            <strong class="text-slate-900">Estrutura de Governança:</strong>
+                            <ul class="mt-2 space-y-2 pl-4 border-l border-slate-200">
+                                <li><strong class="text-slate-900">Reitoria:</strong> Nomeado pelo Presidente para mandato de 4 anos.</li>
+                                <li><strong class="text-slate-900">CONSUP:</strong> Máximo, consultivo e <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">deliberativo</mark>.</li>
+                                <li><strong class="text-slate-900">COLDIR:</strong> Caráter <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">estritamente consultivo</mark>.</li>
+                            </ul>
+                        </span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Subseção 3 -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="text-slate-400">1.3</span> Organização e Tipologia dos Cursos Técnicos
+                </h3>
+                
+                <p class="text-slate-700 text-sm">
+                    <comment-tag id="3">As instituições devem alocar 50% das vagas para cursos técnicos e 20% para licenciaturas.</comment-tag id="3" text="Este é o ponto onde a AOCP mais confunde os candidatos: as FORMAS DE ARTICULAÇÃO. Faltava a explicação de Integrada, Concomitante e Subsequente. Adicionei esta seção completa para que você saiba diferenciar cada uma." type="suggestion"> Além das metas obrigatórias (50% técnico / 20% licenciatura), é vital conhecer as formas de articulação da Educação Profissional Técnica de Nível Médio:
+                </p>
+
+                <div class="space-y-4">
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <div class="text-base font-bold text-slate-900"><i class="fa-solid fa-link mr-2"></i>Integrada</div>
+                        <div class="text-sm text-slate-700">Matrícula única na mesma instituição. Curso único conduzindo à conclusão do Ensino Médio e habilitação técnica.</div>
+                    </div>
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <div class="text-base font-bold text-slate-900"><i class="fa-solid fa-link-slash mr-2"></i>Concomitante</div>
+                        <div class="text-sm text-slate-700">Matrículas distintas para cada curso. Pode ocorrer na mesma instituição ou em instituições diferentes (conveneadas), exigindo que o aluno já esteja cursando o Ensino Médio.</div>
+                    </div>
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <div class="text-base font-bold text-slate-900"><i class="fa-solid fa-graduation-cap mr-2"></i>Subsequente</div>
+                        <div class="text-sm text-slate-700">Destinada a quem <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">já concluiu</mark> o Ensino Médio. Foco apenas na habilitação profissional técnica.</div>
+                    </div>
+                </div>
+            </section>
+
+        </article>
+
+        <!-- SEPARADOR -->
+        <hr class="my-12 border-slate-200">
+
+        <!-- PÁGINA 2: DIRETRIZES CURRICULARES, PROEJA E FOCO AOCP -->
+        <article class="space-y-12">
+            
+            <div class="border-l-4 border-slate-800 pl-4 py-1">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 uppercase tracking-wide">
+                    PÁGINA 2: Diretrizes Curriculares, PROEJA e Foco AOCP
+                </h2>
+            </div>
+
+            <!-- Subseção 1 -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="text-slate-400">2.1</span> Diretrizes Curriculares (Res. CNE/CP nº 1/2021)
+                </h3>
+                
+                <ul class="space-y-3 pl-1 text-slate-700">
+                    <li><strong class="text-slate-900">Eixo Tecnológico:</strong> Organização por matrizes tecnológicas comuns.</li>
+                    <li><strong class="text-slate-900">Competências Socioemocionais:</strong> <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">Obrigatórias</mark> nos perfis de conclusão.</li>
+                    <li><strong class="text-slate-900">Carga Horária Mínima:</strong> <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">3.000 horas</mark> para integrados de alta complexidade.</li>
+                    <li><strong class="text-slate-900">CNCT:</strong> O Catálogo Nacional de Cursos Técnicos é a referência oficial, mas cursos experimentais são permitidos.</li>
+                </ul>
+            </section>
+
+            <!-- Subseção 2 -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="text-slate-400">2.2</span> O PROEJA (Decreto nº 5.840/2006)
+                </h3>
+                
+                <ul class="space-y-3 pl-1 text-slate-700">
+                    <li><strong class="text-slate-900">Concepção:</strong> Formação humana integral.</li>
+                    <li><strong class="text-slate-900">Anticompensatório:</strong> <mark class="bg-amber-100 text-amber-950 font-medium px-1 rounded">Rejeita</mark> a lógica de mera correção de fluxo ou assistência social.</li>
+                </ul>
+            </section>
+
+            <!-- Subseção 3 -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span class="text-slate-400">2.3</span> O Ensino de Geografia no IFCE
+                </h3>
+                
+                <ul class="space-y-3 pl-1 text-slate-700">
+                    <li><strong class="text-slate-900">Interdisciplinaridade:</strong> Geografia integrada às matrizes técnicas (Ex: Solos/Agropecuária).</li>
+                    <li><strong class="text-slate-900">Desenvolvimento Regional:</strong> Geografia como ferramenta para entender e intervir nos APLs do Ceará.</li>
+                </ul>
+            </section>
+
+            <!-- Subseção 4: Pegadinhas AOCP -->
+            <section class="space-y-4">
+                <div class="border-l-4 border-slate-800 pl-4 py-1">
+                    <h3 class="text-lg font-bold text-slate-900 uppercase">
+                        De Olho nos "Peguinhas" do Instituto AOCP (Gabarite a Prova!)
+                    </h3>
+                </div>
+
+                <!-- Tabela Desktop -->
+                <div class="hidden md:block overflow-hidden border border-slate-200 rounded-xl shadow-sm">
+                    <table class="min-w-full divide-y divide-slate-200 text-xs">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-bold text-slate-900 uppercase w-1/4">Item</th>
+                                <th class="px-4 py-3 text-left font-bold text-red-600 uppercase w-1/3">Armadilha (Erro)</th>
+                                <th class="px-4 py-3 text-left font-bold text-emerald-700 uppercase">Regra Correta</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-slate-200 text-slate-700">
+                            <tr>
+                                <td class="px-4 py-3 font-semibold">Cursos Técnicos</td>
+                                <td class="px-4 py-3 text-red-700">Diz que o "Concomitante" exige matrícula única na mesma instituição.</td>
+                                <td class="px-4 py-3 text-emerald-950 bg-emerald-50/35">Matrícula única é característica do <strong class="text-slate-900">Integrado</strong>. Concomitante permite matrículas distintas.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-semibold">Natureza do IF</td>
+                                <td class="px-4 py-3 text-red-700">Diz que são "Fundações" ou "Universidades".</td>
+                                <td class="px-4 py-3 text-emerald-950 bg-emerald-50/35">São <strong class="text-slate-900">Autarquias Federais</strong>. Equiparam-se às universidades apenas para fins regulatórios.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-semibold">Elegibilidade</td>
+                                <td class="px-4 py-3 text-red-700">Diz que o Reitor é nomeado pelo CONSUP.</td>
+                                <td class="px-4 py-3 text-emerald-950 bg-emerald-50/35">Eleito pela comunidade, mas <strong class="text-slate-900">nomeado pelo Presidente da República</strong>.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-semibold">PROEJA</td>
+                                <td class="px-4 py-3 text-red-700">Define como política compensatória.</td>
+                                <td class="px-4 py-3 text-emerald-950 bg-emerald-50/35">O PROEJA <strong class="text-slate-900">rejeita veementemente o viés compensatório</strong>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Cartões Mobile -->
+                <div class="block md:hidden space-y-4">
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <div class="text-xs font-bold text-slate-500 uppercase">Item: Cursos Técnicos</div>
+                        <div class="text-xs text-red-600 font-bold mt-1">Armadilha: Confundir Integrado com Concomitante.</div>
+                        <div class="text-xs text-emerald-700 font-bold mt-1">Realidade: Integrado = Matrícula única. Concomitante = Matrículas distintas.</div>
+                    </div>
+                </div>
+            </section>
+
+        </article>
+
+        <footer class="mt-16 pt-8 border-t border-slate-200 text-center">
+            <p class="text-sm text-slate-500 mb-4">Revisão completa finalizada. Pronto para as questões?</p>
+            <div class="flex justify-center">
+                <a href="historia_eptquestoes.html" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg shadow transition-all hover:shadow-md transform hover:-translate-y-0.5">
+                    <span>Ir para o Caderno de Questões</span>
+                    <i class="fa-solid fa-circle-arrow-right"></i>
+                </a>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        function updateAudioSource() {
+            const inputVal = document.getElementById('audioSourceInput').value.trim();
+            const audioPlayer = document.getElementById('mainAudioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            const statusText = document.getElementById('audioStatusText');
+            if (inputVal !== "") {
+                audioSource.src = inputVal;
+                audioPlayer.load();
+                statusText.innerHTML = `Áudio atual: <span class="font-mono text-slate-700">${inputVal}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
