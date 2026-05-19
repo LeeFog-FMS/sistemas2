@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado Interativo: Conectores Lógicos e Coesão Sequencial (AOCP)</title>
+  
+  <!-- Tailwind CSS para estilização moderna e ágil -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Lora (Leitura fluida) e Plus Jakarta Sans (UI limpa) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['Lora', 'Georgia', 'serif'],
+          },
+          colors: {
+            brand: {
+              paper: '#FAF9F5', // Fundo confortável para os olhos (warm paper)
+              ink: '#1C1917',   // Texto escuro suave para reduzir a fadiga
+              card: '#FFFFFF',  
+              accent: '#44403C', // Tons de pedra natural
+              correct: '#15803d',
+              incorrect: '#b91c1c'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Transições suaves globais */
+    .transition-all {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* Estilização personalizada para inputs do tipo radio de forma a integrá-los no design */
+    input[type="radio"]:checked + span {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="bg-brand-paper text-brand-ink font-sans min-h-screen selection:bg-stone-200">
+
+  <!-- Cabeçalho Principal -->
+  <header class="border-b border-stone-200/80 bg-white/70 backdrop-blur-md sticky top-0 z-30 transition-all">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-stone-900 text-white rounded-lg">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <div>
+          <span class="text-xs font-semibold tracking-widest text-stone-500 uppercase">Simulado Preparatório</span>
+          <h1 class="text-lg font-bold tracking-tight text-stone-850">Conectores Lógicos e Coesão Sequencial</h1>
+        </div>
+      </div>
+      
+      <!-- Contador de Progresso Live -->
+      <div class="flex items-center gap-4">
+        <div class="text-right">
+          <p class="text-xs text-stone-500 font-medium">Progresso de respostas</p>
+          <p id="progress-text" class="text-sm font-bold text-stone-800">0 de 10 respondidas</p>
+        </div>
+        <div class="w-24 bg-stone-200 h-2 rounded-full overflow-hidden">
+          <div id="progress-bar" class="bg-stone-800 h-full w-0 transition-all duration-300"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Corpo Principal -->
+  <main class="max-w-3xl mx-auto px-4 py-10">
+    
+    <!-- Introdução Contextual Discreta -->
+    <section class="mb-10 text-center sm:text-left bg-stone-100/50 rounded-2xl p-6 border border-stone-200/60">
+      <h2 class="text-xl font-bold mb-2">Padrão da Banca Instituto AOCP</h2>
+      <p class="text-sm text-stone-600 leading-relaxed reading-font">
+        Este caderno de exercícios foca na substituição de conjunções coordenativas e subordinativas, explorando os seus valores semânticos de causa, condição, concessão, oposição e conclusão. Resolva as questões abaixo e analise os seus erros ao submeter o gabarito.
+      </p>
+    </section>
+
+    <!-- Contentor de Questões -->
+    <form id="quiz-form" onsubmit="event.preventDefault(); return false;">
+      <div id="questions-container" class="space-y-8">
+        <!-- As questões serão injetadas dinamicamente via Javascript -->
+      </div>
+
+      <!-- Barra de Ações Inferior -->
+      <div class="mt-12 p-6 bg-white border border-stone-200 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+        <div>
+          <h3 class="font-bold text-lg">Pronto para submeter?</h3>
+          <p class="text-sm text-stone-500">Certifique-se de responder a todas as perguntas para obter o desempenho completo.</p>
+        </div>
+        <div class="flex gap-3 w-full sm:w-auto">
+          <button type="button" onclick="submeterSimulado()" id="btn-submit" class="w-full sm:w-auto px-6 py-3 bg-stone-900 hover:bg-stone-800 text-white font-semibold rounded-lg transition-all shadow-sm flex items-center justify-center gap-2">
+            <span>Submeter Simulado</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Secção de Resultados (Oculta por omissão) -->
+    <section id="results-panel" class="hidden mt-10 scroll-mt-24">
+      <div class="bg-white border border-stone-200 rounded-2xl p-8 shadow-md">
+        <div class="text-center pb-6 border-b border-stone-100">
+          <span class="text-xs uppercase tracking-widest font-extrabold text-stone-400">Resultado do Simulado</span>
+          <div class="my-4 flex justify-center items-center gap-4">
+            <span id="score-badge" class="text-5xl font-black text-stone-900">0/10</span>
+            <div class="text-left">
+              <p id="score-percentage" class="text-xl font-bold text-stone-700">0% de Acertos</p>
+              <p id="score-feedback" class="text-sm text-stone-500 font-medium">Bom esforço! Reveja as explicações abaixo.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grade Resumo do Gabarito -->
+        <div class="py-6">
+          <h4 class="font-bold text-sm text-stone-500 uppercase tracking-wider mb-4 text-center sm:text-left">Mapa de Respostas e Soluções</h4>
+          <div class="grid grid-cols-5 sm:grid-cols-10 gap-3" id="gabarito-grid">
+            <!-- Injetado dinamicamente -->
+          </div>
+        </div>
+
+        <div class="pt-4 flex justify-center">
+          <button type="button" onclick="reiniciarSimulado()" class="px-5 py-2.5 border border-stone-300 hover:border-stone-400 text-stone-700 hover:text-stone-900 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 12H19" />
+            </svg>
+            <span>Tentar Novamente</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-stone-100 border-t border-stone-200 py-8 mt-20 text-center text-xs text-stone-500">
+    <div class="max-w-3xl mx-auto px-4">
+      <p class="font-semibold mb-1">Simulado Interativo AOCP — Conectores Lógicos</p>
+      <p>Desenvolvido com foco em legibilidade e ergonomia visual de longa duração.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts e Lógica da Aplicação -->
+  <script>
+    // Banco de Dados das Questões (Exatamente como o documento fornecido + Reconstrução da Questão 6)
+    const questions = [
+      {
+        id: 1,
+        origin: "(CM Bauru / Instituto AOCP)",
+        text: "Sem prejuízo para o sentido original e a correção gramatical do texto, o trecho <em>“Embora a embalagem seja muito semelhante à do leite em pó [...]”</em> poderia ser reescrito da seguinte forma:",
+        options: [
+          { key: "A", text: "“Visto que a embalagem é muito parecida à do leite em pó”." },
+          { key: "B", text: "“Desde que a embalagem seja muito equivalente à do leite em pó”." },
+          { key: "C", text: "“Conforme a embalagem seja análoga à do leite em pó”." },
+          { key: "D", text: "“Conquanto a embalagem seja muito parecida à do leite em pó”." },
+          { key: "E", text: "“Todavia a embalagem pareça muito discrepante à do leite em pó”." }
+        ],
+        correct: "D",
+        explanation: "A resolução da Questão 1 demanda a compreensão da equivalência semântica e sintática da conjunção subordinativa concessiva <strong>embora</strong>. O Instituto AOCP costuma apresentar trechos de textos autênticos para que o candidato realize a substituição de conectores mantendo intacto o sentido original do período. No caso proposto, a alternativa D aponta corretamente a conjunção <strong>conquanto</strong> como substituta direta, a qual preserva a relação lógico-semântica de concessão (uma oposição parcial ou obstáculo não impeditivo) e exige a regência verbal no presente do subjuntivo (<em>seja</em>). Já as demais opções são incorretas devido a desvios semânticos e sintáticos severos. A alternativa A emprega <em>visto que</em>, que possui valor estritamente causal e requer o modo indicativo; a alternativa B utiliza <em>desde que</em>, estabelecendo uma condicionalidade imprópria; a alternativa C traz <em>conforme</em>, que é conformativo; e a alternativa E apresenta a conjunção coordenativa adversativa <em>todavia</em>, a qual, além de alterar a estrutura subordinada para coordenada, exigiria o modo indicativo, gerando erro gramatical com a forma verbal <em>pareça</em>."
+      },
+      {
+        id: 2,
+        origin: "(Prefeitura de João Pessoa / Instituto AOCP)",
+        text: "Analise o período que segue:<br><br><span class='italic bg-stone-100 px-1 py-0.5 rounded'>“Problemas individuais devem ser levados em consideração, uma vez que respostas afetivas como a ansiedade e o medo podem nos tornar mais irritáveis e impulsivos.”</span><br><br>Em relação à oração anterior, a sentença destacada tem valor semântico de:",
+        options: [
+          { key: "A", text: "consequência, por indicar o efeito que o medo e a ansiedade podem gerar em nós." },
+          { key: "B", text: "finalidade, pois indica o objetivo de problemas serem levados em conta." },
+          { key: "C", text: "proporção, por manifestar um aumento proporcional entre problemas individuais e ansiedade e medo." },
+          { key: "D", text: "condição, pois evidencia a condicionalidade existente entre a ocorrência de ansiedade e medo com a consideração de problemas individuais." },
+          { key: "E", text: "causa, por indicar o motivo de precisarmos levar em conta problemas individuais." }
+        ],
+        correct: "E",
+        explanation: "A Questão 2 examina a identificação do valor semântico de uma oração subordinada adverbial introduzida pela locução <strong>uma vez que</strong>. A banca Instituto AOCP frequentemente cobra a percepção de que certas estruturas indicam a causa ou o motivo de uma ação principal previamente declarada. O gabarito aponta para a alternativa E, visto que o fato de as respostas afetivas (como ansiedade e medo) tornarem os indivíduos mais irritáveis funciona como o motivo real ou a justificativa para que os problemas individuais sejam levados em consideração. As demais alternativas falham ao tentar caracterizar a relação sob outras perspectivas semânticas. A alternativa A sugere uma consequência, mas esta seria o efeito e não a causa geradora; a alternativa B aponta finalidade, o que exigiria conectores de propósito como <em>para que</em>; a alternativa C propõe proporção, inexistente pela ausência de variação simultânea; e a alternativa D sugere condição, que exigiria um caráter hipotético não configurado no enunciado, onde a causa é apresentada como um fato consumado."
+      },
+      {
+        id: 3,
+        origin: "(PM-DF / Instituto AOCP)",
+        text: "Considere o período abaixo:<br><br><span class='italic bg-stone-100 px-1 py-0.5 rounded'>“Sem sombras de dúvidas, as novas plataformas poderão contribuir muito para o nosso cotidiano, desde que tenham suas usabilidades bem aplicadas e previamente pensadas de forma estratégica.”</span><br><br>A sentença destacada expressa valor:",
+        options: [
+          { key: "A", text: "causal, pois sinaliza o motivo de as novas tecnologias poderem ofertar facilidades ao nosso dia a dia." },
+          { key: "B", text: "temporal, bem como ocorre na primeira oração inserida no texto “Desde que o ChatGPT foi lançado”, indicando periodização, tempo." },
+          { key: "C", text: "condicional, visto que indica a condição para que as novas plataformas possam contribuir para o nosso cotidiano." },
+          { key: "D", text: "concessivo, por expressar uma ideia de compensação em relação às facilidades tecnológicas." },
+          { key: "E", text: "final, pois indica o objetivo de as plataformas digitais serem previamente pensadas." }
+        ],
+        correct: "C",
+        explanation: "Na Questão 3, avalia-se o valor lógico-semântico da locução conjuntiva <strong>desde que</strong> sob uma estrutura subordinada adverbial. Conforme o gabarito C indica, a oração em destaque expressa uma relação de condicionalidade, uma vez que a contribuição das novas plataformas para o cotidiano é apresentada como dependente de um requisito prévio: a aplicação estratégica e correta de suas usabilidades. É essencial notar que a banca explora a polissemia de <em>desde que</em>, comparando seu uso condicional (com verbo no subjuntivo <em>tenham</em>) com o seu uso temporal (com verbo no indicativo, como na construção <em>desde que o ChatGPT foi lançado</em>, que marca o ponto inicial de uma ação no tempo). Esse contraste anula a alternativa B e invalida a alternativa A, que sugere um nexo causal inexistente. As alternativas D e E propõem, de forma incorreta, os valores de concessão e finalidade, os quais demandariam conectores estruturalmente distintos."
+      },
+      {
+        id: 4,
+        origin: "(PM-DF / Instituto AOCP)",
+        text: "Analise o trecho a seguir:<br><br><span class='italic bg-stone-100 px-1 py-0.5 rounded'>“No entanto, ainda que possam avançar muito mais do que possamos imaginar, a criatividade da mente humana é insubstituível.”</span><br><br>Os conectivos destacados podem ser substituídos, sem prejuízo de sentido, respectivamente, por:",
+        options: [
+          { key: "A", text: "porém, embora." },
+          { key: "B", text: "com isso, conquanto." },
+          { key: "C", text: "portanto, mesmo que." },
+          { key: "D", text: "entretanto, dado que." },
+          { key: "E", text: "todavia, contanto que." }
+        ],
+        correct: "A",
+        explanation: "A resolução da Questão 4 exige a substituição simultânea de dois conectores de oposição com classificações sintáticas distintas no mesmo período. No trecho original, <strong>no entanto</strong> atua como uma conjunção coordenativa adversativa e <strong>ainda que</strong> opera como uma locução conjuntiva subordinativa concessiva. A alternativa A é a única correta, pois propõe <em>porém</em> (adversativa) e <em>embora</em> (concessiva), preservando rigorosamente as nuances semânticas de oposição e concessão, além de manter a correta correlação verbal com o subjuntivo <em>possam</em>. As outras alternativas introduzem incoerências ou inadequações gramaticais. Na alternativa B, <em>com isso</em> indica consequência; na alternativa C, <em>portanto</em> estabelece conclusão; na alternativa D, <em>dado que</em> sinaliza causa; e na alternativa E, <em>contanto que</em> introduz condição, alterando substancialmente a relação concessiva original exigida pelo período."
+      },
+      {
+        id: 5,
+        origin: "(EBSERH / Instituto AOCP)",
+        text: "No excerto <em>“Não é grande, porém, o número de pais que se ocupam com os ensinamentos de virtudes a seus filhos.”</em>, o termo destacado pode ser substituído, sem que haja prejuízo semântico ou sintático, por:",
+        options: [
+          { key: "A", text: "logo." },
+          { key: "B", text: "pois." },
+          { key: "C", text: "assim." },
+          { key: "D", text: "entretanto." },
+          { key: "E", text: "portanto." }
+        ],
+        correct: "D",
+        explanation: "Para a Questão 5, a banca propõe o reconhecimento de equivalência para a conjunção coordenativa adversativa <strong>porém</strong> inserida em posição intercalada. O gabarito correto é a alternativa D, visto que a conjunção <strong>entretanto</strong> pertence à mesma classe das adversativas e possui a flexibilidade sintática necessária para figurar entre vírgulas e após o verbo sem prejudicar a correção gramatical ou o sentido do período. As demais alternativas alteram completamente o sentido lógico-semântico da frase. As opções A, C e E apresentam conectivos de natureza conclusiva (<em>logo</em>, <em>assim</em> e <em>portanto</em>, respectivamente), os quais transformariam uma relação de oposição em uma dedução. A alternativa B traz a conjunção <em>pois</em>, que em sua posição padrão (início da oração) atua com valor explicativo ou causal, sendo incapaz de substituir a adversativa <em>porém</em> naquele contexto específico."
+      },
+      {
+        id: 6,
+        origin: "(Wellhub / Instituto AOCP)",
+        text: "Assinale a alternativa em que a substituição proposta entre parênteses para o termo ou conectivo em destaque pode ser realizada, mantendo-se a correção gramatical e a equivalência de sentido original do período:",
+        options: [
+          { key: "A", text: "“O stress é real, <span class='underline font-bold'>mas</span> pode ser controlado.” (Ademais)" },
+          { key: "B", text: "“Temos muitos desafios diários, <span class='underline font-bold'>além disso</span>, a nossa rotina exige cuidados.” (Destarte)" },
+          { key: "C", text: "“Estudou com rigor técnico, <span class='underline font-bold'>porém</span> não obteve a pontuação estipulada.” (Portanto)" },
+          { key: "D", text: "“O plano de saúde trará ótimos benefícios, <span class='underline font-bold'>desde que</span> os utilizadores colaborem com a triagem.” (Contanto que)" },
+          { key: "E", text: "“<span class='underline font-bold'>Por isso</span>, a conscientização se torna um passo tão importante para evitar a síndrome de burnout.” (Outrossim)" }
+        ],
+        correct: "D",
+        explanation: "Na Questão 6 (reconstruída com base no gabarito oficial da banca), o candidato é desafiado a identificar a única substituição conjuntiva que preserva fielmente o sentido original. A alternativa D destaca-se como correta, pois a locução condicional <strong>desde que</strong> compartilha perfeita sinergia semântica com <strong>contanto que</strong>, ambas exigindo o modo subjuntivo para expressar um requisito indispensável à harmonização de responsabilidades. As alternativas incorretas revelam erros típicos de mistura de valores semânticos explorados pelo Instituto AOCP. A alternativa A propõe trocar o conectivo adversativo <em>mas</em> pelo aditivo <em>ademais</em>; a alternativa B sugere substituir o conector aditivo <em>além disso</em> pela conjunção conclusiva <em>destarte</em>; a alternativa C tenta permutar a adversativa <em>porém</em> pela conclusiva <em>portanto</em>; e a alternativa E equivoca-se ao sugerir a troca da locução conclusiva <em>por isso</em> pelo conectivo aditivo <em>outrossim</em>, que possui valor de 'igualmente' ou 'também'."
+      },
+      {
+        id: 7,
+        origin: "(UFTM / Instituto AOCP)",
+        text: "Em <em>“Às vezes nem assim”</em>, o termo destacado:",
+        options: [
+          { key: "A", text: "é um mecanismo de coesão referencial que evita a repetição de algo já mencionado no texto." },
+          { key: "B", text: "atua na coesão sequencial do texto como uma conjunção conectora, ligando as orações." },
+          { key: "C", text: "trata-se de uma conjunção conclusiva, como em: “Eu e minha família vamos mudar de cidade, assim terei de sair do colégio.”." },
+          { key: "D", text: "possui valor temporal, como em “Assim que chegar, avise seus pais”." },
+          { key: "E", text: "atua como um advérbio de modo que indica a maneira como a ação se realiza." }
+        ],
+        correct: "A",
+        explanation: "A Questão 7 aborda a coesão de forma mais ampla, focando no papel desempenhado pelo termo <strong>assim</strong> no fragmento <em>“Às vezes nem assim”</em>. Conforme expresso no gabarito A, o termo não atua ali como uma conjunção coordenativa conclusiva conectora de orações, mas sim como um mecanismo de coesão referencial anafórica. Ele resgata e encapsula de forma económica uma situação complexa ou uma ação descrita previamente no texto, evitando repetições desnecessárias e garantindo a fluidez textual. Essa classificação correta invalida a alternativa B, que postula um papel estritamente sequencial, e a alternativa C, que o confunde com a conjunção conclusiva de períodos independentes. A alternativa D é descartada por atribuir um valor temporal incompatível, e a alternativa E peca ao classificá-lo como um mero modificador de intensidade."
+      },
+      {
+        id: 8,
+        origin: "(MPE RS / Instituto AOCP)",
+        text: "Considere o seguinte período:<br><br><span class='italic bg-stone-100 px-1 py-0.5 rounded'>“Embora reboots, remakes e revivals não sejam novidade, é notável que a indústria do entretenimento tem investido cada vez mais em adaptações de títulos já conhecidos.”</span><br><br>A oração iniciada pela conjunção destacada classifica-se como:",
+        options: [
+          { key: "A", text: "oração subordinada adjetiva explicativa." },
+          { key: "B", text: "oração subordinada adverbial condicional." },
+          { key: "C", text: "oração subordinada adverbial concessiva." },
+          { key: "D", text: "oração subordinada adverbial consecutiva." },
+          { key: "E", text: "oração subordinada adverbial temporal." }
+        ],
+        correct: "C",
+        explanation: "A Questão 8 examina a classificação formal de uma oração subordinada a partir do seu conectivo introdutório. O período em análise apresenta a conjunção subordinativa concessiva <strong>embora</strong> encabeçando a oração inicial. O gabarito aponta para a alternativa C, pois a oração classifica-se estritamente como subordinada adverbial concessiva, introduzindo uma circunstância de contraste ou compensação em relação à tese principal sobre os investimentos da indústria do entretenimento. Essa definição clara desautoriza a alternativa A, que confunde a estrutura com uma oração adjetiva explicativa (típica de pronomes relativos); a alternativa B, que sugere um valor condicional; a alternativa D, que aponta para um nexo de consequência; e a alternativa E, que indica um valor temporal inexistente."
+      },
+      {
+        id: 9,
+        origin: "(Prefeitura de Cariacica / Instituto AOCP)",
+        text: "Considerando os usos do “se” e do “que” no seguinte excerto, analise as assertivas e assinale a alternativa que aponta as corretas.<br><br><span class='italic bg-stone-100 px-1 py-0.5 rounded'>“Por exemplo, se pessoas sentem que não são merecedoras de bondade ou suspeitam que há algum motivo por trás da bondade, os benefícios da gratidão não se realizarão.”</span><br><br>I. Nas duas ocorrências, o “se” é um pronome que integra o sentido do verbo.<br>II. Na primeira ocorrência, o “se” tem valor condicional.<br>III. Na segunda ocorrência, o “se” indica que a oração está na voz passiva.<br>IV. Nas duas ocorrências, servem para indeterminar os sujeitos verbais.",
+        options: [
+          { key: "A", text: "Apenas I e IV." },
+          { key: "B", text: "Apenas II e IV." },
+          { key: "C", text: "Apenas I e II." },
+          { key: "D", text: "Apenas II e III." },
+          { key: "E", text: "Apenas I e III." }
+        ],
+        correct: "D",
+        explanation: "Na Questão 9, realiza-se uma análise morfossintática profunda dos conectores <em>se</em> e <em>que</em> em um período complexo. O exame minucioso das assertivas revela que o gabarito correto é a alternativa D, visto que apenas as afirmações II e III são verdadeiras. A assertiva I está incorreta porque o <strong>se</strong> na primeira ocorrência (<em>se pessoas sentem</em>) funciona de fato como uma conjunção subordinativa condicional, e não como um pronome integrante do verbo. A assertiva II é verdadeira, pois ambas as ocorrências do termo <em>que</em> ligam verbos transitivos (<em>sentem</em> e <em>suspeitam</em>) às suas respectivas orações subordinadas substantivas objetivas diretas, classificando-se como conjunções integrantes. A assertiva III também é verdadeira, dado que a ocorrência <em>não se realizarão</em> apresenta a partícula <strong>se</strong> com função apassivadora (equivalente a <em>não serão realizados</em>), o que caracteriza a voz passiva sintética. A assertiva IV é falsa por consequência da invalidação das demais funções pronominais apontadas."
+      },
+      {
+        id: 10,
+        origin: "(TJ-PR / Instituto AOCP)",
+        text: "Considere o período extraído de um texto institucional:<br><br><span class='italic bg-stone-100 px-1 py-0.5 rounded'>“Sendo assim, certamente, também podem ser entendidos como equipamentos de lazer. Dessa forma, pensar em políticas intersetoriais, com agentes de diversas áreas, proporciona um olhar multidisciplinar [...]”</span><br><br>Assinale a alternativa que analisa de forma correta o papel de coesão sequencial dos conectivos ou suas propostas de substituição:",
+        options: [
+          { key: "A", text: "A substituição de “Sendo assim” por “Conquanto” mantém a relação conclusiva original do período." },
+          { key: "B", text: "A locução “Dessa forma” pode ser substituída por “Outrossim” sem que haja alteração no sentido do texto." },
+          { key: "C", text: "O conectivo “Sendo assim” atua na coesão sequencial de valor conclusivo e pode ser substituído por “Portanto” sem prejuízo gramatical." },
+          { key: "D", text: "O termo “Dessa forma” cumpre papel de oposição à sentença antecedente, equivalendo à conjunção “entretanto”." },
+          { key: "E", text: "A locução “Sendo assim” introduz circunstância de conformidade, podendo ser trocada por “Conforme”." }
+        ],
+        correct: "C",
+        explanation: "A Questão 10 fundamenta-se nas tendências observadas nas provas do Instituto AOCP, com foco em conectores de valor conclusivo e propostas de reescrita textual. A alternativa C é o gabarito correto, pois o termo <strong>Sendo assim</strong> desempenha uma função de coesão sequencial conclusiva, estabelecendo que a afirmação subsequente é uma dedução ou consequência lógica dos fatos narrados anteriormente, permitindo sua substituição direta pela conjunção <strong>Portanto</strong> com total manutenção do sentido e da correção gramatical. As demais alternativas propõem substituições incoerentes com as regras da língua. A alternativa A sugere a troca por <em>Conquanto</em>, que possui natureza concessiva; a alternativa B indica a permuta por <em>Outrossim</em>, que introduz adição e não conclusão; a alternativa D define incorretamente o papel de <em>Dessa forma</em> como adversativo; e a alternativa E sugere <em>Conforme</em>, o que anularia a lógica conclusiva pretendida."
+      }
+    ];
+
+    // Armazenamento das respostas do utilizador
+    const userAnswers = {};
+    let isSubmitted = false;
+
+    // Inicialização e renderização do Simulado
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestions();
+      updateProgressBar();
+    });
+
+    // Renderiza as questões na estrutura DOM
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+
+      questions.forEach((q, index) => {
+        const qCard = document.createElement('div');
+        qCard.id = `q-card-${q.id}`;
+        qCard.className = "bg-white border border-stone-200/90 rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative";
+        
+        // Elemento Header da Questão
+        let html = `
+          <div class="flex items-center justify-between mb-4 border-b border-stone-100 pb-3">
+            <span class="px-3 py-1 bg-stone-100 text-stone-700 rounded-full text-xs font-bold font-sans">Questão ${q.id}</span>
+            <span class="text-xs text-stone-500 font-medium">${q.origin}</span>
+          </div>
+          <div class="reading-font text-base md:text-[17px] leading-relaxed mb-6 text-brand-ink">
+            ${q.text}
+          </div>
+          <div class="space-y-3" id="options-group-${q.id}">
+        `;
+
+        // Renderização de cada opção A-E
+        q.options.forEach(opt => {
+          html += `
+            <label id="label-${q.id}-${opt.key}" class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50/50 hover:border-stone-300 transition-all select-none">
+              <input type="radio" name="question-${q.id}" value="${opt.key}" 
+                     class="mt-1.5 h-4 w-4 text-stone-900 border-stone-300 focus:ring-stone-500 accent-stone-850" 
+                     ${isSubmitted ? 'disabled' : ''} 
+                     onclick="selecionarOpcao(${q.id}, '${opt.key}')">
+              <span class="text-sm sm:text-[15px] leading-relaxed text-stone-700">${opt.text}</span>
+            </label>
+          `;
+        });
+
+        html += `
+          </div>
+          
+          <!-- Box de Explicação (Inicialmente oculto) -->
+          <div id="explanation-${q.id}" class="hidden mt-6 pt-5 border-t border-stone-150 transition-all">
+            <div class="p-5 bg-stone-50 border-l-4 border-stone-700 rounded-r-xl">
+              <div class="flex items-center gap-2 mb-3">
+                <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="font-bold text-sm text-stone-800 uppercase tracking-wider">Justificação Detalhada:</span>
+              </div>
+              <p class="text-sm leading-relaxed text-stone-700 font-serif">${q.explanation}</p>
+            </div>
+          </div>
+        `;
+
+        qCard.innerHTML = html;
+        container.appendChild(qCard);
+      });
+    }
+
+    // Regista a seleção do utilizador e estiliza o card selecionado
+    function selecionarOpcao(questionId, selectedKey) {
+      if (isSubmitted) return;
+      
+      userAnswers[questionId] = selectedKey;
+      updateProgressBar();
+
+      // Atualiza visualmente a opção selecionada no ecrã
+      const currentQuestion = questions.find(q => q.id === questionId);
+      currentQuestion.options.forEach(opt => {
+        const label = document.getElementById(`label-${questionId}-${opt.key}`);
+        if (opt.key === selectedKey) {
+          label.className = "flex items-start gap-4 p-4 rounded-xl border-2 border-stone-800 bg-stone-50 transition-all select-none";
+        } else {
+          label.className = "flex items-start gap-4 p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50/50 hover:border-stone-300 transition-all select-none";
+        }
+      });
+    }
+
+    // Calcula o progresso global do simulado
+    function updateProgressBar() {
+      const total = questions.length;
+      const respondidas = Object.keys(userAnswers).length;
+      const percent = (respondidas / total) * 100;
+
+      document.getElementById('progress-text').innerText = `${respondidas} de ${total} respondidas`;
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+    }
+
+    // Submete as respostas, faz cálculos e apresenta resultados e gabarito
+    function submeterSimulado() {
+      if (isSubmitted) return;
+
+      const respondidasCount = Object.keys(userAnswers).length;
+      if (respondidasCount < questions.length) {
+        // Alerta elegante personalizado na própria estrutura do ecrã para evitar popups intrusivos
+        const alertBox = document.createElement('div');
+        alertBox.className = "fixed bottom-5 right-5 bg-stone-900 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 border border-stone-700 z-50 transition-all animate-bounce";
+        alertBox.innerHTML = `
+          <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          <div>
+            <p class="font-bold text-sm">Atenção!</p>
+            <p class="text-xs text-stone-300">Responda a todas as 10 questões antes de submeter.</p>
+          </div>
+        `;
+        document.body.appendChild(alertBox);
+        setTimeout(() => alertBox.remove(), 4000);
+        return;
+      }
+
+      isSubmitted = true;
+      desativarInputs();
+
+      // Calcula acertos
+      let correctCount = 0;
+      questions.forEach(q => {
+        const isCorrect = userAnswers[q.id] === q.correct;
+        if (isCorrect) correctCount++;
+
+        revelarRespostaQuestao(q.id, userAnswers[q.id], q.correct);
+      });
+
+      // Renderiza Painel de Resultados
+      const percentAcertos = (correctCount / questions.length) * 100;
+      document.getElementById('score-badge').innerText = `${correctCount}/${questions.length}`;
+      document.getElementById('score-percentage').innerText = `${percentAcertos}% de Acertos`;
+
+      // Mensagem de Feedback contextualizado
+      let feedbackMsg = "";
+      if (percentAcertos === 100) feedbackMsg = "Excelente! Dominas perfeitamente a coesão sequencial da AOCP.";
+      else if (percentAcertos >= 80) feedbackMsg = "Excelente resultado! Estás muito perto do aproveitamento ideal.";
+      else if (percentAcertos >= 60) feedbackMsg = "Bom desempenho. Uma revisão detalhada vai ajudar-te a fixar os detalhes.";
+      else feedbackMsg = "Precisas de treinar mais. Analisa com rigor as justificações abaixo.";
+      document.getElementById('score-feedback').innerText = feedbackMsg;
+
+      // Gerar Grid do Gabarito Analítico no painel de resultados
+      renderGabaritoGrid();
+
+      // Mostrar painel de resultados e rolar suavemente até ele
+      const panel = document.getElementById('results-panel');
+      panel.classList.remove('hidden');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Ocultar ou atualizar o botão principal
+      const btn = document.getElementById('btn-submit');
+      btn.innerHTML = `<span>Simulado Concluído</span>`;
+      btn.disabled = true;
+      btn.className = "w-full sm:w-auto px-6 py-3 bg-stone-400 text-white font-semibold rounded-lg cursor-not-allowed shadow-sm";
+    }
+
+    // Altera o estado visual de cada questão realçando acertos/erros
+    function revelarRespostaQuestao(questionId, selected, correct) {
+      const qCard = document.getElementById(`q-card-${questionId}`);
+      const explanationDiv = document.getElementById(`explanation-${questionId}`);
+      
+      // Abre a explicação detalhada abaixo do card
+      explanationDiv.classList.remove('hidden');
+
+      // Aplica classes de cor aos labels dependendo das respostas
+      const q = questions.find(item => item.id === questionId);
+      q.options.forEach(opt => {
+        const label = document.getElementById(`label-${questionId}-${opt.key}`);
+        
+        if (opt.key === correct) {
+          // Destaca a resposta certa em verde
+          label.className = "flex items-start gap-4 p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 transition-all select-none relative";
+          label.innerHTML += `
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </span>
+          `;
+        } else if (opt.key === selected && selected !== correct) {
+          // Destaca o erro do utilizador em vermelho
+          label.className = "flex items-start gap-4 p-4 rounded-xl border-2 border-rose-400 bg-rose-50 text-rose-950 transition-all select-none relative";
+          label.innerHTML += `
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-rose-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </span>
+          `;
+        } else {
+          // Esbate opções neutras
+          label.className = "flex items-start gap-4 p-4 rounded-xl border border-stone-200/60 text-stone-400 cursor-default transition-all select-none opacity-60";
+        }
+      });
+
+      // Altera o contorno geral do card de questão
+      if (selected === correct) {
+        qCard.className = "bg-white border-2 border-emerald-200 rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative";
+      } else {
+        qCard.className = "bg-white border-2 border-rose-200 rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative";
+      }
+    }
+
+    // Constrói a tabela/grid interativa no final do simulado
+    function renderGabaritoGrid() {
+      const grid = document.getElementById('gabarito-grid');
+      grid.innerHTML = '';
+
+      questions.forEach(q => {
+        const isCorrect = userAnswers[q.id] === q.correct;
+        const colBtn = document.createElement('button');
+        colBtn.type = "button";
+        colBtn.onclick = () => {
+          document.getElementById(`q-card-${q.id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
+        
+        colBtn.className = `flex flex-col items-center justify-center py-3 rounded-xl border transition-all hover:-translate-y-1 shadow-sm ${
+          isCorrect 
+            ? 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-800' 
+            : 'bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-800'
+        }`;
+
+        colBtn.innerHTML = `
+          <span class="text-xs font-bold font-sans">Q${q.id}</span>
+          <span class="text-lg font-black tracking-wider">${q.correct}</span>
+          <span class="text-[10px] uppercase font-bold tracking-tight opacity-75">${isCorrect ? 'Acertou' : 'Errou'}</span>
+        `;
+
+        grid.appendChild(colBtn);
+      });
+    }
+
+    // Desativa a interação com os inputs para congelar as respostas
+    function desativarInputs() {
+      const inputs = document.querySelectorAll('input[type="radio"]');
+      inputs.forEach(inp => inp.disabled = true);
+    }
+
+    // Limpa estados e reinicia o simulado sem recarregar a página
+    function reiniciarSimulado() {
+      isSubmitted = false;
+      
+      // Limpar registos
+      for (const key in userAnswers) {
+        delete userAnswers[key];
+      }
+
+      // Reiniciar botão principal
+      const btn = document.getElementById('btn-submit');
+      btn.innerHTML = `<span>Submeter Simulado</span> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
+      btn.disabled = false;
+      btn.className = "w-full sm:w-auto px-6 py-3 bg-stone-900 hover:bg-stone-800 text-white font-semibold rounded-lg transition-all shadow-sm flex items-center justify-center gap-2";
+
+      // Ocultar resultados
+      document.getElementById('results-panel').classList.add('hidden');
+
+      // Re-renderizar as questões de forma limpa
+      renderQuestions();
+      updateProgressBar();
+
+      // Rolar suavemente para o topo da página
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

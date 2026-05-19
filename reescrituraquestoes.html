@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Reescritura de Frases e Parágrafos - Padrão Instituto AOCP</title>
+    <!-- Tailwind CSS para Estilização Rápida e Moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter (Interface) e Lora (Leitura Confortável) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f7fa',
+                            100: '#e4e8f0',
+                            600: '#3b5998',
+                            700: '#2d4373',
+                            800: '#1d2a4a',
+                        },
+                        cream: {
+                            50: '#faf9f6', /* Fundo suave estilo papel antigo / e-reader */
+                            100: '#f3ece3',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Transições suaves */
+        .transition-all {
+            transition: all 0.25s ease-in-out;
+        }
+        /* Estilização para barras de rolagem finas */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-slate-800 font-sans min-h-screen selection:bg-amber-100 selection:text-amber-900 leading-relaxed antialiased">
+
+    <!-- Barra de Progresso Superior Fixa -->
+    <div class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur border-b border-slate-200 py-3 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="inline-flex h-3 w-3 rounded-full bg-amber-500 animate-pulse"></span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Quiz AOCP: Reescritura</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-sm font-medium text-slate-600">
+                    Progresso: <span id="progress-text" class="font-bold text-slate-900">0/10</span> respondidas
+                </div>
+                <div class="w-32 bg-slate-100 h-2 rounded-full overflow-hidden hidden sm:block">
+                    <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container Principal -->
+    <div class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+        
+        <!-- Cabeçalho -->
+        <header class="mb-12 border-b border-slate-200 pb-8 text-center sm:text-left">
+            <span class="px-3 py-1 text-xs font-semibold text-indigo-700 bg-indigo-50 rounded-full inline-block mb-3">
+                Língua Portuguesa • Questões Comentadas
+            </span>
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight font-sans">
+                Simulado: Reescritura de Frases e Parágrafos
+            </h1>
+            <p class="mt-4 text-base md:text-lg text-slate-600 max-w-3xl font-serif">
+                Treine com questões elaboradas fielmente no padrão do <strong>Instituto AOCP</strong>. Este tema exige domínio simultâneo de concordância, vozes verbais, substituição vocabular, pontuação e conectivos.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-4 items-center text-xs text-slate-500 justify-center sm:justify-start">
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    10 Questões Completas
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    Resoluções Comentadas Integradas
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Modo Leitura Confortável
+                </span>
+            </div>
+        </header>
+
+        <!-- Seção de Pontuação (Visível somente após envio) -->
+        <div id="score-card" class="hidden mb-12 transform scale-95 opacity-0 transition-all duration-500">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 md:p-8 shadow-md">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 mb-2">Quiz Concluído!</h2>
+                        <p class="text-slate-600 font-serif" id="performance-feedback">
+                            Veja abaixo o seu resultado e a análise detalhada de cada item do caderno de questões.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-slate-50 px-6 py-4 rounded-xl border border-slate-100 min-w-[200px] justify-center">
+                        <div class="text-center">
+                            <span class="text-5xl font-extrabold text-indigo-600" id="score-value">0</span>
+                            <span class="text-slate-400 text-2xl font-semibold">/10</span>
+                            <div class="text-xs uppercase font-bold tracking-wider text-slate-400 mt-1">Acertos</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navegador Rápido de Resoluções -->
+                <div class="mt-8 border-t border-slate-100 pt-6">
+                    <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Navegação por Questão:</h3>
+                    <div class="grid grid-cols-5 sm:grid-cols-10 gap-2" id="grid-nav">
+                        <!-- Gerado via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Questões -->
+        <main id="quiz-container" class="space-y-8 md:space-y-12">
+            <!-- As questões serão montadas aqui via Javascript -->
+        </main>
+
+        <!-- Botões de Ação do Quiz -->
+        <div class="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row gap-4 justify-between items-center">
+            <span id="warning-msg" class="text-amber-700 font-medium text-sm hidden">
+                ⚠️ Por favor, responda a todas as questões antes de finalizar.
+            </span>
+            <div class="flex flex-wrap gap-4 w-full sm:w-auto">
+                <button id="btn-submit" onclick="finishQuiz()" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all shadow-md shadow-indigo-100 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    Finalizar Quiz e Ver Resoluções
+                </button>
+                <button id="btn-reset" onclick="resetQuiz()" class="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-semibold rounded-xl transition-all hidden flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 4.17M20 10V5"></path></svg>
+                    Refazer Simulado
+                </button>
+            </div>
+        </div>
+
+        <!-- Rodapé Acadêmico -->
+        <footer class="mt-20 border-t border-slate-200 pt-8 pb-16 text-center text-sm text-slate-500">
+            <p>© Caderno de Questões com Foco no Padrão Instituto AOCP.</p>
+            <p class="mt-2">Todos os textos originais e análises gramaticais estritas preservados na íntegra.</p>
+        </footer>
+
+    </div>
+
+    <!-- Modal para Avisar que faltam questões (substituto elegante para alert) -->
+    <div id="warning-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 transform scale-95 transition-all">
+            <div class="flex items-center gap-3 text-amber-600 mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <h3 class="text-lg font-bold text-slate-900">Questões Pendentes</h3>
+            </div>
+            <p class="text-slate-600 text-sm font-serif mb-6 leading-relaxed">
+                Você ainda não respondeu a todas as questões. Para obter uma avaliação precisa do seu desempenho em reescrita, recomendamos preencher todos os itens. Deseja finalizar assim mesmo?
+            </p>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeModal()" class="px-4 py-2 text-slate-500 hover:text-slate-700 font-medium text-sm rounded-lg">
+                    Continuar Respondendo
+                </button>
+                <button onclick="forceFinish()" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium text-sm rounded-lg transition-all">
+                    Finalizar Mesmo Assim
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de dados e lógica operacional -->
+    <script>
+        // Banco de Dados das Questões extraídas fielmente do documento
+        const questionsData = [
+            {
+                id: 1,
+                supportText: "A aprendizagem significativa acontece quando há espaço para reflexão [...]",
+                prompt: "Assinale a alternativa que apresenta uma proposta de reescrita gramaticalmente correta, ainda que com alterações de sentido, para o excerto destacado:",
+                options: [
+                    { key: "A", text: "A aprendizagem significativa aconteceria se houvesse espaços para reflexão." },
+                    { key: "B", text: "A aprendizagem significativa aconteceria se houvessem espaços para reflexão." },
+                    { key: "C", text: "A aprendizagem significativa acontece quando existe espaços para reflexão." },
+                    { key: "D", text: "A aprendizagem significativa acontece quando têm espaços para reflexão." },
+                    { key: "E", text: "A aprendizagem significativa aconteceria se tivessem espaços para reflexão." }
+                ],
+                correct: "A",
+                resolution: "A alternativa A configura a única reescrita que preserva a integridade gramatical do período, apresentando uma reconfiguração do tempo verbal para o futuro do pretérito (\"aconteceria\") correlacionado adequadamente ao pretérito imperfeito do subjuntivo (\"houvesse\"). O aspecto crucial avaliado pela banca reside na impessoalidade do verbo \"haver\" quando empregado no sentido de existir ou ocorrer. Nessa situação, o verbo não possui sujeito e deve obrigatoriamente permanecer na terceira pessoa do singular, rejeitando flexões no plural como \"houvessem\", o que invalida imediatamente a alternativa B. Adicionalmente, o verbo \"existir\" é pessoal e exige concordância direta com o seu sujeito (\"espaços\"), de modo que a alternativa C incorre em desvio de concordância ao registrar a forma singular \"existe\". Por fim, as alternativas D e E empregam o verbo \"ter\" em sentido existencial (\"têm espaços\" e \"tivessem espaços\"), construção que pertence ao registro coloquial da língua e é veementemente rejeitada pela norma-padrão em avaliações de alta formalidade promovidas pelo Instituto AOCP."
+            },
+            {
+                id: 2,
+                supportText: "Brasil tem mais um terço de jovens entre 18 e 24 anos que não trabalham nem estudam [...]",
+                prompt: "Assinale a alternativa que apresenta uma proposta de reescrita gramatical e semanticamente correta para o excerto em destaque:",
+                options: [
+                    { key: "A", text: "Brasil tem mais de um terço de jovens entre 18 e 24 anos que não trabalha nem estuda." },
+                    { key: "B", text: "No Brasil têm mais de um terço de jovens entre 18 e 24 anos que não trabalham nem estudam." },
+                    { key: "C", text: "Brasil tem mais de um terço de jovens entre 18 e 24 anos, que não trabalham nem estudam." },
+                    { key: "D", text: "Brasil tem mais de um terço de jovens entre 18 e 24 anos que não trabalham, tão pouco estudam." },
+                    { key: "E", text: "Há mais de um terço de jovens entre 18 e 24 anos que não trabalham no Brasil nem estudam." }
+                ],
+                correct: "A",
+                resolution: "A alternativa A demonstra pleno domínio das regras de concordância verbal diante de expressões partitivas ou numéricas associadas a pronomes relativos. Na frase original, a concordância do verbo \"trabalham\" foi realizada no plural com o termo especificador \"jovens\". Na reescrita correta da alternativa A, a concordância é deslocada para o núcleo do sujeito representado pela fração \"um terço\", justificando as formas no singular \"trabalha\" e \"estuda\", o que é plenamente admitido na norma culta. A alternativa B falha ao utilizar o verbo \"ter\" com valor existencial no lugar de \"haver\", além de apresentar inadequação de concordância. A alternativa C promove alteração semântica indevida ao inserir uma vírgula antes do pronome relativo \"que\", transmutando a oração adjetiva restritiva em explicativa, o que altera a verdade factual do período ao sugerir que todos os jovens do Brasil não trabalham nem estudam. A alternativa D apresenta desvio ortográfico ao grafar \"tão pouco\" (advérbio de intensidade + adjetivo/advérbio limitador) no lugar da conjunção coordenativa aditiva negativa \"tampouco\". A alternativa E altera substancialmente as relações semânticas do período ao deslocar o adjunto adverbial \"no Brasil\" para o interior da restrição relativa, alterando o foco geográfico da inatividade juvenil."
+            },
+            {
+                id: 3,
+                supportText: "À medida que a vida adulta se aproxima, cresce a pressão [...]",
+                prompt: "Assinale a alternativa que apresenta uma proposta de reescrita gramatical e semanticamente adequada para o excerto acima destacado:",
+                options: [
+                    { key: "A", text: "Na medida em que a vida adulta se aproxima, cresce a pressão." },
+                    { key: "B", text: "A pressão cresce, visto que a vida adulta se aproxima." },
+                    { key: "C", text: "Enquanto cresce a pressão, a vida adulta se aproxima." },
+                    { key: "D", text: "A vida adulta se aproxima, conforme cresce a pressão." },
+                    { key: "E", text: "Quanto mais a vida adulta se aproxima, mais cresce a pressão." }
+                ],
+                correct: "E",
+                resolution: "A alternativa E reflete com exatidão a relação de proporcionalidade exigida no texto original, operando a transposição da locução conjuntiva subordinativa proporcional \"À medida que\" para a estrutura correlativa de mesma natureza \"Quanto mais... mais...\". Essa estrutura preserva a simultaneidade e o gradiente de intensidade entre a aproximação da idade adulta e o aumento da pressão psicológica. A alternativa A apresenta a locução \"Na medida em que\", que possui valor eminentemente causal (equivalente a \"visto que\" ou \"uma vez que\"), desvirtuando a correlação de proporcionalidade original e violando os preceitos semânticos do período. As alternativas B e D alteram as circunstâncias adverbiais para causalidade (\"visto que\") e conformidade (\"conforme\"), respectivamente, o que descaracteriza a flutuação concomitante de fatores descrita na frase de origem. Por fim, a alternativa C inverte a lógica de dependência sintática entre as orações ao subordinar temporalmente o crescimento da pressão à aproximação da vida adulta, invertendo de maneira drástica os sentidos pretendidos no texto-fonte."
+            },
+            {
+                id: 4,
+                supportText: "Esta tigela de tapioca morna representa meu cérebro.",
+                prompt: "Considerando o excerto apresentado, o qual se encontra estruturado na voz ativa, assinale a alternativa que indica a sua transposição gramaticalmente correta para a voz passiva analítica:",
+                options: [
+                    { key: "A", text: "Representam meu cérebro em uma tigela de tapioca morna." },
+                    { key: "B", text: "Representa-se esta tigela de tapioca morna pelo meu cérebro." },
+                    { key: "C", text: "Nesta tigela de tapioca morna, meu cérebro é representado." },
+                    { key: "D", text: "No meu cérebro, representam-se tigelas de tapioca morna." },
+                    { key: "E", text: "Meu cérebro é representado por esta tigela de tapioca morna." }
+                ],
+                correct: "E",
+                resolution: "A alternativa E efetua a transposição perfeita da voz ativa para a voz passiva analítica, respeitando as correspondências sintáticas e a integridade temporal do verbo. Na voz ativa original, \"Esta tigela de tapioca morna\" é o sujeito agente, \"representa\" é o verbo transitivo direto no presente do indicativo, e \"meu cérebro\" atua como objeto direto. Ao efectuar a conversão, o antigo objeto direto assume a função de sujeito paciente (\"Meu cérebro\"), a forma verbal simples é substituída pela locução passiva analítica correspondente no presente (\"é representado\"), e o antigo sujeito agente converte-se no agente da passiva devidamente introduzido pela preposição (\"por esta tigela de tapioca morna\"). A alternativa A apenas indetermina o sujeito na voz ativa, perdendo o agente original (\"Esta tigela de tapioca morna\"). A alternativa B inverte os papéis semânticos, sugerindo erroneamente que a tigela é representada pelo cérebro. A alternativa C transforma o agente original em adjunto adverbial de lugar (\"Nesta tigela...\"), o que suprime a informação sobre o que representa o cérebro. A alternativa D introduz termos plurais inexistentes e altera substancialmente a estrutura oracional original."
+            },
+            {
+                id: 5,
+                supportText: "[...] a dieta é um dos fatores que pode controlar a resposta ao estresse.",
+                prompt: "Assinale a alternativa em que a proposta de reescrita do excerto destacado atende rigorosamente às regras de concordância verbal e nominal estabelecidas pela norma-padrão da língua portuguesa:",
+                options: [
+                    { key: "A", text: "A dieta é um dos fatores que podem controlar a resposta ao estresse." },
+                    { key: "B", text: "Ainda existe diferenças na maneira como a dieta atua." },
+                    { key: "C", text: "Ainda podem haver diferenças na maneira como o estresse atua." },
+                    { key: "D", text: "Consumo excessivo de sais podem aumentar o estresse." },
+                    { key: "E", text: "As consequências fisiológicas do alto consumo de sódio já é bem conhecida." }
+                ],
+                correct: "A",
+                resolution: "A alternativa A é a única proposta que atende estritamente às normas de concordância sintática prescritas pela gramática normativa. No excerto \"um dos fatores que pode...\", o pronome relativo \"que\" atua como sujeito e refere-se ao antecedente plural \"fatores\". Em estruturas que apresentam a locução \"um dos que\", a norma culta faculta a concordância do verbo tanto no singular (com o numeral \"um\") quanto no plural (com o substantivo \"fatores\"), tornando a forma \"podem controlar\" plenamente correta. A alternativa B incorre em desvio de concordância verbal ao flexionar o verbo pessoal \"existir\" no singular (\"existe\") diante do sujeito plural \"diferenças\". A alternativa C erra ao flexionar o verbo auxiliar \"poder\" no plural (\"podem haver\"), visto que o verbo principal \"haver\", em sua acepção existencial, é impessoal e transmite sua impessoalidade ao verbo auxiliar da locução, exigindo a forma singular \"pode haver\". A alternativa D apresenta falha de concordância verbal, pois o núcleo do sujeito é \"Consumo\" (singular), o que exige o verbo no singular \"pode aumentar\", independentemente de seu especificador plural \"sais\". A alternativa E apresenta erro duplo, pois o sujeito plural feminino \"consequências\" exige a concordância do verbo auxiliar e do predicativo no plural: \"...já são bem conhecidas\"."
+            },
+            {
+                id: 6,
+                supportText: "“Você me ligou? Não posso falar, é melhor me escrever”.",
+                prompt: "Assinale a alternativa que apresenta uma proposta de reescrita sintática e semanticamente adequada para o excerto em destaque, mantendo a correção em relação à norma culta:",
+                options: [
+                    { key: "A", text: "Você ligou-me? Não posso falar, é melhor eu escrever." },
+                    { key: "B", text: "Ligastes para mim? Não posso falar, escreve a mim que és melhor." },
+                    { key: "C", text: "Me ligou? Não posso falar, escrever é melhor para mim." },
+                    { key: "D", text: "Você ligou para mim? Não posso falar, é melhor que me escreva." },
+                    { key: "E", text: "Me ligou? Não posso falar, me escreve que é melhor." }
+                ],
+                correct: "D",
+                resolution: "A alternativa D constitui a reescrita ideal para o diálogo, pois resolve de maneira precisa as restrições de colocação pronominal e regência impostas pela norma culta. No português padrão, a colocação de pronomes oblíquos átonos no início absoluto de orações (\"Me ligou?\") é classificada como um desvio gramatical. Ao substituir a estrutura por \"Você ligou para mim?\", a alternativa D elimina a próclise proibida utilizando a regência preposicionada correta. Ademais, a segunda parte do período (\"é melhor que me escreva\") mantém a coerência do imperativo indireto sem inverter a direção da ação, preservando a ideia de que o interlocutor deve ser o remetente da mensagem. A alternativa A inverte indevidamente a semântica do período ao afirmar que o próprio emissor irá escrever (\"é melhor eu escrever\"). A alternativa B mistura pronomes de segunda pessoa do singular e plural de forma incoerente e artificial (\"Ligastes... escreve... és\"). As alternativas C e E mantêm as inadequações de próclise em início de período e misturam tratamentos pronominais de forma coloquial (\"Me ligou... me escreve\")."
+            },
+            {
+                id: 7,
+                supportText: "“Só que os velhes vão morrendo, e com eles vão morrendo as histórias que eles tinham para contar.”",
+                prompt: "Ao se reescrever a oração que inicia o excerto acima destacado, a locução conjuntiva “Só que” é substituída, mantendo-se a relação de sentido original e a devida correção gramatical, pelo conectivo indicado em:",
+                options: [
+                    { key: "A", text: "embora." },
+                    { key: "B", text: "ademais." },
+                    { key: "C", text: "apenas." },
+                    { key: "D", text: "mas." },
+                    { key: "E", text: "portanto." }
+                ],
+                correct: "D",
+                resolution: "A alternativa D indica a conjunção coordenativa adversativa \"mas\", que atua como o substituto ideal para a locução coloquial \"Só que\" no contexto apresentado. Ambas as estruturas desempenham o papel de introduzir uma ressalva ou oposição direta em relação ao fato anteriormente enunciado (a velhice e o consequente desaparecimento das memórias históricas). A alternativa A aponta a conjunção \"embora\", que introduz uma oração subordinada adverbial concessiva, o que demandaria uma alteração no modo verbal do período subsequente para o subjuntivo e mudaria a coordenação em subordinação. A alternativa B indica \"ademais\", conectivo que possui valor aditivo e não adversativo. A alternativa C apresenta a palavra denotativa \"apenas\", cuja função restritiva ou temporal não atende à necessidade de conexão lógica adversativa do período. A alternativa E indica \"portanto\", conjunção coordenativa conclusiva que estabelece uma relação de causa e efeito, inadequada para traduzir o contraste semântico original."
+            },
+            {
+                id: 8,
+                supportText: "“Java, na Indonésia, abriga sozinha quase 2% dos humanos (150 milhões), por exemplo.”",
+                prompt: "Assinale a alternativa na qual a proposta de reescrita do excerto em destaque NÃO conserva a correção gramatical estrita quanto ao emprego dos sinais de pontuação:",
+                options: [
+                    { key: "A", text: "“Java, na Indonésia, por exemplo, abriga sozinha quase 2% dos humanos (150 milhões).”" },
+                    { key: "B", text: "“Java, na Indonésia, abriga sozinha, por exemplo, quase 2% dos humanos (150 milhões).”" },
+                    { key: "C", text: "“Java na Indonésia, abriga sozinha quase 2% dos humanos (150 milhões), por exemplo.”" },
+                    { key: "D", text: "“Java, ilha da Indonésia, abriga sozinha quase 2% dos humanos (150 milhões), por exemplo.”" },
+                    { key: "E", text: "“Java, na Indonésia, abriga, sozinha, quase 2% dos humanos (150 milhões).”" }
+                ],
+                correct: "C",
+                resolution: "A alternativa C apresenta uma reescrita gramaticalmente incorreta quanto ao uso de pontuação, atendendo ao comando que solicita a opção que NÃO conserva a correção. O termo \"na Indonésia\" constitui um adjunto adverbial de lugar intercalado na oração principal. De acordo com a sintaxe de pontuação, os adjuntos adverbiais deslocados ou intercalados de média ou longa extensão devem estar devidamente isolados por dupla vírgula. Ao suprimir a primeira vírgula (registrando \"Java na Indonésia, abriga...\"), a estrutura incorre no erro de isolar o sujeito (\"Java\") de seu predicado (\"abriga\") por meio de uma única vírgula, desvio sintático grave na norma culta. As alternativas A, B e E mantêm a dupla pontuação necessária para delimitar os termos deslocados ou explicativos. A alternativa D substitui adequadamente a estrutura por um aposto explicativo (\"ilha da Indonésia\") perfeitamente isolado por dupla vírgula, preservando a correção gramatical."
+            },
+            {
+                id: 9,
+                supportText: "“Somos gratos às pessoas que generosamente doam [...]”",
+                prompt: "Assinale a alternativa em que a proposta de reescrita do excerto em destaque apresenta absoluta correção gramatical quanto ao emprego do acento indicativo de crase:",
+                options: [
+                    { key: "A", text: "Somos gratos àqueles que generosamente doam." },
+                    { key: "B", text: "Atribuímos o prêmio as transições pós-pandemia que ocorreram." },
+                    { key: "C", text: "Entregamos as doações à ela durante a cerimônia beneficente." },
+                    { key: "D", text: "Fomos gratos à todas as pessoas que generosamente doam." },
+                    { key: "E", text: "A entrega foi realizada à pressas pelos voluntários da instituição." }
+                ],
+                correct: "A",
+                resolution: "A alternativa A demonstra aplicação irrepreensível da crase na reescrita. O adjetivo \"gratos\" exige a preposição \"a\" (gratos a alguém ou algo), que se funde com a vogal inicial do pronome demonstrativo \"aqueles\", resultando legitimamente na contração craseada \"àqueles\". A alternativa B falha ao omitir o acento grave na fusão da preposição exigida pelo verbo \"atribuir\" com o artigo plural do substantivo feminino \"transições\" (o correto seria \"às transições\"). A alternativa C apresenta erro grave ao inserir crase antes do pronome pessoal \"ela\", visto que pronomes pessoais repelem o uso de artigo feminino. A alternativa D apresenta erro decorrente do uso de crase antes de pronome indefinido de sentido geral no plural (\"todas\"), o qual não admite artigo definido singular \"a\". A alternativa E erra ao registrar a locução adverbial de modo \"às pressas\" com desvio de concordância de número no sinal indicativo (\"à pressas\"), devendo grafar-se \"às pressas\" ou simplesmente \"a pressas\"."
+            },
+            {
+                id: 10,
+                supportText: "“O importante é ela ter conseguido sair daquele lugar.”",
+                prompt: "Assinale a alternativa que apresenta uma proposta de reescrita que mantém rigorosamente a coerência semântica e a correção gramatical do período original:",
+                options: [
+                    { key: "A", text: "A saída dela foi importante lá." },
+                    { key: "B", text: "É importante que ela saia daqui." },
+                    { key: "C", text: "Foi importante ela ter saído daquele lugar." },
+                    { key: "D", text: "Ela sair daquele lugar foi importante lá." },
+                    { key: "E", text: "Importa que ela saia de lá agora." }
+                ],
+                correct: "C",
+                resolution: "A alternativa C é a única que consegue realizar a paráfrase mantendo a correção sintática e preservando estritamente a fidelidade semântica ao texto original. O excerto de origem destaca a relevância de um fato consumado no passado (\"ela ter conseguido sair\"). A opção C reconstrói essa ideia por meio de uma oração subordinada substantiva subjetiva reduzida de infinitivo composto (\"ela ter saído daquele lugar\"), preservando o aspecto verbal concluído e mantendo a distância espacial neutra com o termo \"daquele lugar\". A alternativa A altera sensivelmente o sentido original ao introduzir o advérbio de lugar \"lá\", sugerindo que a importância da saída limita-se àquele espaço geográfico específico. A alternativa B promove uma severa distorção temporal e espacial ao projetar uma hipótese futura (\"que ela saia\") referenciada na proximidade física do enunciador (\"daqui\"). As alternativas D e E introduzem distorções semânticas similares ao alterar o foco da ação e reconfigurar as coordenadas espaciais para \"lá\" e \"agora\"."
+            }
+        ];
+
+        // Estado do quiz
+        let userAnswers = {};
+        let isSubmitted = false;
+
+        // Renderiza as questões ao carregar a página
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            questionsData.forEach((q, index) => {
+                const questionElement = document.createElement('article');
+                questionElement.className = "bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm transition-all duration-300 relative scroll-mt-24";
+                questionElement.id = `q-${q.id}`;
+
+                // Cabeçalho da Questão
+                let questionHTML = `
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Questão ${q.id} de ${questionsData.length}</span>
+                        <span id="badge-status-${q.id}" class="text-xs px-2.5 py-1 rounded-full font-semibold bg-slate-100 text-slate-500 transition-all">Pendente</span>
+                    </div>
+                `;
+
+                // Texto de Apoio (se houver)
+                if (q.supportText) {
+                    questionHTML += `
+                        <div class="bg-amber-50/50 border-l-4 border-amber-300 p-4 mb-6 rounded-r-xl">
+                            <span class="text-xs font-semibold text-amber-800 uppercase tracking-wider block mb-1 font-sans">Texto de Apoio:</span>
+                            <blockquote class="text-slate-700 italic font-serif leading-relaxed text-base md:text-lg">
+                                "${q.supportText}"
+                            </blockquote>
+                        </div>
+                    `;
+                }
+
+                // Enunciado
+                questionHTML += `
+                    <h3 class="text-lg font-bold text-slate-900 mb-6 font-sans leading-snug">
+                        ${q.prompt}
+                    </h3>
+                `;
+
+                // Alternativas
+                questionHTML += `<div class="space-y-3" role="radiogroup">`;
+                q.options.forEach(opt => {
+                    questionHTML += `
+                        <button 
+                            id="opt-${q.id}-${opt.key}"
+                            onclick="selectOption(${q.id}, '${opt.key}')"
+                            class="w-full text-left p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 flex items-start gap-3 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                        >
+                            <span id="marker-${q.id}-${opt.key}" class="flex-shrink-0 w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold text-slate-500 bg-white transition-all mt-0.5">
+                                ${opt.key}
+                            </span>
+                            <span class="text-slate-700 font-serif text-sm md:text-base leading-relaxed">
+                                ${opt.text}
+                            </span>
+                        </button>
+                    `;
+                });
+                questionHTML += `</div>`;
+
+                // Seção de Resolução (Escondida por padrão)
+                questionHTML += `
+                    <div id="resolution-${q.id}" class="hidden mt-8 pt-6 border-t border-slate-100 transition-all">
+                        <div class="bg-indigo-50/40 border-l-4 border-indigo-500 p-5 rounded-r-xl">
+                            <h4 class="text-sm font-bold text-indigo-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                                Análise Sintática & Resolução:
+                            </h4>
+                            <p class="text-slate-700 font-serif leading-relaxed text-sm md:text-base">
+                                ${q.resolution}
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                questionElement.innerHTML = questionHTML;
+                container.appendChild(questionElement);
+            });
+
+            updateProgress();
+        }
+
+        // Lógica de seleção de alternativas
+        function selectOption(questionId, optionKey) {
+            if (isSubmitted) return; // Bloqueia edições após finalizar
+
+            // Atualiza estado local
+            userAnswers[questionId] = optionKey;
+
+            // Limpa visual anterior das opções desta questão
+            const q = questionsData.find(x => x.id === questionId);
+            q.options.forEach(opt => {
+                const optBtn = document.getElementById(`opt-${questionId}-${opt.key}`);
+                const marker = document.getElementById(`marker-${questionId}-${opt.key}`);
+                
+                optBtn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 flex items-start gap-3 focus:outline-none focus:ring-2 focus:ring-indigo-100";
+                marker.className = "flex-shrink-0 w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold text-slate-500 bg-white transition-all mt-0.5";
+            });
+
+            // Aplica estilo ativo na opção selecionada
+            const selectedBtn = document.getElementById(`opt-${questionId}-${optionKey}`);
+            const selectedMarker = document.getElementById(`marker-${questionId}-${optionKey}`);
+            
+            selectedBtn.className = "w-full text-left p-4 rounded-xl border-2 border-indigo-600 bg-indigo-50/35 transition-all duration-200 flex items-start gap-3 focus:outline-none";
+            selectedMarker.className = "flex-shrink-0 w-6 h-6 rounded-full bg-indigo-600 border border-indigo-600 flex items-center justify-center text-xs font-bold text-white transition-all mt-0.5";
+
+            // Atualiza o distintivo de status da questão
+            const badge = document.getElementById(`badge-status-${questionId}`);
+            badge.textContent = "Respondida";
+            badge.className = "text-xs px-2.5 py-1 rounded-full font-semibold bg-indigo-50 text-indigo-600 transition-all";
+
+            updateProgress();
+        }
+
+        // Atualiza a barra de progresso superior
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = questionsData.length;
+            const percentage = (answeredCount / total) * 100;
+
+            document.getElementById('progress-text').textContent = `${answeredCount}/${total}`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // Finaliza o quiz com validação
+        function finishQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = questionsData.length;
+
+            if (answeredCount < total) {
+                // Abre o modal de aviso elegante
+                document.getElementById('warning-modal').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('warning-modal').firstElementChild.classList.remove('scale-95');
+                }, 50);
+            } else {
+                processResults();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('warning-modal').firstElementChild.classList.add('scale-95');
+            setTimeout(() => {
+                document.getElementById('warning-modal').classList.add('hidden');
+            }, 150);
+        }
+
+        function forceFinish() {
+            closeModal();
+            processResults();
+        }
+
+        // Processamento das respostas e cálculo da nota
+        function processResults() {
+            isSubmitted = true;
+            let correctCount = 0;
+
+            // Esconde botão de enviar e mostra botão de resetar
+            document.getElementById('btn-submit').classList.add('hidden');
+            document.getElementById('btn-reset').classList.remove('hidden');
+            document.getElementById('warning-msg').classList.add('hidden');
+
+            questionsData.forEach(q => {
+                const isCorrect = userAnswers[q.id] === q.correct;
+                if (isCorrect) correctCount++;
+
+                // Revela a seção de resolução comentada
+                const resBox = document.getElementById(`resolution-${q.id}`);
+                resBox.classList.remove('hidden');
+
+                // Atualiza o badge do status da questão com acerto/erro
+                const badge = document.getElementById(`badge-status-${q.id}`);
+                if (userAnswers[q.id]) {
+                    if (isCorrect) {
+                        badge.textContent = "Correta ✓";
+                        badge.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-green-100 text-green-700 transition-all";
+                    } else {
+                        badge.textContent = "Incorreta ✗";
+                        badge.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-red-100 text-red-700 transition-all";
+                    }
+                } else {
+                    badge.textContent = "Não Respondida ✗";
+                    badge.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-amber-100 text-amber-700 transition-all";
+                }
+
+                // Ajusta estilização das alternativas (certa x errada)
+                q.options.forEach(opt => {
+                    const optBtn = document.getElementById(`opt-${q.id}-${opt.key}`);
+                    const marker = document.getElementById(`marker-${q.id}-${opt.key}`);
+
+                    // Desabilita cliques interativos
+                    optBtn.disabled = true;
+                    optBtn.style.cursor = "default";
+
+                    if (opt.key === q.correct) {
+                        // Resposta Correta: Destaca em verde sempre
+                        optBtn.className = "w-full text-left p-4 rounded-xl border-2 border-green-500 bg-green-50/50 flex items-start gap-3 transition-all duration-200";
+                        marker.className = "flex-shrink-0 w-6 h-6 rounded-full bg-green-600 border border-green-600 flex items-center justify-center text-xs font-bold text-white transition-all mt-0.5";
+                        marker.innerHTML = "✓";
+                    } else if (userAnswers[q.id] === opt.key) {
+                        // Resposta incorreta marcada pelo usuário: Destaca em vermelho
+                        optBtn.className = "w-full text-left p-4 rounded-xl border-2 border-red-400 bg-red-50/40 flex items-start gap-3 transition-all duration-200";
+                        marker.className = "flex-shrink-0 w-6 h-6 rounded-full bg-red-500 border border-red-500 flex items-center justify-center text-xs font-bold text-white transition-all mt-0.5";
+                        marker.innerHTML = "✗";
+                    } else {
+                        // Demais opções neutras
+                        optBtn.className = "w-full text-left p-4 rounded-xl border border-slate-100 opacity-60 flex items-start gap-3 transition-all duration-200";
+                        marker.className = "flex-shrink-0 w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-xs font-bold text-slate-400 bg-slate-50 transition-all mt-0.5";
+                    }
+                });
+            });
+
+            // Monta o Score Card (Resultados Gerais)
+            const scoreCard = document.getElementById('score-card');
+            const scoreValue = document.getElementById('score-value');
+            const feedbackText = document.getElementById('performance-feedback');
+            
+            scoreValue.textContent = correctCount;
+            scoreCard.classList.remove('hidden');
+            setTimeout(() => {
+                scoreCard.classList.remove('scale-95', 'opacity-0');
+            }, 50);
+
+            // Mensagem motivacional baseada no acerto
+            if (correctCount === 10) {
+                feedbackText.innerHTML = "🏆 <strong>Desempenho Perfeito!</strong> Você demonstrou domínio absoluto das armadilhas sintáticas e estilísticas de reescrita do Instituto AOCP. Parabéns!";
+            } else if (correctCount >= 8) {
+                feedbackText.innerHTML = "✨ <strong>Excelente resultado!</strong> Sua capacidade analítica em reescritura e análise de adjuntos, vozes verbais e crase está no topo. Detalhes finais podem ser revisados abaixo.";
+            } else if (correctCount >= 6) {
+                feedbackText.innerHTML = "📈 <strong>Bom aproveitamento!</strong> Você compreende bem a reescrita estrutural, mas ainda caiu em distratores sofisticados da banca. Estude os comentários das questões erradas.";
+            } else {
+                feedbackText.innerHTML = "📚 <strong>Base para Evolução!</strong> Reescritura simultânea exige atenção minuciosa. Examine com carinho as resoluções abaixo para blindar sua interpretação de regras gramaticais.";
+            }
+
+            // Cria o Navegador Rápido de Resoluções
+            const gridNav = document.getElementById('grid-nav');
+            gridNav.innerHTML = '';
+            questionsData.forEach(q => {
+                const isCorrect = userAnswers[q.id] === q.correct;
+                const navBtn = document.createElement('button');
+                navBtn.onclick = () => {
+                    document.getElementById(`q-${q.id}`).scrollIntoView({ behavior: 'smooth' });
+                };
+                navBtn.className = `p-3 rounded-lg text-xs font-bold text-center transition-all flex flex-col items-center justify-center ${
+                    userAnswers[q.id] 
+                        ? (isCorrect ? 'bg-green-100 text-green-800 border border-green-300 hover:bg-green-200' : 'bg-red-100 text-red-800 border border-red-300 hover:bg-red-200')
+                        : 'bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200'
+                }`;
+                navBtn.innerHTML = `
+                    <span>Q${q.id}</span>
+                    <span class="text-[10px] opacity-75">${userAnswers[q.id] ? (isCorrect ? 'Certa' : 'Errada') : 'Pular'}</span>
+                `;
+                gridNav.appendChild(navBtn);
+            });
+
+            // Rola suavemente até o score card para feedback imediato
+            scoreCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reseta o estado do quiz para nova tentativa
+        function resetQuiz() {
+            userAnswers = {};
+            isSubmitted = false;
+
+            // Esconde score card
+            const scoreCard = document.getElementById('score-card');
+            scoreCard.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                scoreCard.classList.add('hidden');
+            }, 300);
+
+            // Restaura botões
+            document.getElementById('btn-submit').classList.remove('hidden');
+            document.getElementById('btn-reset').classList.add('hidden');
+
+            // Renderiza novamente a estrutura limpa
+            renderQuiz();
+            
+            // Rola ao topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Executa a montagem inicial do Quiz ao carregar a página
+        window.onload = function() {
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>

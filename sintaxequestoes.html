@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado Interativo: Sintaxe do Período - Instituto AOCP</title>
+  <!-- Tailwind CSS para estilização rápida e moderna -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter para interface e Merriweather para textos acadêmicos de alta legibilidade -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+  <!-- Lucide Icons para símbolos refinados e leves -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Merriweather', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Estilos personalizados para o tema Sépia */
+    .theme-sepia {
+      background-color: #f4ecd8;
+      color: #5c4033;
+    }
+    .theme-sepia .card {
+      background-color: #fdf6e2;
+      border-color: #e6d8b8;
+    }
+    .theme-sepia .text-muted {
+      color: #7d5c4c;
+    }
+    .theme-sepia .option-btn {
+      background-color: #fdf6e2;
+      border-color: #e6d8b8;
+      color: #5c4033;
+    }
+    .theme-sepia .option-btn:hover {
+      background-color: #f5ebd3;
+    }
+    .theme-sepia .option-selected {
+      background-color: #e2d2ae !important;
+      border-color: #8c6d31 !important;
+      color: #3b2815 !important;
+    }
+
+    /* Ajustes finos de transição */
+    .transition-theme {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    
+    /* Prevenção de seleção acidental de texto ao clicar rapidamente em botões */
+    .no-select {
+      user-select: none;
+    }
+  </style>
+</head>
+<body class="bg-zinc-50 text-zinc-900 font-sans min-h-screen transition-theme pb-24">
+
+  <!-- BARRA DE ACESSIBILIDADE E TEMAS (FIXA NO TOPO) -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-b border-zinc-200 dark:border-zinc-800 transition-theme shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="p-2 bg-indigo-50 dark:bg-indigo-900/40 rounded-lg text-indigo-600 dark:text-indigo-400">
+          <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+        </span>
+        <h1 class="font-bold text-sm md:text-base tracking-tight dark:text-white">AOCP — Sintaxe do Período</h1>
+      </div>
+      
+      <!-- Painel de Controle de Leitura -->
+      <div class="flex items-center space-x-4">
+        <!-- Cronômetro -->
+        <div class="flex items-center space-x-1.5 text-zinc-500 dark:text-zinc-400 font-mono text-sm border-r border-zinc-200 dark:border-zinc-800 pr-4">
+          <i data-lucide="timer" class="w-4 h-4"></i>
+          <span id="timer">00:00:00</span>
+        </div>
+
+        <!-- Ajuste de Fonte -->
+        <div class="flex items-center space-x-1 border-r border-zinc-200 dark:border-zinc-800 pr-4">
+          <button onclick="changeFontSize(-1)" class="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded text-zinc-600 dark:text-zinc-400" title="Diminuir fonte">
+            <span class="text-xs font-semibold">A-</span>
+          </button>
+          <button onclick="changeFontSize(1)" class="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded text-zinc-600 dark:text-zinc-400" title="Aumentar fonte">
+            <span class="text-sm font-semibold">A+</span>
+          </button>
+        </div>
+
+        <!-- Temas de Cor -->
+        <div class="flex items-center space-x-1">
+          <!-- Claro -->
+          <button onclick="setTheme('light')" class="p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-400" title="Tema Claro">
+            <i data-lucide="sun" class="w-4 h-4"></i>
+          </button>
+          <!-- Sépia -->
+          <button onclick="setTheme('sepia')" class="p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-amber-700 dark:text-amber-500" title="Tema Sépia">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+          </button>
+          <!-- Escuro -->
+          <button onclick="setTheme('dark')" class="p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-400" title="Tema Escuro">
+            <i data-lucide="moon" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CAPA E INFOS DO SIMULADO -->
+  <div class="max-w-4xl mx-auto px-4 mt-8">
+    <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-6 md:p-8 rounded-2xl shadow-md relative overflow-hidden mb-8">
+      <div class="relative z-10">
+        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 rounded-full text-xs font-semibold tracking-wider uppercase">Banca: Instituto AOCP</span>
+        <h2 class="text-2xl md:text-3xl font-bold font-serif mt-3 mb-2 leading-tight">Sintaxe do Período: Coordenação e Subordinação</h2>
+        <p class="text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl font-sans">
+          Analise rigorosamente a estrutura das orações, as relações hierárquicas e as funções sintáticas dos conectivos. Resolva as 10 questões propostas e confira as resoluções detalhadas após finalizar.
+        </p>
+      </div>
+      <!-- Elemento de fundo geométrico suave -->
+      <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4 select-none pointer-events-none">
+        <i data-lucide="award" class="w-80 h-80"></i>
+      </div>
+    </div>
+
+    <!-- ÁREA DE NAVEGAÇÃO / MAPA DE QUESTÕES -->
+    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 mb-8 transition-theme shadow-sm">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Mapa do Simulado</span>
+        <span id="answered-counter" class="text-xs font-medium text-indigo-600 dark:text-indigo-400">Respondidas: 0 de 10</span>
+      </div>
+      <div class="flex flex-wrap gap-2" id="navigation-dots">
+        <!-- Gerado dinamicamente -->
+      </div>
+    </div>
+
+    <!-- QUESTÕES -->
+    <main id="questions-container" class="space-y-8">
+      <!-- As questões serão injetadas via JavaScript para manter o código limpo, modular e fácil de manipular -->
+    </main>
+
+    <!-- PAINEL DE ENVIO E RESULTADO -->
+    <div id="action-panel" class="mt-12 p-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl transition-theme text-center shadow-lg max-w-2xl mx-auto">
+      <div id="pre-submit-state">
+        <h3 class="text-lg font-bold mb-2 dark:text-white">Pronto para finalizar o simulado?</h3>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm mb-6">Você pode revisar suas respostas a qualquer momento. Ao enviar, você receberá a sua pontuação e a resolução detalhada de cada questão na mesma página.</p>
+        <button onclick="confirmSubmit()" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition-colors w-full sm:w-auto inline-flex items-center justify-center space-x-2">
+          <i data-lucide="check-circle" class="w-5 h-5"></i>
+          <span>Finalizar e Ver Resoluções</span>
+        </button>
+      </div>
+
+      <!-- ESTADO APÓS ENVIO: PAINEL DE RESULTADOS COMPLETO -->
+      <div id="results-state" class="hidden text-left">
+        <div class="flex flex-col md:flex-row items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-6 mb-6">
+          <div class="flex items-center space-x-4 mb-4 md:mb-0">
+            <div class="relative flex items-center justify-center">
+              <!-- Círculo de progresso SVG -->
+              <svg class="w-20 h-20 transform -rotate-90">
+                <circle cx="40" cy="40" r="34" stroke="currentColor" class="text-zinc-100 dark:text-zinc-800" stroke-width="6" fill="transparent" />
+                <circle id="progress-indicator" cx="40" cy="40" r="34" stroke="currentColor" class="text-emerald-500" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="213.6" />
+              </svg>
+              <div class="absolute text-xl font-bold dark:text-white" id="score-text">0/10</div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold dark:text-white" id="performance-title">Ótimo desempenho!</h3>
+              <p class="text-zinc-500 dark:text-zinc-400 text-sm" id="performance-desc">Você completou o simulado sobre a sintaxe do período composto.</p>
+            </div>
+          </div>
+          <div class="flex space-x-3 w-full md:w-auto">
+            <button onclick="resetQuiz()" class="px-4 py-2 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg text-zinc-700 dark:text-zinc-300 font-medium text-sm flex-1 md:flex-initial text-center transition-colors">
+              Tentar Novamente
+            </button>
+            <a href="#questions-container" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium text-sm flex-1 md:flex-initial text-center transition-colors inline-block">
+              Revisar Questões
+            </a>
+          </div>
+        </div>
+
+        <!-- Tabela do Gabarito Geral -->
+        <div>
+          <h4 class="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">Gabarito Geral e Análise Sintática</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-zinc-200 dark:border-zinc-800 text-zinc-500">
+                  <th class="py-2 font-medium">Questão</th>
+                  <th class="py-2 font-medium">Seu Status</th>
+                  <th class="py-2 font-medium">Sua Escolha</th>
+                  <th class="py-2 font-medium">Gabarito</th>
+                  <th class="py-2 font-medium">Assunto Principal</th>
+                </tr>
+              </thead>
+              <tbody id="gabarito-table-body" class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                <!-- Preenchido via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AVISO MODAL DE CONFIRMAÇÃO -->
+  <div id="modal-confirm" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 max-w-md w-full rounded-2xl p-6 shadow-xl transition-theme">
+      <div class="flex items-center space-x-3 text-amber-500 mb-4">
+        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+        <h3 class="text-lg font-bold text-zinc-900 dark:text-white">Deseja realmente finalizar?</h3>
+      </div>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-6">
+        Ainda restam questões sem resposta. Deseja finalizar assim mesmo e liberar as resoluções comentadas do professor?
+      </p>
+      <div class="flex space-x-3 justify-end">
+        <button onclick="closeModal()" class="px-4 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm font-medium">
+          Voltar a Resolver
+        </button>
+        <button onclick="submitQuiz(true)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium">
+          Sim, ver Gabarito
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // BASE DE DADOS DAS QUESTÕES E SUAS RESOLUÇÕES COMPLETAS (NA ÍNTEGRA)
+    const questionsData = [
+      {
+        id: 1,
+        source: "Instituto AOCP — Adaptado",
+        context: "No período: <em>“Nós estamos falando aqui, por exemplo, de um crescimento de imagens advindas de violência contra a criança, <strong>que podem ser utilizadas, inclusive, para ameaçar crianças e adolescentes</strong>”</em>, a oração em destaque classifica-se sintaticamente como subordinada:",
+        options: {
+          A: "adjetiva restritiva.",
+          B: "adjetiva explicativa.",
+          C: "substantiva apositiva.",
+          D: "substantiva predicativa.",
+          E: "substantiva completiva nominal."
+        },
+        correct: "B",
+        subject: "Subordinação Adjetiva",
+        connector: "Pronome relativo 'que' precedido de vírgula",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">A análise sintática do período composto exige a identificação do papel desempenhado pelo pronome relativo "que" na introdução de orações subordinadas adjetivas. No trecho selecionado, o termo "que" refere-se ao antecedente nominal composto <em>"um crescimento de imagens advindas de violência contra a criança"</em>.</p>
+        <p class="mb-3">A pontuação é o fator discriminatório fundamental nesse cenário sintático. A presença da vírgula imediatamente antes do pronome relativo estabelece um corte que impede a restrição do sentido do termo antecedente. Em vez disso, a oração adiciona uma explicação ou esclarecimento de caráter genérico sobre a natureza dessas imagens, o que configura formalmente uma <strong>oração subordinada adjetiva explicativa</strong> (Gabarito B).</p>
+        <p>As orações adjetivas restritivas (Alternativa A) não viriam precedidas por vírgulas, enquanto as demais alternativas (C, D e E) referem-se a orações subordinadas substantivas, introduzidas por conjunções integrantes e que exercem funções sintáticas próprias de termos substantivos da oração principal, o que não se aplica ao constituinte analisado.</p>`
+      },
+      {
+        id: 2,
+        source: "Instituto AOCP — Adaptado",
+        context: "Analise a estrutura sintática do período que segue: <em>“ao argumentar estabelecemos uma relação particular com o não-dito e com o silêncio, <strong>pois a língua fornece a base material para essa prática</strong>.”</em> A oração destacada classifica-se como:",
+        options: {
+          A: "subordinada adverbial causal.",
+          B: "coordenada sindética explicativa.",
+          C: "subordinada adjetiva explicativa.",
+          D: "coordenada sindética conclusiva.",
+          E: "subordinada substantiva apositiva."
+        },
+        correct: "B",
+        subject: "Coordenação Sindética",
+        connector: "Conjunção explicativa 'pois' anteposta ao verbo",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">No período apresentado, a oração principal <em>“estabelecemos uma relação particular com o não-dito e com o silêncio”</em> é articulada com a oração antecedente reduzida de infinitivo <em>“ao argumentar”</em> e com a oração subsequente <em>“pois a língua fornece a base material para essa prática”</em>.</p>
+        <p class="mb-3">A presença da conjunção <strong>"pois"</strong> posicionada no início da oração (anteposta ao verbo "fornece") estabelece uma relação de <strong>coordenação explicativa</strong>, justificando ou explicando a afirmação contida na oração principal (Gabarito B).</p>
+        <p>A banca examinadora explora a sutil diferenciação entre a coordenação explicativa e a subordinação adverbial causal (Alternativa A). Enquanto a causa apresenta-se como o fato gerador anterior que desencadeia uma consequência direta na oração principal, a explicação coordenada justifica logicamente um enunciado prévio. Além disso, o conectivo "pois", por sua natureza eminentemente coordenativa nesta posição, afasta a hipótese de subordinação adverbial, adjetiva ou substantiva (Alternativas C, D e E).</p>`
+      },
+      {
+        id: 3,
+        source: "Instituto AOCP — Adaptado",
+        context: "Considerando a equivalência semântica e as diferenças estruturais entre a coordenação adversativa e a subordinação concessiva, analise o seguinte período: <em>“Como esperado, pessoas que estavam sozinhas disseram ter expectativas menores para a visita, <strong>mas o resultado final foi bem diferente das previsões</strong>”</em>. Assinale a alternativa em que a reescrita desse período, mediante a conversão da oração coordenada em subordinada concessiva, atende plenamente à norma-padrão da língua portuguesa:",
+        options: {
+          A: "“Como esperado, posto que pessoas que estavam sozinhas diriam ter expectativas menores para a visita, contudo o resultado final foi bem diferente das previsões.”",
+          B: "“Como esperado, a despeito de pessoas que estavam sozinhas disserem ter expectativas menores para a visita, o resultado final fora bem diferente das previsões.”",
+          C: "“Como esperado, mesmo que pessoas que estão sozinhas dissessem ter expectativas menores para a visita, o resultado final fora bem diferente das previsões.”",
+          D: "“Como esperado, embora pessoas que estivessem sozinhas dissessem ter expectativas menores para a visita, o resultado final foi bem diferente das previsões.”",
+          E: "“Como esperado, conquanto pessoas que estivessem sozinhas dirão ter expectativas menores para a visita, o resultado final foi bem diferente das previsões.”"
+        },
+        correct: "D",
+        subject: "Equivalência Adversativa/Concessiva",
+        connector: "Conectivo 'embora' + modo subjuntivo",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">O processo de reescrita textual com a conversão de orações coordenadas adversativas em subordinadas adverbiais concessivas é um padrão recorrente nas avaliações do Instituto AOCP, exigindo do candidato o domínio da correlação de tempos e modos verbais.</p>
+        <p class="mb-3">A oração coordenada original apresenta o verbo no pretérito perfeito do indicativo (<em>“o resultado final foi...”</em>), estabelecendo uma relação de oposição com o fato passado de as pessoas desacompanhadas declararem baixas expectativas.</p>
+        <p class="mb-3">Ao converter a adversativa para concessiva por meio da conjunção <strong>"embora"</strong>, o verbo da oração concessiva subordinada deve ser flexionado obrigatoriamente no modo subjuntivo para manter a conformidade gramatical. A única alternativa que realiza a correlação temporal adequada é a <strong>Alternativa D</strong>, flexionando os verbos no pretérito imperfeito do subjuntivo (<em>“...embora pessoas que estivessem sozinhas dissessem...”</em>), em perfeita harmonia com o pretérito perfeito do indicativo da oração principal (<em>“...o resultado final foi...”</em>).</p>
+        <p>As demais alternativas falham por incorreções na flexão do subjuntivo ou no uso inadequado do infinitivo pessoal e de outras formas indicativas incompatíveis com os conectivos concessivos empregados.</p>`
+      },
+      {
+        id: 4,
+        source: "Instituto AOCP — Adaptado",
+        context: "A subordinação adverbial estabelece o plano circunstancial em que ocorre o fato expresso pela oração principal. Analise as opções e assinale a única alternativa cuja oração em destaque introduz uma circunstância de <strong>CONDIÇÃO</strong>, diferenciando-se das demais que apresentam valor temporal:",
+        options: {
+          A: "“<strong>Ao viajar</strong>, suspenda a entrega de jornais e revistas.”",
+          B: "“<strong>Quando for tirar cópias</strong> de chaves, escolha profissionais de confiança.”",
+          C: "“...<strong>ao atender um chamado</strong>, certifique-se de quem se trata.”",
+          D: "“<strong>Caso haja suspeita</strong>, não estacione; ligue para a polícia e aguarde a sua chegada.”",
+          E: "“À noite, <strong>ao chegar em casa</strong>, observe se há pessoas suspeitas próximas à residência.”"
+        },
+        correct: "D",
+        subject: "Adverbial Temporal vs. Condicional",
+        connector: "Conjunção condicional 'caso'",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">A subordinação adverbial estabelece o plano circunstancial em que ocorre o fato expresso pela oração principal. As alternativas A, B, C e E apresentam, em diferentes configurações sintáticas (orações desenvolvidas ou reduzidas), uma clara demarcação temporal para as ações principais de suspender, escolher, certificar-se e observar:</p>
+        <ul class="list-disc list-inside space-y-1 mb-3">
+          <li>Na alternativa A, a estrutura <em>“Ao viajar...”</em> equivale a "No momento em que viajar", configurando oração reduzida de infinitivo temporal.</li>
+          <li>Na alternativa B, a oração <em>“Quando for tirar cópias...”</em> é uma estrutura desenvolvida temporal clássica.</li>
+          <li>Na alternativa C, <em>“...ao atender um chamado...”</em> cumpre idêntica função temporal delimitadora.</li>
+          <li>Na alternativa E, <em>“...ao chegar em casa...”</em> também indica a circunstância de tempo em que a observação deve ser feita.</li>
+        </ul>
+        <p>A exceção encontra-se na <strong>Alternativa D</strong>, na qual a oração <em>“Caso haja suspeita...”</em> introduz uma circunstância de <strong>condição</strong> por meio da conjunção subordinativa condicional "caso", que exige o verbo no presente do subjuntivo ("haja"), estabelecendo uma hipótese ou premissa essencial para a não realização da ação de estacionar.</p>`
+      },
+      {
+        id: 5,
+        source: "Instituto AOCP — Adaptado",
+        context: "No trecho: <em>“As 50 peças da face e as oito das mãos foram moldadas em Paris <strong>e vieram para cá como um quebra-cabeça</strong>”</em>, a oração destacada deve ser classificada sintaticamente como:",
+        options: {
+          A: "coordenada sindética aditiva.",
+          B: "coordenada assindética.",
+          C: "coordenada sindética conclusiva.",
+          D: "subordinada substantiva completiva nominal.",
+          E: "subordinada substantiva predicativa."
+        },
+        correct: "A",
+        subject: "Coordenação Sindética",
+        connector: "Conjunção copulativa/aditiva 'e'",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">No período sob análise, há duas orações que compartilham o mesmo sujeito composto (<em>“As 50 peças da face e as oito das mãos”</em>):</p>
+        <ol class="list-decimal list-inside space-y-1 mb-3">
+          <li><em>“As 50 peças da face e as oito das mãos foram moldadas em Paris...”</em> (Oração coordenada assindética).</li>
+          <li><em>“...e vieram para cá como um quebra-cabeça.”</em> (Oração coordenada sindética aditiva).</li>
+        </ol>
+        <p class="mb-3">A relação estabelecida entre os dois enunciados é de mera adição ou soma de ações realizadas pelo mesmo agente, articuladas de forma linear e independente por meio da conjunção coordenativa copulativa <strong>"e"</strong> (Gabarito A).</p>
+        <p>Não há hierarquia de dependência sintática entre elas, o que exclui imediatamente as hipóteses de subordinação (Alternativas D e E). Como a segunda oração é introduzida explicitamente por um conectivo coordenativo aditivo, rejeita-se a classificação como assindética (Alternativa B) ou conclusiva (Alternativa C).</p>`
+      },
+      {
+        id: 6,
+        source: "Instituto AOCP — Adaptado",
+        context: `A correta identificação dos nexos coordenativos e subordinativos é fundamental para a apreensão das relações hierárquicas em um período composto. Associe os trechos apresentados nas colunas a seguir às respectivas classificações sintáticas de suas orações:
+        <br><br>
+        <strong>1.</strong> Oração subordinada substantiva predicativa.<br>
+        <strong>2.</strong> Oração coordenada adversativa.<br>
+        <strong>3.</strong> Oração coordenada aditiva.<br>
+        <strong>4.</strong> Oração subordinada adverbial final.<br><br>
+        ( ) <em>“Jarbas Mantovanini [...] apresentou o projeto do museu <strong>e disse que queria me fazer dois pedidos</strong>.”</em><br>
+        ( ) <em>“O primeiro era <strong>dar ideias para o museu</strong>.”</em><br>
+        ( ) <em>“Chamei Mário Viaro e Marilza de Oliveira [...] <strong>para fazer outras partes</strong>.”</em><br>
+        ( ) <em>“Está tudo muito bonito, <strong>mas no lugar do último quadro vou colocar um espelho</strong>.”</em><br><br>
+        Assinale a alternativa que apresenta a sequência correta de associação, de cima para baixo:`,
+        options: {
+          A: "3 – 2 – 3 – 4",
+          B: "4 – 3 – 1 – 2",
+          C: "2 – 1 – 4 – 3",
+          D: "3 – 1 – 4 – 2",
+          E: "2 – 1 – 3 – 4"
+        },
+        correct: "D",
+        subject: "Período Misto: Coordenação e Subordinação",
+        connector: "Estruturas aditivas, predicativas, finais e adversativas",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">A análise estrutural de períodos mistos exige a discriminação precisa de cada bloco oracional e de seus respectivos nexos, sejam eles coordenativos ou subordinativos:</p>
+        <ul class="list-none space-y-2 mb-3">
+          <li><strong>(3)</strong> O primeiro excerto, <em>“...e disse que queria me fazer dois pedidos”</em>, contém uma oração coordenada sindética aditiva iniciada pelo conectivo "e", que adiciona uma nova declaração à ação anterior de apresentar.</li>
+          <li><strong>(1)</strong> O segundo excerto, <em>“O primeiro era dar ideias para o museu”</em>, possui o verbo de ligação "era" interposto entre o sujeito "O primeiro" e uma oração reduzida de infinitivo que desempenha o papel de caracterizar esse sujeito na posição de predicativo (oração subordinada substantiva predicativa).</li>
+          <li><strong>(4)</strong> O terceiro excerto, <em>“...para fazer outras partes”</em>, apresenta a preposição "para" seguida de verbo no infinitivo, indicando o objetivo ou a finalidade da ação de chamar os professores (oração subordinada adverbial final).</li>
+          <li><strong>(2)</strong> O quarto excerto, <em>“...mas no lugar do último quadro vou colocar um espelho”</em>, exibe a conjunção adversativa "mas" introduzindo uma oposição ou quebra de expectativa em relação ao enunciado anterior (oração coordenada adversativa).</li>
+        </ul>
+        <p>A associação sequencial correta estabelece-se em <strong>3 – 1 – 4 – 2</strong>, correspondendo precisamente à <strong>Alternativa D</strong>.</p>`
+      },
+      {
+        id: 7,
+        source: "Instituto AOCP — Adaptado",
+        context: `A partícula "que" assume diferentes funções morfossintáticas e desempenha papéis estruturais decisivos na articulação oracional. Avalie o comportamento do termo destacado nos três segmentos textuais a seguir:
+        <br><br>
+        <strong>I.</strong> <em>“Ele me chamava e mostrava a biblioteca e os livros <strong>que</strong> tinha comprado.”</em><br>
+        <strong>II.</strong> <em>“Em 2004, Jarbas Mantovanini, <strong>que</strong> atuava na Fundação Roberto Marinho, apareceu na USP [...]”</em><br>
+        <strong>III.</strong> <em>“[...] apresentou o projeto do museu e disse <strong>que</strong> queria me fazer dois pedidos.”</em><br><br>
+        A partir dessa análise, assinale a afirmação correta:`,
+        options: {
+          A: "No trecho I, o “que” funciona como conjunção subordinativa de valor explicativo, introduzindo uma oração adjetiva restritiva.",
+          B: "No trecho I, o “que” é um pronome relativo que desempenha papel de objeto direto; no trecho II, o “que” é um pronome relativo com papel de sujeito; no trecho III, o “que” classifica-se como conjunção integrante.",
+          C: "No trecho II, o “que” atua como pronome demonstrativo na oração subordinada adjetiva explicativa.",
+          D: "No trecho III, o “que” consiste em uma conjunção coordenativa adversativa que introduz uma oração coordenada sindética.",
+          E: "Em todas as ocorrências mencionadas, o vocábulo “que” é uma conjunção integrante que introduz orações substantivas."
+        },
+        correct: "B",
+        subject: "Diferenciação Morfossintática do 'Que'",
+        connector: "Pronome relativo vs. Conjunção integrante",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">A distinção entre as funções morfossintáticas do vocábulo "que" é um dos tópicos mais complexos da gramática normativa aplicados em concursos públicos. Analisemos cada caso:</p>
+        <ul class="list-disc list-inside space-y-2 mb-3">
+          <li><strong>Trecho I:</strong> <em>"livros que tinha comprado"</em>. O "que" retoma o substantivo antecedente "livros" (podendo ser substituído por "os quais"), agindo como pronome relativo. Sintaticamente, ele atua como o <strong>objeto direto</strong> da oração adjetiva restritiva (pois "tinha comprado os livros").</li>
+          <li><strong>Trecho II:</strong> <em>"Jarbas Mantovanini, que atuava..."</em>. O "que" retoma "Jarbas Mantovanini", funcionando como pronome relativo em oração explicativa. Sua função sintática é de <strong>sujeito</strong> (pois "Jarbas Mantovanini atuava").</li>
+          <li><strong>Trecho III:</strong> <em>"...disse que queria..."</em>. O "que" funciona como uma <strong>conjunção integrante</strong>, pois apenas conecta o verbo de dizer ao seu complemento ("disse isso"), introduzindo uma oração subordinada substantiva objetiva direta.</li>
+        </ul>
+        <p>Dessa forma, a <strong>Alternativa B</strong> descreve com exatidão científica as propriedades morfológicas e as funções sintáticas exercidas pelo "que" em cada um dos contextos oracionais apresentados.</p>`
+      },
+      {
+        id: 8,
+        source: "Instituto AOCP — Adaptado",
+        context: "Considere o seguinte período composto extraído de um texto jornalístico: <em>“[...] é preciso que haja uma expansão continuada daquela capacidade [...]”</em>. A respeito das relações de dependência sintática estabelecidas nesse trecho, assinale a alternativa que traz uma afirmação <strong>INCORRETA</strong>:",
+        options: {
+          A: "O excerto constitui uma estrutura de período composto por subordinação.",
+          B: "A oração que se inicia pelo conectivo “que” desempenha o papel de oração subordinada substantiva subjetiva.",
+          C: "O constituinte “é preciso” constitui a oração principal desse período composto.",
+          D: "Sintaticamente, a oração subordinada atua como o sujeito da oração que a antecede.",
+          E: "A oração subordinada desempenha função de complemento nominal para integrar o sentido de um sujeito presente na oração principal."
+        },
+        correct: "E",
+        subject: "Subordinação Substantiva Subjetiva",
+        connector: "Função sintática de sujeito oracional",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">A questão exige a identificação da afirmação incorreta sobre as relações sintáticas do período composto por subordinação substantiva:</p>
+        <ul class="list-disc list-inside space-y-1 mb-3">
+          <li>A oração principal é constituída pela locução verbal e pelo adjetivo preditivo <em>“é preciso”</em>.</li>
+          <li>Como essa oração não apresenta sujeito simples ou composto em sua estrutura interna, a lacuna do sujeito é preenchida integralmente pela oração subordinada substantiva que se segue (<em>“que haja uma expansão...”</em>), classificando-se como <strong>substantiva subjetiva</strong>.</li>
+        </ul>
+        <p class="mb-3">Portanto, as afirmativas A, B, C e D estão perfeitas sintaticamente. A <strong>Alternativa E</strong> apresenta um conceito gramatical completamente equivocado e contraditório, uma vez que a oração subjetiva não atua como "complemento nominal", tampouco existe um sujeito expresso na oração principal para ser integrado. O sujeito é a própria oração subordinada em sua totalidade (Gabarito E como incorreta).</p>`
+      },
+      {
+        id: 9,
+        source: "Instituto AOCP — Adaptado",
+        context: "Analise o nexo conjuntivo empregado na articulação das duas orações que compõem o seguinte fragmento: <em>“Problemas individuais devem ser levados em consideração, <strong>uma vez que respostas afetivas como a ansiedade e o medo podem nos tornar mais irritáveis e impulsivos</strong>”</em>. No contexto do período, a oração em destaque assume valor semântico de:",
+        options: {
+          A: "consequência, por evidenciar o efeito pragmático gerado pelos sentimentos de ansiedade e de medo na rotina social dos sujeitos.",
+          B: "finalidade, uma vez que delimita o objetivo intencional de se considerar as demandas de ordem pessoal.",
+          C: "proporção, dado que estabelece uma correlação de intensidade progressiva entre a instabilidade emocional e as reações individuais.",
+          D: "condição, tendo em vista que estabelece uma circunstância indispensável de cuja ocorrência depende o ato de ponderar as dificuldades do outro.",
+          E: "causa, visto que indica o fato motivador que justifica e torna necessária a consideração das problemáticas de foro individual."
+        },
+        correct: "E",
+        subject: "Subordinação Adverbial Causal",
+        connector: "Locução conjuntiva 'uma vez que'",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">No período composto por subordinação adverbial analisado, a oração destacada é introduzida pela locução conjuntiva subordinativa <strong>"uma vez que"</strong>. Essa locução funciona como um nexo de natureza causal, cuja função é introduzir a causa, a explicação ou o motivo real que fundamenta a declaração feita na oração principal (<em>“Problemas individuais devem ser levados em consideração...”</em>).</p>
+        <p class="mb-3">O fato de as respostas afetivas (ansiedade e medo) tornarem as pessoas mais irritáveis e impulsivas é a <strong>causa direta</strong> pela qual se faz necessário e recomendável levar em conta as suas dificuldades ou problemas individuais no convívio familiar e social (Gabarito E).</p>
+        <p>As alternativas A, B, C e D são incorretas porque atribuem à oração valores circunstanciais diversos (consequência, finalidade, proporção e condição, respectivamente) que não encontram respaldo na semântica da locução conjuntiva empregada no período.</p>`
+      },
+      {
+        id: 10,
+        source: "Instituto AOCP — Adaptado",
+        context: `A organização sintática do período composto e do período simples exige o cumprimento estrito das convenções de pontuação para a estruturação de blocos informativos inteligíveis. Relacione as justificativas normativas de uso ou desvio da vírgula aos respectivos excertos e, em seguida, assinale a alternativa com a correspondência correta:
+        <br><br>
+        <strong>1.</strong> Emprego da vírgula para isolar conjunção coordenativa adversativa.<br>
+        <strong>2.</strong> Emprego da vírgula para delimitar adjunto adverbial deslocado.<br>
+        <strong>3.</strong> Desvio normativo devido à interposição de vírgula que separa o sujeito de seu predicado.<br>
+        <strong>4.</strong> Emprego de vírgulas para a separação de termos coordenados em uma enumeração.<br>
+        <strong>5.</strong> Emprego de vírgulas para isolar oração subordinada adjetiva de caráter explicativo.<br><br>
+        ( ) <em>“[...] essa relação, <strong>que é tão importante</strong>, para o ser humano pode ser fragilizada pela mudança abrupta da rotina e por reações emocionais inerentes ao momento.”</em><br>
+        ( ) <em>“<strong>Claramente</strong>, essa emoção precisa ser 'colocada para fora' [...]”</em><br>
+        ( ) <em>“Sinais de estresse podem ser expressos pela pessoa com quem dividimos o convívio como alterações de <strong>sono, apetite, irritabilidade e tristeza</strong>.”</em><br>
+        ( ) <em>“Oferecer ajuda com diálogo aberto e uma visão menos estigmatizada do sofrimento mental<strong>,</strong> pode ser um grande passo para uma relação saudável.”</em><br>
+        ( ) <em>“[...] relação familiar é um elemento importante em tempos de pandemia<strong>, todavia,</strong> estratégias de cuidado e leitura emocional do outro e de si mesmo podem determinar a qualidade e a força dessa relação como um aspecto estrutural da saúde mental.”</em><br><br>
+        Assinale a alternativa correspondente:`,
+        options: {
+          A: "5 – 2 – 4 – 3 – 1",
+          B: "5 – 1 – 4 – 3 – 2",
+          C: "1 – 3 – 5 – 4 – 2",
+          D: "4 – 2 – 3 – 1 – 5",
+          E: "3 – 4 – 5 – 2 – 1"
+        },
+        correct: "A",
+        subject: "Pontuação no Período Composto",
+        connector: "Relações sintáticas e regras de pontuação",
+        explanation: `<p class="mb-3"><strong>Análise Sintática Completa:</strong></p>
+        <p class="mb-3">A resolução desta questão baseia-se na aplicação rigorosa das regras de pontuação sobre as diferentes estruturas sintáticas:</p>
+        <ul class="list-none space-y-2 mb-3">
+          <li><strong>(5)</strong> No primeiro excerto, a oração adjetiva explicativa intercalada <em>“que é tão importante”</em> está devidamente isolada por vírgulas.</li>
+          <li><strong>(2)</strong> No segundo excerto, o termo <em>“Claramente”</em> atua como adjunto adverbial de modo deslocado para o início da frase, sendo corretamente isolado por vírgula.</li>
+          <li><strong>(4)</strong> No terceiro excerto, as vírgulas separam elementos substantivos coordenados em uma listagem de sintomas de estresse (sono, apetite, irritabilidade...).</li>
+          <li><strong>(3)</strong> No quarto excerto, a vírgula inserida após o substantivo "mental" separa incorretamente o sujeito oracional do seu predicado (<em>"Oferecer ajuda... [vírgula proibida] pode ser..."</em>), configurando desvio normativo.</li>
+          <li><strong>(1)</strong> No quinto excerto, a conjunção adversativa <em>“todavia”</em> aparece delimitada por vírgulas ao articular a nova oração coordenada adversativa.</li>
+        </ul>
+        <p>A correspondência exata gera a sequência numérica <strong>5 – 2 – 4 – 3 – 1</strong>, o que valida a <strong>Alternativa A</strong> como a resposta correta.</p>`
+      }
+    ];
+
+    // ESTADO GLOBAL DA APLICAÇÃO
+    let userAnswers = {};
+    let flaggedQuestions = {};
+    let fontSizeClass = 1; // 0: Pequeno, 1: Médio (Padrão), 2: Grande, 3: Extra Grande
+    let startTime;
+    let timerInterval;
+    let isSubmitted = false;
+
+    // INICIALIZAÇÃO DA PÁGINA
+    window.onload = function() {
+      renderQuestions();
+      renderNavigationDots();
+      startTimer();
+      lucide.createIcons();
+    };
+
+    // FUNÇÕES DE TIMER
+    function startTimer() {
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      const elapsed = Date.now() - startTime;
+      const hours = Math.floor(elapsed / 3600000);
+      const minutes = Math.floor((elapsed % 3600000) / 60000);
+      const seconds = Math.floor((elapsed % 60000) / 1000);
+      
+      const pad = (num) => String(num).padStart(2, '0');
+      document.getElementById('timer').innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    // CONTROLE DE ACESSIBILIDADE DE FONTES
+    const fontSizes = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
+    const textFontSizes = ['text-base md:text-lg', 'text-lg md:text-xl', 'text-xl md:text-2xl', 'text-2xl md:text-3xl'];
+    
+    function changeFontSize(direction) {
+      fontSizeClass = Math.max(0, Math.min(3, fontSizeClass + direction));
+      
+      // Aplicar dinamicamente em todos os textos de contexto de questões e opções
+      document.querySelectorAll('.question-context').forEach(el => {
+        el.className = `question-context font-serif leading-relaxed mb-6 transition-theme ${textFontSizes[fontSizeClass]}`;
+      });
+      document.querySelectorAll('.option-text').forEach(el => {
+        el.className = `option-text font-medium text-sm md:text-base leading-snug transition-theme ${fontSizes[fontSizeClass]}`;
+      });
+    }
+
+    // CONTROLE DE APARÊNCIA / TEMAS
+    function setTheme(theme) {
+      document.body.classList.remove('theme-sepia', 'dark');
+      
+      if (theme === 'sepia') {
+        document.body.classList.add('theme-sepia');
+        document.documentElement.classList.remove('dark');
+      } else if (theme === 'dark') {
+        document.body.classList.add('dark');
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    // ALTERNAR FLUSH DE MARCAÇÃO DE DÚVIDA
+    function toggleFlag(qId) {
+      flaggedQuestions[qId] = !flaggedQuestions[qId];
+      
+      // Atualiza visual do botão de flag na questão
+      const flagBtn = document.getElementById(`flag-btn-${qId}`);
+      if (flaggedQuestions[qId]) {
+        flagBtn.classList.remove('text-zinc-400');
+        flagBtn.classList.add('text-amber-500', 'bg-amber-50', 'dark:bg-amber-950/30');
+      } else {
+        flagBtn.classList.add('text-zinc-400');
+        flagBtn.classList.remove('text-amber-500', 'bg-amber-50', 'dark:bg-amber-950/30');
+      }
+      
+      renderNavigationDots();
+    }
+
+    // SELEÇÃO DE ALTERNATIVA
+    function selectOption(qId, option) {
+      if (isSubmitted) return; // Desativa se já enviado
+      
+      userAnswers[qId] = option;
+      
+      // Atualizar layout visual dos botões
+      document.querySelectorAll(`[id^="option-card-${qId}-"]`).forEach(card => {
+        card.classList.remove('border-indigo-600', 'bg-indigo-50/50', 'dark:bg-indigo-900/20', 'option-selected');
+        card.classList.add('border-zinc-200', 'dark:border-zinc-800');
+      });
+
+      const selectedCard = document.getElementById(`option-card-${qId}-${option}`);
+      selectedCard.classList.remove('border-zinc-200', 'dark:border-zinc-800');
+      selectedCard.classList.add('border-indigo-600', 'bg-indigo-50/50', 'dark:bg-indigo-900/20', 'option-selected');
+      
+      // Atualizar contadores e mapa de questões
+      updateAnsweredCounter();
+      renderNavigationDots();
+    }
+
+    function updateAnsweredCounter() {
+      const totalAnswered = Object.keys(userAnswers).length;
+      document.getElementById('answered-counter').innerText = `Respondidas: ${totalAnswered} de 10`;
+    }
+
+    // RENDERIZAÇÃO DE MAPA DE QUESTÕES
+    function renderNavigationDots() {
+      const container = document.getElementById('navigation-dots');
+      container.innerHTML = '';
+      
+      questionsData.forEach(q => {
+        const dot = document.createElement('a');
+        dot.href = `#question-card-${q.id}`;
+        
+        let statusClasses = 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700';
+        
+        if (userAnswers[q.id]) {
+          statusClasses = 'bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-400 border border-indigo-300 dark:border-indigo-800';
+        }
+        
+        if (flaggedQuestions[q.id]) {
+          statusClasses = 'bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-800';
+        }
+        
+        if (isSubmitted) {
+          const isCorrect = userAnswers[q.id] === q.correct;
+          statusClasses = isCorrect 
+            ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800' 
+            : 'bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-400 border border-rose-300 dark:border-rose-800';
+        }
+
+        dot.className = `w-10 h-10 flex items-center justify-center font-bold rounded-lg text-sm transition-all transition-theme ${statusClasses}`;
+        dot.innerHTML = `${q.id}`;
+        container.appendChild(dot);
+      });
+    }
+
+    // GERAR DESIGN DAS QUESTÕES DINAMICAMENTE
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+
+      questionsData.forEach(q => {
+        const card = document.createElement('article');
+        card.id = `question-card-${q.id}`;
+        card.className = "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 md:p-8 transition-theme shadow-sm relative";
+        
+        let optionsHTML = '';
+        Object.entries(q.options).forEach(([letter, text]) => {
+          optionsHTML += `
+            <button id="option-card-${q.id}-${letter}" onclick="selectOption(${q.id}, '${letter}')" 
+              class="option-btn flex items-start text-left w-full p-4 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/40 rounded-xl transition-all transition-theme group no-select relative overflow-hidden">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center mr-3 group-hover:border-indigo-500 font-bold text-xs bg-white dark:bg-zinc-800 dark:text-white transition-colors">
+                ${letter}
+              </span>
+              <span class="option-text font-medium text-zinc-700 dark:text-zinc-300 leading-snug ${fontSizes[fontSizeClass]}">
+                ${text}
+              </span>
+            </button>
+          `;
+        });
+
+        card.innerHTML = `
+          <!-- Cabeçalho da Questão -->
+          <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800/60 pb-4 mb-5">
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-400 rounded-md font-bold text-xs tracking-wider">
+                QUESTÃO ${q.id}
+              </span>
+              <span class="text-xs text-zinc-400 dark:text-zinc-500 font-medium hidden sm:inline">
+                ${q.source}
+              </span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <!-- Botão Marcar com Dúvida -->
+              <button id="flag-btn-${q.id}" onclick="toggleFlag(${q.id})" class="p-1.5 text-zinc-400 hover:text-amber-500 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" title="Marcar com dúvida / Flag">
+                <i data-lucide="flag" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Enunciado / Contexto -->
+          <div class="question-context font-serif text-zinc-800 dark:text-zinc-200 leading-relaxed mb-6 transition-theme ${textFontSizes[fontSizeClass]}">
+            ${q.context}
+          </div>
+
+          <!-- Alternativas -->
+          <div class="space-y-3" id="options-group-${q.id}">
+            ${optionsHTML}
+          </div>
+
+          <!-- Caixa de Feedback da Resposta (Injetada pós-envio) -->
+          <div id="feedback-panel-${q.id}" class="hidden mt-6 p-4 rounded-xl border">
+            <!-- Gerado no submit -->
+          </div>
+
+          <!-- Resolução Explicada do Professor -->
+          <div id="resolution-panel-${q.id}" class="hidden mt-4 p-5 bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl transition-theme">
+            <div class="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 mb-3 font-semibold text-sm">
+              <i data-lucide="text-quote" class="w-4 h-4"></i>
+              <span>Comentário & Resolução Analítica:</span>
+            </div>
+            <div class="text-zinc-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed space-y-3 font-sans">
+              ${q.explanation}
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(card);
+      });
+    }
+
+    // MODAL HANDLERS
+    function confirmSubmit() {
+      const totalQuestions = questionsData.length;
+      const answeredCount = Object.keys(userAnswers).length;
+      
+      if (answeredCount < totalQuestions) {
+        document.getElementById('modal-confirm').classList.remove('hidden');
+      } else {
+        submitQuiz(false);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modal-confirm').classList.add('hidden');
+    }
+
+    // FINALIZAR SIMULADO
+    function submitQuiz(force) {
+      if (force) {
+        closeModal();
+      }
+      
+      isSubmitted = true;
+      clearInterval(timerInterval);
+      
+      // 1. Desativar interatividade das opções de alternativas
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('cursor-default');
+      });
+
+      let correctCount = 0;
+
+      // 2. Processar feedback visual em cada questão e injetar resoluções
+      questionsData.forEach(q => {
+        const userChoice = userAnswers[q.id];
+        const isCorrect = userChoice === q.correct;
+        
+        if (isCorrect) correctCount++;
+
+        // Exibe e colore painel de feedback da questão
+        const feedbackPanel = document.getElementById(`feedback-panel-${q.id}`);
+        feedbackPanel.classList.remove('hidden');
+        
+        if (isCorrect) {
+          feedbackPanel.classList.add('bg-emerald-50', 'dark:bg-emerald-950/30', 'border-emerald-200', 'dark:border-emerald-900/60');
+          feedbackPanel.innerHTML = `
+            <div class="flex items-center space-x-2 text-emerald-700 dark:text-emerald-400 font-bold text-sm">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+              <span>Você acertou! Gabarito Oficial: Letra ${q.correct}</span>
+            </div>
+          `;
+        } else {
+          feedbackPanel.classList.add('bg-rose-50', 'dark:bg-rose-950/30', 'border-rose-200', 'dark:border-rose-900/60');
+          feedbackPanel.innerHTML = `
+            <div class="flex items-center space-x-2 text-rose-700 dark:text-rose-400 font-bold text-sm">
+              <i data-lucide="x-circle" class="w-5 h-5"></i>
+              <span>Você errou. Gabarito Oficial: Letra ${q.correct} ${userChoice ? `| Sua resposta foi Letra ${userChoice}` : '| Você não respondeu esta questão'}</span>
+            </div>
+          `;
+        }
+
+        // Colore os botões de opção individualmente para evidenciar o gabarito
+        Object.keys(q.options).forEach(letter => {
+          const optionCard = document.getElementById(`option-card-${q.id}-${letter}`);
+          
+          if (letter === q.correct) {
+            // Gabarito oficial: sempre verde
+            optionCard.className = "flex items-start text-left w-full p-4 border border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl transition-all transition-theme cursor-default";
+            optionCard.querySelector('.rounded-full').className = "flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center mr-3 font-bold text-xs";
+          } else if (userChoice === letter && !isCorrect) {
+            // Erro do aluno: vermelho
+            optionCard.className = "flex items-start text-left w-full p-4 border border-rose-500 bg-rose-50 dark:bg-rose-950/40 rounded-xl transition-all transition-theme cursor-default";
+            optionCard.querySelector('.rounded-full').className = "flex-shrink-0 w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center mr-3 font-bold text-xs";
+          } else {
+            // Outras neutras
+            optionCard.className = "flex items-start text-left w-full p-4 border border-zinc-200 dark:border-zinc-800 rounded-xl opacity-60 cursor-default";
+          }
+        });
+
+        // Revelar a resolução comentada
+        document.getElementById(`resolution-panel-${q.id}`).classList.remove('hidden');
+      });
+
+      // 3. Gerar Gabarito Geral na Seção de Resultados
+      const gabaritoBody = document.getElementById('gabarito-table-body');
+      gabaritoBody.innerHTML = '';
+      
+      questionsData.forEach(q => {
+        const userChoice = userAnswers[q.id];
+        const isCorrect = userChoice === q.correct;
+        
+        const statusBadge = isCorrect 
+          ? `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-400"><i data-lucide="check" class="w-3 h-3 mr-1"></i> Correto</span>`
+          : `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-400"><i data-lucide="x" class="w-3 h-3 mr-1"></i> Incorreto</span>`;
+
+        const row = document.createElement('tr');
+        row.className = "border-b border-zinc-100 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 transition-theme hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20";
+        row.innerHTML = `
+          <td class="py-3 font-semibold"><a href="#question-card-${q.id}" class="hover:underline">Questão ${q.id}</a></td>
+          <td class="py-3">${statusBadge}</td>
+          <td class="py-3 font-mono font-bold">${userChoice || '—'}</td>
+          <td class="py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">${q.correct}</td>
+          <td class="py-3 text-xs md:text-sm text-zinc-500 dark:text-zinc-400">${q.subject}</td>
+        `;
+        gabaritoBody.appendChild(row);
+      });
+
+      // 4. Exibir cabeçalho e estatísticas de desempenho gerais
+      document.getElementById('pre-submit-state').classList.add('hidden');
+      document.getElementById('results-state').classList.remove('hidden');
+      
+      const pct = (correctCount / questionsData.length) * 100;
+      
+      // Atualiza SVG donut do progresso
+      // Comprimento da circunferência: 2 * PI * r = 2 * 3.14159 * 34 = 213.6
+      const offset = 213.6 - (213.6 * correctCount) / 100 * 10;
+      document.getElementById('progress-indicator').style.strokeDashoffset = offset;
+      
+      // Renderizar pontuação textual
+      document.getElementById('score-text').innerText = `${correctCount}/10`;
+      
+      // Feedback textual condicional
+      let feedbackTitle = "";
+      let feedbackDesc = "";
+      if (pct === 100) {
+        feedbackTitle = "Excelente! Gabarito Perfeito.";
+        feedbackDesc = "Parabéns, você alcançou nota máxima! Seu domínio sobre orações coordenadas e subordinadas no padrão AOCP é impecável.";
+      } else if (pct >= 80) {
+        feedbackTitle = "Parabéns! Excelente pontuação.";
+        feedbackDesc = "Aproveite para ler os comentários das questões incorretas e solidificar ainda mais sua compreensão sintática.";
+      } else if (pct >= 50) {
+        feedbackTitle = "Bom desempenho!";
+        feedbackDesc = "Você já possui uma base sólida sobre períodos. Revise com atenção as explicações para sanar quaisquer dúvidas residuais.";
+      } else {
+        feedbackTitle = "Continue estudando!";
+        feedbackDesc = "Sintaxe do Período Composto é um tema complexo. Use as resoluções detalhadas do professor para reforçar o aprendizado.";
+      }
+      
+      document.getElementById('performance-title').innerText = feedbackTitle;
+      document.getElementById('performance-desc').innerText = feedbackDesc;
+
+      // 5. Resetar Mapa de Questões e recriar ícones lucide injetados
+      renderNavigationDots();
+      lucide.createIcons();
+
+      // Rolar suavemente para os resultados
+      document.getElementById('action-panel').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // REINICIAR QUIZ COMPLETAMENTE
+    function resetQuiz() {
+      userAnswers = {};
+      flaggedQuestions = {};
+      isSubmitted = false;
+      
+      document.getElementById('results-state').classList.add('hidden');
+      document.getElementById('pre-submit-state').classList.remove('hidden');
+      
+      renderQuestions();
+      renderNavigationDots();
+      updateAnsweredCounter();
+      startTimer();
+      lucide.createIcons();
+      
+      document.getElementById('questions-container').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

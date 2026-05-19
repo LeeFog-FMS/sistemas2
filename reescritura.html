@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorização Ativa - Reescrita de Frases (IFCE/AOCP)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1e293b; scroll-behavior: smooth; }
+        .serif-font { font-family: 'Lora', Georgia, serif; }
+        .highlight { background-color: #fef08a; color: #1c1917; padding: 0.1rem 0.3rem; border-radius: 0.2rem; font-weight: 500; }
+        .highlight-green { background-color: #dcfce7; color: #14532d; padding: 0.1rem 0.3rem; border-radius: 0.2rem; font-weight: 500; }
+        .highlight-alert { background-color: #fee2e2; color: #7f1d1d; padding: 0.1rem 0.3rem; border-radius: 0.2rem; font-weight: 600; }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-emerald-100">
+
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-center sm:text-left">
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">IFCE • Professor de Geografia • EBTT</span>
+                <h1 class="text-xl md:text-2xl font-black text-slate-900 mt-1 uppercase">Reescrita de Frases</h1>
+            </div>
+            <div class="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>MODO DE MEMORIZAÇÃO ATIVA</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Bloco de Áudio -->
+        <section class="mb-12 p-6 bg-slate-50 rounded-2xl border border-slate-200 card-shadow">
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <div class="shrink-0">
+                    <div class="w-14 h-14 bg-emerald-600 rounded-full flex items-center justify-center text-white">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                    </div>
+                </div>
+                <div class="flex-1 space-y-3 w-full">
+                    <label class="block text-sm font-bold text-slate-700">🎧 Carregar Áudio da Aula:</label>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="audio-filename" 
+                               class="flex-1 px-4 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all" 
+                               value="aula_reescritura_ifce.mp3" 
+                               oninput="updateAudioSource()">
+                        <audio id="audio-player" class="w-full sm:w-64 h-10" controls>
+                            <source id="audio-source" src="aula_reescritura_ifce.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTRODUÇÃO -->
+        <section class="mb-16">
+            <h2 class="text-sm font-bold text-emerald-600 uppercase tracking-widest mb-4">01. Definição e Essência</h2>
+            <div class="serif-font text-xl text-slate-700 leading-relaxed border-l-4 border-slate-200 pl-6 italic">
+                Reescrever não é apenas trocar palavras; é <span class="highlight">reordenar a estrutura sintática</span> mantendo a <span class="highlight">equivalência lógica</span>. Para o Instituto AOCP, a reescrita é um teste de **precisão cirúrgica**. Se mudar um "embora" para "contudo", o sentido morre. Se mudar "os alunos fazem" para "faz-se os alunos", a gramática morre.
+            </div>
+        </section>
+
+        <!-- TÓPICO 2: PARÁFRASE -->
+        <section class="mb-16 space-y-6">
+            <h2 class="text-sm font-bold text-emerald-600 uppercase tracking-widest">02. Técnicas de Paráfrase e Léxico</h2>
+            <p class="text-slate-600 leading-relaxed">
+                A banca costuma trocar termos técnicos por sinônimos contextuais. Na prova de Geografia, isso é recorrente em conceitos demográficos e ambientais.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-5 bg-white border border-slate-200 rounded-2xl hover:border-emerald-200 transition-colors">
+                    <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                        Substituição por Sinônimos
+                    </h4>
+                    <p class="text-sm text-slate-600 italic">"A <span class="highlight">expansão urbana</span> degradou o bioma."</p>
+                    <p class="text-sm text-slate-600 mt-2">➔ "O <span class="highlight-green">crescimento das cidades</span> deteriorou a vegetação nativa."</p>
+                    <p class="text-[11px] text-slate-400 mt-2 font-medium uppercase tracking-tighter italic">Nota: Verifique se o sinônimo mantém a carga semântica (ex: "pouco" não é sinônimo de "raro").</p>
+                </div>
+                <div class="p-5 bg-white border border-slate-200 rounded-2xl hover:border-emerald-200 transition-colors">
+                    <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path></svg>
+                        Nominalização (Verbo ➔ Substantivo)
+                    </h4>
+                    <p class="text-sm text-slate-600 italic">"É preciso <span class="highlight">preservar</span> as nascentes."</p>
+                    <p class="text-sm text-slate-600 mt-2">➔ "A <span class="highlight-green">preservação</span> das nascentes é necessária."</p>
+                    <p class="text-[11px] text-slate-400 mt-2 font-medium uppercase tracking-tighter italic">Nota: Comum em reescritas que visam tornar o texto mais formal/objetivo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TÓPICO 3: VOZES VERBAIS (Destaque Técnico) -->
+        <section class="mb-16 space-y-6">
+            <h2 class="text-sm font-bold text-emerald-600 uppercase tracking-widest">03. Transposição de Vozes e o "Peguinha" do SE</h2>
+            
+            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden card-shadow">
+                <div class="bg-slate-900 p-4 text-white text-xs font-bold uppercase tracking-widest text-center">Protocolo de Identificação AOCP</div>
+                <div class="p-6 space-y-6">
+                    <div>
+                        <h4 class="text-sm font-extrabold text-slate-800 mb-3 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                            A Armadilha: VTD vs VTI + "SE"
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">VOZ PASSIVA (VTD)</span>
+                                <p class="text-sm text-slate-700 font-mono bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                    "Alugam-se <strong class="text-emerald-700 underline">salas</strong>."<br>
+                                    <span class="text-xs text-slate-400 mt-1 block">(Salas são alugadas. Concordância OBRIGATÓRIA no plural.)</span>
+                                </p>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">ÍNDICE DE INDETERMINAÇÃO (VTI)</span>
+                                <p class="text-sm text-slate-700 font-mono bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                    "Precisa-se <strong class="text-red-700 underline">de salas</strong>."<br>
+                                    <span class="text-xs text-slate-400 mt-1 block">(Verbo sempre no SINGULAR. O "de salas" é objeto indireto.)</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TÓPICO 4: TABELA DE CONECTIVOS (EXPANDIDA) -->
+        <section class="mb-16 space-y-6">
+            <h2 class="text-sm font-bold text-emerald-600 uppercase tracking-widest">04. Conectores e Nexo Lógico</h2>
+            <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                <div class="hidden md:grid grid-cols-3 bg-slate-50 text-[10px] font-bold text-slate-400 uppercase p-3 border-b border-slate-200">
+                    <div>Valor Semântico</div>
+                    <div>Conectivos Permutáveis</div>
+                    <div>Observação AOCP</div>
+                </div>
+                <div class="divide-y divide-slate-100">
+                    <!-- Concessivos -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 p-4 gap-2 md:gap-0 items-center">
+                        <div class="text-sm font-bold text-slate-900"><span class="md:hidden text-xs text-slate-400 block">Valor:</span>Concessão</div>
+                        <div class="text-sm text-slate-600"><span class="md:hidden text-xs text-slate-400 block">Permutáveis:</span><span class="highlight">Embora, conquanto, malgrado, ainda que.</span></div>
+                        <div class="text-xs text-emerald-700 bg-emerald-50 p-2 rounded italic">Subjuntivo obrigatório. A AOCP adora trocar "conquanto" por "embora".</div>
+                    </div>
+                    <!-- Adversativos -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 p-4 gap-2 md:gap-0 items-center">
+                        <div class="text-sm font-bold text-slate-900"><span class="md:hidden text-xs text-slate-400 block">Valor:</span>Adversidade</div>
+                        <div class="text-sm text-slate-600"><span class="md:hidden text-xs text-slate-400 block">Permutáveis:</span><span class="highlight">Contudo, todavia, entretanto, no entanto.</span></div>
+                        <div class="text-xs text-slate-500 italic p-2">Indicativo. O "mas" nunca vem entre vírgulas; os outros sim.</div>
+                    </div>
+                    <!-- Condicionais -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 p-4 gap-2 md:gap-0 items-center">
+                        <div class="text-sm font-bold text-slate-900"><span class="md:hidden text-xs text-slate-400 block">Valor:</span>Condição</div>
+                        <div class="text-sm text-slate-600"><span class="md:hidden text-xs text-slate-400 block">Permutáveis:</span><span class="highlight">Desde que, contanto que, caso.</span></div>
+                        <div class="text-xs text-red-700 bg-red-50 p-2 rounded italic">Atenção: "Desde que" também pode ser temporal. Verifique o contexto.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TÓPICO 5: FILTROS FINAIS (CHECKLIST) -->
+        <section class="mb-16 space-y-6">
+            <h2 class="text-sm font-bold text-emerald-600 uppercase tracking-widest">05. Checklist de Verificação</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="p-6 border border-slate-100 bg-slate-50 rounded-2xl space-y-2">
+                    <span class="text-xl">✅</span>
+                    <h5 class="font-bold text-slate-900 text-sm">Tempo Verbal</h5>
+                    <p class="text-xs text-slate-500">Se o original está no Pretérito Imperfeito, a reescrita <strong class="text-slate-800">não pode</strong> estar no Perfeito.</p>
+                </div>
+                <div class="p-6 border border-slate-100 bg-slate-50 rounded-2xl space-y-2">
+                    <span class="text-xl">✅</span>
+                    <h5 class="font-bold text-slate-900 text-sm">Crase e Regência</h5>
+                    <p class="text-xs text-slate-500">Ao trocar um verbo, verifique se a preposição exigida mudou (ex: "ir a" vs "chegar a").</p>
+                </div>
+                <div class="p-6 border border-slate-100 bg-slate-50 rounded-2xl space-y-2">
+                    <span class="text-xl">✅</span>
+                    <h5 class="font-bold text-slate-900 text-sm">Pontuação</h5>
+                    <p class="text-xs text-slate-500">Cuidado com vírgulas separando sujeito de verbo em inversões sintáticas longas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTÃO FINAL -->
+        <section class="py-12 border-t border-slate-100 text-center">
+            <h3 class="serif-font text-2xl text-slate-800 mb-6 font-medium">Pronto para testar seu conhecimento?</h3>
+            <a href="reescrituraquestoes.html" class="inline-flex items-center gap-3 px-10 py-5 bg-slate-900 text-white font-bold rounded-2xl hover:bg-emerald-600 transition-all transform hover:-translate-y-1 shadow-xl hover:shadow-emerald-200/50">
+                PRATICAR COM QUESTÕES AOCP
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-100 py-12 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="text-xs text-slate-400 font-bold uppercase tracking-[0.3em]">Plataforma de Estudos • IFCE Geografia 2026</p>
+            <p class="text-[10px] text-slate-300 mt-2">Este material é de uso exclusivo para fins didáticos e memorização de normas gramaticais aplicadas.</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateAudioSource() {
+            const inputVal = document.getElementById('audio-filename').value.trim();
+            const audioPlayer = document.getElementById('audio-player');
+            const audioSource = document.getElementById('audio-source');
+            if (inputVal) {
+                audioSource.src = inputVal;
+                audioPlayer.load();
+            }
+        }
+    </script>
+</body>
+</html>

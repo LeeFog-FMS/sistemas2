@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Interativa: Sintaxe do Período - AOCP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; color: #1e293b; }
+        .grifo { background-color: #fef08a; color: #0f172a; padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-weight: 600; }
+        .grifo-importante { background-color: #fed7aa; color: #1c1917; padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-weight: 600; }
+        
+        @media (max-width: 768px) {
+            .table-responsive { display: block; }
+            .table-responsive thead { display: none; }
+            .table-responsive tbody, .table-responsive tr, .table-responsive td { display: block; width: 100%; }
+            .table-responsive tr { margin-bottom: 1.5rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; background-color: #f8fafc; }
+            .table-responsive td { text-align: left; padding: 0.5rem 0; border: none; }
+            .table-responsive td::before { content: attr(data-label); font-weight: 700; display: block; color: #475569; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.25rem; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+
+    <header class="w-full max-w-4xl px-6 pt-10 pb-6 border-b border-slate-100">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded">IFCE | Professor de Geografia</span>
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded ml-2">Banca AOCP</span>
+        <h1 class="text-3xl md:text-4xl font-extrabold mt-3 text-slate-900 tracking-tight">Sintaxe do Período Composto</h1>
+        <p class="text-sm md:text-base text-slate-600 mt-2 italic text-emerald-700">Revisão Integral: Coordenação, Subordinação e Estratégias de Prova EBTT.</p>
+    </header>
+
+    <section class="w-full max-w-4xl px-6 mt-6">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-slate-900 text-white rounded-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .9-1.077 1.337-1.707.707L5.586 15z" /></svg>
+                    </div>
+                    <div><h2 class="text-sm font-bold text-slate-900">Audiobook da Aula</h2><p class="text-xs text-slate-500">Insira o arquivo mp3 abaixo</p></div>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <input type="text" id="audioSource" value="aula_sintaxe_aocp.mp3" class="w-full md:w-64 px-3 py-1.5 text-xs bg-white border border-slate-300 rounded">
+                    <button onclick="carregarAudio()" class="px-4 py-1.5 bg-slate-900 text-white rounded text-xs font-semibold hover:bg-slate-800">Carregar</button>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-slate-200 flex flex-col gap-2">
+                <audio id="meuAudio" class="hidden"><source id="audioSrc" src="aula_sintaxe_aocp.mp3" type="audio/mpeg"></audio>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <button id="btnPlayPause" onclick="togglePlay()" class="p-2 bg-slate-200 text-slate-900 rounded-full">
+                            <svg id="playIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+                            <svg id="pauseIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z"/></svg>
+                        </button>
+                        <span id="tempoAtual" class="text-xs text-slate-500 font-mono">0:00</span>
+                        <span id="tempoTotal" class="text-xs text-slate-500 font-mono">/ 0:00</span>
+                    </div>
+                    <div class="flex gap-1">
+                        <button onclick="mudarVelocidade(1.0)" class="btnSpeed px-2 py-0.5 text-xs rounded bg-slate-900 text-white">1x</button>
+                        <button onclick="mudarVelocidade(1.5)" class="btnSpeed px-2 py-0.5 text-xs rounded bg-slate-100">1.5x</button>
+                        <button onclick="mudarVelocidade(2.0)" class="btnSpeed px-2 py-0.5 text-xs rounded bg-slate-100">2x</button>
+                    </div>
+                </div>
+                <div class="relative w-full h-1.5 bg-slate-200 rounded-full cursor-pointer" id="progressContainer" onclick="buscarTempo(event)">
+                    <div id="progressBar" class="absolute top-0 left-0 h-full bg-slate-900 rounded-full w-0"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="w-full max-w-4xl px-6 py-8 flex flex-col gap-10">
+        
+        <section class="p-6 border border-slate-100 rounded-xl">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">0. Conceitos Base para Não Confundir</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <strong class="block text-slate-900">Frase vs. Oração vs. Período</strong>
+                    <p class="text-slate-600 mt-1">A <span class="grifo">oração</span> gira obrigatoriamente em torno de um verbo. O <span class="grifo">período</span> termina no ponto final e pode ser simples (1 verbo) ou composto (+ de 1 verbo).</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <strong class="block text-slate-900">Coordenação vs. Subordinação</strong>
+                    <p class="text-slate-600 mt-1">Na coordenação as orações são <span class="grifo">sintaticamente independentes</span>. Na subordinação, uma oração <span class="grifo-importante">exerce função sintática</span> para a outra (é um braço da oração principal).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-6 border border-slate-100 rounded-xl">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">1. Orações Coordenadas (Soma e Contraste)</h2>
+            <div class="overflow-x-visible w-full">
+                <table class="w-full table-responsive text-sm">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-600"><th class="p-3 text-left">Tipo</th><th class="p-3 text-left">Sentido</th><th class="p-3 text-left">Conectivos Principais</th><th class="p-3 text-left">Alerta AOCP</th></tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        <tr><td data-label="Tipo" class="p-3 font-bold">Aditiva</td><td data-label="Sentido" class="p-3">Acréscimo</td><td data-label="Conectivos" class="p-3 italic text-blue-700">e, nem, não só...mas também</td><td data-label="Alerta" class="p-3">O "e" pode ter valor adversativo em alguns contextos. Cuidado!</td></tr>
+                        <tr><td data-label="Tipo" class="p-3 font-bold">Adversativa</td><td data-label="Sentido" class="p-3">Oposição</td><td data-label="Conectivos" class="p-3 italic text-blue-700">mas, porém, contudo, todavia</td><td data-label="Alerta" class="p-3"><span class="grifo">MAS</span> nunca inicia frase isolada na norma culta rígida (AOCP cobra isso).</td></tr>
+                        <tr><td data-label="Tipo" class="p-3 font-bold">Alternativa</td><td data-label="Sentido" class="p-3">Exclusão</td><td data-label="Conectivos" class="p-3 italic text-blue-700">ou...ou, ora...ora, quer...quer</td><td data-label="Alerta" class="p-3">Exige correlação perfeita entre os pares.</td></tr>
+                        <tr><td data-label="Tipo" class="p-3 font-bold">Conclusiva</td><td data-label="Sentido" class="p-3">Fechamento</td><td data-label="Conectivos" class="p-3 italic text-blue-700">logo, portanto, por isso, pois (posposto)</td><td data-label="Alerta" class="p-3">A substituição de "portanto" por "porquanto" é um erro clássico que a banca induz.</td></tr>
+                        <tr><td data-label="Tipo" class="p-3 font-bold">Explicativa</td><td data-label="Sentido" class="p-3">Justificativa</td><td data-label="Conectivos" class="p-3 italic text-blue-700">porque, que, pois (anteposto)</td><td data-label="Alerta" class="p-3">Sempre após vírgula ou dois-pontos.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="p-6 border border-slate-100 rounded-xl">
+            <h2 class="text-xl font-bold text-slate-900 mb-2">2. Subordinação: Substantivas e Adjetivas</h2>
+            <div class="space-y-4 text-sm">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900">Substantivas (Macetes de Identificação)</h3>
+                    <p class="mt-1">São funções de substantivo. Use o teste do <strong>ISSO</strong>. Tipos cobrados:</p>
+                    <ul class="list-disc ml-5 mt-2 space-y-1">
+                        <li><strong>Subjetiva:</strong> "É necessário <span class="grifo-importante">que todos estudem</span>" (Isso é necessário). Sujeito da principal.</li>
+                        <li><strong>Objetiva Direta:</strong> "Espero <span class="grifo-importante">que você passe</span>" (Espero isso).</li>
+                        <li><strong>Completiva Nominal:</strong> "Tenho medo <span class="grifo-importante">de que chova</span>". Completa um nome (medo).</li>
+                        <li><strong>Apositiva:</strong> "Desejo apenas uma coisa: <span class="grifo-importante">que sejas feliz</span>". Função de aposto (após dois pontos).</li>
+                    </ul>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-blue-900">Adjetivas (O Jogo do Significado)</h3>
+                    <p class="mt-1">Iniciadas por Pronome Relativo (o qual, cujo, onde, que). A AOCP foca na <strong>Pontuação</strong>:</p>
+                    <ul class="list-disc ml-5 mt-2 space-y-2">
+                        <li><span class="font-bold">Restritiva (Sem Vírgula):</span> "Os alunos <span class="underline">que estudam</span> passam". (Apenas os que estudam).</li>
+                        <li><span class="font-bold">Explicativa (Com Vírgula):</span> "O sol, <span class="underline">que é uma estrela</span>, aquece a Terra". (Generalização).</li>
+                        <li><span class="grifo">Dica Tática:</span> Se a questão perguntar se "a retirada da vírgula altera o sentido", a resposta é quase sempre SIM, mas se perguntar se "gera erro gramatical", a resposta é NÃO.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-6 border border-slate-100 rounded-xl">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">3. As 9 Orações Subordinadas Adverbiais (Circunstâncias)</h2>
+            <div class="overflow-x-visible w-full">
+                <table class="w-full table-responsive text-xs">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-600"><th class="p-3 text-left">Classificação</th><th class="p-3 text-left">Conectivos Chave</th><th class="p-3 text-left">Exemplo Típico de Prova</th></tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Causal</td><td data-label="Conectivos" class="p-3">porque, como (no início), visto que</td><td data-label="Exemplo" class="p-3">"<span class="grifo">Como</span> não estudou, reprovou."</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Comparativa</td><td data-label="Conectivos" class="p-3">que, do que, tão...quanto</td><td data-label="Exemplo" class="p-3">"É mais alto <span class="grifo">do que</span> o irmão."</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Concessiva</td><td data-label="Conectivos" class="p-3 text-red-700 font-bold">embora, conquanto, ainda que</td><td data-label="Exemplo" class="p-3">"<span class="grifo">Embora</span> chova, irei." (Oposição que não impede).</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Condicional</td><td data-label="Conectivos" class="p-3">se, caso, contanto que</td><td data-label="Exemplo" class="p-3">"<span class="grifo">Caso</span> queira, ligue."</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Conformativa</td><td data-label="Conectivos" class="p-3">conforme, segundo, consoante</td><td data-label="Exemplo" class="p-3">"<span class="grifo">Conforme</span> disse Milton Santos..."</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Consecutiva</td><td data-label="Conectivos" class="p-3">tão...que, de modo que</td><td data-label="Exemplo" class="p-3">"Correu tanto <span class="grifo">que</span> cansou." (Consequência).</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Final</td><td data-label="Conectivos" class="p-3">para que, a fim de que</td><td data-label="Exemplo" class="p-3">"Estuda <span class="grifo">a fim de que</span> vença."</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Proporcional</td><td data-label="Conectivos" class="p-3">à medida que, quanto mais...</td><td data-label="Exemplo" class="p-3">"<span class="grifo">À medida que</span> o tempo passa..."</td></tr>
+                        <tr><td data-label="Classificação" class="p-3 font-bold">Temporal</td><td data-label="Conectivos" class="p-3">quando, logo que, mal, enquanto</td><td data-label="Exemplo" class="p-3">"<span class="grifo">Mal</span> chegou, saiu."</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="p-6 border border-slate-100 rounded-xl bg-slate-50/50">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">4. Tendências AOCP para Cargos EBTT (Professor)</h2>
+            <div class="space-y-4 text-sm text-slate-700">
+                <div class="flex gap-3"><span class="font-bold text-slate-900 shrink-0">A. Textos Acadêmicos:</span><p>As questões de sintaxe geralmente usam fragmentos de artigos científicos ou textos de Geografia Humana/Física. O vocabulário é técnico, o que dificulta a percepção dos conectivos.</p></div>
+                <div class="flex gap-3"><span class="font-bold text-slate-900 shrink-0">B. Reescrita Semântica:</span><p>A banca adora trocar <span class="grifo">conquanto</span> por <span class="grifo">porquanto</span>. <br>• <strong>Conquanto</strong> = Embora (Concessiva). <br>• <strong>Porquanto</strong> = Porque (Explicativa/Causal).</p></div>
+                <div class="flex gap-3"><span class="font-bold text-slate-900 shrink-0">C. Orações Reduzidas:</span><p>Identificar o valor de uma oração reduzida de gerúndio ou particípio. Ex: "Terminada a aula (= Quando terminou), saíram". A AOCP pede a transposição para a forma desenvolvida.</p></div>
+            </div>
+        </section>
+
+        <div class="flex justify-center pt-4 pb-12">
+            <a href="sintaxequestoes.html" class="inline-flex items-center gap-2 px-8 py-4 bg-slate-950 text-white font-bold rounded-xl hover:scale-105 transition-all shadow-lg">
+                <span>Ir para Questões da AOCP</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+        </div>
+    </main>
+
+    <footer class="w-full bg-slate-50 border-t py-6 text-center text-xs text-slate-400">
+        <p>Conteúdo Didático para o Concurso IFCE - Professor de Geografia. Revisão Integral.</p>
+    </footer>
+
+    <script>
+        const audio = document.getElementById('meuAudio');
+        const audioSourceInput = document.getElementById('audioSource');
+        const audioSrcTag = document.getElementById('audioSrc');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const tempoAtual = document.getElementById('tempoAtual');
+        const tempoTotal = document.getElementById('tempoTotal');
+
+        function carregarAudio() {
+            audioSrcTag.src = audioSourceInput.value.trim();
+            audio.load();
+        }
+        function togglePlay() {
+            if (audio.paused) { audio.play(); playIcon.classList.add('hidden'); pauseIcon.classList.remove('hidden'); }
+            else { audio.pause(); playIcon.classList.remove('hidden'); pauseIcon.classList.add('hidden'); }
+        }
+        function mudarVelocidade(speed) {
+            audio.playbackRate = speed;
+            document.querySelectorAll('.btnSpeed').forEach(btn => btn.classList.replace('bg-slate-900', 'bg-slate-100'));
+            event.currentTarget.classList.replace('bg-slate-100', 'bg-slate-900');
+        }
+        function formatarTempo(secs) {
+            const m = Math.floor(secs / 60); const s = Math.floor(secs % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${percent}%`;
+            tempoAtual.textContent = formatarTempo(audio.currentTime);
+            tempoTotal.textContent = `/ ${formatarTempo(audio.duration || 0)}`;
+        });
+        function buscarTempo(e) {
+            audio.currentTime = (e.offsetX / progressContainer.clientWidth) * audio.duration;
+        }
+    </script>
+</body>
+</html>
