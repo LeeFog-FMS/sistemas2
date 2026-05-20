@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processo de Urbanização no Brasil - Foco Concurso IFCE (AOCP)</title>
+    <!-- Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b; /* Slate 800 - Leitura confortável */
+        }
+        /* Garantia extra de que tabelas quebrem texto e evitem scroll horizontal */
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        td, th {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal !important;
+        }
+        /* Estilos de impressão caso o usuário queira gerar PDF físico */
+        @media print {
+            .no-print { display: none; }
+            body { background: white; color: black; }
+            .shadow-sm, .shadow-md, .shadow-lg { shadow: none; border: 1px solid #e2e8f0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen selection:bg-amber-200">
+
+    <!-- Cabeçalho Principal -->
+    <header class="bg-white border-b border-gray-200 py-8 px-4 sm:px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        EBTT - Professor de Geografia (IFCE)
+                    </span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2 tracking-tight">
+                        Processo de Urbanização no Brasil, Redes de Influência e Modelos Comparados
+                    </h1>
+                    <p class="text-sm sm:text-base text-slate-500 mt-1">
+                        Perspectiva Didática e Análise de Práticas de Exame do Instituto AOCP
+                    </p>
+                </div>
+                <div class="text-left md:text-right">
+                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block">Banca de Referência</span>
+                    <span class="text-lg font-bold text-slate-800">Instituto AOCP</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        
+        <!-- Player de Áudio (Configurável) -->
+        <section class="bg-white rounded-xl border border-gray-200 p-5 mb-8 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-amber-50 rounded-lg text-amber-600 border border-amber-200">
+                        <!-- Ícone de Fone de Ouvido -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="2 2 20 20" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Audio-Aula de Memorização</h2>
+                        <p class="text-xs text-slate-500">Escute os principais pontos do resumo para fixar a matéria no subconsciente</p>
+                    </div>
+                </div>
+                
+                <!-- Player de Áudio - Edite o parâmetro src abaixo com o seu arquivo mp3 -->
+                <div class="w-full sm:w-auto flex flex-col items-stretch sm:items-end gap-1.5">
+                    <audio controls class="w-full sm:w-64 h-10 bg-slate-50 rounded-lg">
+                        <source src="audio_aula_urbanizacao.mp3" type="audio/mpeg">
+                        Seu navegador não suporta a tag de áudio.
+                    </audio>
+                    <span class="text-[10px] text-slate-400 text-center sm:text-right">
+                        Arquivo: <code class="bg-slate-100 px-1 rounded">audio_aula_urbanizacao.mp3</code>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EIXO 1 -->
+        <article class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 mb-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">1</span>
+                <h2 class="text-xl font-bold text-slate-900">EIXO 1: Industrialização e Urbanização no Brasil (Séculos XX e XXI)</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-amber-500 rounded-full"></span>
+                        1. A Transição para o Espaço Nacional Integrado (Século XX)
+                    </h3>
+                    <ul class="space-y-3 text-slate-600 pl-4 border-l-2 border-gray-100">
+                        <li>
+                            <strong class="text-slate-900">Antes de 1930:</strong> População predominantemente rural. O território nacional assemelhava-se a um <span class="bg-amber-100/80 px-1 font-semibold text-amber-950">"arquipélago de economias regionais"</span>, voltado estritamente para o mercado externo e sem articulação interna.
+                        </li>
+                        <li>
+                            <strong class="text-slate-900">A Virada Urbano-Industrial:</strong> Sob a liderança do Estado, o modelo de industrialização por substituição de importações (Era Vargas, Plano de Metas de JK e integração no período militar) <span class="underline decoration-indigo-500 decoration-2 font-medium">unificou o mercado interno</span> e a infraestrutura territorial.
+                        </li>
+                        <li>
+                            <strong class="text-slate-900">O Motor da Urbanização (Mecanismo de Atração e Repulsão):</strong>
+                            <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-3 rounded-lg border border-gray-100">
+                                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider block mb-1">Força de Atração</span>
+                                    Concentração de indústrias e empregos na <mark class="bg-amber-100 text-amber-900 font-semibold px-1 rounded">Região Metropolitana de São Paulo (Sudeste)</mark>. A urbanização atua simultaneamente como "resultado e condição para a difusão do capital" (segundo a teoria de Milton Santos).
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-lg border border-gray-100">
+                                    <span class="text-xs font-bold text-amber-600 uppercase tracking-wider block mb-1">Força de Repulsão</span>
+                                    A <mark class="bg-amber-100 text-amber-900 font-semibold px-1 rounded">"Modernização Conservadora"</mark> no campo promoveu mecanização agrícola intensiva e fortíssima concentração fundiária, desencadeando um <span class="underline decoration-amber-500 decoration-2 font-medium">êxodo rural massivo</span> que expulsou os trabalhadores para as metrópoles.
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-amber-500 rounded-full"></span>
+                        2. A Reconfiguração Espacial Contemporânea (Século XXI)
+                    </h3>
+                    <ul class="space-y-3 text-slate-600 pl-4 border-l-2 border-gray-100">
+                        <li>
+                            <strong class="text-slate-900">Desconcentração Industrial:</strong> Fatores locacionais desfavoráveis nos grandes centros (como alto custo da terra, congestionamentos, tributação pesada e forte atuação sindical) dispersaram as fábricas de São Paulo em direção ao <span class="underline decoration-indigo-500 decoration-2 font-medium">interior e a outras regiões do país</span>.
+                        </li>
+                        <li>
+                            <strong class="text-slate-900">Desmetropolização:</strong> Desaceleração do crescimento demográfico das metrópoles tradicionais com crescimento acelerado das <span class="bg-amber-100/80 px-1 font-semibold text-amber-950">cidades médias</span> no interior do país.
+                        </li>
+                        <li>
+                            <strong class="text-slate-900">Comando Centralizado (Ponto crucial de prova):</strong> Embora ocorra a desconcentração física das fábricas (formas urbanas), as funções mais nobres do setor terciário avançado (<mark class="bg-amber-100 text-amber-900 font-semibold px-1 rounded">sedes corporativas, finanças, controle técnico e publicidade</mark>) permanecem rigidamente centralizadas nas grandes metrópoles nacionais.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        <!-- EIXO 2 -->
+        <article class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 mb-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">2</span>
+                <h2 class="text-xl font-bold text-slate-900">EIXO 2: A Rede Urbana Brasileira na Perspectiva do REGIC (IBGE)</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-amber-500 rounded-full"></span>
+                        1. Evolução Teórico-Metodológica das Pesquisas do REGIC
+                    </h3>
+                    <p class="text-slate-600 mb-4">
+                        A metodologia do IBGE para classificar a influência das cidades brasileiras passou por transformações cruciais que costumam cair em provas conceituais:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-slate-50 rounded-lg border border-gray-100">
+                            <span class="text-xs font-bold text-slate-400 uppercase block mb-1">REGIC 1993</span>
+                            <span class="text-sm text-slate-700">Foco analítico pioneiro na <strong>circulação física</strong> e nos <strong>fluxos de informação</strong> entre as cidades.</span>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-gray-100">
+                            <span class="text-xs font-bold text-slate-400 uppercase block mb-1">REGIC 2007</span>
+                            <span class="text-sm text-slate-700">Foco na <mark class="bg-amber-100 text-amber-900 px-1 rounded">Gestão do Território</mark> (atuação de órgãos estatais, corporações privadas, ensino superior e telecomunicações).</span>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-gray-100">
+                            <span class="text-xs font-bold text-slate-400 uppercase block mb-1">REGIC 2018</span>
+                            <span class="text-sm text-slate-700">Introdução de centralidades reticulares em duas dimensões cruciais: <strong>Town-ness</strong> e <strong>City-ness</strong>.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-indigo-50/50 rounded-lg border border-indigo-100/50 text-slate-700 text-sm">
+                        <p class="mb-2"><strong>Diferenciação Crítica das Centralidades Reticulares (REGIC 2018):</strong></p>
+                        <ul class="list-disc list-inside space-y-1.5">
+                            <li><strong class="text-indigo-900">Town-ness:</strong> Atributo de cidades pequenas. Relações locais delimitadas pela contiguidade e fricção da distância para serviços básicos diários.</li>
+                            <li><strong class="text-indigo-900">City-ness:</strong> Atributo de cidades maiores. Economia integrada a conexões de longa distância e fluxos reticulares globais que rompem a hinterlândia tradicional.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-amber-500 rounded-full"></span>
+                        2. A Hierarquia Urbana Oficial (Os 5 Níveis do REGIC 2018)
+                    </h3>
+                    <p class="text-slate-600 mb-4">
+                        O estudo classifica os centros urbanos brasileiros de maneira hierárquica e decrescente. 
+                        <span class="bg-amber-100/80 px-1 font-semibold text-amber-950">Memorize rigorosamente esta classificação para evitar as pegadinhas de nomenclatura da banca!</span>
+                    </p>
+
+                    <!-- Tabela Hierarquia REGIC (100% responsiva sem scroll) -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden bg-white mb-4">
+                        <!-- Cabeçalho visível em telas maiores e menores -->
+                        <div class="bg-slate-50 text-slate-700 font-bold text-xs uppercase tracking-wider grid grid-cols-12 border-b border-gray-200">
+                            <div class="p-3 col-span-4 md:col-span-3 border-r border-gray-200">Nível</div>
+                            <div class="p-3 col-span-5 md:col-span-6 border-r border-gray-200">Parâmetros de Centralidade</div>
+                            <div class="p-3 col-span-3">Referências</div>
+                        </div>
+                        
+                        <!-- Linhas da tabela simuladas via grid flexível para evitar quebra de layout -->
+                        <div class="divide-y divide-gray-100 text-sm">
+                            <div class="grid grid-cols-12">
+                                <div class="p-3 col-span-4 md:col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Metrópole</div>
+                                <div class="p-3 col-span-5 md:col-span-6 border-r border-gray-100 text-slate-600">Cabeças de rede, elos finais da influência nacional. Divididas em: Grande Metrópole Nacional, Metrópole Nacional e Metrópole.</div>
+                                <div class="p-3 col-span-3 text-slate-600 text-xs">São Paulo (GMN); Rio de Janeiro e Brasília (MN); Campinas (SP), Florianópolis (SC) e Vitória (ES) (adicionadas em 2018).</div>
+                            </div>
+                            <div class="grid grid-cols-12">
+                                <div class="p-3 col-span-4 md:col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Capital Regional</div>
+                                <div class="p-3 col-span-5 md:col-span-6 border-r border-gray-100 text-slate-600">Centros subordinados diretamente às metrópoles, com forte gestão do território regional. Níveis A, B e C.</div>
+                                <div class="p-3 col-span-3 text-slate-600 text-xs">Sinop (MT), Rondonópolis (MT), Cacoal (RO), Ji-Paraná (RO) e Anápolis (GO).</div>
+                            </div>
+                            <div class="grid grid-cols-12">
+                                <div class="p-3 col-span-4 md:col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Centro Sub-regional</div>
+                                <div class="p-3 col-span-5 md:col-span-6 border-r border-gray-100 text-slate-600">Cidades médias com funções de apoio e comércio básico para os municípios menores vizinhos. Níveis A e B.</div>
+                                <div class="p-3 col-span-3 text-slate-600 text-xs">Cidades polo regionais de pequeno a médio porte.</div>
+                            </div>
+                            <div class="grid grid-cols-12">
+                                <div class="p-3 col-span-4 md:col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Centro de Zona</div>
+                                <div class="p-3 col-span-5 md:col-span-6 border-r border-gray-100 text-slate-600">Cidades menores cuja influência se restringe majoritariamente aos limites do próprio município. Níveis A e B.</div>
+                                <div class="p-3 col-span-3 text-slate-600 text-xs">Pequenos polos comerciais locais.</div>
+                            </div>
+                            <div class="grid grid-cols-12">
+                                <div class="p-3 col-span-4 md:col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Centro Local</div>
+                                <div class="p-3 col-span-5 md:col-span-6 border-r border-gray-100 text-slate-600">Base da hierarquia. Cidades pequenas cujo atendimento é focado unicamente no público residente.</div>
+                                <div class="p-3 col-span-3 text-slate-600 text-xs">Pequenos municípios gerados pela fragmentação político-administrativa pós-1988.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-amber-50 rounded-lg border border-amber-200 text-slate-700 text-sm">
+                        <strong class="text-amber-900 block mb-1">Alerta Estatístico (Pós-1988):</strong>
+                        A descentralização promovida pela Constituição de 1988 gerou uma fragmentação do território com a criação de novos municípios de pequeno porte. A grande maioria possui menos de 20 mil habitantes, sendo que <mark class="bg-amber-100 text-amber-900 font-semibold px-1 rounded">74% deles apresentam menos de 10 mil habitantes</mark>.
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- EIXO 3 -->
+        <article class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 mb-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">3</span>
+                <h2 class="text-xl font-bold text-slate-900">EIXO 3: Modelos Comparados de Urbanização</h2>
+            </div>
+
+            <p class="text-slate-600 mb-6">
+                O desenvolvimento e a morfologia das redes urbanas refletem diretamente a inserção histórica de cada país na <strong class="text-slate-900">Divisão Internacional do Trabalho (DIT)</strong>. 
+                Veja as diferenças cruciais no quadro comparativo abaixo:
+            </p>
+
+            <!-- Tabela Modelos Comparados (100% responsiva sem scroll) -->
+            <div class="border border-gray-200 rounded-lg overflow-hidden bg-white mb-4">
+                <!-- Cabeçalho -->
+                <div class="bg-slate-50 text-slate-700 font-bold text-xs uppercase tracking-wider grid grid-cols-12 border-b border-gray-200">
+                    <div class="p-3 col-span-3 border-r border-gray-200">Dimensão</div>
+                    <div class="p-3 col-span-4 md:col-span-4 border-r border-gray-200">Modelo Planejado (Desenvolvidos)</div>
+                    <div class="p-3 col-span-5 md:col-span-5">Modelo Acelerado/Tardio (Subdesenvolvidos)</div>
+                </div>
+                
+                <!-- Linhas -->
+                <div class="divide-y divide-gray-100 text-sm">
+                    <div class="grid grid-cols-12">
+                        <div class="p-3 col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Ritmo e Tempo</div>
+                        <div class="p-3 col-span-4 md:col-span-4 border-r border-gray-100 text-slate-600">Lento, gradual e planejado ao longo de gerações. Consolidado até meados do século XX.</div>
+                        <div class="p-3 col-span-5 md:col-span-5 text-slate-600">Rápido, caótico e sem planejamento habitacional. Ocorrido de forma explosiva no pós-Segunda Guerra.</div>
+                    </div>
+                    <div class="grid grid-cols-12">
+                        <div class="p-3 col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Expulsão Agrícola</div>
+                        <div class="p-3 col-span-4 md:col-span-4 border-r border-gray-100 text-slate-600">Migração populacional controlada pela demanda contínua de mão de obra industrial nas cidades.</div>
+                        <div class="p-3 col-span-5 md:col-span-5 text-slate-600"><span class="bg-amber-100/80 px-1 font-semibold text-amber-950">Êxodo rural violento</span> derivado da mecanização agrícola excludente e forte concentração latifundiária.</div>
+                    </div>
+                    <div class="grid grid-cols-12">
+                        <div class="p-3 col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Estrutura de Emprego</div>
+                        <div class="p-3 col-span-4 md:col-span-4 border-r border-gray-100 text-slate-600">Setores secundário (indústria) e terciário estruturado absorvem e qualificam a população urbana.</div>
+                        <div class="p-3 col-span-5 md:col-span-5 text-slate-600"><mark class="bg-amber-100 text-amber-900 font-semibold px-1 rounded">Hipertrofia do setor terciário</mark>; proliferação do subemprego e ampla informalidade urbana.</div>
+                    </div>
+                    <div class="grid grid-cols-12">
+                        <div class="p-3 col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Morfologia Urbana</div>
+                        <div class="p-3 col-span-4 md:col-span-4 border-r border-gray-100 text-slate-600">Forte controle estatal do parcelamento do solo e políticas de bem-estar social.</div>
+                        <div class="p-3 col-span-5 md:col-span-5 text-slate-600"><span class="bg-amber-100/80 px-1 font-semibold text-amber-950">Macrocefalia urbana</span>, proliferação de aglomerados subnormais, favelização e autoconstrução periférica.</div>
+                    </div>
+                    <div class="grid grid-cols-12">
+                        <div class="p-3 col-span-3 border-r border-gray-100 font-bold text-slate-900 flex items-center">Segregação Espacial</div>
+                        <div class="p-3 col-span-4 md:col-span-4 border-r border-gray-100 text-slate-600">Menos severa, controlada pelo planejamento público de longo prazo.</div>
+                        <div class="p-3 col-span-5 md:col-span-5 text-slate-600">Segregação socioespacial aguda, comandada pelas forças do mercado imobiliário e especulação fundiária.</div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- EIXO 4 -->
+        <article class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 mb-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">4</span>
+                <h2 class="text-xl font-bold text-slate-900">EIXO 4: Glossário "Ponto de Acerto" (Definições Críticas)</h2>
+            </div>
+
+            <p class="text-slate-600 mb-6">
+                Termos recorrentes que o candidato <strong class="text-slate-900">precisa dominar com precisão conceitual</strong> para descartar alternativas incorretas rapidamente:
+            </p>
+
+            <div class="space-y-4">
+                <div class="p-4 bg-slate-50/50 rounded-lg border border-gray-100">
+                    <p class="font-bold text-slate-900 text-base mb-1">Conurbação</p>
+                    <p class="text-sm text-slate-600">
+                        Fenômeno físico-territorial que corresponde à <mark class="bg-amber-100 text-amber-900 px-1 rounded">unificação física e contínua das manchas urbanas</mark> de duas ou mais cidades vizinhas. É o pré-requisito geográfico básico para a criação político-administrativa de Regiões Metropolitanas.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-slate-50/50 rounded-lg border border-gray-100">
+                    <p class="font-bold text-slate-900 text-base mb-1">Macrocefalia Urbana</p>
+                    <p class="text-sm text-slate-600">
+                        Processo de <span class="bg-amber-100/80 px-1 font-semibold text-amber-950">concentração desequilibrada e desproporcional</span> de população, infraestrutura, investimentos e serviços em poucas grandes metrópoles centrais de um território. Altamente característico de nações subdesenvolvidas de urbanização tardia.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-slate-50/50 rounded-lg border border-gray-100">
+                    <p class="font-bold text-slate-900 text-base mb-1">Hipertrofia do Setor Terciário</p>
+                    <p class="text-sm text-slate-600">
+                        Inchaço exacerbado de atividades de comércio informal e prestação de serviços não qualificados. Ocorre porque a velocidade do êxodo rural supera em muito a capacidade da estrutura industrial de absorver formalmente essa força de trabalho.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-slate-50/50 rounded-lg border border-gray-100">
+                    <p class="font-bold text-slate-900 text-base mb-1">Gentrificação</p>
+                    <p class="text-sm text-slate-600">
+                        Processo de intervenção urbanística em bairros tradicionais, populares ou degradados, promovendo readequação estética e valorização imobiliária. O resultado é o <span class="underline decoration-indigo-500 decoration-2 font-medium">encarecimento do custo de vida e a consequente expulsão sistemática</span> dos antigos moradores de baixa renda por classes de maior poder aquisitivo.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-slate-50/50 rounded-lg border border-gray-100">
+                    <p class="font-bold text-slate-900 text-base mb-1">Segregação Socioespacial</p>
+                    <p class="text-sm text-slate-600">
+                        Manifestação espacial da divisão e conflito de classes. Traduz-se na divisão visível do território em áreas dotadas de excelente infraestrutura de lazer e transporte versus periferias abandonadas, historicamente ligada aos processos de exclusão e criminalização da pobreza urbana no Brasil.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-slate-50/50 rounded-lg border border-gray-100">
+                    <p class="font-bold text-slate-900 text-base mb-1">Setor Censitário</p>
+                    <p class="text-sm text-slate-600">
+                        A <mark class="bg-amber-100 text-amber-900 px-1 rounded">menor unidade operacional e territorial contínua</mark> mapeada e adotada pelo IBGE. É utilizada exclusivamente para o planejamento, controle cadastral e coleta física de dados em campo durante a realização dos Censos Demográficos.
+                    </p>
+                </div>
+            </div>
+        </article>
+
+        <!-- EIXO 5 (Checklist Antipegadinha) -->
+        <article class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 mb-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-amber-500 text-white font-bold text-sm">✓</span>
+                <h2 class="text-xl font-bold text-slate-900">EIXO 5: Checklist Antipegadinha do Instituto AOCP</h2>
+            </div>
+
+            <p class="text-sm text-slate-500 mb-6">
+                Esteja preparado para as principais distorções e armadilhas que o Instituto AOCP costuma inserir em exames para cargos de magistério EBTT:
+            </p>
+
+            <div class="space-y-4">
+                <!-- Card Pegadinha 1 -->
+                <div class="flex items-start gap-3 p-4 rounded-lg bg-red-50/30 border border-red-100">
+                    <span class="text-red-500 text-xl font-bold mt-0.5">⚠️</span>
+                    <div>
+                        <strong class="text-slate-950 block text-base mb-1">Pegadinha da Rede Urbana (Níveis Oficiais)</strong>
+                        <p class="text-sm text-slate-600">
+                            A banca tenta introduzir termos amplamente debatidos pela literatura acadêmica, como <strong class="text-slate-900">"Megalópole"</strong>, <strong class="text-slate-900">"Megacidade"</strong> ou <strong class="text-slate-900">"Cidade Global"</strong>, fingindo que são níveis hierárquicos institucionais do REGIC. 
+                            <br><span class="text-emerald-700 font-bold">Lembre-se:</span> Oficialmente, a hierarquia do IBGE (REGIC 2018) possui estritamente <mark class="bg-amber-100 text-amber-900 px-1 rounded font-semibold">5 categorias</mark>: Metrópole, Capital Regional, Centro Sub-regional, Centro de Zona e Centro Local.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card Pegadinha 2 -->
+                <div class="flex items-start gap-3 p-4 rounded-lg bg-red-50/30 border border-red-100">
+                    <span class="text-red-500 text-xl font-bold mt-0.5">⚠️</span>
+                    <div>
+                        <strong class="text-slate-950 block text-base mb-1">Pegadinha do "Esvaziamento Econômico" das Metrópoles</strong>
+                        <p class="text-sm text-slate-600">
+                            Questões sugerem que a "desmetropolização" ou descentralização industrial esvaziou a relevância econômica de metrópoles como São Paulo. 
+                            <br><span class="text-emerald-700 font-bold">Lembre-se:</span> Ocorre apenas a desconcentração física de fábricas tradicionais. O <mark class="bg-amber-100 text-amber-900 px-1 rounded font-semibold">controle estratégico</mark> (serviços de alto valor, marketing, bolsas de valores e tomadas de decisão empresarial) continua fortemente centralizado e concentrado nestas grandes metrópoles.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card Pegadinha 3 -->
+                <div class="flex items-start gap-3 p-4 rounded-lg bg-red-50/30 border border-red-100">
+                    <span class="text-red-500 text-xl font-bold mt-0.5">⚠️</span>
+                    <div>
+                        <strong class="text-slate-950 block text-base mb-1">Pegadinha da Ação Estatal na Segregação</strong>
+                        <p class="text-sm text-slate-600">
+                            A banca pode propor em alternativas que a segregação socioespacial é um fenômeno puramente mercadológico contra o qual o Estado é legalmente impotente.
+                            <br><span class="text-emerald-700 font-bold">Lembre-se:</span> O Estado dispõe de ferramentas urbanísticas expressas no Estatuto da Cidade (como o <mark class="bg-amber-100 text-amber-900 px-1 rounded font-semibold">Plano Diretor, IPTU progressivo e Zonas Especiais de Interesse Social - ZEIS</mark>) para reordenar o uso social da terra, embora sua atuação histórica tenha sido muitas vezes omissa ou promotora de interesses privados.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card Pegadinha 4 -->
+                <div class="flex items-start gap-3 p-4 rounded-lg bg-red-50/30 border border-red-100">
+                    <span class="text-red-500 text-xl font-bold mt-0.5">⚠️</span>
+                    <div>
+                        <strong class="text-slate-950 block text-base mb-1">Pegadinha Sociológica (Escola de Chicago vs. Teoria Marxista)</strong>
+                        <p class="text-sm text-slate-600">
+                            Questões teóricas tentam associar as formulações e analogias biológicas de seleção e "invasão/sucessão" da <strong class="text-slate-900">Escola de Chicago</strong> a pensadores como Manuel Castells, David Harvey ou Milton Santos.
+                            <br><span class="text-emerald-700 font-bold">Lembre-se:</span> A Escola de Chicago propõe modelos ecológicos para explicar o espaço urbano, enquanto as teorias de Castells e Milton Santos analisam o espaço como um produto social, político e histórico do desenvolvimento capitalista.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card Pegadinha 5 -->
+                <div class="flex items-start gap-3 p-4 rounded-lg bg-red-50/30 border border-red-100">
+                    <span class="text-red-500 text-xl font-bold mt-0.5">⚠️</span>
+                    <div>
+                        <strong class="text-slate-950 block text-base mb-1">A Anomalia de Campinas (REGIC 2018)</strong>
+                        <p class="text-sm text-slate-600">
+                            Fato único e clássico de provas: Campinas (SP) é a <mark class="bg-amber-100 text-amber-900 px-1 rounded font-semibold">única metrópole no REGIC 2018</mark> que não abriga uma capital de estado. Esse fato geopolítico faz com que São Paulo seja o único estado da federação a possuir duas metrópoles em seu território nacional (São Paulo e Campinas).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card Pegadinha 6 -->
+                <div class="flex items-start gap-3 p-4 rounded-lg bg-red-50/30 border border-red-100">
+                    <span class="text-red-500 text-xl font-bold mt-0.5">⚠️</span>
+                    <div>
+                        <strong class="text-slate-950 block text-base mb-1">Estatística de Emancipação Territorial</strong>
+                        <p class="text-sm text-slate-600">
+                            Tentativas de inverter dados afirmando que as emancipações de novos municípios pós-1988 geraram grandes cidades dinâmicas de porte médio.
+                            <br><span class="text-emerald-700 font-bold">Lembre-se:</span> Praticamente todos esses novos municípios nascidos da fragmentação política pós-Constituição de 1988 são demograficamente muito pequenos: <mark class="bg-amber-100 text-amber-900 px-1 rounded font-semibold">74% deles possuem menos de 10 mil habitantes</mark> e enfrentam graves problemas de receita própria.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Botão de Navegação Inferior -->
+        <div class="flex justify-center mt-12 mb-16 no-print">
+            <a href="urbanizacao_brasilquestoes.html" class="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold text-base rounded-xl transition duration-200 transform hover:-translate-y-0.5 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
+                <span>Ir para Questões de Fixação</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+        </div>
+    </main>
+
+    <!-- Rodapé da Página -->
+    <footer class="bg-white border-t border-gray-200 py-6 text-center text-xs text-slate-400 no-print">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>© 2026 - Material Preparatório para a Carreira de Ensino Básico, Técnico e Tecnológico (EBTT) - IFCE.</p>
+            <p class="mt-1 text-slate-300">Desenvolvido com foco absoluto em alta performance e memorização de conteúdo programático.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

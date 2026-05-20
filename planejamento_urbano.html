@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Estudo: Planejamento Urbano e Regional no Nordeste</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- KaTeX para renderização matemática perfeita -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Custom highlight styling */
+        mark {
+            background-color: #fef08a; /* Soft Yellow-200 */
+            color: #1e293b; /* Dark Slate-800 */
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+            border-radius: 0.125rem;
+            font-weight: 500;
+        }
+        /* Focus state for accessible outline */
+        input:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 1px;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen antialiased flex flex-col justify-between">
+
+    <!-- Top Progress Indicator & Navigation Bar -->
+    <header class="sticky top-0 bg-white border-b border-slate-100 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-blue-600 font-bold text-lg"><i class="fa-solid fa-graduation-cap"></i> IFCE</span>
+                <span class="text-slate-300">|</span>
+                <span class="text-sm font-semibold text-slate-600">Foco Banca AOCP</span>
+            </div>
+            
+            <!-- Quick Search Bar -->
+            <div class="relative w-full sm:w-64">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                </span>
+                <input type="text" id="searchInput" placeholder="Buscar no resumo..." class="w-full pl-9 pr-4 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-blue-500 transition-all text-slate-700">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header Title -->
+        <div class="border-b border-slate-200 pb-6 mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Material de Memorização Ativa</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 leading-tight">
+                Planejamento Urbano e Regional no Nordeste
+            </h1>
+            <p class="text-slate-600 mt-2 text-base md:text-lg">
+                Foco em Políticas Públicas de Habitação, Saneamento, SUDENE e Vulnerabilidades do Semiárido.
+            </p>
+        </div>
+
+        <!-- Section: Custom Audio Player -->
+        <section class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-8 shadow-sm">
+            <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-circle-play text-blue-600"></i> Reprodutor de Áudio da Aula (MP3)
+            </h2>
+            <p class="text-xs text-slate-500 mb-4">
+                Configure o nome do arquivo MP3 abaixo e dê o play para escutar o resumo em áudio enquanto lê.
+            </p>
+            
+            <!-- Audio Path Input -->
+            <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center mb-4">
+                <label for="audioSourceInput" class="text-xs font-semibold text-slate-600 whitespace-nowrap">
+                    Nome/Caminho do Arquivo:
+                </label>
+                <div class="relative flex-grow">
+                    <input type="text" id="audioSourceInput" value="audio_aula_nordeste.mp3" class="w-full pl-3 pr-24 py-1 text-sm bg-white border border-slate-300 rounded-md text-slate-700 focus:border-blue-500 font-mono">
+                    <button id="updateAudioBtn" class="absolute right-1 top-1 bottom-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-0.5 rounded text-xs font-medium transition-colors">
+                        Carregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Custom Player Controls Interface -->
+            <div class="bg-white border border-slate-200 rounded-lg p-4 flex flex-col md:flex-row items-center gap-4">
+                <!-- Standard Audio Element (Hidden but active) -->
+                <audio id="mainAudio" src="audio_aula_nordeste.mp3" preload="metadata"></audio>
+
+                <!-- Left Play/Pause Button -->
+                <button id="playPauseBtn" class="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition-colors focus:ring-4 focus:ring-blue-100 flex-shrink-0">
+                    <i id="playIcon" class="fa-solid fa-play text-lg ml-0.5"></i>
+                </button>
+
+                <!-- Track Info and Progress -->
+                <div class="w-full flex-grow">
+                    <div class="flex justify-between items-center mb-1 text-xs font-medium text-slate-500">
+                        <span id="nowPlayingText" class="truncate font-mono">audio_aula_nordeste.mp3</span>
+                        <div class="flex gap-1 text-slate-400">
+                            <span id="currentTime">00:00</span>
+                            <span>/</span>
+                            <span id="durationTime">00:00</span>
+                        </div>
+                    </div>
+                    <!-- Custom Progress Bar -->
+                    <div id="progressBarContainer" class="w-full h-2 bg-slate-100 rounded-full cursor-pointer relative overflow-hidden group">
+                        <div id="progressBarFill" class="h-full bg-blue-600 w-0 rounded-full transition-all duration-100"></div>
+                    </div>
+                </div>
+
+                <!-- Volume and Speed Control -->
+                <div class="flex items-center gap-4 w-full md:w-auto border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 justify-between md:justify-end">
+                    <!-- Speed Switcher -->
+                    <div class="flex items-center gap-1.5">
+                        <label for="speedSelect" class="text-xs font-bold text-slate-500">Velocidade:</label>
+                        <select id="speedSelect" class="bg-slate-50 border border-slate-200 rounded text-xs px-2 py-1 font-semibold text-slate-700">
+                            <option value="1">1.0x</option>
+                            <option value="1.25">1.25x</option>
+                            <option value="1.5" selected>1.5x</option>
+                            <option value="1.75">1.75x</option>
+                            <option value="2">2.0x</option>
+                        </select>
+                    </div>
+
+                    <!-- Volume Icon/Mute -->
+                    <button id="muteBtn" class="text-slate-500 hover:text-slate-700 transition-colors">
+                        <i id="volumeIcon" class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick audio loading status feedback -->
+            <div id="audioStatusMsg" class="hidden text-xs mt-2 text-emerald-600 font-semibold text-center">
+                <i class="fa-solid fa-check-double"></i> Arquivo de áudio carregado com sucesso.
+            </div>
+        </section>
+
+        <!-- Content Area -->
+        <article id="resumoConteudo" class="space-y-12">
+            
+            <!-- SECTION 1 -->
+            <section class="searchable-section border-l-4 border-blue-500 pl-4 md:pl-6 space-y-6">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                    <span class="bg-blue-100 text-blue-700 text-sm px-2.5 py-1 rounded-md">Página 1</span>
+                    1. Evolução Histórica do Planejamento Regional e a SUDENE
+                </h2>
+                
+                <div class="space-y-4 text-slate-700 leading-relaxed text-sm md:text-base">
+                    <p>
+                        <strong>Gênese:</strong> O planejamento regional estruturou-se a partir da metade do século XX para <mark>mitigar as disparidades acumuladas</mark> entre o Centro-Sul (industrializado) e o Nordeste.
+                    </p>
+                    
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 space-y-2">
+                        <p class="font-bold text-slate-900 text-sm uppercase tracking-wide text-blue-600">O Diagnóstico Furtadiano (GTDN, 1959):</p>
+                        <p>
+                            Coordenado por <mark>Celso Furtado</mark>, o relatório diagnosticou a região sob o viés <mark>estruturalista-cepalino</mark>, rotulando o Nordeste como a maior área subdesenvolvida das Américas.
+                        </p>
+                    </div>
+
+                    <p>
+                        <strong>Tese do "Comércio Triangular":</strong> Argumentava que as divisas internacionais geradas pelas exportações agrícolas do Nordeste eram capturadas pelo governo federal e canalizadas para subsidiar a <mark>industrialização do Centro-Sul</mark> (colonialismo interno).
+                    </p>
+
+                    <div class="space-y-2">
+                        <p class="font-bold text-slate-900">Diretrizes Básicas de Furtado (GTDN/SUDENE):</p>
+                        <ol class="list-decimal pl-5 space-y-1">
+                            <li><strong>Industrialização acelerada</strong> para criar um centro manufatureiro autônomo (via subsídios).</li>
+                            <li><strong>Reorganização agrícola da faixa úmida (Zona da Mata)</strong> para garantir oferta de alimentos baratos às cidades.</li>
+                            <li><strong>Reestruturação agrícola do semiárido</strong> para torná-la resistente às estiagens.</li>
+                            <li><strong>Deslocamento planejado da fronteira agrícola</strong> (Maranhão) como válvula de escape demográfica.</li>
+                        </ol>
+                    </div>
+
+                    <p>
+                        <strong>Instrumento de Atração Capitalista:</strong> O <mark>Mecanismo 34/18</mark> permitiu abater imposto de renda corporativo de empresas que reinvestissem em projetos aprovados pela SUDENE. Após 1964, o caráter de reforma agrária foi esvaziado pelo regime militar, privilegiando indústrias <mark>capital-intensivas e concentradoras de renda no litoral</mark>.
+                    </p>
+
+                    <div class="space-y-2">
+                        <p class="font-bold text-slate-900">Linha do Tempo Legal:</p>
+                        <ul class="space-y-1 border-l-2 border-slate-200 pl-4">
+                            <li><strong>1959:</strong> Criação da SUDENE (<mark>Lei nº 3.692</mark>).</li>
+                            <li><strong>2001:</strong> Extinção (governo FHC) devido a fraudes; criação da ADENE.</li>
+                            <li><strong>2007:</strong> Recriação da nova SUDENE (governo Lula).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Target Board Focus -->
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-900">
+                        <p class="font-extrabold flex items-center gap-2 mb-1">
+                            <i class="fa-solid fa-bullseye text-amber-600"></i> FOCO NA PROVA (SUDENE):
+                        </p>
+                        <p class="text-sm leading-relaxed">
+                            A área de atuação legal da SUDENE engloba os 9 estados do Nordeste e, <strong>parcialmente</strong>, o norte de <mark class="bg-amber-200">Minas Gerais</mark> e do <mark class="bg-amber-200">Espírito Santo</mark>. A banca AOCP costuma inventar que inclui estados do Centro-Oeste ou Sul (como São Paulo ou Mato Grosso) como distratores.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2 -->
+            <section class="searchable-section border-l-4 border-blue-500 pl-4 md:pl-6 space-y-6">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                    <span class="bg-blue-100 text-blue-700 text-sm px-2.5 py-1 rounded-md">Página 1</span>
+                    2. Habitação de Interesse Social e Segregação
+                </h2>
+
+                <div class="space-y-4 text-slate-700 leading-relaxed text-sm md:text-base">
+                    <p>
+                        <strong>O Legado do BNH (1964):</strong> O Banco Nacional da Habitação atuou com foco em mercado, transferindo a população de baixa renda para as <mark>periferias urbanas sem infraestrutura básica</mark> por conta do alto custo da terra central.
+                    </p>
+
+                    <p>
+                        <strong>Minha Casa Minha Vida (PMCMV, 2009):</strong> O programa transferiu ao setor imobiliário privado a seleção dos terrenos. Para maximizar lucros, as construtoras ergueram grandes conjuntos habitacionais (Faixa 1) nas franjas das cidades nordestinas (ex: Teresina), acelerando a <mark>periferização</mark> e consolidando a <mark>segregação socioespacial</mark>. A habitação popular foi convertida em ativo financeiro.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 3 -->
+            <section class="searchable-section border-l-4 border-blue-500 pl-4 md:pl-6 space-y-6">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                    <span class="bg-blue-100 text-blue-700 text-sm px-2.5 py-1 rounded-md">Página 1</span>
+                    3. Saneamento Básico: Centralização e Regionalização
+                </h2>
+
+                <div class="space-y-4 text-slate-700 leading-relaxed text-sm md:text-base">
+                    <p>
+                        <strong>Era PLANASA (Década de 1970):</strong> Modelo centralizador ancorado no monopólio das Companhias Estaduais (CESBs). Usava o <mark>subsídio cruzado</mark> (lucro de áreas ricas cobria áreas pobres), mas manteve periferias e o interior nordestino desprovidos de investimentos reais.
+                    </p>
+
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 space-y-2">
+                        <p class="font-bold text-slate-900 text-sm uppercase tracking-wide text-blue-600">Novo Marco Legal (Lei nº 14.026/2020):</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Fim dos Contratos de Programa:</strong> Obriga a realização de licitações concorrenciais para contratos de concessão.</li>
+                            <li><strong>Metas de Universalização (até 2033):</strong> Garantir <mark>99% de acesso à água potável</mark> e <mark>90% à coleta e tratamento de esgoto</mark>.</li>
+                            <li><strong>Prestação Regionalizada:</strong> Exige que municípios se aglutinem em blocos regionais para manter a viabilidade econômica do subsídio.</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900">Estudo de Caso: Ceará (CAGECE, SISAR e Microrregiões)</h3>
+                        
+                        <p>
+                            <strong>SISAR (1996, Sobral):</strong> O Sistema Integrado de Saneamento Rural nasceu da parceria CAGECE/KfW para sanar o sucateamento de microssistemas no interior do estado. É baseado na <mark>autogestão comunitária</mark> (associações locais operam o sistema) com suporte técnico-administrativo da CAGECE (via Gesar, criada em 1999).
+                        </p>
+
+                        <p>
+                            <strong>Lei Complementar Estadual nº 247/2021:</strong> Criou 3 Microrregiões de Água e Esgoto (Oeste, Centro-Norte, Centro-Sul).
+                        </p>
+
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>
+                                <strong>Natureza jurídica:</strong> Autarquias interfederativas <mark>sem orçamento ou corpo administrativo próprios</mark> (operadas via Secretaria das Cidades).
+                            </li>
+                            <li>
+                                <strong>Governança (Colegiado):</strong> O voto é dividido de forma desigual: <mark>60% de peso para o Estado do Ceará</mark> e <mark>40% distribuído entre os municípios</mark> integrantes.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4 -->
+            <section class="searchable-section border-l-4 border-blue-500 pl-4 md:pl-6 space-y-6">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                    <span class="bg-emerald-100 text-emerald-700 text-sm px-2.5 py-1 rounded-md">Página 2</span>
+                    4. Urbanização do Semiárido e Vulnerabilidade
+                </h2>
+
+                <div class="space-y-4 text-slate-700 leading-relaxed text-sm md:text-base">
+                    <p>
+                        <strong>Transição Urbana:</strong> A partir dos anos 1980, houve uma redução de migrações de longa distância. O fluxo migratório voltou-se para as <mark>cidades médias e pequenas do próprio semiárido</mark>, que passaram a reter a população local. Contudo, esse processo ocorreu sem planejamento, transferindo a vulnerabilidade da seca do campo para o espaço urbano.
+                    </p>
+
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-100 flex flex-col md:flex-row items-center gap-6">
+                        <div class="flex-grow">
+                            <p class="font-bold text-slate-900">Índice de Vulnerabilidade Socioambiental ($IVSA$):</p>
+                            <p class="text-sm mt-1">
+                                Utilizado para cruzar dados sanitários (acesso a esgoto, perdas de água, internações por doenças hídricas) e socioeconômicos (renda média, educação).
+                            </p>
+                        </div>
+                        <div class="bg-white px-6 py-4 rounded-lg border border-slate-200 text-center font-mono flex-shrink-0">
+                            <!-- LaTex formula -->
+                            <div id="katexFormula" class="text-lg font-bold text-blue-600">
+                                IVSA = \frac{1}{N} \sum_{i=1}^{N} I_{i}
+                            </div>
+                            <span class="text-[10px] text-slate-400 block mt-1">Fórmula de Normalização</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5 -->
+            <section class="searchable-section border-l-4 border-blue-500 pl-4 md:pl-6 space-y-6">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                    <span class="bg-emerald-100 text-emerald-700 text-sm px-2.5 py-1 rounded-md">Página 2</span>
+                    5. Paradigmas do Semiárido: Combate vs. Convivência
+                </h2>
+
+                <div class="space-y-4">
+                    <p class="text-slate-700 leading-relaxed text-sm md:text-base">
+                        As políticas públicas regionais enfrentam um choque ideológico na gestão do território semiárido. Entenda a oposição de visões:
+                    </p>
+
+                    <!-- RESPONSIVE TABLE (No horizontal scroll, mobile optimized) -->
+                    <div class="block lg:hidden space-y-4">
+                        <!-- Card version for small screens -->
+                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                            <div class="bg-red-50 text-red-700 px-3 py-1 rounded font-bold text-xs uppercase mb-3 text-center">
+                                Paradigma do Combate à Seca
+                            </div>
+                            <ul class="space-y-2 text-sm text-slate-700">
+                                <li><strong>Visão básica:</strong> Visão da seca como um "inimigo" a ser vencido.</li>
+                                <li><strong>Soluções:</strong> Soluções hidráulicas rígidas, centralizadas e de alto custo (grandes açudes, adutoras).</li>
+                                <li><strong>Política:</strong> Estrutura política clientelista, alimentando a histórica "indústria da seca".</li>
+                                <li><strong>Destaque:</strong> Frentes de trabalho emergenciais e carros-pipa assistenciais.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                            <div class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded font-bold text-xs uppercase mb-3 text-center">
+                                Paradigma da Convivência com o Semiárido
+                            </div>
+                            <ul class="space-y-2 text-sm text-slate-700">
+                                <li><strong>Visão básica:</strong> Aceitação do semiárido como condição natural permanente.</li>
+                                <li><strong>Soluções:</strong> Tecnologias sociais de baixo custo e descentralizadas (cisternas).</li>
+                                <li><strong>Política:</strong> Gestão participativa, fortalecendo a autonomia e cidadania do camponês.</li>
+                                <li><strong>Destaque:</strong> <strong>Ações da ASA:</strong> P1MC (Cisternas para beber/cozinhar) e P1+2 (Água para produção/animais).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Classical table for larger screens -->
+                    <div class="hidden lg:block overflow-hidden border border-slate-200 rounded-lg">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200">
+                                    <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-700 w-1/2">Paradigma do Combate à Seca</th>
+                                    <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-700 w-1/2">Paradigma da Convivência com o Semiárido</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm text-slate-700">
+                                <tr>
+                                    <td class="p-4 leading-relaxed">Visão da seca como um "inimigo" a ser vencido.</td>
+                                    <td class="p-4 leading-relaxed font-medium bg-emerald-50/30">Aceitação do semiárido como condição natural permanente.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 leading-relaxed">Soluções hidráulicas rígidas, centralizadas e de alto custo (grandes açudes, adutoras).</td>
+                                    <td class="p-4 leading-relaxed bg-emerald-50/30">Tecnologias sociais de baixo custo e descentralizadas (cisternas).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 leading-relaxed">Estrutura política clientelista, alimentando a histórica "indústria da seca".</td>
+                                    <td class="p-4 leading-relaxed bg-emerald-50/30">Gestão participativa, fortalecendo a autonomia e cidadania do camponês.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 leading-relaxed"><strong>Ações de Destaque:</strong> Frentes de trabalho emergenciais e carros-pipa assistenciais.</td>
+                                    <td class="p-4 leading-relaxed bg-emerald-50/30"><strong>Ações de Destaque (ASA):</strong> P1MC (Cisternas para beber/cozinhar) e P1+2 (Água para produção/animais).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6 -->
+            <section class="searchable-section border-l-4 border-blue-500 pl-4 md:pl-6 space-y-6">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                    <span class="bg-emerald-100 text-emerald-700 text-sm px-2.5 py-1 rounded-md">Página 2</span>
+                    6. Caderno de Armadilhas e Diretrizes da Banca AOCP
+                </h2>
+
+                <div class="space-y-6 text-slate-700 leading-relaxed text-sm md:text-base">
+                    
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-1 flex items-center gap-2">
+                            <span class="text-blue-500 text-sm">A)</span> Categorias Geográficas Essenciais
+                        </h3>
+                        <ul class="space-y-2.5">
+                            <li><strong>Conurbação:</strong> É a <mark>unificação física de duas ou mais cidades vizinhas</mark> por expansão horizontal. <em>AOCP define este processo como a base física estruturante para a criação das Regiões Metropolitanas.</em></li>
+                            <li><strong>Lugar:</strong> Parcela do espaço ligada à <mark>dimensão afetiva</mark>, cotidiana, de sobrevivência e de identidade existencial humana.</li>
+                            <li><strong>Paisagem:</strong> Tudo o que os <mark>sentidos humanos apreendem</mark> do espaço geográfico. Expressa a sobreposição de tempos históricos acumulados no território.</li>
+                            <li><strong>Território:</strong> Espaço delimitado pelas <mark>relações de poder, soberania e controle</mark> (limites jurisdicionais estatais ou disputas de agentes).</li>
+                            <li><strong>Região:</strong> Divisão do espaço operada com base em <mark>critérios racionais específicos</mark> para facilitar análises científicas e o planejamento governamental.</li>
+                            <li><strong>Gentrificação:</strong> Transformação de centros urbanos com <mark>substituição de moradores de baixa renda</mark> por populações ricas via especulação imobiliária.</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-1 flex items-center gap-2">
+                            <span class="text-blue-500 text-sm">B)</span> Regionalização dos "Quatro Brasis" (Milton Santos & Maria Laura Silveira, 2001)
+                        </h3>
+                        <p class="text-xs font-semibold uppercase text-slate-500 tracking-wider">
+                            Critério demarcador: O fluxo das redes técnicas e a densidade do Meio Técnico-Científico-Informacional (MTCI).
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                                <span class="font-bold text-slate-900 block mb-1">1. Região Concentrada (Sul e Sudeste)</span>
+                                <span class="text-xs">Máxima densidade de infraestruturas técnicas, fluxo de capitais e fluidez territorial informacional.</span>
+                            </div>
+                            <div class="p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                                <span class="font-bold text-slate-900 block mb-1">2. Nordeste</span>
+                                <span class="text-xs">Redes técnicas de fluxo <mark>descontínuas e pontuais</mark> (litoral e agropólos), com grandes <mark>vazios técnicos e informacionais</mark>.</span>
+                            </div>
+                            <div class="p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                                <span class="font-bold text-slate-900 block mb-1">3. Centro-Oeste</span>
+                                <span class="text-xs">Modernização recente e seletiva para agroexportação (grãos), subordinada às ordens da Região Concentrada.</span>
+                            </div>
+                            <div class="p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                                <span class="font-bold text-slate-900 block mb-1">4. Região Amazônica</span>
+                                <span class="text-xs">Baixíssima densidade técnica; circulação dominada pela rede fluvial natural.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-1 flex items-center gap-2">
+                            <span class="text-blue-500 text-sm">C)</span> O Filtro de "Peguinhas" do Instituto AOCP
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="bg-amber-50/40 p-3 rounded-lg border border-amber-200/50">
+                                <span class="font-bold text-amber-900 block"><i class="fa-solid fa-triangle-exclamation"></i> Descentralização Industrial:</span>
+                                <span class="text-sm">A banca costuma apresentar dados falsos afirmando que o estado de São Paulo perdeu completamente a hegemonia da indústria automobilística. <strong>Fato:</strong> Embora tenha havido desconcentração industrial para estados como Minas Gerais, Paraná e Bahia, <mark class="bg-amber-100">São Paulo ainda detém a maior fatia da produção nacional</mark>.</span>
+                            </li>
+                            <li class="bg-amber-50/40 p-3 rounded-lg border border-amber-200/50">
+                                <span class="font-bold text-amber-900 block"><i class="fa-solid fa-triangle-exclamation"></i> Urbanização de Pernambuco:</span>
+                                <span class="text-sm">A banca associa o êxodo rural pernambucano e o consequente crescimento metropolitano não à herança colonial direta ou ao equilíbrio fiscal das prefeituras, mas sim ao <mark class="bg-amber-100">êxodo rural causado pela forte concentração de terras e pela mecanização agrícola</mark> na Zona Mata.</span>
+                            </li>
+                            <li class="bg-amber-50/40 p-3 rounded-lg border border-amber-200/50">
+                                <span class="font-bold text-amber-900 block"><i class="fa-solid fa-triangle-exclamation"></i> Autonomia das MRAEs no Ceará:</span>
+                                <span class="text-sm">A banca pode tentar induzir o candidato a achar que as Microrregiões de Saneamento são autônomas. <strong>Fato:</strong> Elas são autarquias interfederativas, mas <mark class="bg-amber-100">não têm orçamento próprio ou estrutura administrativa independente</mark>, dependendo da estrutura do Estado do Ceará.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+
+        </article>
+
+        <!-- Call to Action: Button to Questions -->
+        <div class="border-t border-slate-200 pt-10 mt-12 text-center">
+            <p class="text-sm text-slate-500 mb-4">Finalizou a leitura ativa do resumo teórico? Teste seus conhecimentos agora.</p>
+            <a href="planejamento_urbanoquestoes.html" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                <span>Ir para o Caderno de Questões</span>
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Simple Page Footer -->
+    <footer class="bg-slate-50 border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>© 2026 - Preparatório IFCE Geografia. Material didático focado na Banca Instituto AOCP.</p>
+        </div>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        // Start LaTeX Formula on Window Load
+        window.onload = function() {
+            try {
+                katex.render("IVSA = \\frac{1}{N} \\sum_{i=1}^{N} I_{i}", document.getElementById("katexFormula"), {
+                    throwOnError: false,
+                    displayMode: true
+                });
+            } catch (err) {
+                console.error("Erro ao renderizar fórmula KaTeX: ", err);
+            }
+        };
+
+        // --- Custom Audio Player Logic ---
+        const audio = document.getElementById('mainAudio');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playIcon = document.getElementById('playIcon');
+        const audioSourceInput = document.getElementById('audioSourceInput');
+        const updateAudioBtn = document.getElementById('updateAudioBtn');
+        const nowPlayingText = document.getElementById('nowPlayingText');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationTimeEl = document.getElementById('durationTime');
+        const progressBarContainer = document.getElementById('progressBarContainer');
+        const progressBarFill = document.getElementById('progressBarFill');
+        const speedSelect = document.getElementById('speedSelect');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const audioStatusMsg = document.getElementById('audioStatusMsg');
+
+        // Update/Reload Audio Source
+        function loadNewAudioSource() {
+            const newSource = audioSourceInput.value.trim();
+            if (newSource) {
+                audio.src = newSource;
+                audio.load();
+                nowPlayingText.textContent = newSource;
+                playIcon.className = "fa-solid fa-play text-lg ml-0.5";
+                
+                // Show temporary success feedback
+                audioStatusMsg.classList.remove('hidden');
+                setTimeout(() => {
+                    audioStatusMsg.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        updateAudioBtn.addEventListener('click', loadNewAudioSource);
+        audioSourceInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadNewAudioSource();
+            }
+        });
+
+        // Play and Pause Toggle
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = "fa-solid fa-pause text-lg";
+            } else {
+                audio.pause();
+                playIcon.className = "fa-solid fa-play text-lg ml-0.5";
+            }
+        });
+
+        // Time updates helper function
+        function formatTime(secs) {
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const current = audio.currentTime;
+            const duration = audio.duration || 0;
+            currentTimeEl.textContent = formatTime(current);
+            if (duration) {
+                durationTimeEl.textContent = formatTime(duration);
+                const percent = (current / duration) * 100;
+                progressBarFill.style.width = percent + '%';
+            }
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationTimeEl.textContent = formatTime(audio.duration || 0);
+        });
+
+        // Click on Progress Bar to skip time
+        progressBarContainer.addEventListener('click', (e) => {
+            const rect = progressBarContainer.getBoundingClientRect();
+            const clickPositionX = e.clientX - rect.left;
+            const totalWidth = rect.width;
+            const percentage = clickPositionX / totalWidth;
+            const newTime = percentage * (audio.duration || 0);
+            audio.currentTime = newTime;
+        });
+
+        // Change Playback Speed
+        speedSelect.addEventListener('change', () => {
+            audio.playbackRate = parseFloat(speedSelect.value);
+        });
+
+        // Mute / Unmute
+        muteBtn.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            if (audio.muted) {
+                volumeIcon.className = "fa-solid fa-volume-xmark";
+            } else {
+                volumeIcon.className = "fa-solid fa-volume-high";
+            }
+        });
+
+
+        // --- Search bar filter logic ---
+        const searchInput = document.getElementById('searchInput');
+        const sections = document.querySelectorAll('.searchable-section');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            
+            sections.forEach(section => {
+                const textContent = section.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                if (textContent.includes(searchTerm)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
