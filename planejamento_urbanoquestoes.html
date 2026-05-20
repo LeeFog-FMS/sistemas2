@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado: Planejamento Urbano e a Experiência Nordestina</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter para legibilidade de textos longos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Estilo para focar na leitura e reduzir estresse visual */
+    .reading-container {
+      max-width: 820px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen antialiased flex flex-col justify-between selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- TOPO DA PÁGINA (Header fixo com informações de progresso) -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm py-4 px-6 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 tracking-tight">Simulado preparatório AOCP</h1>
+          <p class="text-xs text-slate-500">Planejamento Urbano e a Experiência Nordestina</p>
+        </div>
+      </div>
+      
+      <!-- Indicadores ativos -->
+      <div class="flex items-center gap-6 text-sm">
+        <!-- Cronômetro de Estudo -->
+        <div class="flex items-center gap-2 text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full font-medium" id="timer-container">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span id="quiz-timer">00:00:00</span>
+        </div>
+        
+        <!-- Barra de Progresso -->
+        <div class="flex items-center gap-3">
+          <div class="w-32 bg-slate-200 rounded-full h-2.5 overflow-hidden">
+            <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+          <span id="progress-text" class="text-xs font-semibold text-slate-600">0/10 Respondidas</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL (Layout com duas colunas no Desktop) -->
+  <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-4 gap-8">
+    
+    <!-- BARRA LATERAL ESQUERDA (Navegação Rápida) -->
+    <aside class="lg:col-span-1 order-2 lg:order-1">
+      <div class="sticky top-28 space-y-6">
+        
+        <!-- Quadro de Navegação das Questões -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <span>Mapa de Questões</span>
+          </h3>
+          <div class="grid grid-cols-5 gap-2.5" id="navigation-map">
+            <!-- Gerado por JS dinamicamente -->
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 text-xs text-slate-500 space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-3 h-3 rounded bg-slate-200"></span>
+              <span>Não respondida</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-3 h-3 rounded bg-indigo-600"></span>
+              <span>Marcada</span>
+            </div>
+            <div id="legend-post-quiz" class="hidden space-y-2 pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-2">
+                <span class="inline-block w-3 h-3 rounded bg-emerald-100 border border-emerald-500"></span>
+                <span class="text-emerald-700 font-medium">Acerto</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="inline-block w-3 h-3 rounded bg-rose-100 border border-rose-500"></span>
+                <span class="text-rose-700 font-medium font-medium">Erro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel de Filtro e Atalhos -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4" id="review-filters-card" style="display: none;">
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Filtro de Revisão</h3>
+          <div class="space-y-2">
+            <button onclick="filterQuestions('all')" id="filter-btn-all" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium bg-slate-100 text-slate-800 transition">
+              Mostrar todas as questões
+            </button>
+            <button onclick="filterQuestions('incorrect')" id="filter-btn-errors" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition flex justify-between items-center">
+              <span>Apenas questões incorretas</span>
+              <span id="badge-errors-count" class="bg-rose-100 text-rose-700 text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Instruções de Estudo de Alto Nível -->
+        <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200/60">
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Dica de Estudo</h4>
+          <p class="text-xs leading-relaxed text-slate-600">
+            A banca <strong>Instituto AOCP</strong> cobra com alta fidelidade detalhes das leis e marcos regulatórios (SUDENE, Saneamento, SNHIS). Leia atentamente cada item antes de marcar a resposta.
+          </p>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- ÁREA CENTRAL DE CONTEÚDO (Simulado e Resolutiva) -->
+    <section class="lg:col-span-3 order-1 lg:order-2 flex flex-col gap-6">
+
+      <!-- BANNER DE APRESENTAÇÃO/RECOMENDAÇÃO -->
+      <div id="intro-banner" class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm">
+        <span class="px-2.5 py-1 text-xs font-semibold bg-indigo-50 text-indigo-700 rounded-md uppercase tracking-wider">Simulado Especializado</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight mt-3 mb-4">
+          Planejamento Regional, Urbano e Vulnerabilidades no Semiárido Nordestino
+        </h2>
+        <p class="text-slate-600 leading-relaxed max-w-3xl text-sm md:text-base">
+          Este caderno contém exatamente <strong>10 questões inéditas e adaptadas</strong> no estilo de cobrança do <strong>Instituto AOCP</strong>. Ele foi desenvolvido com foco na leitura de alta duração. Clique nas opções abaixo para responder e, ao final, veja o gabarito detalhado juntamente com as fundamentações e tabelas comparativas originais.
+        </p>
+      </div>
+
+      <!-- PAINEL DE RESULTADO DO SIMULADO (Aparece após finalização) -->
+      <div id="result-dashboard" class="hidden bg-white rounded-3xl border border-slate-200/80 shadow-md p-8 overflow-hidden transition-all duration-500 transform scale-95 opacity-0">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex flex-col items-center md:items-start gap-2">
+            <h2 class="text-xl font-bold text-slate-900">Resultado Geral do Seu Simulado</h2>
+            <p class="text-slate-500 text-sm" id="result-time-taken">Tempo total decorrido: --:--</p>
+            <div class="flex flex-wrap gap-2 mt-2" id="feedback-badges">
+              <!-- JS dynamically feeds content here -->
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-6">
+            <!-- Gráfico de Círculo ou Indicador Redondo -->
+            <div class="relative flex items-center justify-center">
+              <svg class="w-28 h-28 transform -rotate-90">
+                <circle cx="56" cy="56" r="48" stroke-width="10" stroke="#f1f5f9" fill="transparent"></circle>
+                <circle cx="56" cy="56" r="48" stroke-width="10" stroke="#4f46e5" fill="transparent" stroke-dasharray="301.6" id="progress-circle-dash" class="transition-all duration-1000 ease-out"></circle>
+              </svg>
+              <div class="absolute text-center">
+                <span class="text-2xl font-black text-slate-900" id="result-percentage">0%</span>
+                <span class="block text-[10px] text-slate-400 font-bold uppercase tracking-wider" id="score-fraction">0 / 10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p class="text-xs text-slate-500 text-center sm:text-left max-w-sm">
+            As justificativas completas baseadas em marcos regulatórios, leis federais e estudos da SUDENE já foram liberadas abaixo em cada item respondido.
+          </p>
+          <button onclick="resetQuiz()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-semibold transition hover:-translate-y-0.5 shadow-sm">
+            Refazer Simulado
+          </button>
+        </div>
+      </div>
+
+      <!-- FORMULÁRIO / ÁREA DAS QUESTÕES -->
+      <form id="quiz-form" onsubmit="event.preventDefault();" class="flex flex-col gap-6">
+        <div id="questions-container" class="flex flex-col gap-6">
+          <!-- As questões serão carregadas dinamicamente aqui -->
+        </div>
+
+        <!-- Ações do Questionário -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 mt-4" id="quiz-actions-bar">
+          <div class="text-slate-500 text-xs">
+            <p class="font-medium">Confirme suas escolhas antes de concluir o envio.</p>
+            <p>Não há limite de tempo para responder a esta simulação.</p>
+          </div>
+          <button type="button" onclick="confirmSubmission()" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-100 transition hover:-translate-y-0.5">
+            Finalizar Simulado
+          </button>
+        </div>
+      </form>
+
+    </section>
+  </main>
+
+  <!-- RODAPÉ DA PÁGINA -->
+  <footer class="bg-white border-t border-slate-200 py-8 px-6 mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="text-center md:text-left">
+        <p class="font-semibold text-slate-700">Simulado preparatório nos padrões do Instituto AOCP.</p>
+        <p class="mt-1">Conteúdo focado nos editais de Planejamento Regional, Urbano e Experiência Nordestina.</p>
+      </div>
+      <div>
+        <span>Simulado desenvolvido com foco em conforto ocular.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL DE CONFIRMAÇÃO (Substituindo o uso de alerts do navegador) -->
+  <div id="confirm-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-xl border border-slate-200 overflow-hidden transform scale-95 transition-all duration-300">
+      <div class="p-6">
+        <div class="flex items-center gap-3 text-amber-600 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <h3 class="text-lg font-bold text-slate-900">Finalizar o Simulado?</h3>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed" id="confirm-modal-desc">
+          Você ainda possui questões não respondidas. Deseja finalizar assim mesmo para verificar os acertos e obter as resoluções?
+        </p>
+      </div>
+      <div class="bg-slate-50 px-6 py-4 flex flex-col sm:flex-row justify-end gap-2">
+        <button onclick="closeModal()" class="w-full sm:w-auto px-4 py-2 text-slate-600 hover:text-slate-800 text-sm font-medium rounded-lg hover:bg-slate-100 transition">
+          Voltar e Revisar
+        </button>
+        <button onclick="submitQuiz()" class="w-full sm:w-auto px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-lg transition shadow-md shadow-indigo-100">
+          Sim, Finalizar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: Lógica Central de Processamento de Respostas e Estados -->
+  <script>
+    // Banco de Dados estruturado das Questões e Resoluções originais na íntegra
+    const questionsData = [
+      {
+        id: 1,
+        correct: "A",
+        statement: `A Superintendência do Desenvolvimento do Nordeste (SUDENE), desde a sua gênese na década de 1950 até as suas recentes reorganizações institucionais e espaciais no século XXI, reflete as contradições e os desafios do federalismo assimétrico brasileiro. Com base no percurso histórico dessa autarquia, na transição de seus marcos legais e na configuração atual de sua área de atuação territorial, assinale a alternativa correta.`,
+        options: {
+          A: "A criação da SUDENE, sob a liderança teórica de Celso Furtado, foi precedida pelo diagnóstico do Grupo de Trabalho para o Desenvolvimento do Nordeste (GTDN), o qual contou com o suporte do Banco Nacional de Desenvolvimento Econômico (BNDE) e estruturou um plano de ação voltado ao incremento da produtividade rural, ao aproveitamento dos solos do semiárido e à abertura de frentes de colonização.",
+          B: "O modelo clássico de incentivos fiscais promovido pela SUDENE historicamente demonstrou eficácia plena e autossustentável a longo prazo, uma vez que a mera concessão de crédito fácil atraiu indústrias que se enraizaram de forma definitiva no território, prescindindo de investimentos estatais em infraestrutura educacional ou de reformas nas instituições locais.",
+          C: "A área de atuação da SUDENE é delimitada por lei complementar federal e restringe-se, sob a perspectiva geopolítica contemporânea, aos limites geográficos estritos dos nove estados que integram a Região Nordeste do Brasil, sendo vedada a inclusão de municípios do Sudeste em virtude do pacto federativo.",
+          D: "A extinção da SUDENE em maio de 2001 e a sua imediata substituição pela ADENE (Agência de Desenvolvimento do Nordeste) solucionaram as crises de governança regional ao desvincular as políticas de incentivos fiscais da lógica de priorização de setores econômicos específicos, estabelecendo estabilidade orçamental unânime.",
+          E: "A Lei Complementar nº 185/2021 alterou as delimitações da SUDENE para promover uma redução de sua área de influência, excluindo municípios do Leste de Minas Gerais (Vale do Rio Doce) e do norte do Espírito Santo devido à escassez de recursos orçamentários para o desenvolvimento dessas localidades."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: A</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>A</strong> é a <strong>correta</strong>. A criação da SUDENE, operada pela Lei nº 3.692/1959, resultou diretamente das reflexões e formulações intelectuais contidas no relatório elaborado pelo Grupo de Trabalho para o Desenvolvimento do Nordeste (GTDN), sob a coordenação de Celso Furtado. Esse trabalho foi antecedido e instrumentalizado por estudos diagnósticos elaborados no âmbito do Banco Nacional de Desenvolvimento Econômico (BNDE). O plano formulado mirava na superação do atraso regional não apenas por vias assistenciais, mas por meio do incremento da produtividade rural, do aproveitamento adequado do solo semiárido e da interiorização da colonização agrária.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>B está incorreta</strong> porque a política de concessão de incentivos baseada puramente em crédito fácil e isenções fiscais gera atração transitória e realocação oportunista de empresas, que migram tão logo cessem as vantagens fiscais. O desenvolvimento requer reformas estruturais, investimentos em educação e infraestrutura local.</li>
+              <li><strong>C está incorreta</strong> porque a área de atuação da SUDENE, definida pela Lei Complementar nº 125/2007 e alterações, extrapola os limites físicos do Nordeste, englobando municípios de Minas Gerais (Região Sudeste) e do Espírito Santo.</li>
+              <li><strong>D está incorreta</strong> porque a substituição da SUDENE pela ADENE em 2001, sob alegações de desvios e ineficiência, não pacificou a governança. Pelo contrário, as pressões contra o esvaziamento do planejamento regional forçaram a recriação da SUDENE em 2007.</li>
+              <li><strong>E está incorreta</strong> porque a Lei Complementar nº 185/2021 expandiu a atuação territorial da SUDENE ao incorporar novos municípios de Minas Gerais (notadamente na região do Vale do Rio Doce/Leste de Minas, totalizando 249 municípios no estado) e do Espírito Santo (totalizando 31 municípios).</li>
+            </ul>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl mt-4">
+              <table class="min-w-full text-xs text-slate-600 divide-y divide-slate-200 bg-slate-50/50">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th class="px-4 py-2 text-left font-bold text-slate-700 uppercase tracking-wide">Divisão Territorial Legal da SUDENE (LC nº 125/2007 alterada pela LC nº 185/2021)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-4 py-3"><strong>Estados Integrantes de forma integral:</strong> Maranhão, Piauí, Ceará, Rio Grande do Norte, Paraíba, Pernambuco, Alagoas, Sergipe e Bahia.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3"><strong>Estados Integrantes de forma parcial:</strong> Minas Gerais (249 municípios abrangidos, englobando o Norte, Jequitinhonha, Mucuri e Leste/Vale do Rio Doce) e Espírito Santo (31 municípios integrados ao recorte).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 2,
+        correct: "B",
+        statement: `A Lei Complementar nº 125/2007 restabeleceu a SUDENE sob a forma de autarquia e definiu os seus principais instrumentos de ação para a promoção do desenvolvimento includente e sustentável da sua área de atuação. Em relação ao Plano Regional de Desenvolvimento do Nordeste (PRDNE), ao seu processo de elaboração e à sua articulação com o planejamento governamental, assinale a alternativa correta.`,
+        options: {
+          A: "O PRDNE possui vigência de dois anos, coincidindo com o ciclo de revisão das leis de diretrizes orçamentárias (LDO) estaduais, e sua aprovação dá-se por meio de portaria interna editada de forma unilateral pelo Superintendente da autarquia.",
+          B: "A metodologia de formulação do PRDNE envolve a definição de uma ideia-força, a articulação de grupos de trabalho internos e o apoio de consultores externos (como o CGEE), passando por consultas públicas e reuniões com governos estaduais para a validação das propostas antes do envio do projeto de lei ao Congresso Nacional.",
+          C: "O PRDNE dispensa a indicação de metas anuais e quadrienais para as políticas federais atuantes na área da SUDENE, uma vez que a Lei Complementar nº 125/2007 estabelece que o documento deve funcionar apenas como um repositório de diretrizes qualitativas sem vinculação orçamentária.",
+          D: "O PRDNE logrou êxito na sua tramitação legislativa imediata ao alinhar-se perfeitamente e sem descompasso temporal com o Plano Plurianual (PPA) federal, garantindo uma convergência territorial automática de recursos federais para o Nordeste desde o ano de 2019.",
+          E: "Os recursos do Fundo Constitucional de Financiamento do Nordeste (FNE) e do Fundo de Desenvolvimento do Nordeste (FDNE) são aplicados de maneira autônoma pelas instituições financeiras oficiais de crédito, sem qualquer necessidade de consonância com os planos e diretrizes traçados no PRDNE."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: B</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>B</strong> é a <strong>correta</strong>. A formulação do PRDNE segue um rito metodológico e participativo complexo. Esse fluxo compreende a definição de uma ideia-força orientadora, a mobilização de quadros técnicos internos organizados em grupos temáticos, o levantamento de dados socioeconômicos estruturados com o suporte de consultorias institucionais (como o CGEE) e a definição de uma estratégia territorial de ação. O processo culmina em rodadas de negociação com os governos dos estados abrangidos, consultas públicas digitais para a participação da sociedade civil e da comunidade acadêmica, e a aprovação final do texto pelo Conselho Deliberativo da SUDENE, antes do seu envio pelo Poder Executivo ao Congresso Nacional sob a forma de projeto de lei.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>A está incorreta</strong> porque o PRDNE tem vigência de quatro anos (sendo revisado anualmente) e deve tramitar conjuntamente com o Plano Plurianual (PPA) federal, necessitando de aprovação legislativa formal por meio de Lei Federal votada no Congresso Nacional.</li>
+              <li><strong>C está incorreta</strong> porque o plano deve, por imposição da Lei Complementar nº 125/2007, estabelecer metas anuais e quadrienais quantificáveis e qualitativas para as políticas públicas federais na região, com a indicação de suas respectivas fontes de financiamento.</li>
+              <li><strong>D está incorreta</strong> porque a governança do PRDNE historicamente enfrentou fragilidades decorrentes de seu descompasso temporal e metodológico com o PPA federal. O plano de 2019, por exemplo, sofreu atrasos significativos de tramitação, descolando-o das dotações originais do orçamento federal.</li>
+              <li><strong>E está incorreta</strong> porque os recursos do FNE e do FDNE constituem instrumentos de ação integrados da SUDENE. Suas aplicações devem estar coordenadas e em consonância com as diretrizes e prioridades territoriais estabelecidas pela autarquia e por seu Conselho Deliberativo.</li>
+            </ul>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl mt-4">
+              <table class="min-w-full text-xs text-slate-600 divide-y divide-slate-200 bg-slate-50/50">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th class="px-4 py-2 text-left font-bold text-slate-700 uppercase tracking-wide">Etapas Metodológicas para a Formulação e Tramitação do PRDNE</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr><td class="px-4 py-2.5">1. Definição da ideia-força norteadora do planejamento regional.</td></tr>
+                  <tr><td class="px-4 py-2.5">2. Mobilização de grupos de trabalho temáticos compostos por técnicos da SUDENE.</td></tr>
+                  <tr><td class="px-4 py-2.5">3. Coleta e consolidação de dados em parceria com o CGEE e órgãos de pesquisa.</td></tr>
+                  <tr><td class="px-4 py-2.5">4. Formulação da estratégia territorial baseada na redução das assimetrias regionais.</td></tr>
+                  <tr><td class="px-4 py-2.5">5. Reuniões de alinhamento com governos estaduais e abertura de consultas públicas à sociedade.</td></tr>
+                  <tr><td class="px-4 py-2.5">6. Deliberação e aprovação da peça final pelo Conselho Deliberativo da SUDENE.</td></tr>
+                  <tr><td class="px-4 py-2.5">7. Envio do Projeto de Lei ao Congresso Nacional, devendo tramitar junto ao PPA federal.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        correct: "B",
+        statement: `As intervenções governamentais voltadas para a problemática das secas no semiárido brasileiro refletem uma evolução nas concepções e nas abordagens de planejamento regional adotadas pelo Estado ao longo do tempo. Conforme as formulações teóricas que periodizam essas políticas estatais, assinale a alternativa correta.`,
+        options: {
+          A: "A primeira fase (1877 a 1945) caracterizou-se pela primazia do planejamento regional integrador conduzido pela SUDENE, com foco na geração de empregos industriais urbanos para absorver a mão de obra deslocada das áreas rurais assoladas pelas secas.",
+          B: "A segunda fase (1945 a 1958) estruturou-se sob a lógica do aproveitamento de recursos hídricos na infraestrutura instalada, impulsionada pela criação de órgãos e empresas como a Companhia Vale do São Francisco (CVSF), a Companhia Hidrelétrica do São Francisco (CHESF) e o Banco do Nordeste do Brasil (BNB).",
+          C: "A terceira fase (a partir de 1958) marcou-se pelo abandono das técnicas de planejamento regional e pela centralização das ações na distribuição emergencial de cestas básicas, extinguindo a atuação de agências de desenvolvimento territorial.",
+          D: "O paradigma da \"convivência com o semiárido\" consolidou-se a partir de frentes de emergência estatais de caráter temporário criadas no Império, as quais visavam garantir a autonomia alimentar do trabalhador rural por meio da concessão de créditos agrícolas individuais e de grandes açudes públicos.",
+          E: "O surgimento da Articulação Semiárido Brasileiro (ASA) na década de 1990 reforçou o antigo modelo de \"combate à seca\" ao direcionar sua atuação para a construção de barragens de grande porte financiadas por fundos internacionais de fomento à infraestrutura urbana."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: B</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>B</strong> é a <strong>correta</strong>. A análise histórica das políticas estatais voltadas para a problemática das secas no Nordeste revela a existência de fases bem delineadas. A segunda fase, situada entre os anos de 1945 e 1958, caracterizou-se pela transição de uma atuação puramente assistencial para uma estratégia de aproveitamento técnico dos recursos hídricos mediante infraestrutura instalada. Esse período foi fortemente marcado pelo surgimento de agências estatais e empresas públicas estruturantes, tais como a Companhia Vale do São Francisco (CVSF), a Companhia Hidrelétrica do São Francisco (CHESF) e o Banco do Nordeste do Brasil (BNB), que buscavam dinamizar a economia regional e organizar o território a partir de eixos produtivos e energéticos.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>A está incorreta</strong> porque a primeira fase (1877 a 1945) caracterizou-se por estudos básicos de caráter físico/natural, pela abertura de estradas e pela construção sistemática de grandes açudes públicos (IFOCS/DNOCS), não havendo de modo sistemático uma industrialização planejada ou atuação da SUDENE (criada apenas em 1959).</li>
+              <li><strong>C está incorreta</strong> porque a terceira fase (iniciada em 1958) caracterizou-se justamente pela incorporação de modernas técnicas de planejamento de cunho territorial, desenvolvimento integrado e planejamento regional capitaneado pela SUDENE.</li>
+              <li><strong>D está incorreta</strong> porque as frentes de emergência históricas e as soluções hidráulicas centralizadas (como os grandes açudes) fazem parte do modelo clássico e conservador de "combate à seca" (frequentemente associado à "indústria da seca"). O paradigma da convivência é focado em sustentabilidade descentralizada e empoderamento social.</li>
+              <li><strong>E está incorreta</strong> porque a Articulação Semiárido Brasileiro (ASA), criada em 1999, atua de forma contra-hegemônica em relação ao modelo de grandes obras centralizadas do "combate à seca". O foco da ASA é a disseminação descentralizada de tecnologias sociais (como as cisternas de placas de captação de água de chuva para consumo humano e produção de alimentos).</li>
+            </ul>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl mt-4">
+              <table class="min-w-full text-xs text-slate-600 divide-y divide-slate-200 bg-slate-50/50">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th class="px-4 py-2 text-left font-bold text-slate-700 uppercase tracking-wide">Evolução Histórica das Políticas de Planejamento Regional no Semiárido</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-4 py-3"><strong>Fase I (1877-1945) - Solução Hidráulica e Estudos Físicos:</strong> Foco na infraestrutura hidráulica básica, construção de açudes públicos e abertura de vias de transporte para mitigar o isolamento das populações flageladas.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3"><strong>Fase II (1945-1958) - Integração da Infraestrutura e Fomento:</strong> Criação de grandes empresas de energia (CHESF), agências de bacia (CVSF) e bancos de fomento regional (BNB) para integrar os recursos à economia nacional.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3"><strong>Fase III (A partir de 1958) - Planejamento Regional e SUDENE:</strong> Introdução de técnicas modernas de planejamento regional de cunho territorial, industrialização induzida e transição paradigmática para a convivência com as secas.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 4,
+        correct: "B",
+        statement: `Os processos de degradação das terras em regiões áridas, semiáridas e subúmidas secas, desencadeados por variações climáticas e pressões decorrentes das atividades humanas, deram origem à identificação formal de "Núcleos de Desertificação" no Nordeste do Brasil. Em relação a essas áreas e às suas características ambientais e de planejamento, assinale a alternativa correta.`,
+        options: {
+          A: "O Ministério do Meio Ambiente reconhece oficialmente a existência de seis núcleos de desertificação ativos no Nordeste, sendo todos eles caracterizados pelas mesmas condições geológicas, pedológicas e pelo regime de clima tropical úmido de encosta.",
+          B: "Os quatro núcleos oficialmente identificados são Gilbués (PI), Irauçuba (CE), Seridó (RN) e Cabrobó (PE), os quais apresentam regimes pluviais e graus de vulnerabilidade específicos.",
+          C: "O Núcleo de Gilbués, situado no estado do Piauí, possui características climáticas idênticas às dos núcleos de Irauçuba e Cabrobó, sendo o clima semiárido estrito o fator determinante para a formação de voçorocas em seu território.",
+          D: "Observações realizadas por meio de sensoriamento remoto de longo prazo demonstraram que os processos erosivos e de perda de produtividade biológica no Núcleo de Gilbués distribuem-se de maneira uniforme por todo o território piauiense, sem correlação com formações geológicas específicas.",
+          E: "O processo de desertificação no semiárido é um fenômeno estritamente natural e irreversível, no qual as práticas de manejo do solo, as políticas de planejamento regional e as atividades agropecuárias não exercem influência na aceleração ou contenção da degradação."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: B</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>B</strong> é a <strong>correta</strong>. O Ministério do Meio Ambiente (MMA) oficializou no final da década de 1990 o reconhecimento de quatro áreas prioritárias sob severo processo de degradação das terras e perda de produtividade biológica e econômica, as quais passaram a ser designadas como os "Núcleos de Desertificação" do Nordeste brasileiro: Gilbués no Piauí, Irauçuba no Ceará, Seridó no Rio Grande do Norte (com ramificações na Paraíba) e Cabrobó em Pernambuco. Esses núcleos representam os casos mais graves de degradação pedológica e perda de cobertura vegetal na região semiárida e subúmida seca do país.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>A está incorreta</strong> porque o MMA oficializou a delimitação de apenas quatro núcleos de desertificação (e não seis). Além disso, eles apresentam grande heterogeneidade geológica, pedológica e climática entre si, não se situando em clima tropical úmido de encosta, mas sim em faixas semiáridas e tropicais secas.</li>
+              <li><strong>C está incorreta</strong> porque o Núcleo de Gilbués, ao contrário de Irauçuba e Cabrobó, situa-se em área de clima tropical subúmido seco, caracterizando-se por um regime e volume pluviométrico substancialmente superior ao observado nos demais núcleos. Sua alta vulnerabilidade decorre da fragilidade inerente de seus solos e de fatores antrópicos.</li>
+              <li><strong>D está incorreta</strong> porque análises espaço-temporais e observações geológicas evidenciaram que os efeitos severos da degradação no Núcleo de Gilbués estão restritos e espacialmente correlacionados à área de afloramento dos folhelhos pertencentes ao Grupo Areado, uma unidade sedimentar de alta fragilidade geotécnica inserida na Bacia Sanfranciscana.</li>
+              <li><strong>E está incorreta</strong> porque a desertificação, conforme estabelecido pelas convenções internacionais, é resultante de uma combinação dinâmica entre variações climáticas naturais e, de forma decisiva, atividades antrópicas inadequadas (como o sobrepastoreio, as queimadas e o desmatamento descontrolado). O fenômeno pode ser mitigado por meio de políticas de contenção e de manejo sustentável do solo.</li>
+            </ul>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl mt-4">
+              <table class="min-w-full text-xs text-slate-600 divide-y divide-slate-200 bg-slate-50/50">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th colspan="2" class="px-4 py-2 text-left font-bold text-slate-700 uppercase tracking-wide">Atributos Físicos e Ambientais dos Núcleos de Desertificação do Nordeste</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700 w-1/4">Gilbués (PI)</td>
+                    <td class="px-4 py-3">Inserido em clima tropical subúmido; processos erosivos severos (voçorocas) intimamente associados à geologia dos folhelhos do Grupo Areado (Bacia Sanfranciscana) e à atividade agropastoril.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Irauçuba (CE)</td>
+                    <td class="px-4 py-3">Situado sob regime de clima semiárido com elevada irregularidade de chuvas; fragilidade pedológica acentuada e histórico de degradação decorrente de pecuária extensiva de caprinos e ovinos.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Seridó (RN/PB)</td>
+                    <td class="px-4 py-3">Localizado no semiárido; degradação severa da cobertura vegetal de Caatinga provocada pelo uso histórico de biomassa vegetal para abastecer fornos das indústrias cerâmicas e gesseiras locais.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Cabrobó (PE)</td>
+                    <td class="px-4 py-3">Região semiárida de alta suscetibilidade à aridez física e climática; degradação biológica induzida por práticas agrícolas inadequadas e desmatamento para expansão de frentes agrícolas.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 5,
+        correct: "A",
+        statement: `As vulnerabilidades urbanas vivenciadas no semiárido brasileiro não decorrem exclusivamente de condicionantes climáticos, mas são também induzidas por privações históricas de acesso a direitos e serviços básicos. Com base nas metodologias de mensuração do Índice de Vulnerabilidade Induzida (IVI) e na realidade socioeconômica dessas municipalidades, assinale a alternativa correta.`,
+        options: {
+          A: "O IVI é calculated a partir de cinco indicadores de vulnerabilidade associados a privações de acesso a: educação, renda, água encanada, saneamento minimamente adequado e serviço de coleta sistemática de lixo.",
+          B: "A grande maioria dos municípios inseridos no semiárido brasileiro apresenta elevada homogeneidade na distribuição de sua riqueza, registrando um PIB per capita médio equivalente a três salários mínimos.",
+          C: "Os problemas gerados pela insegurança hídrica e social no semiárido manifestam-se com menor gravidade nos pequenos núcleos urbanos, uma vez que estas localidades possuem redes de abastecimento autônomas que prescindem de planejamento integrado.",
+          D: "O cálculo do IVI utiliza uma média aritmética simples entre os indicadores, dispensando métodos estatísticos multivariados ou a atribuição de pesos diferenciados às privações analisadas.",
+          E: "A infraestrutura de armazenamento hídrico no semiárido, composta por reservatórios superficiais, poços e tecnologias sociais, demonstrou-se historicamente insuficiente em termos de potencialidade bruta para atender à demanda humana, o que inviabiliza qualquer política de convivência sustentável."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: A</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>A</strong> é a <strong>correta</strong>. O Índice de Vulnerabilidade Induzida (IVI) foi concebido na literatura de desenvolvimento regional como uma ferramenta analítica de balizamento de políticas públicas para o Nordeste e o semiárido brasileiro. O índice parte da premissa de que a vulnerabilidade das populações sertanejas não é fruto exclusivo das secas meteorológicas, mas de privações estruturais passíveis de correção pela ação do Estado. O IVI consolida cinco indicadores de vulnerabilidade domiciliar e social: a privação em educação, a privação em renda, a privação no acesso à água encanada, a privação no acesso ao saneamento minimamente adequado e a privação no acesso ao serviço regular de coleta sistemática de lixo.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>B está incorreta</strong> porque a distribuição do Produto Interno Bruto (PIB) entre as municipalidades do semiárido é caracterizada por profunda heterogeneidade e disparidade. Além disso, a grande maioria dos municípios apresenta PIB per capita extremamente baixo, equivalente a no máximo um salário mínimo.</li>
+              <li><strong>C está incorreta</strong> porque estudos demográficos apontam que a situação de vulnerabilidade e insegurança hídrica atinge o seu grau de maior gravidade exatamente nos pequenos núcleos urbanos do semiárido. Nessas localidades, as fragilidades administrativas e financeiras das prefeituras dificultam a manutenção de sistemas estruturados e seguros, associando a carência física com o quadro de pobreza multidimensional.</li>
+              <li><strong>D está incorreta</strong> porque a metodologia de constituição do IVI utiliza técnicas estatísticas multivariadas de análise fatorial com decomposição em componentes principais para atribuir pesos matemáticos consistentes a cada um dos indicadores de privação de acordo com sua variância.</li>
+              <li><strong>E está incorreta</strong> porque as análises revelam que os três grandes macrosistemas (barramentos superficiais, poços e tecnologias sociais descentralizadas) demonstram, em termos agregados de potencialidade bruta, capacidade de atendimento das demandas humanas vitais. O déficit de acesso é decorrente de desigualdades espaciais e ausência de redes capilares de distribuição segura.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: 6,
+        correct: "D",
+        statement: `A universalização do acesso ao saneamento básico e o planejamento de sua prestação integrada constituem desafios estruturais para as cidades do Nordeste, região marcada por severos déficits de cobertura de água e esgotamento sanitário. No que tange à regionalização dos serviços de saneamento básico e às suas premissas regulatórias, assinale a alternativa correta.`,
+        options: {
+          A: "A instituição de Microrregiões de Saneamento Básico, impulsionada pela Lei nº 14.026/2020, preserva a tradicional titularidade municipal exclusiva e isolada dos serviços, vedando a atuação conjunta entre estados e municípios no planejamento das funções de interesse comum.",
+          B: "Conforme a Lei nº 11.445/2007, a utilização de recursos hídricos para a prestação de serviços públicos de saneamento básico, incluindo a diluição de esgotos e outros resíduos líquidos, prescinde de outorga de direito de uso, de modo a desburocratizar a universalização do acesso.",
+          C: "De acordo com os marcos regulatórios vigentes, a adoção das Normas de Referência emitidas pela Agência Nacional de Águas e Saneamento Básico (ANA) constitui mera recomendação técnica, não configurando condição para que os entes federados acessem recursos públicos federais.",
+          D: "Sob a vigência do atual marco legal do saneamento, os estados lideraram o processo de regionalização através da instituição de microrregiões, registrando-se a criação de 29 microrregiões até março de 2024, as quais somadas às preexistentes totalizaram 49, sendo que a maioria dos estados que optaram por esse modelo estruturou autarquias microrregionais.",
+          E: "Os planos de prestação de serviços públicos de saneamento básico devem ser elaborados sem mecanismos de revisão periódica, garantindo a imutabilidade dos contratos de concessão por prazos não inferiores a cinquenta anos."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: D</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>D</strong> é a <strong>correta</strong>. Um dos principais eixos da reforma regulatória promovida pela atualização do Marco Legal do Saneamento Básico (Lei nº 14.026/2020) consiste no estímulo à prestação regionalizada dos serviços de água e esgoto. Nesse arranjo, os estados lideraram a divisão de seus territórios em blocos ou microrregiões de saneamento básico para garantir viabilidade técnica e financeira. No levantamento consolidado até a conclusão de estudos setoriais em março de 2024, verificou-se a instituição de 29 microrregiões sob a nova modelagem legal, totalizando 49 blocos quando somados aos arranjos metropolitanos e regionais anteriormente instituídos. A grande maioria dos estados optou por estruturar esses blocos sob a forma de autarquias microrregionais para gerir as decisões e o planejamento comum de forma colegiada, registrando-se apenas os estados do Amazonas e de Goiás como exceções a essa estruturação de autarquias específicas.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>A está incorreta</strong> porque a instituição de Microrregiões de Saneamento Básico altera a governança ao promover o compartilhamento e a integração da tradicional titularidade municipal exclusiva. As decisões e execuções de interesse comum passam a ser exercidas de forma unificada.</li>
+              <li><strong>B está incorreta</strong> porque a Lei Federal nº 11.445/2007 estabelece expressamente que o uso de recursos hídricos para a prestação de serviços de saneamento básico, inclusive para fins de disposição final ou de diluição de esgotos sanitários tratados, está sujeito à outorga de direito de uso expedida pelo órgão gestor competente.</li>
+              <li><strong>C está incorreta</strong> porque, com o advento da Lei nº 14.026/2020, o cumprimento das Normas de Referência de caráter nacional editadas pela ANA passou a ser condição imperativa e vinculante para que os entes tenham acesso a recursos federais e financiamentos públicos da União.</li>
+              <li><strong>E está incorreta</strong> porque a legislação determina que os planos de saneamento devem possuir caráter dinâmico e revisável, sendo obrigatória a sua revisão periódica em prazos não superiores a dez anos.</li>
+            </ul>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl mt-4">
+              <table class="min-w-full text-xs text-slate-600 divide-y divide-slate-200 bg-slate-50/50">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th colspan="2" class="px-4 py-2 text-left font-bold text-slate-700 uppercase tracking-wide">O Cenário da Regionalização do Saneamento no Brasil (Dados de Março/2024)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Total de Microrregiões de Saneamento Básico Instituídas</td>
+                    <td class="px-4 py-3">49 unidades territoriais integradas.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Microrregiões criadas sob o Novo Marco Legal (Lei nº 14.026/2020)</td>
+                    <td class="px-4 py-3">29 unidades estruturadas para viabilizar metas de universalização.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Arranjo de Governança Predominante</td>
+                    <td class="px-4 py-3">Constituição de autarquias microrregionais com gestão e planejamento compartilhados.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Exceções de Estados sem autarquias microrregionais</td>
+                    <td class="px-4 py-3">Amazonas e Goiás.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 7,
+        correct: "A",
+        statement: `O planejamento habitacional voltado para as populações de baixa renda e grupos vulneráveis é estruturado no Brasil por meio do Sistema Nacional de Habitação de Interesse Social (SNHIS). Tendo em vista as regras de adesão, os instrumentos e a legislação complementar correlata à política de habitação de interesse social, assinale a alternativa correta.`,
+        options: {
+          A: "Os municípios que desejam aderir ao SNHIS e acessar os recursos do Fundo Nacional de Habitação de Interesse Social (FNHIS) devem cumprir requisitos básicos que incluem a constituição de conselho gestor paritário, a criação de fundo habitacional específico e a elaboração de plano de habitação de interesse social.",
+          B: "O SNHIS proíbe a destinação de recursos do FNHIS para ações de urbanização e regularização fundiária de assentamentos precários, limitando a aplicação das verbas à aquisição de lotes rurais para fins de reforma agrária.",
+          C: "A Lei nº 11.888/2008 assegura às famílias de baixa renda assistência técnica pública e gratuita apenas para a elaboração de projetos de arquitetura voltados a edifícios comerciais de uso misto, vedando o uso de recursos para habitações de interesse social individuais.",
+          D: "Nos programas habitacionais públicos ou subsidiados com recursos governamentais, a reserva de unidades habitacionais para atendimento a pessoas com deficiência é facultativa, prevalecendo critérios de livre concorrência de mercado determinados pelas incorporadoras privadas.",
+          E: "As regras de regularidade dos entes subnacionais perante o SNHIS possuem prazos fixos definidos pela Lei nº 11.124/2005 que são imunes a atualizações ou prorrogações deliberadas por seu Conselho Gestor, mesmo diante de alterações de ciclos de gestão municipal."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: A</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>A</strong> é a <strong>correta</strong>. O Sistema Nacional de Habitação de Interesse Social (SNHIS), instituído pela Lei Federal nº 11.124/2005, funciona sob um regime de cooperação descentralizada. Para que estados, o Distrito Federal e municípios possam aderir e se habilitar ao recebimento de repasses financeiros oriundos do Fundo Nacional de Habitação de Interesse Social (FNHIS), a lei estipula de forma mandatória o cumprimento de requisitos básicos de governança local: assinatura do termo de adesão, elaboração do Plano Local de Habitação de Interesse Social (PLHIS), instituição de um Fundo de Habitação específico e a criação de um Conselho Gestor paritário, com participação de representantes da sociedade civil organizada.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>B está incorreta</strong> porque a Lei nº 11.124/2005 determina expressamente que os recursos do FNHIS devem ser prioritariamente aplicados em urbanização de assentamentos precários/favelas, provisão e melhoria de moradias, produção de lotes urbanizados e regularização fundiária de assentamentos populares.</li>
+              <li><strong>C está incorreta</strong> porque a Lei nº 11.888/2008 (Lei de Assistência Técnica em Habitação de Interesse Social - ATHIS) assegura assistência técnica pública, gratuita e especializada às famílias de baixa renda de forma exclusiva para o projeto, reforma, melhoria ou construção de habitações de interesse social populares (e não uso comercial).</li>
+              <li><strong>D está incorreta</strong> porque a legislação de direitos humanos e acessibilidade (inclusive a Lei nº 13.146/2015 - Estatuto da Pessoa com Deficiência) impõe a obrigatoriedade de reserva de percentual de unidades habitacionais para pessoas com deficiência ou seus responsáveis em todos os programas habitacionais que contem com recursos do erário.</li>
+              <li><strong>E está incorreta</strong> porque as regras e prazos de regularidade cadastral dos entes federativos no âmbito do SNHIS são periodicamente atualizados por resoluções do Conselho Gestor do FNHIS (CGFNHIS) para ajustar as exigências orçamentárias e administrativas à realidade prática das gestões municipais.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: 8,
+        correct: "B",
+        statement: `O Programa Minha Casa, Minha Vida (PMCMV), instituído a partir de 2009, promoveu alterações profundas na configuração territorial e na dinâmica de produção do espaço nas cidades brasileiras e nordestinas. Sob a ótica do planejamento urbano e dos processos de segregação socioespacial associados a essa política habitacional, assinale a alternativa correta.`,
+        options: {
+          A: "A provisão de moradia de interesse social pelo PMCMV pautou-se por mecanismos puramente estatais de reserva de terras urbanas centrais, contendo de forma eficaz os processos de periferização e a especulação imobiliária nas capitais do Nordeste.",
+          B: "Em cidades como Teresina (PI), a inserção espacial dos empreendimentos do PMCMV demonstrou que a força de livre mercado na escolha dos terrenos reiterou a lógica excludente das intervenções habitacionais populares históricas, gerando novas configurações de segregação socioespacial.",
+          C: "A proliferação de vazios urbanos nas áreas centrais das cidades é um processo espontâneo e desvinculado de estratégias de especulação imobiliária conduzidas por proprietários de terras e promotores imobiliários.",
+          D: "A localização dos empreendimentos residenciais subsidiados do PMCMV nas franjas periféricas das cidades é justificada pelo elevado padrão de infraestrutura de transporte e pela proximidade de praças, equipamentos de lazer e serviços públicos de saúde já consolidados nessas regiões.",
+          E: "A segregação socioespacial resultante do deslocamento de conjuntos habitacionais populares para áreas desurbanizadas afeta positivamente a qualidade de vida das famílias ao inseri-las em ecossistemas naturais imunes à poluição urbana e ao tráfego de veículos."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: B</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>B</strong> é a <strong>correta</strong>. Os estudos urbanísticos aplicados à avaliação do Programa Minha Casa, Minha Vida (PMCMV) nas capitais e médias cidades da Região Nordeste, como Teresina no Piauí, revelam que a provisão em larga escala de habitação popular não esteve desvinculada das lógicas de mercado. Apesar de viabilizar a oferta de habitação subsidiada para faixas de baixa renda, a prevalência de lógicas mercantis e a liberdade concedida às incorporadoras e construtoras para a escolha e aquisição dos terrenos reiteraram dinâmicas excludentes de urbanização. A busca pelo menor custo da terra levou à implantação massiva de grandes conjuntos habitacionais nas periferias distantes, de infraestrutura frágil, aprofundando padrões históricos de segregação socioespacial urbana.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>A está incorreta</strong> porque o programa não utilizou mecanismos amplos de reserva ou congelamento de áreas centrais valorizadas, permitindo que a especulação imobiliária seguisse operando ativamente sobre os vazios urbanos centrais.</li>
+              <li><strong>C está incorreta</strong> porque a existência de grandes vazios urbanos em áreas providas de infraestrutura constitui uma estratégia deliberada dos agentes econômicos, que retêm o solo à espera de valorização futura induzida por investimentos públicos, lucrando com a escassez artificial de terrenos centrais.</li>
+              <li><strong>D está incorreta</strong> porque a periferização dos empreendimentos populares caracteriza-se exatamente pela severa carência de infraestrutura básica, pela ineficiência ou ausência de transporte coletivo de qualidade e pelo isolamento em relação a serviços essenciais.</li>
+              <li><strong>E está incorreta</strong> porque o isolamento e o deslocamento das populações de baixa renda para as bordas periféricas desurbanizadas geram impactos sociais e econômicos severos e negativos, dificultando a mobilidade, limitando acessos a empregos e ampliando as desigualdades estruturais.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: 9,
+        correct: "A",
+        statement: `A interface entre a ordem jurídico-urbanística, expressa no Estatuto da Cidade, e as políticas de prevenção e resposta a desastres no Brasil sofreu modificações significativas com a promulgação de novos marcos legais na segunda década do século XXI. A respeito das obrigações municipais e dos instrumentos de planejamento voltados à redução de riscos de desastres, assinale a alternativa correta.`,
+        options: {
+          A: "O Plano Diretor municipal tornou-se obrigatório para as cidades incluídas no cadastro nacional de municípios com áreas suscetíveis à ocorrência de deslizamentos de grande impacto, inundações bruscas ou processos geológicos ou hidrológicos correlatos, independentemente do critério populacional geral.",
+          B: "O mapeamento de áreas de risco e a identificação de vulnerabilidades geotécnicas devem ser executados de forma apartada do Plano Diretor, de modo a evitar interferências normativas no zoneamento de uso e ocupação do solo urbano.",
+          C: "A Política Nacional de Proteção e Defesa Civil (Lei nº 12.608/2012) desobriga o poder público municipal do dever de constante vigilância e controle do solo urbano para evitar a exposição da população a riscos, transferindo essa responsabilidade de forma exclusiva aos cidadãos residentes em áreas informais.",
+          D: "O Estatuto da Cidade estabelece que as informações sobre áreas de risco geradas pelas Defesas Civis municipais devem ser mantidas sob sigilo corporativo, limitando o acesso a esses dados aos poderes Executivo e Legislativo municipais.",
+          E: "A elaboração de cartas geotécnicas de aptidão à urbanização constitui um instrumento de uso restrito ao planejamento agrário, sendo vedada a sua aplicação prática na elaboração ou revisão dos Planos Diretores urbanos."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: A</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>A</strong> é a <strong>correta</strong>. A promulgação da Lei Federal nº 12.608/2012, que instituiu a Política Nacional de Proteção e Defesa Civil, gerou modificações diretas e profundas no Estatuto da Cidade (Lei nº 10.257/2001). Dentre as inovações introduzidas, destaca-se a imposição de que o Plano Diretor passe a ser obrigatório para todas as municipalidades inseridas no Cadastro Nacional de municípios com áreas suscetíveis à ocorrência de deslizamentos de encostas de grande impacto, inundações bruscas ou processos geológicos e hidrológicos correlatos. Essa norma vincula a obrigatoriedade do Plano Diretor à vulnerabilidade física e ao risco de desastres do território, superando o antigo critério populacional geral de 20 mil habitantes para a exigibilidade do instrumento.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>B está incorreta</strong> porque as alterações legais determinam que o mapeamento de áreas de risco e a identificação de processos geológicos e hidrológicos devem ser integrados e incorporados de forma obrigatória e direta ao Plano Diretor e às diretrizes de zoneamento do uso e ocupação do solo municipal, visando restringir e controlar a expansão urbana em setores perigosos.</li>
+              <li><strong>C está incorreta</strong> porque a legislação estabelece um duplo dever permanente ao poder público municipal: o controle preventivo do uso e ocupação do solo para mitigar e evitar a exposição da população a situações de desastre, bem como o dever de constante vigilância de áreas suscetíveis.</li>
+              <li><strong>D está incorreta</strong> porque as informações sobre as áreas de risco e os diagnósticos produzidos no âmbito das Defesas Civis e planos de mitigação devem ser amplamente divulgados, garantindo a publicidade e o acesso transparente à sociedade civil e aos órgãos de controle, não havendo sigilo corporativo na gestão de riscos urbanos.</li>
+              <li><strong>E está incorreta</strong> porque as cartas geotécnicas de aptidão à urbanização constituem um dos instrumentos técnicos mais relevantes trazidos pela reforma legislativa de riscos, sendo de uso obrigatório no planejamento municipal para definir quais porções do solo possuem estabilidade física e geológica para receber novas intervenções urbanas de adensamento ou loteamento.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: 10,
+        correct: "B",
+        statement: `A análise das estatísticas de saneamento básico revela disparidades históricas entre as zonas urbanas e rurais do Nordeste do Brasil, influenciando diretamente a qualidade de vida e os indicadores de saúde da população. Considerando os dados oficiais e as estratégias de planejamento regional e microrregional de saneamento básico na região, assinale a alternativa correta.`,
+        options: {
+          A: "Segundo dados oficiais, a Região Nordeste destaca-se positivamente por apresentar cobertura de coleta de efluentes sanitários próxima à universalização, registrando índices superiores a 90% de atendimento tanto no meio urbano quanto no meio rural.",
+          B: "A disparidade no acesso ao saneamento é acentuada no meio rural brasileiro, estimando-se que aproximadamente 28,7% dos residentes dessas áreas não possuem abastecimento de água por rede, poços ou nascentes, e que cerca de 69,3% carecem de atendimento adequado de esgotamento sanitário.",
+          C: "O estado da Paraíba e o estado da Bahia optaram por manter a gestão de seus serviços públicos de saneamento de forma isolada por município, recusando a instituição de microrregiões ou autarquias microrregionais de saneamento básico por falta de respaldo legal.",
+          D: "A instituição de Microrregiões de Saneamento Básico na Bahia (Lei Complementar nº 48/2019) dividiu o estado em regiões administrativas estanques que são geridas exclusivamente por consórcios privados estrangeiros, extinguindo o papel regulador das autarquias estaduais.",
+          E: "O desabastecimento de água no semiárido é solucionado de maneira definitiva apenas por intermédio de reservatórios subterrâneos profundos, os quais inviabilizam o uso conjunto de barramentos superficiais e tecnologias sociais de captação de água de chuva."
+        },
+        resolution: `
+          <div class="space-y-4">
+            <p><span class="inline-flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs border border-emerald-200">Gabarito Oficial: B</span></p>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A alternativa <strong>B</strong> é a <strong>correta</strong>. A avaliação estatística das condições sanitárias no Brasil, com base nas divulgações consolidadas pelo Sistema Nacional de Informações sobre Saneamento (SNIS), expõe um cenário de acentuada exclusão e desigualdade entre as áreas urbanas e o meio rural do país. No meio rural brasileiro, as estimativas oficiais revelam que 28,7% dos habitantes carecem de qualquer modalidade de abastecimento de água por rede geral, poços artesianos protegidos ou nascentes captadas. Essa exclusão é ainda mais grave no segmento de esgotamento sanitário rural, no qual cerca de 69,3% dos habitantes residem em domicílios sem atendimento ou com soluções de esgotamento classificadas como inadequadas pela ausência de destinação segura e tratamento.
+            </p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fundamentação das Incorretas:</p>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+              <li><strong>A está incorreta</strong> porque os dados históricos oficiais (SNIS) demonstram que a Região Nordeste enfrenta déficits históricos crônicos e elevados na prestação de esgotamento sanitário, registrando, em períodos recentes, médias de atendimento de apenas 30,3% da população com rede de coleta e tratamento de efluentes domésticos, patamar distante de qualquer cenário de universalização.</li>
+              <li><strong>C está incorreta</strong> porque estados nordestinos como a Paraíba e a Bahia avançaram de forma pioneira na elaboração e aprovação de leis ordinárias e complementares para regulamentar e instituir as suas Microrregiões de Saneamento Básico, estruturando autarquias e instâncias de governança compartilhada para a gestão unificada dos serviços públicos de esgoto e abastecimento.</li>
+              <li><strong>D está incorreta</strong> porque a Lei Complementar nº 48/2019 do Estado da Bahia instituiu microrregiões que buscam consolidar a integração regional e o equilíbrio na prestação de serviços entre municípios de pequeno, médio e grande porte, prevendo uma estrutura de governança pública de caráter colegiado com participação do próprio Estado e dos municípios consorciados, não extinguindo o papel regulador público.</li>
+              <li><strong>E está incorreta</strong> porque o planejamento hídrico sustentável do semiárido fundamenta-se na convivência e complementaridade. A segurança hídrica sustentável exige o uso simultâneo e integrado de poços profundos em aquíferos subterrâneos, barragens e reservatórios superficiais de médio e grande porte e tecnologias sociais de captação de água de chuva (cisternas), respeitando as potencialidades e limitações de cada manancial de forma sazonal.</li>
+            </ul>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl mt-4">
+              <table class="min-w-full text-xs text-slate-600 divide-y divide-slate-200 bg-slate-50/50">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th colspan="2" class="px-4 py-2 text-left font-bold text-slate-700 uppercase tracking-wide">Indicadores de Cobertura de Saneamento Básico (Dados SNIS/PNSR)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Abastecimento de Água Tratada (Região Nordeste - Total)</td>
+                    <td class="px-4 py-3">Aproximadamente 74,0% de cobertura populacional agregada.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Coleta e Tratamento de Esgoto (Região Nordeste - Total)</td>
+                    <td class="px-4 py-3">Média histórica crítica de cerca de 30,3% de atendimento.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Déficit de Acesso à Rede ou Poço no Meio Rural (Nacional)</td>
+                    <td class="px-4 py-3">Cerca de 28,7% da população rural sem atendimento seguro de água.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-semibold text-slate-700">Déficit de Esgotamento Sanitário Adequado no Meio Rural (Nacional)</td>
+                    <td class="px-4 py-3">Cerca de 69,3% dos habitantes rurais sem esgoto adequado.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    // Estados e variáveis globais do Quiz
+    let userAnswers = {};
+    let isSubmitted = false;
+    let timerInterval = null;
+    let secondsElapsed = 0;
+    let currentFilter = 'all'; // 'all' ou 'incorrect'
+
+    // Inicializador
+    window.onload = function() {
+      renderQuestions();
+      renderNavigationMap();
+      startTimer();
+    };
+
+    // Formatação do Timer de Estudo
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('quiz-timer').innerText = `${hrs}:${mins}:${secs}`;
+      }, 1000);
+    }
+
+    // Renderização Dinâmica das Questões
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+
+      questionsData.forEach((q, idx) => {
+        // Criar card principal da questão
+        const qCard = document.createElement('div');
+        qCard.id = `question-card-${q.id}`;
+        qCard.className = "bg-white p-6 md:p-8 rounded-2xl border border-slate-200/80 shadow-sm transition duration-300 flex flex-col gap-5";
+
+        // Cabeçalho da Questão (Número e Atribuições)
+        const qHeader = document.createElement('div');
+        qHeader.className = "flex items-center justify-between border-b border-slate-100 pb-3";
+        qHeader.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 bg-slate-900 text-white rounded-lg text-sm font-bold">Questão ${idx + 1}</span>
+            <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-1 rounded">Banca: Instituto AOCP</span>
+          </div>
+          <span class="text-xs text-slate-400 font-medium">Planejamento Regional/Urbano</span>
+        `;
+        qCard.appendChild(qHeader);
+
+        // Enunciado da Questão
+        const qStatement = document.createElement('div');
+        qStatement.className = "text-slate-800 text-[15px] leading-relaxed font-normal whitespace-pre-line";
+        qStatement.innerText = q.statement;
+        qCard.appendChild(qStatement);
+
+        // Grupo de Opções
+        const qOptionsGroup = document.createElement('div');
+        qOptionsGroup.className = "flex flex-col gap-2.5";
+
+        Object.entries(q.options).forEach(([letter, optionText]) => {
+          const optionBtn = document.createElement('div');
+          optionBtn.id = `option-container-${q.id}-${letter}`;
+          optionBtn.className = "flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 cursor-pointer transition-all duration-200 group text-sm relative";
+          optionBtn.setAttribute('onclick', `selectOption(${q.id}, '${letter}')`);
+
+          optionBtn.innerHTML = `
+            <!-- Input oculto para manter semântica -->
+            <input type="radio" name="question_${q.id}" value="${letter}" class="sr-only" ${userAnswers[q.id] === letter ? 'checked' : ''}>
+            
+            <!-- Marcador da letra com efeito visual -->
+            <span id="badge-${q.id}-${letter}" class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 text-slate-700 font-bold text-xs transition group-hover:scale-110">
+              ${letter}
+            </span>
+            
+            <!-- Texto da Opção -->
+            <span class="text-slate-700 leading-relaxed transition-colors group-hover:text-slate-900 pr-4">
+              ${optionText}
+            </span>
+
+            <!-- Ícone de validação pós-envio (inicialmente oculto) -->
+            <div id="status-icon-${q.id}-${letter}" class="absolute right-3.5 top-3.5 hidden">
+            </div>
+          `;
+          qOptionsGroup.appendChild(optionBtn);
+        });
+        qCard.appendChild(qOptionsGroup);
+
+        // Container para a Resolução Detalhada (inicialmente oculto)
+        const resolutionContainer = document.createElement('div');
+        resolutionContainer.id = `resolution-box-${q.id}`;
+        resolutionContainer.className = "hidden bg-indigo-50/30 border border-indigo-100 p-5 md:p-6 rounded-xl mt-3 transition duration-300";
+        resolutionContainer.innerHTML = q.resolution;
+        qCard.appendChild(resolutionContainer);
+
+        container.appendChild(qCard);
+      });
+    }
+
+    // Gerador de Mapa de Navegação Lateral
+    function renderNavigationMap() {
+      const navMap = document.getElementById('navigation-map');
+      navMap.innerHTML = '';
+
+      questionsData.forEach((q, idx) => {
+        const navBtn = document.createElement('button');
+        navBtn.id = `nav-btn-${q.id}`;
+        navBtn.type = "button";
+        navBtn.className = "w-full aspect-square flex items-center justify-center rounded-xl text-xs font-bold transition border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200";
+        navBtn.innerText = idx + 1;
+        navBtn.setAttribute('onclick', `scrollToQuestion(${q.id})`);
+        navMap.appendChild(navBtn);
+      });
+    }
+
+    // Scroll Suave para Questões Específicas
+    function scrollToQuestion(qId) {
+      const el = document.getElementById(`question-card-${qId}`);
+      if (el) {
+        // Obter posição com compensação do header fixo
+        const headerOffset = 90;
+        const elementPosition = el.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+
+    // Evento de Seleção de Alternativa
+    function selectOption(qId, letter) {
+      if (isSubmitted) return; // Bloquear cliques após finalizar o simulado
+
+      // Registrar escolha do usuário
+      userAnswers[qId] = letter;
+
+      // Limpar estilos de todas as outras opções desta mesma questão
+      const q = questionsData.find(item => item.id === qId);
+      Object.keys(q.options).forEach(l => {
+        const optContainer = document.getElementById(`option-container-${qId}-${l}`);
+        const badge = document.getElementById(`badge-${qId}-${l}`);
+        
+        optContainer.className = "flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 cursor-pointer transition-all duration-200 group text-sm relative";
+        badge.className = "flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 text-slate-700 font-bold text-xs transition group-hover:scale-110";
+      });
+
+      // Aplicar estilos destacados na opção selecionada (Tons Azuis confortáveis)
+      const selectedContainer = document.getElementById(`option-container-${qId}-${letter}`);
+      const selectedBadge = document.getElementById(`badge-${qId}-${letter}`);
+      
+      selectedContainer.className = "flex items-start gap-3 p-3.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/40 cursor-pointer transition-all duration-200 group text-sm relative shadow-sm";
+      selectedBadge.className = "flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-indigo-600 text-white font-bold text-xs transition scale-110";
+
+      // Atualizar barra de progresso e mapa de navegação lateral
+      updateProgress();
+    }
+
+    // Atualização do Progresso e Estados Visuais Laterais
+    function updateProgress() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const progressPercent = (answeredCount / questionsData.length) * 100;
+      
+      // Atualizar Barra
+      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+      document.getElementById('progress-text').innerText = `${answeredCount}/10 Respondidas`;
+
+      // Atualizar Mapa de Navegação Rápida
+      questionsData.forEach(q => {
+        const navBtn = document.getElementById(`nav-btn-${q.id}`);
+        if (!isSubmitted) {
+          if (userAnswers[q.id]) {
+            navBtn.className = "w-full aspect-square flex items-center justify-center rounded-xl text-xs font-bold transition border border-indigo-300 bg-indigo-600 text-white shadow-sm shadow-indigo-100";
+          } else {
+            navBtn.className = "w-full aspect-square flex items-center justify-center rounded-xl text-xs font-bold transition border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200";
+          }
+        }
+      });
+    }
+
+    // Validação e Verificação Pré-Envio (Modal customizado)
+    function confirmSubmission() {
+      if (isSubmitted) return;
+
+      const answeredCount = Object.keys(userAnswers).length;
+      const missingCount = questionsData.length - answeredCount;
+
+      const modal = document.getElementById('confirm-modal');
+      const modalDesc = document.getElementById('confirm-modal-desc');
+
+      if (missingCount > 0) {
+        modalDesc.innerHTML = `Você respondeu a apenas <strong>${answeredCount} de ${questionsData.length} questões</strong>. Se você finalizar agora, as <strong>${missingCount} restantes serão marcadas como erradas</strong>. Deseja prosseguir com o encerramento do simulado?`;
+      } else {
+        modalDesc.innerHTML = `Parabéns, você respondeu a todas as <strong>10 questões!</strong> Deseja finalizar o simulado e exibir as resoluções comentadas de cada item?`;
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('confirm-modal').classList.add('hidden');
+    }
+
+    // Processamento de Finalização do Quiz
+    function submitQuiz() {
+      closeModal();
+      isSubmitted = true;
+      clearInterval(timerInterval); // Parar cronômetro de estudo
+
+      // Esconder a barra de ações
+      document.getElementById('quiz-actions-bar').classList.add('hidden');
+
+      // Calcular Pontuação
+      let correctAnswersCount = 0;
+      const incorrectQuestionsIds = [];
+
+      questionsData.forEach(q => {
+        const userChoice = userAnswers[q.id] || null;
+        const isCorrect = userChoice === q.correct;
+
+        if (isCorrect) {
+          correctAnswersCount++;
+        } else {
+          incorrectQuestionsIds.push(q.id);
+        }
+
+        // Aplicar estilos pós-submissão
+        revealResolutionAndStatus(q, userChoice, isCorrect);
+      });
+
+      // Renderizar estatísticas do usuário
+      showResultDashboard(correctAnswersCount, incorrectQuestionsIds.length);
+      
+      // Mostrar filtros e legenda no card lateral
+      document.getElementById('review-filters-card').style.display = 'block';
+      document.getElementById('badge-errors-count').innerText = incorrectQuestionsIds.length;
+      document.getElementById('legend-post-quiz').classList.remove('hidden');
+
+      // Scroll automático para as estatísticas
+      window.scrollTo({
+        top: 250,
+        behavior: 'smooth'
+      });
+    }
+
+    // Exibe feedbacks visuais e insere resoluções ao lado das questões respondidas
+    function revealResolutionAndStatus(q, userChoice, isCorrect) {
+      // 1. Mostrar painel explicativo/comentário
+      const resBox = document.getElementById(`resolution-box-${q.id}`);
+      resBox.classList.remove('hidden');
+
+      // 2. Colorir e marcar as opções corretas e incorretas
+      Object.keys(q.options).forEach(letter => {
+        const container = document.getElementById(`option-container-${q.id}-${letter}`);
+        const badge = document.getElementById(`badge-${q.id}-${letter}`);
+        const statusIcon = document.getElementById(`status-icon-${q.id}-${letter}`);
+
+        // Resetar qualquer estado hover
+        container.style.pointerEvents = 'none'; // Bloquear cliques futuros
+
+        if (letter === q.correct) {
+          // Destacar a alternativa correta em tons verdes elegantes
+          container.className = "flex items-start gap-3 p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-medium text-sm relative shadow-sm transition-all";
+          badge.className = "flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-emerald-600 text-white font-bold text-xs scale-110";
+          
+          // Adicionar ícone de check (SVG)
+          statusIcon.classList.remove('hidden');
+          statusIcon.innerHTML = `
+            <svg class="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+          `;
+        } else if (letter === userChoice && !isCorrect) {
+          // Destacar alternativa incorreta selecionada pelo usuário em tons de vermelho/rosa suaves
+          container.className = "flex items-start gap-3 p-3.5 rounded-xl border-2 border-rose-400 bg-rose-50 text-rose-900 text-sm relative shadow-sm transition-all";
+          badge.className = "flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-rose-600 text-white font-bold text-xs scale-110";
+          
+          // Adicionar ícone de erro (SVG X)
+          statusIcon.classList.remove('hidden');
+          statusIcon.innerHTML = `
+            <svg class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          `;
+        } else {
+          // Opções normais não escolhidas
+          container.className = "flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-400 text-sm relative transition-all opacity-60";
+          badge.className = "flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 font-bold text-xs";
+          statusIcon.classList.add('hidden');
+        }
+      });
+
+      // 3. Atualizar mapa lateral
+      const navBtn = document.getElementById(`nav-btn-${q.id}`);
+      if (isCorrect) {
+        navBtn.className = "w-full aspect-square flex items-center justify-center rounded-xl text-xs font-bold transition border border-emerald-400 bg-emerald-100 text-emerald-800 shadow-sm";
+      } else {
+        navBtn.className = "w-full aspect-square flex items-center justify-center rounded-xl text-xs font-bold transition border border-rose-400 bg-rose-100 text-rose-800 shadow-sm";
+      }
+    }
+
+    // Painel Central com as métricas do usuário
+    function showResultDashboard(corrects, errors) {
+      const dashboard = document.getElementById('result-dashboard');
+      const pctElement = document.getElementById('result-percentage');
+      const scoreFraction = document.getElementById('score-fraction');
+      const timeTaken = document.getElementById('result-time-taken');
+      const badgeContainer = document.getElementById('feedback-badges');
+
+      // Calcular Percentual
+      const percent = Math.round((corrects / questionsData.length) * 100);
+      pctElement.innerText = `${percent}%`;
+      scoreFraction.innerText = `${corrects} / ${questionsData.length}`;
+
+      // Configurar a rotação/tamanho do círculo animado (Dasharray completo = 301.6)
+      const circleProgress = (corrects / questionsData.length) * 301.6;
+      document.getElementById('progress-circle-dash').setAttribute('stroke-dashoffset', 301.6 - circleProgress);
+
+      // Calcular tempo formatado
+      const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+      const secs = String(secondsElapsed % 60).padStart(2, '0');
+      timeTaken.innerText = `Tempo total de estudo: ${hrs}:${mins}:${secs}`;
+
+      // Gerar Crachás de Desempenho
+      badgeContainer.innerHTML = '';
+      if (percent === 100) {
+        badgeContainer.innerHTML = `
+          <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">Excelente</span>
+          <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-full">Gabaritou!</span>
+        `;
+      } else if (percent >= 70) {
+        badgeContainer.innerHTML = `
+          <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-full">Bom Trabalho</span>
+          <span class="px-3 py-1 bg-slate-100 text-slate-800 text-xs font-bold rounded-full">Mais de 70%</span>
+        `;
+      } else {
+        badgeContainer.innerHTML = `
+          <span class="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full">Atenção</span>
+          <span class="px-3 py-1 bg-slate-100 text-slate-800 text-xs font-bold rounded-full">Revise a Matéria</span>
+        `;
+      }
+
+      // Tornar visível com animação de fade
+      dashboard.classList.remove('hidden');
+      setTimeout(() => {
+        dashboard.classList.remove('scale-95', 'opacity-0');
+        dashboard.classList.add('scale-100', 'opacity-100');
+      }, 50);
+    }
+
+    // Recurso de Filtros de Questões após finalização do Quiz (Focus mode para erros)
+    function filterQuestions(type) {
+      if (!isSubmitted) return;
+      currentFilter = type;
+
+      const btnAll = document.getElementById('filter-btn-all');
+      const btnErrors = document.getElementById('filter-btn-errors');
+
+      if (type === 'all') {
+        btnAll.className = "w-full text-left px-3 py-2 rounded-lg text-sm font-medium bg-slate-900 text-white transition shadow-sm";
+        btnErrors.className = "w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition flex justify-between items-center";
+        
+        questionsData.forEach(q => {
+          document.getElementById(`question-card-${q.id}`).style.display = 'flex';
+        });
+      } else if (type === 'incorrect') {
+        btnAll.className = "w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition";
+        btnErrors.className = "w-full text-left px-3 py-2 rounded-lg text-sm font-medium bg-slate-900 text-white transition shadow-sm flex justify-between items-center";
+        
+        questionsData.forEach(q => {
+          const userChoice = userAnswers[q.id] || null;
+          const isCorrect = userChoice === q.correct;
+          const card = document.getElementById(`question-card-${q.id}`);
+
+          if (isCorrect) {
+            card.style.display = 'none';
+          } else {
+            card.style.display = 'flex';
+          }
+        });
+      }
+    }
+
+    // Reinicialização do Simulado
+    function resetQuiz() {
+      // Zerar variáveis
+      userAnswers = {};
+      isSubmitted = false;
+      secondsElapsed = 0;
+      currentFilter = 'all';
+
+      // Esconder painéis de resultado e filtros
+      document.getElementById('result-dashboard').classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        document.getElementById('result-dashboard').classList.add('hidden');
+      }, 300);
+      document.getElementById('review-filters-card').style.display = 'none';
+      document.getElementById('legend-post-quiz').classList.add('hidden');
+
+      // Exibir barra de finalização original
+      document.getElementById('quiz-actions-bar').classList.remove('hidden');
+
+      // Re-renderizar as questões no estado inicial
+      renderQuestions();
+      updateProgress();
+
+      // Reiniciar cronômetro de estudo
+      clearInterval(timerInterval);
+      startTimer();
+    }
+  </script>
+
+</body>
+</html>

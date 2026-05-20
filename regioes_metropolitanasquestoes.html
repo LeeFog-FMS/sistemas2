@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Instituto AOCP - Regiões Metropolitanas & RMF</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            300: '#7cc8fc',
+                            400: '#36acf8',
+                            500: '#0c91eb',
+                            600: '#0273ca',
+                            700: '#035ca3',
+                            800: '#074f87',
+                            900: '#0b4270',
+                            950: '#072a4a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-brand-600 text-white p-2 rounded-lg font-bold text-lg shadow-md shadow-brand-500/20">
+                    AOCP
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white">Simulado de Alto Nível</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Regiões Metropolitanas & Grande Fortaleza</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <!-- Theme Toggle -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    <!-- Sun Icon (visible in dark) -->
+                    <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707m12.728 12.728A9 9 0 1111.36 3.636M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <!-- Moon Icon (visible in light) -->
+                    <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+
+                <div id="headerTimer" class="hidden flex items-center space-x-1 px-3 py-1 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 rounded-full font-mono text-sm border border-amber-200 dark:border-amber-900/50">
+                    <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span id="timerText">00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+        
+        <!-- Screen 1: Welcome/Setup -->
+        <section id="screenIntro" class="flex-grow flex flex-col justify-center max-w-2xl mx-auto w-full">
+            <div class="bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 sm:p-10 transition-colors duration-200">
+                <span class="px-3 py-1 bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-xs font-semibold rounded-full tracking-wider uppercase">Foco total: Instituto AOCP</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold mt-4 text-slate-900 dark:text-white leading-tight">Regiões Metropolitanas e Fortaleza</h2>
+                <p class="mt-3 text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed">
+                    Este simulador contém 10 questões de alto nível focadas em conurbação, redes urbanas, Estatuto da Metrópole (Lei nº 13.089/2015) e a formação socioespacial e histórica da Região Metropolitana de Fortaleza (RMF).
+                </p>
+
+                <!-- Topics Accordion Indicator -->
+                <div class="mt-6 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-800/80">
+                    <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">Eixos Temáticos Cobrados:</h3>
+                    <ul class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 space-y-1.5 list-inside list-disc">
+                        <li>Teoria urbana, conurbação e polarizações (REGIC/IBGE).</li>
+                        <li>Legislação metropolitana e governança integrada (CF/88 e Estatuto da Metrópole).</li>
+                        <li>Histórico da Grande Fortaleza (Constituição de 1973 e ampliações).</li>
+                        <li>Vetores de expansão, segregação, mobilidade e o Complexo do Pecém.</li>
+                    </ul>
+                </div>
+
+                <!-- Mode Selectors -->
+                <div class="mt-8 space-y-4">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Escolha o seu modo de treino:</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Mode Card 1 -->
+                        <div onclick="selectQuizMode('study')" id="modeStudyCard" class="cursor-pointer group relative p-5 rounded-xl border-2 border-brand-500 bg-brand-50/30 dark:bg-brand-950/10 hover:border-brand-500 transition-all">
+                            <div class="flex items-start">
+                                <div class="bg-brand-600 text-white p-2 rounded-lg mr-4 mt-0.5">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-950 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400">Modo Estudo</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Veja a resolução detalhada e o embasamento legal imediatamente após marcar cada opção.</p>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 right-4 text-brand-600 dark:text-brand-400" id="studyCheck">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                        </div>
+
+                        <!-- Mode Card 2 -->
+                        <div onclick="selectQuizMode('exam')" id="modeExamCard" class="cursor-pointer group relative p-5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+                            <div class="flex items-start">
+                                <div class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 p-2 rounded-lg mr-4 mt-0.5 group-hover:bg-amber-600 group-hover:text-white transition">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Modo Simulado</h4>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Gabarito ao final. Controle de tempo para treinar seu rendimento e gerenciar a ansiedade de prova.</p>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 right-4 text-brand-600 dark:text-brand-400 hidden" id="examCheck">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold rounded-xl shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30 transform hover:-translate-y-0.5 transition flex items-center justify-center space-x-2">
+                        <span>Iniciar Simulado</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 2: Active Question Board -->
+        <section id="screenQuiz" class="hidden flex-grow grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left Panel: Navigation map -->
+            <div class="lg:col-span-1 bg-white dark:bg-slate-950 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 h-fit transition-colors duration-200">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-slate-900 dark:text-white text-sm uppercase tracking-wider">Questões</h3>
+                    <span id="quizProgressBadge" class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded-md font-semibold">1 / 10</span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-2" id="questionNavGrid">
+                    <!-- Nav items will be dynamically injected here -->
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 space-y-3">
+                    <div class="flex items-center text-xs text-slate-500">
+                        <span class="w-3.5 h-3.5 rounded bg-brand-500 mr-2"></span>
+                        <span>Questão Atual</span>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-500">
+                        <span class="w-3.5 h-3.5 rounded bg-slate-200 dark:bg-slate-700 mr-2"></span>
+                        <span>Respondida</span>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-500">
+                        <span class="w-3.5 h-3.5 rounded border-2 border-dashed border-slate-300 dark:border-slate-600 mr-2"></span>
+                        <span>Não respondida</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Central Area: The Question Card -->
+            <div class="lg:col-span-3 flex flex-col space-y-6">
+                <!-- Progress bar -->
+                <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div id="quizProgressBar" class="bg-brand-500 h-full transition-all duration-300" style="width: 10%"></div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-950 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 p-6 sm:p-8 transition-colors duration-200 flex flex-col justify-between flex-grow">
+                    <div>
+                        <!-- Question Header -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
+                            <span class="text-sm font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest" id="questionNumberLabel">QUESTÃO 1</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold rounded">Geografia Humana</span>
+                                <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold rounded">AOCP</span>
+                            </div>
+                        </div>
+
+                        <!-- Question Body -->
+                        <p class="text-slate-900 dark:text-slate-100 font-medium leading-relaxed mb-8 text-sm sm:text-base whitespace-pre-line" id="questionText">
+                            <!-- Question Text will go here -->
+                        </p>
+
+                        <!-- Options List -->
+                        <div class="space-y-3" id="optionsContainer">
+                            <!-- Options will be injected here -->
+                        </div>
+                    </div>
+
+                    <!-- Instant Feedback Section (Modo Estudo only) -->
+                    <div id="studyFeedbackContainer" class="hidden mt-8 p-5 rounded-xl border border-emerald-100 dark:border-emerald-950 bg-emerald-50/50 dark:bg-emerald-950/10 transition-all">
+                        <div class="flex items-center mb-3">
+                            <div id="feedbackIconWrapper" class="p-1 rounded-full mr-3 text-white">
+                                <!-- Dynamic check/cross icon -->
+                            </div>
+                            <span id="feedbackTitle" class="font-bold text-sm">Resposta Correta!</span>
+                        </div>
+                        <div id="explanationText" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line border-t border-slate-200/50 dark:border-slate-800 pt-3">
+                            <!-- Explanation text -->
+                        </div>
+                    </div>
+
+                    <!-- Question Navigation Footer -->
+                    <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4">
+                        <button onclick="prevQuestion()" id="prevBtn" class="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 active:bg-slate-100 transition flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            <span>Anterior</span>
+                        </button>
+                        
+                        <button onclick="submitExam()" id="finishBtn" class="hidden px-6 py-2.5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white text-sm font-bold rounded-xl shadow-md transition flex items-center space-x-2">
+                            <span>Finalizar Simulado</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </button>
+
+                        <button onclick="nextQuestion()" id="nextBtn" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white text-sm font-semibold rounded-xl shadow-sm transition flex items-center space-x-2">
+                            <span>Próxima</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 3: Detailed Report Card and Review -->
+        <section id="screenResults" class="hidden flex-grow max-w-4xl mx-auto w-full space-y-8">
+            <div class="bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 transition-colors duration-200">
+                <div class="text-center pb-6 border-b border-slate-100 dark:border-slate-800">
+                    <span class="px-3 py-1 bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-400 text-xs font-bold rounded-full tracking-wide uppercase">Simulado Concluído</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Seu Relatório de Performance</h2>
+                </div>
+
+                <!-- Stats Dashboard Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 my-8">
+                    <!-- Stat Card 1 -->
+                    <div class="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Aproveitamento</span>
+                        <div class="flex items-baseline mt-2">
+                            <span id="resultsScorePercentage" class="text-4xl font-extrabold text-brand-600 dark:text-brand-400">80%</span>
+                        </div>
+                        <span id="resultsScoreFraction" class="text-xs text-slate-400 mt-1">8 de 10 acertos</span>
+                    </div>
+
+                    <!-- Stat Card 2 -->
+                    <div class="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Tempo Gasto</span>
+                        <div class="flex items-baseline mt-2">
+                            <span id="resultsTime" class="text-4xl font-extrabold text-slate-800 dark:text-white">04:32</span>
+                        </div>
+                        <span class="text-xs text-slate-400 mt-1">média de 27s / questão</span>
+                    </div>
+
+                    <!-- Stat Card 3 -->
+                    <div class="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Status da Banca</span>
+                        <div class="flex items-baseline mt-2">
+                            <span id="resultsPerformanceLabel" class="text-xl font-bold text-emerald-600 dark:text-emerald-400">Aprovado!</span>
+                        </div>
+                        <span class="text-xs text-slate-400 mt-1" id="resultsPerformanceSubtext">Excelente aproveitamento escolar</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"></path></svg>
+                        <span>Tentar Novamente</span>
+                    </button>
+                    <button onclick="scrollReview()" class="px-6 py-3 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 active:bg-slate-100 transition flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <span>Revisar Resoluções</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Section Accordion container -->
+            <div id="reviewContainer" class="space-y-4 pt-4">
+                <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-4">Gabarito Comentado Integral</h3>
+                
+                <!-- Review cards will be dynamically injected here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-6 transition-colors duration-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            <p>© 2026 Simulado Especializado Instituto AOCP. Conteúdo com base na dinâmica demográfica do Ceará.</p>
+            <p class="mt-2 sm:mt-0">Foco nas Diretrizes Metropolizadoras Nacionais & RMF.</p>
+        </div>
+    </footer>
+
+    <!-- App State and Questions Data -->
+    <script>
+        const questions = [
+            {
+                id: 1,
+                number: "Questão 1",
+                topic: "Conurbação e Processos Urbanos",
+                text: "A urbanização é reconhecida pela literatura geográfica como um fenômeno transformador de grande relevância territorial e socioeconômica. Segundo o geógrafo Milton Santos, a urbanização atua de maneira dialética, sendo simultaneamente um resultado e uma condição do processo de difusão do capital. No contexto do crescimento acelerado das aglomerações urbanas e da integração física de municípios vizinhos, ocorre a consolidação de arranjos metropolitanos. O fenômeno caracterizado pela unificação física e funcional dos tecidos urbanos de duas ou mais cidades contíguas denomina-se:",
+                options: [
+                    "conurbação.",
+                    "suburbanização rural-misturada.",
+                    "assentamento irregular sub-habitacional.",
+                    "gentrificação centralizadora.",
+                    "verticalização concentradora."
+                ],
+                correctIndex: 0,
+                explanation: `<strong>Gabarito: A</strong><br><br>
+                <strong>Fundamentação Geográfica e Teórica</strong>: O fenômeno da <strong>conurbação</strong> consiste na unificação física das malhas urbanas de duas ou mais cidades vizinhas, resultante de sua expansão horizontal contínua. À medida que a mancha urbana se espalha, os limites político-administrativos municipais tornam-se imperceptíveis no terreno. Milton Santos conceitua a urbanização como elemento indissociável do desenvolvimento econômico e da reprodução do capital, que dita a produção desigual do espaço. No contexto da Região Metropolitana de Fortaleza, a conurbação é nítida entre o município polo e as áreas vizinhas de Caucaia, Maracanaú e Eusébio.<br><br>
+                <strong>Análise das Alternativas Incorretas</strong>:
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li><em>B) Incorreta</em>. O desenvolvimento de estruturas e funções urbanas misturadas com atividades rurais para além dos subúrbios tradicionais descreve o processo de periurbanização ou rurbano, não se confundindo com a fusão física das manchas urbanas (conurbação).</li>
+                    <li><em>C) Incorreta</em>. Assentamentos irregulares caracterizados por precariedade habitacional em terrenos públicos ou privados definem o conceito censitário de aglomerados subnormais (favelas), e não o fenômeno de fusão espacial de malhas municipais.</li>
+                    <li><em>D) Incorreta</em>. A gentrificação descreve o processo de valorização e requalificação de áreas consolidadas (frequentemente centrais ou portuárias), provocando o encarecimento do custo de vida e a expulsão indireta das populações tradicionais de menor renda por classes mais ricas.</li>
+                    <li><em>E) Incorreta</em>. A verticalização consiste no adensamento populacional e construtivo por meio da proliferação de edifícios de múltiplos pavimentos, processo distinto da expansão horizontal contígua típica da conurbação.</li>
+                </ul>`
+            },
+            {
+                id: 2,
+                number: "Questão 2",
+                topic: "Hierarquia da Rede Urbana (REGIC)",
+                text: "A pesquisa 'Regiões de Influência das Cidades' (REGIC), realizada pelo Instituto Brasileiro de Geografia e Estatística (IBGE), constitui o estudo oficial de referência para a análise da hierarquia da rede urbana brasileira e dos fluxos de informações, bens e serviços entre os centros urbanos. À luz dos critérios metodológicos e dos níveis de classificação consolidados na pesquisa REGIC de 2018, assinale a alternativa que apresenta um conceito ou uma classificação que NÃO corresponde aos níveis oficiais da hierarquia urbana brasileira ou à inserção do município de Fortaleza nessa rede:",
+                options: [
+                    "O município de Fortaleza enquadra-se no nível de Metrópole regional, exercendo uma expressiva influência espacial que polariza as cidades do estado do Ceará e se estende por outros estados do Nordeste e do Norte do país.",
+                    "A hierarquia urbana do país é estruturada em níveis e subníveis específicos, sendo exemplos dessas classes oficiais as categorias de Capital Regional, Centro Sub-regional, Centro de Zona e Centro Local.",
+                    "A categoria de Megalópole constitui o nível hierárquico mais elevado da classificação oficial da REGIC 2018, sendo uma classe reservada para designar o arranjo populacional conurbado que envolve as metrópoles de São Paulo, Rio de Janeiro e Belo Horizonte.",
+                    "A classe de Metrópole Nacional é ocupada, segundo a REGIC 2018, pelos Arranjos Populacionais do Rio de Janeiro e de Brasília, cujas influências estendem-se de forma direta por vastas porções do território nacional.",
+                    "O arranjo populacional de São Paulo é classificado como a única Grande Metrópole Nacional do país, ocupando de forma isolada o topo da hierarquia da rede urbana brasileira devido ao seu elevado poder de polarização de fluxos econômicos e corporativos."
+                ],
+                correctIndex: 2,
+                explanation: `<strong>Gabarito: C</strong><br><br>
+                <strong>Fundamentação Geográfica e Teórica</strong>: A pesquisa "Regiões de Influência das Cidades" (REGIC) de 2018, estruturada pelo IBGE, classifica os centros urbanos brasileiros em níveis e subníveis hierárquicos bem delineados. Conforme os critérios metodológicos formais da pesquisa, o território nacional é classificado em cinco grandes níveis hierárquicos de centros urbanos. O termo <strong>megalópole</strong> constitui um conceito geográfico que descreve uma extensa faixa urbanizada altamente integrada por várias metrópoles, mas <em>não</em> representa uma categoria ou nível hierárquico oficial adotado na tipologia urbana da pesquisa REGIC do IBGE.
+                <br><br>
+                <strong>Hierarquia Urbana Oficial (REGIC 2018):</strong>
+                <div class="overflow-x-auto my-3">
+                  <table class="min-w-full text-xs border-collapse border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
+                    <thead>
+                      <tr class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Nível Hierárquico Oficial</th>
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Categorias e Subníveis</th>
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Fortaleza na Rede</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">1. Metrópole</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">- Grande Metrópole Nac. (SP)<br>- Metrópole Nac. (RJ e DF)<br>- Metrópole (12 cidades)</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Fortaleza é <strong>Metrópole Regional</strong>, polarizando o Ceará e áreas do PI, MA, TO, PA e PE.</td>
+                      </tr>
+                      <tr class="bg-slate-50/50 dark:bg-slate-900/30">
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">2. Capital Regional</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">- Níveis A, B e C</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Centros urbanos com elevado poder de gestão regional.</td>
+                      </tr>
+                      <tr>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">3. Centro Sub-regional</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">- Níveis A e B</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Cidades médias com bens/serviços de média complexidade.</td>
+                      </tr>
+                      <tr class="bg-slate-50/50 dark:bg-slate-900/30">
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">4. Centro de Zona</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">- Níveis A e B</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Cidades menores de influência puramente local.</td>
+                      </tr>
+                      <tr>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">5. Centro Local</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">- Sem subníveis</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Cidades com alcance restrito ao limite municipal.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>`
+            },
+            {
+                id: 3,
+                number: "Questão 3",
+                topic: "Legislação e Constituição Federal",
+                text: "A institucionalização de recortes metropolitanos no Brasil fundamenta-se em diretrizes constitucionais federais combinadas com a competência atribuída aos Estados-membros. A respeito da legislação nacional aplicável às regiões metropolitanas e aglomerações urbanas, tendo por base a Constituição Federal de 1988 e a Lei nº 13.089/2015 (Estatuto da Metrópole), assinale a alternativa correta:",
+                options: [
+                    "A criação de regiões metropolitanas no território brasileiro é de competência exclusiva da União, devendo ocorrer obrigatoriamente por meio de lei federal ordinária promulgada pelo Congresso Nacional.",
+                    "Os Estados, mediante lei complementar, poderão instituir regiões metropolitanas e aglomerações urbanas, constituídas por agrupamento de Municípios limítrofes, para integrar a organização, o planejamento e a execução de funções públicas de interesse comum.",
+                    "O Estatuto da Metrópole veda expressamente que municípios limítrofes situados em estados distintos da Federação venham a compor qualquer tipo de governança metropolitana ou aglomeração integrada, restringindo a cooperação regional ao âmbito estritamente intraestadual.",
+                    "A instituição de aglomerações urbanas dispensa o cumprimento dos critérios de integração de dinâmicas geográficas e socioeconômicas, bastando que haja contiguidade territorial definida por decreto unilateral do Poder Executivo estadual.",
+                    "A governança interfederativa instituída pelo Estatuto da Metrópole estabelece o primado do interesse puramente local de cada município individualmente considerado sobre o interesse comum da região metropolitana, preservando a soberania fiscal municipal acima do planejamento integrado."
+                ],
+                correctIndex: 1,
+                explanation: `<strong>Gabarito: B</strong><br><br>
+                <strong>Fundamentação Geográfica e Jurídica</strong>: O ordenamento constitucional brasileiro, por meio do Artigo 25, § 3º, outorga aos Estados-membros da Federação a prerrogativa jurídica de instituir, por meio de <strong>lei complementar estadual</strong>, regiões metropolitanas e aglomerações urbanas constituídas pelo agrupamento de municípios limítrofes. O Estatuto da Metrópole (Lei nº 13.089/2015) complementou esse ordenamento ao fixar as diretrizes gerais de governança interfederativa, exigindo que a instituição metropolitana objetive integrar a organização, o planejamento e a execução de funções públicas de interesse comum (FPIC).<br><br>
+                <strong>Análise das Alternativas Incorretas</strong>:
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li><em>A) Incorreta</em>. A competência para legislar e instituir regiões metropolitanas pertence aos Estados-membros, e não à União.</li>
+                    <li><em>C) Incorreta</em>. O Estatuto da Metrópole prevê a instituição de aglomerações e RMs interestaduais ou Regiões Integradas de Desenvolvimento (RIDEs).</li>
+                    <li><em>D) Incorreta</em>. A criação de aglomerações urbanas exige lei complementar aprovada pela Assembleia Legislativa estadual e critérios de integração socioeconômica.</li>
+                    <li><em>E) Incorreta</em>. A governança interfederativa busca a primazia do interesse metropolitano integrado, resguardando a autonomia constitucional de cada ente federado.</li>
+                </ul>`
+            },
+            {
+                id: 4,
+                number: "Questão 4",
+                topic: "Estatuto da Metrópole (Lei nº 13.089/2015)",
+                text: "O Estatuto da Metrópole (Lei nº 13.089/2015) consolidou diretrizes gerais para o planejamento, a gestão e a execução das funções públicas de interesse comum em regiões metropolitanas e em aglomerações urbanas instituídas pelos Estados. No que tange às normas que regem a governança interfederativa e os instrumentos de planejamento previstos nessa legislação, informe se é verdadeiro (V) ou falso (F) o que se afirma a seguir e assinale a alternativa com a sequência correta:\n\n( ) Região metropolitana é a unidade regional instituída pelos Estados, mediante lei complementar, constituída por agrupamento de Municípios limítrofes para integrar a organização, o planejamento e a execução de funções públicas de interesse comum.\n( ) O plano de desenvolvimento urbano integrado de região metropolitana ou de aglomeração urbana deverá considerar o conjunto de Municípios que compõem a unidade territorial urbana e abranger áreas urbanas e rurais.\n( ) Para o apoio da União à governança interfederativa em região metropolitana ou em aglomeração urbana, será exigido que a unidade territorial urbana possua gestão plena através da formalização e delimitação mediante lei complementar estadual; estrutura de governança interfederativa própria; e plano de desenvolvimento urbano integrado aprovado mediante lei estadual.\n( ) A governança interfederativa das regiões metropolitanas e das aglomerações urbanas respeitará a autonomia dos entes da Federação.",
+                options: [
+                    "V – F – F – V.",
+                    "F – V – V – V.",
+                    "V – V – V – V.",
+                    "F – F – V – V.",
+                    "V – V – F – F."
+                ],
+                correctIndex: 2,
+                explanation: `<strong>Gabarito: C</strong><br><br>
+                <strong>Fundamentação Geográfica e Jurídica</strong>: Todas as quatro premissas contidas na questão são integralmente verdadeiras e extraídas de forma literal e conceitual das disposições gerais do Estatuto da Metrópole (Lei nº 13.089/2015).
+                <ul class="list-disc list-inside mt-3 space-y-1.5 text-sm">
+                    <li><strong>(V)</strong> A primeira premissa define com precisão legal o conceito de região metropolitana como a unidade instituída por lei complementar estadual a partir de municípios limítrofes para gerir funções públicas de interesse comum.</li>
+                    <li><strong>(V)</strong> A segunda premissa confirma que o Plano de Desenvolvimento Urbano Integrado (PDUI) assume caráter abrangente, devendo englobar tanto os perímetros rurais quanto urbanos de todos os municípios da unidade territorial.</li>
+                    <li><strong>(V)</strong> A terceira premissa aponta os três requisitos obrigatórios impostos pela União para conceder apoio financeiro e técnico às RMs: instituição por lei complementar estadual, governança interfederativa própria ativa e PDUI aprovado por lei estadual.</li>
+                    <li><strong>(V)</strong> A quarta premissa chancela que as diretrizes metropolitanas e as ações conjuntas de planejamento regionalizado devem, em todas as hipóteses, salvaguardar e respeitar a autonomia político-administrativa constitucional de cada um dos municípios e estados envolvidos.</li>
+                </ul>`
+            },
+            {
+                id: 5,
+                number: "Questão 5",
+                topic: "PDUI e Alterações de Lei",
+                text: "O Plano de Desenvolvimento Urbano Integrado (PDUI) constitui o instrumento básico de planejamento e gestão das Regiões Metropolitanas e Aglomerações Urbanas no Brasil, sendo regulamentado pela Lei nº 13.089/2015 (Estatuto da Metrópole). A respeito do regime jurídico, dos prazos e das sanções aplicáveis ao PDUI, assinale a alternativa correta:",
+                options: [
+                    "A Lei Federal nº 13.683/2018 revogou o artigo 21 da Lei nº 13.089/2015, o qual cominava pena de improbidade administrativa aos governadores e prefeitos que deixassem de tomar as providências necessárias para a aprovação do PDUI no prazo de três anos da instituição da Região Metropolitana.",
+                    "Com as alterações promovidas na legislação de governança metropolitana, restou vedada a prorrogação de prazos para a elaboração e aprovação dos PDUIs, mantendo-se a sanção automática de inelegibilidade de prefeitos e governadores inadimplentes.",
+                    "O PDUI de uma região metropolitana deve ser elaborado por uma empresa privada terceirizada contratada pela União, sendo sua aprovação realizada diretamente por meio de portaria emitida pelo Ministério Público estadual.",
+                    "Os planos diretores municipais são hierarquicamente superiores ao PDUI, razão pela qual o planejamento integrado de uma região metropolitana não pode propôr diretrizes de ordenamento territorial ou de parcelamento do solo que alterem as legislações vigentes nos municípios limítrofes.",
+                    "O Estatuto da Metrópole estabelece que a aprovação do PDUI dispensa a participação popular ou de representantes da sociedade civil organizada, cabendo sua deliberação de modo restrito aos prefeitos dos municípios integrados em consórcio público de direito privado."
+                ],
+                correctIndex: 0,
+                explanation: `<strong>Gabarito: A</strong><br><br>
+                <strong>Fundamentação Geográfica e Jurídica</strong>: O Estatuto da Metrópole previa inicialmente em seu artigo 21 que governadores e prefeitos que descumprissem o prazo de três anos para a elaboração e aprovação do Plano de Desenvolvimento Urbano Integrado (PDUI) incorreriam em improbidade administrativa. No entanto, diante das inúmeras dificuldades técnicas e políticas enfrentadas pelos entes federativos para pactuar os planos integrados, o Congresso Nacional aprovou a Lei Federal nº 13.683/2018, que <strong>revogou expressamente o artigo 21 da Lei nº 13.089/2015</strong>. Essa alteração legislativa eliminou a tipificação de improbidade administrativa em decorrência pura do decurso do prazo legal.<br><br>
+                <strong>Análise das Alternativas Incorretas</strong>:
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li><em>B) Incorreta</em>. O prazo para a formulação do PDUI foi flexibilizado por medidas federais posteriores.</li>
+                    <li><em>C) Incorreta</em>. O PDUI é elaborado por cooperação entre estado e municípios e sua aprovação formal ocorre na Assembleia Legislativa por meio de lei complementar estadual.</li>
+                    <li><em>D) Incorreta</em>. O PDUI atua como guia de ordenamento macrorregional, devendo as leis municipais e planos diretores ser compatibilizados e ajustados a ele.</li>
+                    <li><em>E) Incorreta</em>. A legislação federal exige de forma expressa audiências públicas, participação comunitária e amplo debate com a sociedade civil organizada.</li>
+                </ul>`
+            },
+            {
+                id: 6,
+                number: "Questão 6",
+                topic: "Histórico da RM de Fortaleza (RMF)",
+                text: "A Região Metropolitana de Fortaleza (Grande Fortaleza) apresenta um expressivo papel de centralidade econômica, demográfica e social no cenário do estado do Ceará e da Região Nordeste. No que diz respeito ao histórico de sua criação e à sua composição original na década de 1970, assinale a alternativa correta:",
+                options: [
+                    "A Região Metropolitana de Fortaleza foi instituída pela Lei Complementar Estadual nº 154 de 2015, sendo composta de forma inédita por dezenove municípios no ato de sua criação.",
+                    "A RMF foi originalmente criada pela Lei Complementar Federal nº 14, de 8 de junho de 1973, abrangendo inicialmente cinco municípios que possuíam forte relação social e econômica com a capital: Fortaleza, Aquiraz, Caucaia, Maranguape e Pacatuba.",
+                    "O município de Maracanaú esteve presente de forma pioneira na composição original da Região Metropolitana de Fortaleza em 1973, constituindo o polo industrial de base no início do planejamento metropolitano do Ceará.",
+                    "A legislação original de 1973 que instituiu as Regiões Metropolitanas no Brasil foi editada pelas respectivas Assembleias Legislativas estaduais, as quais detinham exclusividade legislativa antes da promulgação da Constituição de 1988.",
+                    "A composição originária de 1973 incluía os municípios de Cascavel e Pindoretama, tendo em vista a conurbação consolidada desses centros urbanos do litoral leste com o distrito administrativo de Messejana, em Fortaleza."
+                ],
+                correctIndex: 1,
+                explanation: `<strong>Gabarito: B</strong><br><br>
+                <strong>Fundamentação Geográfica e Histórica</strong>: A instituição oficial das regiões metropolitanas brasileiras pioneiras ocorreu durante o regime militar através de legislação de âmbito federal. A Região Metropolitana de Fortaleza foi legalmente instituída no dia 8 de junho de 1973 por meio da <strong>Lei Complementar Federal nº 14</strong>, que criou conjuntamente outras oito regiões metropolitanas brasileiras (como São Paulo, Rio de Janeiro e Salvador). Em sua composição originária da década de 1970, a RMF apresentava um contorno muito mais restrito do que o atual, sendo constituída por apenas cinco municípios fortemente integrados à capital: Fortaleza, Aquiraz, Caucaia, Maranguape e Pacatuba.<br><br>
+                <strong>Análise das Alternativas Incorretas</strong>:
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li><em>A) Incorreta</em>. A RMF foi instituída em 1973 por lei federal. A Lei Complementar Estadual nº 154 de 2015 apenas consolidou a atual composição de 19 municípios.</li>
+                    <li><em>C) Incorreta</em>. O município de Maracanaú não fez parte da composição original de 1973, pois à época configurava-se apenas como um distrito pertencente a Maranguape.</li>
+                    <li><em>D) Incorreta</em>. Na década de 1970, a criação de regiões metropolitanas cabia à esfera federal (Congresso Nacional) por meio de leis complementares federais.</li>
+                    <li><em>E) Incorreta</em>. Cascavel e Pindoretama foram integrados ao planejamento metropolitano décadas depois e não constavam no documento original de 1973.</li>
+                </ul>`
+            },
+            {
+                id: 7,
+                number: "Questão 7",
+                topic: "Vetores de Expansão Metropolitana",
+                text: "O crescimento horizontal e o processo de expansão urbana de Fortaleza em direção às suas franjas periféricas consolidaram diferentes vetores de crescimento socioespacial ao longo das últimas décadas. Com relação à dinâmica de incorporação e expansão de municípios vizinhos na Região Metropolitana de Fortaleza (RMF), analise as assertivas a seguir:\n\nI. O município de Maracanaú passou a integrar oficialmente a RMF por meio da Lei Complementar Federal nº 52 de 1986, logo após a sua emancipação política do município de Maranguape, impulsionado pela consolidação de seu polo industrial.\nII. A incorporação e a expansão imobiliária metropolitana de municípios como Eusébio e Aquiraz caracterizam-se majoritariamente pelo forte avanço da especulação imobiliária residencial voltada para classes sociais de alta renda, manifestada pela proliferação de condomínios horizontais de luxo e loteamentos fechados.\nIII. O vetor oeste/sudoeste da RMF, englobando sobretudo Maracanaú e Caucaia, consolidou-se historicamente como espaço de atração para habitação de média e baixa renda e pela implementação de políticas públicas industriais e habitacionais.\n\nEstá correto o que se afirma em:",
+                options: [
+                    "I, apenas.",
+                    "II, apenas.",
+                    "I e II, apenas.",
+                    "II e III, apenas.",
+                    "I, II e III."
+                ],
+                correctIndex: 4,
+                explanation: `<strong>Gabarito: E</strong><br><br>
+                <strong>Fundamentação Geográfica</strong>: Todas as assertivas analisadas descrevem de forma geograficamente e historicamente precisa os vetores e as dinâmicas de expansão da Grande Fortaleza.
+                <ul class="list-disc list-inside mt-3 space-y-2 text-sm">
+                    <li><strong>I. Correta</strong>: Detalha o ingresso de Maracanaú na RMF em 1986 (Lei Complementar Federal nº 52), evento que ocorreu de maneira contígua à sua emancipação política de Maranguape e em razão da forte dinâmica industrial.</li>
+                    <li><strong>II. Correta</strong>: Retrata o vetor residencial de alta renda situado na porção oriental e litorânea leste da RMF (Eusébio e Aquiraz), caracterizado pela proliferação de condomínios fechados horizontais, expandindo os tentáculos da especulação imobiliária de luxo.</li>
+                    <li><strong>III. Correta</strong>: Caracteriza o vetor oeste/sudoeste (Maracanaú e Caucaia) como o eixo receptor de grandes fluxos industriais, conjuntos habitacionais populares (políticas públicas de habitação) e população operária de menor poder aquisitivo.</li>
+                </ul>`
+            },
+            {
+                id: 8,
+                number: "Questão 8",
+                topic: "Complexo do Pecém e Expansão Recente",
+                text: "O desenvolvimento econômico recente do estado do Ceará e a reorganização territorial de sua região metropolitana estão intimamente associados à atração de grandes investimentos logísticos e de infraestrutura portuária na porção ocidental da Grande Fortaleza. O processo de conurbação e a consequente alteração na composição de municípios na RMF (com a adição de Paracuru, Paraipaba, Trairi e São Luís do Curu pela Lei Complementar nº 154/2015) justificam-se, essencialmente:",
+                options: [
+                    "pelo isolamento econômico do setor oeste devido ao esgotamento das jazidas minerais de calcário de Maranguape.",
+                    "pela forte influência socioeconômica e espacial exercida pelas atividades industriais e portuárias do Complexo Industrial e Portuário do Pecém (CIPP), localizado nos municípios de Caucaia e São Gonçalo do Amarante.",
+                    "pela criação de um polo agrícola de exportação de soja e milho no litoral oeste, o qual substituiu as indústrias tradicionais da ZPE Ceará.",
+                    "pela necessidade de mitigar as enchentes na bacia hidrográfica do rio Jaguaribe por meio do represamento das águas na foz do rio Curu.",
+                    "pela expansão de serviços administrativos descentralizados do governo do estado, que transferiu sua sede oficial de planejamento para o município de Trairi."
+                ],
+                correctIndex: 1,
+                explanation: `<strong>Gabarito: B</strong><br><br>
+                <strong>Fundamentação Geográfica e Econômica</strong>: A recente dinâmica de expansão territorial e a reorganização do espaço urbano no litoral oeste metropolitano estão diretamente atreladas à implantação e consolidação do <strong>Complexo Industrial e Portuário do Pecém (CIPP)</strong>, situado no limite administrativo entre os municípios de Caucaia e São Gonçalo do Amarante. O CIPP — que reúne o terminal portuário, a Zona de Processamento de Exportação (ZPE) e indústrias metalmecânicas — gerou milhares de postos de trabalho e desencadeou fluxos migratórios significativos, justificando a incorporação de municípios do entorno (Paracuru, Paraipaba, Trairi e São Luís do Curu).
+                <br><br>
+                <strong>Fases de Expansão da RMF:</strong>
+                <div class="overflow-x-auto my-3">
+                  <table class="min-w-full text-xs border-collapse border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
+                    <thead>
+                      <tr class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Ano / Legislação</th>
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Municípios</th>
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Foco do Planejamento Regional</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">1973 (LC Fed. 14)</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">5 municípios</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Fortaleza, Caucaia, Aquiraz, Maranguape e Pacatuba (núcleo metropolitano clássico).</td>
+                      </tr>
+                      <tr class="bg-slate-50/50 dark:bg-slate-900/30">
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">1986 (LC Fed. 52)</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">6 municípios</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Inclusão de Maracanaú, amparada no seu polo industrial de base.</td>
+                      </tr>
+                      <tr>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">1995-1999 (LC Est.)</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">13 a 15 municípios</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Emancipação de distritos (Eusébio, Itaitinga, Guaiúba) e expansão para eixos sul/leste.</td>
+                      </tr>
+                      <tr class="bg-slate-50/50 dark:bg-slate-900/30">
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">2013-2018 (LC Est.)</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">19 municípios</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Inclusão de São Gonçalo do Amarante, Paracuru, Paraipaba, Trairi e São Luís do Curu devido à força polarizadora do <strong>Complexo do Pecém (CIPP)</strong>.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>`
+            },
+            {
+                id: 9,
+                number: "Questão 9",
+                topic: "Características Territoriais dos Municípios da RMF",
+                text: "A Região Metropolitana de Fortaleza apresenta acentuadas disparidades territoriais, demográficas e administrativas entre os dezenove municípios que atualmente integram a sua área de planejamento metropolitano. No que diz respeito às características geográficas de área, de população e de limites territoriais desses municípios da Grande Fortaleza, assinale a alternativa correta:",
+                options: [
+                    "O município de Eusébio é classificado geograficamente como o maior município em área espacial de toda a RMF, o que facilitou a expansão de seus condomínios horizontais.",
+                    "O município de Caucaia configura-se como o maior em extensão territorial da Região Metropolitana de Fortaleza, enquanto Pindoretama (desmembrado de Cascavel) constitui o menor município em área territorial do arranjo metropolitano.",
+                    "São Luís do Curu destaca-se como o município mais populoso da franja ocidental metropolitana, concentrando um contingente demográfico superior ao de Maracanaú.",
+                    "O município de Maracanaú, delimitado entre Fortaleza, Caucaia, Maranguape e Pacatuba, constitui o menor município em extensão territorial e o de menor densidade demográfica da RMF.",
+                    "O município de Fortaleza, embora polarize a região metropolitana, possui uma distribuição espacial na qual cerca de 12,4% de sua população vivem em áreas estritamente rurais, de acordo com o Censo Demográfico do IBGE."
+                ],
+                correctIndex: 1,
+                explanation: `<strong>Gabarito: B</strong><br><br>
+                <strong>Fundamentação Geográfica</strong>: A caracterização territorial e física dos municípios que compõem a RMF demonstra acentuada desigualdade espacial. O município de <strong>Caucaia</strong> constitui, de fato, a maior extensão territorial do arranjo metropolitano, apresentando uma área total estimada de 1.227,895 km². Por sua vez, o município de <strong>Pindoretama</strong>, emancipado politicamente de Cascavel no final da década de 1980, configura-se formalmente como o menor território da RMF, cobrindo apenas 72,85 km² de área espacial.
+                <br><br>
+                <strong>Disparidades Geográficas da Grande Fortaleza:</strong>
+                <div class="overflow-x-auto my-3">
+                  <table class="min-w-full text-xs border-collapse border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
+                    <thead>
+                      <tr class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Extremo Geográfico</th>
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Município</th>
+                        <th class="border border-slate-200 dark:border-slate-800 p-2 text-left">Dados de Referência / Características</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">Maior Extensão Territorial</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Caucaia</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Área: 1.227,895 km². Lidera a extensão geográfica metropolitana.</td>
+                      </tr>
+                      <tr class="bg-slate-50/50 dark:bg-slate-900/30">
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">Menor Extensão Territorial</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Pindoretama</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Área: 72,85 km². Desmembrado de Cascavel em 1987.</td>
+                      </tr>
+                      <tr>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">Menor População Residente</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">São Luís do Curu</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">População: ~13.086 habitantes. É o município menos populoso do grupo.</td>
+                      </tr>
+                      <tr class="bg-slate-50/50 dark:bg-slate-900/30">
+                        <td class="border border-slate-200 dark:border-slate-800 p-2 font-semibold">Núcleo Centralizador Urbano</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">Fortaleza</td>
+                        <td class="border border-slate-200 dark:border-slate-800 p-2">População: > 2.4 milhões de habitantes. Praticamente 100% de taxa de urbanização.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>`
+            },
+            {
+                id: 10,
+                number: "Questão 10",
+                topic: "Desigualdade Socioespacial e Suburbanização",
+                text: "“Fortaleza cresce em todas as direções. O aumento acentuado da população provocou a expansão da malha urbana, ultrapassando os limites municipais. Em Fortaleza, as favelas, os conjuntos habitacionais mal conservados e as áreas de risco são marcas de territórios empobrecidos em expansão que avançam em direção aos municípios vizinhos, convertendo áreas rurais em espaços suburbanizados”. Com base nas discussões sobre o processo de expansão territorial e desigualdades sociais na Região Metropolitana de Fortaleza, assinale a alternativa correta:",
+                options: [
+                    "A rápida incorporação de municípios vizinhos e a conversão de áreas rurais em espaços suburbanizados ocorreram sem impactos socioambientais ou de infraestrutura, visto que as redes de transportes coletivos integraram satisfatoriamente as periferias metropolitanas.",
+                    "Os intensos fluxos migratórios rumo à Grande Fortaleza atraíram pessoas que enfrentaram severas dificuldades de inserção profissional devido à falta de qualificação técnica, fenômeno este que se materializa no desemprego e na expansão de áreas de risco, assentamentos precários e favelas nos municípios limítrofes.",
+                    "A Região Metropolitana de Fortaleza solucionou de modo definitivo seus principais gargalos de transportes coletivos metropolitanos, apresentando uma rede de mobilidade universal, abrangente e de baixo custo de deslocamento para a população mais vulnerável.",
+                    "O processo de suburbanização e a segregação socioespacial da RMF restringiram-se estritamente ao município polo de Fortaleza, não gerando quaisquer impactos administrativos ou políticos nos municípios adjacentes.",
+                    "A gestão da RMF dispensa a instituição de instrumentos de planejamento regional integrado, uma vez que o crescimento de sua malha urbana deu-se de forma espontânea e equilibrada, sem a formação de núcleos urbanos polarizadores que concentrem serviços."
+                ],
+                correctIndex: 1,
+                explanation: `<strong>Gabarito: B</strong><br><br>
+                <strong>Fundamentação Geográfica e Social</strong>: O intenso processo de expansão territorial e metropolização de Fortaleza atraiu expressivos fluxos migratórios procedentes do interior do Ceará e estados limítrofes. Contudo, uma parcela considerável desse contingente demográfico imigrante encontrou severas dificuldades de inserção no mercado de trabalho qualificado ou formal da capital, o que impulsionou o subemprego e a precarização. Diante do elevado custo da terra urbana na capital cearense, esse contingente populacional empobrecido foi empurrado em direção às periferias e municípios vizinhos, catalisando a proliferação de assentamentos precários (favelas), áreas de risco ecológico e moradias periféricas subnormais na RMF.<br><br>
+                <strong>Análise das Alternativas Incorretas</strong>:
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li><em>A) Incorreta</em>. O crescimento periférico gerou forte degradação ambiental e imensas lacunas de infraestrutura básica e sanitária.</li>
+                    <li><em>C) Incorreta</em>. A integração e a eficiência do transporte coletivo na RMF continuam sendo apontadas como um dos principais entraves socioeconômicos e gargalos de planejamento da metrópole.</li>
+                    <li><em>D) Incorreta</em>. A segregação socioespacial transbordou as fronteiras de Fortaleza e gerou imensas pressões orçamentárias de saúde, habitação e saneamento nos municípios periféricos da RMF.</li>
+                    <li><em>E) Incorreta</em>. O crescimento descompassado e desequilibrado reforça a urgente necessidade de ferramentas de planejamento regional como o Plano de Desenvolvimento Urbano Integrado (PDUI).</li>
+                </ul>`
+            }
+        ];
+
+        // State variables
+        let currentQuestionIndex = 0;
+        let selectedAnswers = new Array(questions.length).fill(null);
+        let quizMode = 'study'; // 'study' or 'exam'
+        let gameState = 'intro'; // 'intro', 'quiz', 'results'
+        let timeElapsed = 0;
+        let timerInterval = null;
+
+        // Initialize App
+        window.onload = function() {
+            // Apply theme on load
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('sunIcon').classList.remove('hidden');
+                document.getElementById('moonIcon').classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
+            }
+            updateScreen();
+        };
+
+        // Theme toggler
+        function toggleTheme() {
+            const html = document.documentElement;
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
+        }
+
+        // Mode selector
+        function selectQuizMode(mode) {
+            quizMode = mode;
+            const studyCard = document.getElementById('modeStudyCard');
+            const examCard = document.getElementById('modeExamCard');
+            const studyCheck = document.getElementById('studyCheck');
+            const examCheck = document.getElementById('examCheck');
+
+            if (mode === 'study') {
+                studyCard.classList.add('border-brand-500', 'bg-brand-5/30', 'dark:bg-brand-950/10');
+                studyCard.classList.remove('border-slate-200', 'dark:border-slate-800');
+                studyCheck.classList.remove('hidden');
+
+                examCard.classList.remove('border-brand-500', 'bg-brand-5/30', 'dark:bg-brand-950/10');
+                examCard.classList.add('border-slate-200', 'dark:border-slate-800');
+                examCheck.classList.add('hidden');
+            } else {
+                examCard.classList.add('border-brand-500', 'bg-brand-5/30', 'dark:bg-brand-950/10');
+                examCard.classList.remove('border-slate-200', 'dark:border-slate-800');
+                examCheck.classList.remove('hidden');
+
+                studyCard.classList.remove('border-brand-500', 'bg-brand-5/30', 'dark:bg-brand-950/10');
+                studyCard.classList.add('border-slate-200', 'dark:border-slate-800');
+                studyCheck.classList.add('hidden');
+            }
+        }
+
+        // Start Quiz
+        function startQuiz() {
+            gameState = 'quiz';
+            currentQuestionIndex = 0;
+            selectedAnswers = new Array(questions.length).fill(null);
+            
+            // Timer setup
+            timeElapsed = 0;
+            clearInterval(timerInterval);
+            const timerDiv = document.getElementById('headerTimer');
+            
+            if (quizMode === 'exam') {
+                timerDiv.classList.remove('hidden');
+                document.getElementById('timerText').innerText = "00:00";
+                timerInterval = setInterval(() => {
+                    timeElapsed++;
+                    const minutes = String(Math.floor(timeElapsed / 60)).padStart(2, '0');
+                    const seconds = String(timeElapsed % 60).padStart(2, '0');
+                    document.getElementById('timerText').innerText = `${minutes}:${seconds}`;
+                }, 1000);
+            } else {
+                timerDiv.classList.add('hidden');
+            }
+
+            renderQuestionNav();
+            loadQuestion(0);
+            updateScreen();
+        }
+
+        // Dynamic rendering of left nav panel
+        function renderQuestionNav() {
+            const grid = document.getElementById('questionNavGrid');
+            grid.innerHTML = '';
+            
+            questions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `h-10 w-full rounded-lg font-bold text-sm flex items-center justify-center transition-all duration-200 `;
+                btn.innerText = idx + 1;
+                btn.onclick = () => loadQuestion(idx);
+                btn.id = `nav-btn-${idx}`;
+                grid.appendChild(btn);
+            });
+            updateQuestionNavStyles();
+        }
+
+        // Apply visual states to the left nav map
+        function updateQuestionNavStyles() {
+            questions.forEach((q, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                if (!btn) return;
+
+                // Base style reset
+                btn.className = "h-10 w-full rounded-lg font-bold text-sm flex items-center justify-center transition-all duration-200 ";
+
+                if (idx === currentQuestionIndex) {
+                    // Active question
+                    btn.className += "bg-brand-500 text-white ring-4 ring-brand-200 dark:ring-brand-950";
+                } else if (selectedAnswers[idx] !== null) {
+                    // Answered questions
+                    btn.className += "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300";
+                } else {
+                    // Unanswered questions
+                    btn.className += "border border-dashed border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-900";
+                }
+            });
+        }
+
+        // Load specific question details
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const q = questions[index];
+            
+            // Labels & texts
+            document.getElementById('questionNumberLabel').innerText = q.number;
+            document.getElementById('questionText').innerText = q.text;
+            document.getElementById('quizProgressBadge').innerText = `${index + 1} / ${questions.length}`;
+            
+            // Progress Bar
+            const percent = ((index + 1) / questions.length) * 100;
+            document.getElementById('quizProgressBar').style.width = `${percent}%`;
+
+            // Options Renderer
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const letter = String.fromCharCode(65 + idx); // A, B, C...
+                const isSelected = selectedAnswers[index] === idx;
+                
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectOption(idx);
+                btn.className = `w-full text-left p-4 rounded-xl border transition-all flex items-start space-x-3 group ${
+                    isSelected 
+                        ? 'border-brand-500 bg-brand-50/50 dark:bg-brand-950/20 ring-1 ring-brand-500' 
+                        : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-950'
+                }`;
+
+                // Let's check if the study mode feedback is active for this answered question
+                let extraOptionClass = '';
+                if (quizMode === 'study' && selectedAnswers[index] !== null) {
+                    btn.disabled = true; // disable changing answers once confirmed in study mode
+                    if (idx === q.correctIndex) {
+                        extraOptionClass = ' border-emerald-500 bg-emerald-50/20 dark:bg-emerald-950/10 text-emerald-700 dark:text-emerald-400 font-medium';
+                    } else if (isSelected) {
+                        extraOptionClass = ' border-rose-500 bg-rose-50/20 dark:bg-rose-950/10 text-rose-700 dark:text-rose-400';
+                    }
+                    btn.className = `w-full text-left p-4 rounded-xl border transition-all flex items-start space-x-3 ${extraOptionClass}`;
+                }
+
+                btn.innerHTML = `
+                    <span class="flex-shrink-0 w-6 h-6 rounded-lg font-bold text-xs flex items-center justify-center ${
+                        isSelected 
+                            ? 'bg-brand-600 text-white' 
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-brand-100 group-hover:text-brand-700 dark:group-hover:bg-brand-950 dark:group-hover:text-brand-400 transition'
+                    }">${letter}</span>
+                    <span class="text-sm leading-relaxed">${opt}</span>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Navigation buttons logic
+            document.getElementById('prevBtn').disabled = (index === 0);
+            if (index === 0) {
+                document.getElementById('prevBtn').classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                document.getElementById('prevBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            const isLast = (index === questions.length - 1);
+            if (isLast) {
+                document.getElementById('nextBtn').classList.add('hidden');
+                document.getElementById('finishBtn').classList.remove('hidden');
+            } else {
+                document.getElementById('nextBtn').classList.remove('hidden');
+                document.getElementById('finishBtn').classList.add('hidden');
+            }
+
+            // Study Mode feedback view
+            const feedbackContainer = document.getElementById('studyFeedbackContainer');
+            if (quizMode === 'study' && selectedAnswers[index] !== null) {
+                feedbackContainer.classList.remove('hidden');
+                const isCorrect = (selectedAnswers[index] === q.correctIndex);
+                const iconWrapper = document.getElementById('feedbackIconWrapper');
+                const fbTitle = document.getElementById('feedbackTitle');
+                
+                if (isCorrect) {
+                    feedbackContainer.className = "mt-8 p-5 rounded-xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/10 transition-all";
+                    iconWrapper.className = "p-1.5 rounded-full mr-3 text-white bg-emerald-600";
+                    iconWrapper.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>`;
+                    fbTitle.innerText = "Parabéns, você acertou!";
+                    fbTitle.className = "font-bold text-sm text-emerald-800 dark:text-emerald-400";
+                } else {
+                    feedbackContainer.className = "mt-8 p-5 rounded-xl border border-rose-200 dark:border-rose-900 bg-rose-50/50 dark:bg-rose-950/10 transition-all";
+                    iconWrapper.className = "p-1.5 rounded-full mr-3 text-white bg-rose-600";
+                    iconWrapper.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+                    fbTitle.innerText = `Você errou. A alternativa correta era a (${String.fromCharCode(65 + q.correctIndex)}).`;
+                    fbTitle.className = "font-bold text-sm text-rose-800 dark:text-rose-400";
+                }
+                document.getElementById('explanationText').innerHTML = q.explanation;
+            } else {
+                feedbackContainer.classList.add('hidden');
+            }
+
+            updateQuestionNavStyles();
+        }
+
+        // Selection trigger
+        function selectOption(optionIdx) {
+            if (quizMode === 'study' && selectedAnswers[currentQuestionIndex] !== null) {
+                return; // cannot change answer in study mode
+            }
+            selectedAnswers[currentQuestionIndex] = optionIdx;
+            
+            // Reload standard views to reflect choices
+            loadQuestion(currentQuestionIndex);
+        }
+
+        // Nav functions
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                loadQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                loadQuestion(currentQuestionIndex + 1);
+            }
+        }
+
+        // Complete/submit exam simulation
+        function submitExam() {
+            // Check if there are unanswered questions
+            const unansweredCount = selectedAnswers.filter(ans => ans === null).length;
+            
+            if (unansweredCount > 0) {
+                // Inline confirmation modal logic instead of browser alert
+                const confirmSubmit = confirm(`Atenção: Você possui ${unansweredCount} questão(ões) sem resposta. Deseja finalizar o simulado mesmo assim?`);
+                if (!confirmSubmit) return;
+            }
+
+            // Stop timer
+            clearInterval(timerInterval);
+
+            // Compute score
+            let correctCount = 0;
+            questions.forEach((q, idx) => {
+                if (selectedAnswers[idx] === q.correctIndex) {
+                    correctCount++;
+                }
+            });
+
+            const percentage = Math.round((correctCount / questions.length) * 100);
+
+            // Populate dashboard
+            document.getElementById('resultsScorePercentage').innerText = `${percentage}%`;
+            document.getElementById('resultsScoreFraction').innerText = `${correctCount} de ${questions.length} acertos`;
+            
+            // Format time display
+            const minutes = String(Math.floor(timeElapsed / 60)).padStart(2, '0');
+            const seconds = String(timeElapsed % 60).padStart(2, '0');
+            document.getElementById('resultsTime').innerText = quizMode === 'exam' ? `${minutes}:${seconds}` : "Modo Estudo";
+
+            // Performance label custom text
+            const label = document.getElementById('resultsPerformanceLabel');
+            const subtext = document.getElementById('resultsPerformanceSubtext');
+            if (percentage >= 80) {
+                label.innerText = "Excelente!";
+                label.className = "text-xl font-bold text-emerald-600 dark:text-emerald-400";
+                subtext.innerText = "Excelente aproveitamento para a prova!";
+            } else if (percentage >= 60) {
+                label.innerText = "Bom Rendimento";
+                label.className = "text-xl font-bold text-amber-600 dark:text-amber-400";
+                subtext.innerText = "Você está no caminho certo. Revise as falhas.";
+            } else {
+                label.innerText = "Atenção: Precisa Reforçar";
+                label.className = "text-xl font-bold text-rose-600 dark:text-rose-400";
+                subtext.innerText = "Recomendamos ler as resoluções comentadas.";
+            }
+
+            // Render Accordion Explanations
+            renderReviewList();
+
+            // Transition Screen
+            gameState = 'results';
+            updateScreen();
+        }
+
+        // Render entire review section in accordion styles
+        function renderReviewList() {
+            const container = document.getElementById('reviewContainer');
+            // Reset but keep title
+            container.innerHTML = `<h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-4">Análise Comentada de cada Questão</h3>`;
+
+            questions.forEach((q, idx) => {
+                const userAnsIdx = selectedAnswers[idx];
+                const isCorrect = (userAnsIdx === q.correctIndex);
+                const letterSelected = userAnsIdx !== null ? String.fromCharCode(65 + userAnsIdx) : "Nenhuma";
+                const letterCorrect = String.fromCharCode(65 + q.correctIndex);
+
+                const qDiv = document.createElement('div');
+                qDiv.className = `bg-white dark:bg-slate-950 rounded-xl border shadow-sm overflow-hidden transition-all duration-200 ${
+                    isCorrect 
+                        ? 'border-emerald-200 dark:border-emerald-950/60' 
+                        : 'border-rose-200 dark:border-rose-950/60'
+                }`;
+
+                qDiv.innerHTML = `
+                    <!-- Accordion Trigger Header -->
+                    <button onclick="toggleAccordion('acc-${idx}')" class="w-full text-left p-4 sm:p-5 flex items-start justify-between gap-4 bg-slate-50/50 dark:bg-slate-900/10 hover:bg-slate-50 dark:hover:bg-slate-900/30 transition">
+                        <div class="space-y-1.5 flex-grow">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">QUESTÃO ${q.id}</span>
+                                <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xxs font-semibold rounded">${q.topic}</span>
+                                ${isCorrect 
+                                    ? `<span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-400 text-xxs font-bold rounded flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                        Acertou
+                                       </span>`
+                                    : `<span class="px-2 py-0.5 bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-400 text-xxs font-bold rounded flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        Errou
+                                       </span>`
+                                }
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 line-clamp-1">${q.text}</p>
+                            <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-4 pt-1">
+                                <span>Marcou: <strong class="${isCorrect ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold'}">${letterSelected}</strong></span>
+                                <span>Gabarito: <strong class="text-emerald-600 font-bold">${letterCorrect}</strong></span>
+                            </div>
+                        </div>
+                        <svg id="chevron-acc-${idx}" class="w-5 h-5 text-slate-400 dark:text-slate-600 transform transition-transform duration-200 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+
+                    <!-- Accordion Collapsible Panel -->
+                    <div id="content-acc-${idx}" class="hidden border-t border-slate-100 dark:border-slate-800/80 p-4 sm:p-6 space-y-4 bg-slate-50/20 dark:bg-slate-900/5">
+                        <div class="text-sm leading-relaxed text-slate-800 dark:text-slate-200 whitespace-pre-line border-b border-slate-100 dark:border-slate-800 pb-4">
+                            <strong class="text-xs uppercase text-slate-400 dark:text-slate-500 tracking-wider">Texto integral da Questão:</strong><br>
+                            ${q.text}
+                        </div>
+
+                        <!-- Mini Option Summary list inside accordion -->
+                        <div class="space-y-2 max-w-2xl text-xs sm:text-sm">
+                            <strong class="text-xs uppercase text-slate-400 dark:text-slate-500 tracking-wider">Alternativas Disponibilizadas:</strong>
+                            ${q.options.map((opt, oIdx) => {
+                                const l = String.fromCharCode(65 + oIdx);
+                                let cls = "p-2.5 rounded-lg border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-start gap-2";
+                                if (oIdx === q.correctIndex) {
+                                    cls = "p-2.5 rounded-lg border border-emerald-300 dark:border-emerald-950/80 bg-emerald-50/10 dark:bg-emerald-950/5 text-emerald-800 dark:text-emerald-400 font-medium flex items-start gap-2";
+                                } else if (oIdx === userAnsIdx) {
+                                    cls = "p-2.5 rounded-lg border border-rose-300 dark:border-rose-950/80 bg-rose-50/10 dark:bg-rose-950/5 text-rose-800 dark:text-rose-400 flex items-start gap-2";
+                                }
+                                return `<div class="${cls}">
+                                    <span class="font-bold flex-shrink-0">${l})</span>
+                                    <span>${opt}</span>
+                                </div>`;
+                            }).join('')}
+                        </div>
+
+                        <!-- Explanation content -->
+                        <div class="p-5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/80 text-xs sm:text-sm leading-relaxed">
+                            <h4 class="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                Resolução & Justificativa do Gabarito:
+                            </h4>
+                            <div class="text-slate-600 dark:text-slate-300 whitespace-pre-line">
+                                ${q.explanation}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(qDiv);
+            });
+        }
+
+        // Toggle individual accordion items
+        function toggleAccordion(id) {
+            const el = document.getElementById(`content-${id}`);
+            const chevron = document.getElementById(`chevron-${id}`);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
+            } else {
+                el.classList.add('hidden');
+                chevron.classList.remove('rotate-180');
+            }
+        }
+
+        // Main Router Screen logic
+        function updateScreen() {
+            const intro = document.getElementById('screenIntro');
+            const quiz = document.getElementById('screenQuiz');
+            const results = document.getElementById('screenResults');
+
+            intro.classList.add('hidden');
+            quiz.classList.add('hidden');
+            results.classList.add('hidden');
+
+            if (gameState === 'intro') {
+                intro.classList.remove('hidden');
+            } else if (gameState === 'quiz') {
+                quiz.classList.remove('hidden');
+            } else if (gameState === 'results') {
+                results.classList.remove('hidden');
+            }
+        }
+
+        // Restart simulation
+        function restartQuiz() {
+            gameState = 'intro';
+            updateScreen();
+        }
+
+        // Smooth scroll helper
+        function scrollReview() {
+            const reviewEl = document.getElementById('reviewContainer');
+            reviewEl.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

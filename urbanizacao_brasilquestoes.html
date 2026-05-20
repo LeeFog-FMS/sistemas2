@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Processo de Urbanização e Hierarquia Urbana no Brasil</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para Leitura Confortável -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos customizados para simular papel e conforto ocular */
+        .bg-paper-warm {
+            background-color: #fcfbf7;
+        }
+        .bg-paper-neutral {
+            background-color: #f8fafc;
+        }
+        .text-reading {
+            color: #1c1917; /* Um carvão suave em vez de preto puro, reduz o contraste agressivo */
+        }
+        /* Transições suaves */
+        .transition-all {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Esconder scrollbar padrão mantendo funcionalidade */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Efeito de foco suave */
+        .option-card:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-paper-warm text-reading antialiased min-h-screen transition-all" id="body-container">
+
+    <!-- Configurações de Acessibilidade & Tema (Fixo no topo) -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200/80 px-4 py-3 shadow-sm no-print">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <span class="bg-indigo-900 text-white font-bold text-xs px-2.5 py-1 rounded tracking-wider uppercase">Instituto AOCP</span>
+                <span class="text-xs font-semibold text-stone-500">Geografia Humana</span>
+            </div>
+            
+            <!-- Painel de Controles Visuais -->
+            <div class="flex items-center gap-4 text-xs">
+                <!-- Tamanho da Fonte -->
+                <div class="flex items-center gap-1 border-r border-stone-200 pr-3">
+                    <span class="text-stone-500 mr-1">Texto:</span>
+                    <button onclick="changeFontSize('sm')" class="p-1 px-2 rounded hover:bg-stone-100 font-medium text-stone-600" title="Fonte Pequena">A-</button>
+                    <button onclick="changeFontSize('base')" id="btn-font-base" class="p-1 px-2 rounded bg-stone-100 font-bold text-indigo-900" title="Fonte Padrão">A</button>
+                    <button onclick="changeFontSize('lg')" class="p-1 px-2 rounded hover:bg-stone-100 font-medium text-stone-600" title="Fonte Grande">A+</button>
+                </div>
+                
+                <!-- Tom de Fundo -->
+                <div class="flex items-center gap-1">
+                    <span class="text-stone-500 mr-1">Fundo:</span>
+                    <button onclick="changeTheme('warm')" id="btn-theme-warm" class="w-5 h-5 rounded-full bg-[#fcfbf7] border-2 border-indigo-600" title="Tom Quente (Leitura confortável)"></button>
+                    <button onclick="changeTheme('neutral')" id="btn-theme-neutral" class="w-5 h-5 rounded-full bg-[#f8fafc] border border-stone-300" title="Tom Neutro (Claro moderno)"></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Container Principal do Quiz -->
+    <main class="max-w-5xl mx-auto px-4 py-8 md:py-12 flex flex-col lg:flex-row gap-8 relative">
+        
+        <!-- Sidebar de Progresso / Navegação Rápida (Desktop) -->
+        <aside class="lg:w-64 flex-shrink-0 lg:sticky lg:top-24 h-fit no-print order-2 lg:order-1">
+            <div class="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+                <h3 class="font-bold text-sm text-stone-800 uppercase tracking-wider mb-4 flex items-center justify-between">
+                    <span>Progresso</span>
+                    <span id="progress-text" class="text-indigo-600">0 / 10</span>
+                </h3>
+                
+                <!-- Barra de progresso visual -->
+                <div class="w-full bg-stone-100 h-2 rounded-full mb-6 overflow-hidden">
+                    <div id="progress-bar-fill" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+
+                <!-- Grade de atalho para questões -->
+                <div class="grid grid-cols-5 gap-2 mb-6" id="nav-grid">
+                    <!-- Gerado via Javascript -->
+                </div>
+
+                <div class="text-xs text-stone-500 leading-relaxed space-y-2 border-t border-stone-100 pt-4">
+                    <p class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded bg-stone-100 border border-stone-300 inline-block"></span> Pendente
+                    </p>
+                    <p class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded bg-indigo-50 border border-indigo-300 inline-block"></span> Preenchido
+                    </p>
+                    <p id="nav-legend-finished" class="hidden flex items-center gap-2">
+                        <span class="w-3 h-3 rounded bg-emerald-100 border border-emerald-300 inline-block"></span> Correto
+                    </p>
+                    <p id="nav-legend-wrong" class="hidden flex items-center gap-2">
+                        <span class="w-3 h-3 rounded bg-rose-100 border border-rose-300 inline-block"></span> Incorreto
+                    </p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Corpo das Questões -->
+        <section class="flex-1 max-w-3xl order-1 lg:order-2">
+            <!-- Introdução do Simulado -->
+            <div class="mb-8 border-b border-stone-200 pb-6">
+                <h1 class="serif-title text-3xl md:text-4xl font-bold tracking-tight text-stone-900 mb-3">
+                    Caderno de Questões: Processo de Urbanização, Industrialização e Hierarquia Urbana no Brasil
+                </h1>
+                <p class="text-stone-600 text-sm md:text-base leading-relaxed">
+                    Este simulado contém exatamente 10 questões completas no estilo da banca <strong>Instituto AOCP</strong>. Ao finalizar, o sistema calculará instantaneamente sua pontuação e liberará o gabarito comentado detalhado de cada questão na mesma página.
+                </p>
+            </div>
+
+            <!-- Formulário das Questões -->
+            <div id="quiz-container" class="space-y-12">
+                <!-- As questões serão injetadas dinamicamente aqui -->
+            </div>
+
+            <!-- Painel de Ação de Finalização -->
+            <div id="action-panel" class="mt-12 p-6 bg-white border border-stone-200 rounded-xl shadow-sm text-center no-print">
+                <p class="text-sm text-stone-600 mb-4" id="submit-warning">
+                    Certifique-se de responder a todas as questões antes de enviar.
+                </p>
+                <button onclick="finishQuiz()" id="btn-submit" class="px-8 py-3.5 bg-indigo-900 hover:bg-indigo-850 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-sm">
+                    Finalizar e Revelar Resoluções
+                </button>
+            </div>
+
+            <!-- Scorecard de Resultados (Oculto Inicialmente) -->
+            <div id="results-scorecard" class="hidden mt-8 p-8 bg-white border-2 border-indigo-900/20 rounded-2xl shadow-md transition-all">
+                <div class="flex flex-col md:flex-row items-center gap-6 justify-between">
+                    <div>
+                        <h2 class="serif-title text-2xl font-bold text-stone-900 mb-2">Desempenho Geral</h2>
+                        <p class="text-stone-600 text-sm mb-4">Você concluiu o simulado sobre Urbanização Brasileira.</p>
+                        <div class="flex gap-4">
+                            <div class="bg-indigo-50 px-4 py-2.5 rounded-lg border border-indigo-100">
+                                <span class="text-xs text-indigo-700 block uppercase font-bold tracking-wider">Acertos</span>
+                                <span class="text-3xl font-extrabold text-indigo-900" id="score-hits">0/10</span>
+                            </div>
+                            <div class="bg-stone-50 px-4 py-2.5 rounded-lg border border-stone-200">
+                                <span class="text-xs text-stone-500 block uppercase font-bold tracking-wider">Aproveitamento</span>
+                                <span class="text-3xl font-extrabold text-stone-800" id="score-percent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gráfico circular simplificado (inline SVG) -->
+                    <div class="relative w-32 h-32">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                            <path class="text-stone-100" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="score-circle-fill" class="text-emerald-500 transition-all duration-1000" stroke-dasharray="0, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-xl font-extrabold text-stone-800" id="score-radial-text">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem Motivacional Personalizada -->
+                <div class="mt-6 pt-6 border-t border-stone-100">
+                    <p class="text-sm italic text-stone-700 leading-relaxed" id="score-feedback">
+                        Carregando avaliação...
+                    </p>
+                </div>
+                
+                <!-- Ações após conclusão -->
+                <div class="mt-6 flex flex-wrap gap-3 no-print">
+                    <button onclick="window.print()" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold rounded-lg text-xs transition-all flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                        Imprimir Caderno Resolvido
+                    </button>
+                    <button onclick="restartQuiz()" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-semibold rounded-lg text-xs transition-all">
+                        Reiniciar Simulado
+                    </button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer do Site -->
+    <footer class="bg-stone-900 text-stone-400 py-12 mt-20 border-t border-stone-850 text-sm no-print">
+        <div class="max-w-5xl mx-auto px-4 text-center space-y-4">
+            <p class="font-semibold text-white">Instituto AOCP - Simulado Prático e Interativo</p>
+            <p class="max-w-xl mx-auto text-xs text-stone-500 leading-relaxed">
+                Desenvolvido com o objetivo de oferecer uma experiência refinada e ergonômica de leitura e estudo para concursos públicos, processos seletivos e vestibulares de alto rendimento.
+            </p>
+            <div class="text-xs pt-4 border-t border-stone-800 text-stone-600">
+                Gabarito oficial baseado nas metodologias do IBGE (REGIC 2018) e referenciais geográficos nacionais.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script de Gestão do Quiz e Conteúdo Completo -->
+    <script>
+        // Dados Estruturados das Questões (Contendo exatamente o texto original e as resoluções formatadas em HTML limpo)
+        const quizData = [
+            {
+                id: 1,
+                question: "A reconfiguração do espaço geográfico brasileiro ao longo do século XX foi marcada por uma profunda transição demográfica e espacial, na qual o processo de industrialização desempenhou papel de motor da urbanização nacional.[1, 2] Sobre o histórico da industrialização brasileira e sua correlação direta com a concentração populacional urbana, assinale a alternativa correta.",
+                options: [
+                    "A) A transição do Brasil para um perfil predominantemente urbano consolidou-se na década de 1930, período em que a política de substituição de importações do governo Vargas fixou a maior parte da população nas capitais do Nordeste.[3]",
+                    "B) O processo de industrialização nacional, por ter sido tardio e geograficamente concentrado no Centro-Sul, atuou de forma combinada com fatores de repulsão no campo, como a concentração fundiária e a modernização agrícola, desencadeando um intenso êxodo rural que alimentou o crescimento acelerado das metrópoles a partir de meados do século XX.[3, 4, 5, 6]",
+                    "C) A dispersão industrial observada no início do século XXI eliminou por completo a primazia econômica da Região Metropolitana de São Paulo, fazendo com que o valor adicionado fiscal da indústria paulista se distribuísse de forma homogênea entre as demais capitais estaduais.[7]",
+                    "D) O Censo Demográfico de 2010 revelou que a região Norte se tornou a mais urbanizada do país, ultrapassando o Sudeste devido à intensa migração de retorno decorrente do esgotamento das forças produtivas industriais da Região Metropolitana de São Paulo.[3]",
+                    "E) O êxodo rural brasileiro foi motivado principalmente por políticas públicas planejadas de descentralização demográfica, que visavam povoar as áreas periféricas das grandes metrópoles por meio de incentivos fiscais diretos às famílias camponesas.[2]"
+                ],
+                correct: 1, // B
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A industrialização brasileira, estruturada a partir da década de 1930 sob o modelo de substituição de importações e consolidada a partir dos anos 1950, operou como o principal elemento dinâmico de atração demográfica para as cidades do Centro-Sul, especialmente no estado de São Paulo.[1, 3, 22] Essa atração urbana combinou-se dialeticamente com uma forte pressão expulsiva no campo.[5, 6] A modernização da agricultura (mecanização, uso de insumos químicos) associada à histórica e desigual estrutura agrária de concentração da terra atuou como fator repulsivo, inviabilizando a permanência de pequenos agricultores, parceiros e posseiros no meio rural.[4, 5, 6] Esse duplo movimento (atração urbano-industrial e repulsão rural) desencadeou um expressivo êxodo rural, transferindo milhões de pessoas para as periferias metropolitanas e promovendo uma transição urbana extremamente veloz e sem o devido suporte de infraestrutura básica.[1, 2, 5]</p>
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativa A:</strong> O Brasil só consolidou sua transição para um perfil majoritariamente urbano entre as décadas de 1960 e 1970.[3, 19] Na década de 1930, a população brasileira era maciçamente rural, e as poucas indústrias concentravam-se sobretudo na região Sudeste, e não no Nordeste.[3, 22]</li>
+                        <li><strong>Alternativa C:</strong> Embora o final do século XX e o início do século XXI tenham registrado processos de dispersão de plantas produtivas (desconcentração industrial), esse movimento é relativo.[7] A Região Metropolitana de São Paulo ainda retém uma parcela extraordinariamente expressiva do valor adicionado industrial (60,4%) e do pessoal ocupado no setor secundário paulista (56,8%), demonstrando que o comando econômico e a concentração industrial permanecem centralizados nessa região.[7]</li>
+                        <li><strong>Alternativa D:</strong> O Censo de 2010 confirmou que a região Sudeste permanece como a mais urbanizada do país, com taxas de urbanização superiores a 90%.[3] A região Nordeste é que exibe historicamente o menor índice de urbanização relativo, a despeito de seu crescimento urbano absoluto.[3]</li>
+                        <li><strong>Alternativa E:</strong> O êxodo rural no Brasil foi um processo desordenado, espontâneo e doloroso, destituído de planejamento habitacional ou social pelo Estado, o que resultou na periferização e na favelização das metrópoles.[2, 17]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 2,
+                question: "A pesquisa \"Regiões de Influência das Cidades (REGIC)\", desenvolvida sistematicamente pelo Instituto Brasileiro de Geografia e Estatística (IBGE), constitui o principal instrumental de análise para a compreensão da estruturação da rede urbana nacional e o estabelecimento da hierarquia dos centros urbanos brasileiros.[8, 9] Segundo a metodologia aplicada no estudo de 2018, as cidades brasileiras são classificadas em cinco grandes níveis de centralidade.[10, 11] Assinale a alternativa que apresenta um nível que NÃO corresponde a essa classificação hierárquica oficial.",
+                options: [
+                    "A) Capital Regional.[10, 11]",
+                    "B) Megalópole.[10]",
+                    "C) Centro Sub-regional.[10, 11]",
+                    "D) Centro de Zona.[10, 11]",
+                    "E) Centro Local.[10]"
+                ],
+                correct: 1, // B
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A pesquisa \"Regiões de Influência das Cidades (REGIC)\", publicada periodicamente pelo IBGE, adota uma metodologia rigorosa para mapear as interações e fluxos entre os centros urbanos brasileiros.[8, 9] A estrutura hierárquica baseia-se na identificação de cinco grandes níveis de centralidade urbana: Metrópoles, Capitais Regionais, Centros Sub-regionais, Centros de Zona e Centros Locais.[10, 11] O conceito de \"Megalópole\" refere-se a um fenômeno espacial caracterizado pela conurbação ou forte integração funcional de duas ou mais metrópoles (como o eixo São Paulo–Rio de Janeiro). Embora seja um conceito amplamente consagrado na teoria geográfica, a \"Megalópole\" não é adotada pelo IBGE como um dos níveis formais de classificação hierárquica da rede de influência nacional, configurando, portanto, a exceção solicitada pela banca.[10]</p>
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativas A, C, D e E:</strong> Apresentam, com exatidão, os quatro níveis hierárquicos oficiais que, somados ao patamar das Metrópoles, constituem a estrutura de classificação das cidades brasileiras na REGIC.[10, 11] Todos esses níveis possuem subdivisões internas específicas que refletem variações menores de centralidade (por exemplo, Capitais Regionais A, B e C; Centros Sub-regionais A e B; Centros de Zona A e B).[11, 16]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 3,
+                question: "Com a divulgação dos resultados da pesquisa REGIC de 2018, o topo da hierarquia urbana brasileira passou por atualizações que refletem a emergência de novas centralidades econômicas e a reorganização dos fluxos territoriais.[12, 13] Com base nas mudanças estruturais identificadas nessa edição do estudo, assinale a alternativa correta.",
+                options: [
+                    "A) O Brasil passou a contar com 12 metrópoles em sua rede urbana, uma vez que a retração econômica do Rio de Janeiro causou o rebaixamento de sua centralidade para o nível de Capital Regional A.[12, 13]",
+                    "B) O arranjo populacional de Campinas (SP) foi elevado à categoria de Metrópole, tornando-se o primeiro centro urbano não capital de estado a atingir essa classificação na história da pesquisa, o que fez de São Paulo a primeira Unidade da Federação com duas metrópoles em seu território.[14, 15]",
+                    "C) O arranjo populacional de Vitória (ES) foi elevado à condição de Metrópole Nacional devido à expressiva expansão de sua área de influência sobre o sul do estado da Bahia e toda a região ampliada de Belo Horizonte.[12, 13]",
+                    "D) Brasília (DF) foi reclassificada como Grande Metrópole Nacional ao lado de São Paulo (SP), uma vez que a centralidade da capital federal passou a exercer comando direto sobre todas as capitais da região Sul.[14, 15, 16]",
+                    "E) Florianópolis (SC) ascendeu à categoria de Metrópole, integrando uma rede urbana isolada que perdeu qualquer tipo de conexão funcional com a metrópole de Porto Alegre (RS).[12, 16]"
+                ],
+                correct: 1, // B
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A edição de 2018 da REGIC (publicada em 2020) introduziu importantes alterações no topo da hierarquia urbana brasileira ao elevar três novos arranjos populacionais ao patamar de Metrópole: Vitória (ES), Florianópolis (SC) e Campinas (SP), elevando o total nacional de metrópoles de 12 para 15.[12, 13] A ascensão de Campinas (SP) revestiu-se de ineditismo na história do estudo por constituir a primeira metrópole brasileira que não é uma capital estadual.[14, 15] Essa alteração metodológica e espacial consolidou o estado de São Paulo como a primeira Unidade da Federação a abrigar duas metrópoles oficiais (a Grande Metrópole Nacional de São Paulo e a Metrópole de Campinas) em seu território.[14, 15]</p>
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativa A:</strong> O número total de metrópoles aumentou para 15 (e não diminuiu para 12).[12, 13] O Rio de Janeiro manteve sua classificação histórica como uma das três principais metrópoles do país (Metrópole Nacional), embora sua região de influência tenha sofrido retração espacial devido à concorrência exercida pelas redes de Belo Horizonte e de Vitória.[13, 15]</li>
+                        <li><strong>Alternativa C:</strong> Vitória foi elevada à categoria de "Metrópole", que representa o terceiro nível dentro do grupo das metrópoles, e não à categoria de "Metrópole Nacional".[11, 12] Sua ascensão ocorreu em um movimento de contração da região de influência ampliada da metrópole fluminense (Rio de Janeiro), e não sobre o polo mineiro.[13]</li>
+                        <li><strong>Alternativa D:</strong> O arranjo populacional de São Paulo permanece como a única "Grande Metrópole Nacional" do Brasil, exercendo o grau máximo de atratividade e comando sobre a rede de influência de todo o território.[14, 15] Brasília e Rio de Janeiro são classificadas no patamar imediatamente inferior, de "Metrópole Nacional".[15, 16]</li>
+                        <li><strong>Alternativa E:</strong> A elevação de Florianópolis à condição de metrópole não a isolou dos fluxos nacionais. A rede catarinense mantém fortes conexões funcionais e atrativas com o arranjo populacional de Porto Alegre (RS) e com o Centro-Sul do país.[16]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 4,
+                question: "O fenômeno da urbanização mundial exibe trajetórias históricas profundamente distintas ao se comparar o modelo observado nos países desenvolvidos ao modelo característico das nações subdesenvolvidas.[2, 17] A respeito dessas diferenças estruturais de constituição do espaço urbano, assinale a alternativa correta.",
+                options: [
+                    "A) Nos países desenvolvidos, a urbanização foi um processo extremamente rápido e concentrado no século XXI, decorrente da mecanização tardia de suas lavouras de exportação.[5, 6]",
+                    "B) O modelo de urbanização dos países subdesenvolvidos caracteriza-se por um crescimento demográfico urbano lento e planejado, o que permitiu ao Estado estruturar redes de saneamento e transporte antes da expansão das manchas urbanas.[2]",
+                    "C) A urbanização acelerada dos países subdesenvolvidos produziu o fenômeno da macrocefalia urbana, caracterizado pela concentração desproporcional da população e das atividades econômicas em poucas metrópoles, resultando em segregação socioespacial e na proliferação de moradias precárias.[2, 17, 18]",
+                    "D) A especulação imobiliária nas grandes metrópoles latino-americanas atua de forma inclusiva, regulando os preços dos terrenos centrais para garantir o acesso democrático à moradia formal.[17, 18]",
+                    "E) O êxodo rural nos países desenvolvidos decorreu da miséria extrema e da ausência total de empregos nas áreas agrícolas, enquanto nos países subdesenvolvidos foi motivado pelo planejamento estatal de descentralização industrial.[2, 5, 6]"
+                ],
+                correct: 2, // C
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> As diferenças históricas na produção do espaço urbano resultaram em dois modelos básicos de urbanização global.[2, 17] Nos países desenvolvidos, o processo foi lento, planejado e diluído ao longo de séculos (coincidindo com as Revoluções Industriais), o que permitiu uma distribuição espacial mais equilibrada e a estruturação prévia de infraestruturas de saneamento, transporte e habitação.[5, 6] Nos países subdesenvolvidos, a urbanização foi acelerada, tardia, desordenada e concentrada na segunda metade do século XX.[2, 5, 17] Esse descompasso demográfico produziu a macrocefalia urbana — caracterizada pelo gigantismo e hipertrofia de poucas metrópoles primadas —, gerando uma severa segregação socioespacial, expressa na proliferação de cortiços, favelas e periferias destituídas de condições dignas de habitabilidade.[2, 17, 18]</p>
+                    
+                    <div class="overflow-x-auto my-6 rounded-lg border border-stone-200">
+                        <table class="min-w-full divide-y divide-stone-200 bg-white text-xs md:text-sm text-left">
+                            <thead class="bg-stone-100 text-stone-850 font-semibold">
+                                <tr>
+                                    <th class="px-4 py-3 border-r border-stone-200 w-1/4">Critério de Comparação</th>
+                                    <th class="px-4 py-3 border-r border-stone-200 w-3/8">Modelo de Urbanização Planejada (Países Desenvolvidos)</th>
+                                    <th class="px-4 py-3 w-3/8">Modelo de Urbanização Acelerada (Países Subdesenvolvidos)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-700">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Temporalidade</td>
+                                    <td class="px-4 py-3 border-r border-stone-200">Lenta, gradual e de longa duração (séculos XVIII a XX).[6]</td>
+                                    <td class="px-4 py-3">Rápida, intensa e concentrada (pós-Segunda Guerra Mundial).[5, 6]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Dinâmica do Campo</td>
+                                    <td class="px-4 py-3 border-r border-stone-200">Atração exercida pelas fábricas urbanas combinada à liberação progressiva de mão de obra agrícola.[5, 6]</td>
+                                    <td class="px-4 py-3">Forte expulsão rural (êxodo rural) devido à miséria, concentração de terras e mecanização precoce.[5, 6]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Planejamento Estatal</td>
+                                    <td class="px-4 py-3 border-r border-stone-200">Investimento concomitante em infraestrutura básica, habitação formal e transporte de massa.[2]</td>
+                                    <td class="px-4 py-3">Crescimento desordenado, expansão por autoconstrução periférica e atuação governamental corretiva tardia.[2, 19]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Estrutura Econômica</td>
+                                    <td class="px-4 py-3 border-r border-stone-200">Setor terciário moderno integrado ao setor industrial formal e alta qualificação profissional.[6]</td>
+                                    <td class="px-4 py-3">Hipertrofia do setor terciário informal (hipersetorização) decorrente da incapacidade de absorção formal do mercado.[5, 21]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Organização Espacial</td>
+                                    <td class="px-4 py-3 border-r border-stone-200">Redes urbanas mais equilibradas, policêntricas e de menor disparidade intermetropolitana.</td>
+                                    <td class="px-4 py-3">Redes urbanas monocêntricas e macrocefálicas, marcadas por forte segregação e favelização.[17, 18]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativa A:</strong> A urbanização nos países desenvolvidos iniciou-se fortemente no final do século XVIII e consolidou-se ao longo do século XIX e primeira metade do século XX, não correspondendo a um processo recente do século XXI.[6]</li>
+                        <li><strong>Alternativa B:</strong> A urbanização nos países periféricos foi marcadamente acelerada e desprovida de planejamento estatal prévio, resultando em severos passivos urbanos e habitacionais.[2, 17]</li>
+                        <li><strong>Alternativa D:</strong> A especulação imobiliária atua de forma excludente nas metrópoles latino-americanas.[17] Ao encarecer artificialmente o solo urbano central e bem servido de infraestrutura, ela empurra as populações de baixa renda para as periferias distantes ou para áreas de preservação ambiental e encostas de risco.[17]</li>
+                        <li><strong>Alternativa E:</strong> O êxodo rural nos países desenvolvidos ocorreu de forma sincronizada com a expansão dos postos de trabalho nas indústrias urbanas.[6] Nos países subdesenvolvidos, a precariedade das relações sociais e econômicas no campo constituiu o principal fator de repulsão demográfica.[5]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 5,
+                question: "A urbanização acelerada e desordenada das metrópoles brasileiras produziu graves passivos ambientais e infraestruturais que demandam intervenções constantes do poder público.[19] O Programa de Urbanização de Favelas constitui uma das principais respostas governamentais a esses problemas nas áreas periféricas degradadas.[19]<br><br>Associe as ações de intervenção urbana listadas a seguir aos seus respectivos objetivos de gestão socioambiental:<br><br>1. Ações sobre o relevo.[19]<br>2. Combate às enchentes.[19]<br>3. Mobilidade urbana.[19]<br>4. Minimização de ilhas de calor.[19]<br><br>( ) Executar obras de recuperação ambiental e paisagismo.[19]<br>( ) Ampliar redes de drenagem de águas pluviais e programas de desobstrução de córregos.[19]<br>( ) Realizar obras para contenção e estabilização de encostas.[19]<br>( ) Construir corredores expressos e abrir vias para tráfego de ambulâncias, caminhões de lixo e veículos policiais.[19]<br><br>Assinale a alternativa que apresenta a correlação correta, de cima para baixo.",
+                options: [
+                    "A) 4 – 2 – 1 – 3.[19]",
+                    "B) 4 – 1 – 2 – 3.[19]",
+                    "C) 3 – 1 – 2 – 4.[19]",
+                    "D) 2 – 3 – 4 – 1.[19]",
+                    "E) 1 – 4 – 3 – 2.[19]"
+                ],
+                correct: 0, // A
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A desordenada expansão das manchas urbanas sobre relevos acidentados e bacias hidrográficas gerou graves problemas socioambientais nas favelas brasileiras.[19] Os programas públicos de urbanização buscam atenuar esses impactos por meio de intervenções multissetoriais.[19] O paisagismo e a recuperação ambiental atuam no microclima, minimizando as ilhas de calor por meio da cobertura vegetal (4).[19] A ampliação de redes de drenagem pluvial e desobstrução de córregos evitam o transbordamento de canais, combatendo as enchentes (2).[19] As obras de contenção de encostas e estabilização de taludes mitigam riscos de deslizamentos de terra associados ao relevo acidentado (1).[19] Por fim, a abertura de vias, ruas de tráfego e corredores de ônibus viabiliza a acessibilidade, a integração e o atendimento de emergência, promovendo a mobilidade urbana (3).[19] A sequência correta é 4 – 2 – 1 – 3.[19]</p>
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativas B, C, D e E:</strong> Apresentam sequências incorretas de associação entre as ações descritas e as respectivas problemáticas urbanas de destino. Por exemplo, a estabilização de encostas está ligada a ações sobre o relevo, e não à mobilidade.[19]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 6,
+                question: "A rede urbana da Amazônia brasileira apresenta uma dinâmica de estruturação muito singular, fortemente condicionada pelas características do meio físico e pelos diferentes períodos históricos de ocupação territorial.[20] Sobre a organização espacial da rede urbana amazônica, assinale a alternativa correta.",
+                options: [
+                    "A) A rede amazônica caracteriza-se por uma absoluta homogeneidade espacial, estruturada inteiramente por rodovias radiais planejadas no período colonial.[4, 20]",
+                    "B) Trata-se de uma rede urbana híbrida, na qual um padrão de temporalidade mais antigo, correspondente à rede urbana dendrítica articulada pelas vias fluviais, justapõe-se e convive com um padrão moderno de eixos rodoviários construídos a partir de meados do século XX.[20]",
+                    "C) A navegação fluvial perdeu qualquer relevância de fluxo de passageiros e mercadorias na Amazônia após a pavimentação integral da Transamazônica no século XXI.[20]",
+                    "D) A rede urbana amazônica organiza-se de maneira policêntrica e independente de conexões nacionais, tendo Manaus e Belém como centros locais subordinados a Macapá.[15, 16, 20]",
+                    "E) A implantação de novas atividades agrícolas e minerais no Norte do país resultou no enfraquecimento das conexões rodoviárias, fazendo com que a rede de cidades retornasse a um padrão exclusivamente fluvial de subsistência.[20]"
+                ],
+                correct: 1, // B
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A rede de cidades da Amazônia brasileira apresenta um caráter híbrido, revelando a coexistência de diferentes tempos históricos e lógicas de organização espacial.[20] O padrão mais antigo e tradicional organiza-se sob a forma de uma rede urbana dendrítica.[20] Trata-se de uma rede fortemente condicionada pela bacia hidrográfica, na qual os rios atuam como as vias exclusivas de circulação, transporte e integração entre as pequenas comunidades ribeirinhas, os centros locais e as metrópoles regionais.[20] A partir da década de 1970, a política de integração nacional militar implantou eixos rodoviários (como a BR-364, BR-163 e BR-230) que recortaram os divisores de águas.[20] Essa nova dinâmica rodoviária justapôs-se à rede fluvial anterior, criando um padrão urbano complexo onde coabitam as lógicas de isolamento e fluxos fluviais tradicionais com a rápida expansão urbana rodoviária vinculada ao agronegócio e aos projetos minerais.[20]</p>
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativa A:</strong> A rede urbana da Amazônia não é homogênea, mas sim marcada por severas assimetrias espaciais e isolamento geográfico de vastas áreas que dependem exclusivamente de barcos para comunicação.[20]</li>
+                        <li><strong>Alternativa C:</strong> A navegação de cabotagem e o transporte fluvial de passageiros e cargas pesadas (como grãos e minérios) permanecem de vital importância para a circulação na Amazônia, uma vez que grande parte das rodovias planejadas sofre com a falta de pavimentação asfáltica permanente e interrupções sazonais decorrentes do período de chuvas.[20]</li>
+                        <li><strong>Alternativa D:</strong> Manaus e Belém não são centros locais subordinados a Macapá.[16, 20] Ambas são as metrópoles regionais históricas que polarizam toda a rede de influência da bacia amazônica e articulam as conexões de longa distância com o restante do território nacional.[15, 16]</li>
+                        <li><strong>Alternativa E:</strong> O avanço da fronteira mineral e agrícola integrou a rede urbana do Norte de maneira irreversível à economia capitalista nacional e global, fortalecendo a atratividade rodoviária e consolidando novos centros urbanos secundários de apoio.[20]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 7,
+                question: "Ao analisar a economia das cidades nos países subdesenvolvidos, o geógrafo Milton Santos propôs a existência de dois circuitos da economia urbana.[21] Esse arcabouço teórico explica as contradições no mercado de trabalho e na produção do espaço metropolitano periférico.[21] A respeito da dinâmica de funcionamento desses dois circuitos, assinale a alternativa correta.",
+                options: [
+                    "A) O circuito superior é caracterizado pela ausência de burocracia, pelo uso intensivo de mão de obra não qualificada e pelo predomínio de capitais estritamente locais de financiamento.[21]",
+                    "B) O circuito inferior baseia-se em atividades de capital intensivo, alta tecnologia, organização corporativa monopolista e conexões financeiras globais.[21]",
+                    "C) A modernização tecnológica e a industrialização contemporânea geram um volume limitado de empregos formais nas metrópoles periféricas, impulsionando a proliferação de ocupações informais e de subsistência que caracterizam o circuito inferior e alimentam a urbanização terciária.[5, 6, 21]",
+                    "D) Os circuitos superior e inferior operam de maneira isolada e sem trocas funcionais, impossibilitando que mercadorias produzidas por grandes indústrias modernas alcancem os pequenos comerciantes de rua.[21]",
+                    "E) O circuito inferior restringe-se às capitais regionais do interior do país, não apresentando qualquer manifestação socioespacial nas metrópoles globais.[7, 21]"
+                ],
+                correct: 2, // C
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A formulação de Milton Santos sobre os dois circuitos da economia urbana em países subdesenvolvidos (circuito superior e circuito inferior) explica as assimetrias geradas pela modernização tecnológica.[21] O circuito superior é composto por atividades modernas, capital intensivo, alta tecnologia, organização corporativa e forte integração com redes financeiras globais.[21] Como esse circuito opera sob a lógica da eficiência técnica e automação, ele cria poucos postos de trabalho formais.[21] O excedente demográfico urbano — inflado pelo êxodo rural acelerado — é empurrado para o circuito inferior, caracterizado pela flexibilidade, uso intensivo de mão de obra não qualificada, pequenos negócios familiares, comércio ambulante e serviços de baixa remuneração.[5, 6, 21] Esse processo resulta na urbanização terciária ou "hipersetorização" informal das cidades periféricas, funcionando como amortecedor social da pobreza estrutural.[5, 21]</p>
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativa A:</strong> A ausência de burocracia oficial e a utilização intensiva de mão de obra de baixa qualificação são marcas constitutivas do circuito inferior, e não do superior.[21]</li>
+                        <li><strong>Alternativa B:</strong> As características de capital intensivo, monopólio e conexões financeiras multinacionais pertencem formalmente ao circuito superior da economia urbana.[21]</li>
+                        <li><strong>Alternativa D:</strong> Os circuitos superior e inferior não operam de forma isolada; eles mantêm relações constantes de complementaridade dialética.[21] O comércio ambulante e de rua do circuito inferior, por exemplo, abastece-se de produtos industrializados gerados e distribuídos pelas corporações modernas do circuito superior.[21]</li>
+                        <li><strong>Alternativa E:</strong> O circuito inferior manifesta-se de forma vigorosa e generalizada no espaço das grandes metrópoles nacionais (como São Paulo e Rio de Janeiro), concentrando milhões de trabalhadores informais nas periferias metropolitanas e eixos de transporte público.[7, 21]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 8,
+                question: "As desigualdades regionais na rede de cidades brasileira motivaram, ao longo do século XX, diferentes estratégias de planejamento territorial por parte do Estado.[22] Sobre a intervenção governamental na dinâmica de distribuição industrial e urbana no Brasil, assinale a alternativa correta.",
+                options: [
+                    "A) A criação da SUDENE (Superintendência do Desenvolvimento do Nordeste), em 1959, resultou da percepção de que a industrialização nacional acelerada aprofundava as disparidades econômicas e sociais entre o Nordeste e o Centro-Sul do país.[22]",
+                    "B) O Plano de Metas, executado na década de 1930 pelo presidente Getúlio Vargas, priorizou a instalação de montadoras multinacionais no semiárido nordestino para frear o êxodo rural rumo a São Paulo.[22]",
+                    "C) O planejamento urbano-industrial do século XX logrou êxito em extinguir as disparidades espaciais no Brasil, promovendo a desconcentração imediata e o equilíbrio econômico absoluto entre todas as macrorregiões do país.[2, 17]",
+                    "D) O sistema de sesmarias, vigente no período colonial, representou o primeiro plano moderno de reforma agrária e regularização fundiária voltado à contenção do crescimento desordenado das metrópoles.[4]",
+                    "E) A criação da SUDENE teve como objetivo central transferir a sede administrativa da metrópole de São Paulo para o interior do estado do Maranhão, visando equilibrar os fluxos da rede urbana.[16, 22]"
+                ],
+                correct: 0, // A
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A industrialização acelerada do Brasil na primeira metade do século XX concentrou as principais atividades fabris, capitais e empregos no Centro-Sul, aprofundando o fosso econômico em relação às demais regiões do país.[22] A criação da SUDENE em 1959, sob a direção de Celso Furtado, fundamentou-se na percepção crítica de que o dinamismo econômico concentrado gerava polarização e aumentava a desigualdade regional, exigindo uma forte ação de planejamento estatal para incentivar a industrialização nordestina por meio de infraestrutura e subsídios fiscais.[22]</p>
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativa B:</strong> O Plano de Metas foi formulado e implementado na década de 1950 (período de 1956 a 1961) pelo presidente Juscelino Kubitschek (JK), focando na instalação de infraestruturas de energia, transportes e na atração de montadoras multinacionais de veículos para a região Sudeste, e não para o semiárido nordestino.[22]</li>
+                        <li><strong>Alternativa C:</strong> Embora o planejamento estatal tenha buscado mitigar as disparidades espaciais (por meio de superintendências como SUDENE e SUDAM), o processo de desconcentração industrial foi relativo e não eliminou as históricas desigualdades socioespaciais e de infraestrutura entre o Centro-Sul e o Norte-Nordeste do país.[2, 17, 22]</li>
+                        <li><strong>Alternativa D:</strong> O sistema de sesmarias consistiu na concessão de grandes latifúndios rurais pela Coroa Portuguesa durante o período colonial.[4] Esse sistema funcionou como a base histórica da extrema concentração fundiária do país e da exclusão social no campo, agindo de forma oposta a qualquer plano de reforma agrária ou planejamento urbano moderno.[4]</li>
+                        <li><strong>Alternativa E:</strong> A SUDENE nunca teve como objetivo transferir a capital de São Paulo para o Maranhão; tratava-se de um órgão de planejamento e incentivo ao desenvolvimento econômico regional sediado no Recife (PE).</li>
+                    </ul>
+                `
+            },
+            {
+                id: 9,
+                question: "A análise empírica dos deslocamentos espaciais promovida pela pesquisa REGIC de 2018 revelou importantes padrões sobre a atratividade das cidades e as distâncias médias percorridas pela população brasileira em busca de bens e serviços.[15] A respeito desse panorama de mobilidade na rede urbana, assinale a alternativa correta.",
+                options: [
+                    "A) As atividades de caráter cultural (como shows, festivais, teatro e cinema) registraram a maior distância média nacional de deslocamento, uma vez que tais serviços encontram-se restritos à única Grande Metrópole Nacional do país.[15]",
+                    "B) O deslocamento para acesso a aeroportos representou a maior distância média linear percorrida pela população na rede urbana brasileira, registrando as maiores médias em estados com grandes extensões territoriais e menor densidade de infraestrutura, como o Mato Grosso e o Amazonas.[15]",
+                    "C) Os fluxos de fronteira terrestre do Brasil com os países vizinhos são inexistentes na rede urbana, dado o isolamento físico absoluto gerado pelas diretrizes de segurança nacional.[9, 15]",
+                    "D) O estado de São Paulo registrou o menor número absoluto de Capitais Regionais na federação, visto que a centralidade da capital paulista absorveu e eliminou todos os centros urbanos secundários de seu território.[15]",
+                    "E) O motivo mais recorrente para as relações transfronteiriças na rede de influência das cidades brasileiras reside na busca por atendimento médico de alta complexidade nos países andinos.[15]"
+                ],
+                correct: 1, // B
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong> A pesquisa REGIC de 2018 mensurou a distância média percorrida pelos habitantes na rede de influência para acessar diferentes bens e serviços de alta complexidade.[15] O deslocamento para aeroportos registrou a maior distância média nacional (174 km), uma vez que esses equipamentos de transporte aéreo de passageiros exigem infraestrutura sofisticada e encontram-se concentrados nas principais capitais regionais e metrópoles.[15] Essa média linear percorrida é acentuadamente superior em estados de grande extensão territorial e baixa densidade demográfica no interior, com o Mato Grosso registrando a maior média linear do país (284 km), seguido pelo Amazonas (273 km).[15]</p>
+                    
+                    <div class="max-w-md mx-auto overflow-x-auto my-6 rounded-lg border border-stone-200">
+                        <table class="min-w-full divide-y divide-stone-200 bg-white text-xs md:text-sm text-left">
+                            <thead class="bg-stone-100 text-stone-850 font-semibold">
+                                <tr>
+                                    <th class="px-4 py-3 border-r border-stone-200">Unidade da Federação / Região</th>
+                                    <th class="px-4 py-3 text-center">Distância Linear Média de Deslocamento (km)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-700">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Mato Grosso</td>
+                                    <td class="px-4 py-3 text-center">284 [15]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Amazonas</td>
+                                    <td class="px-4 py-3 text-center">273 [15]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Maranhão</td>
+                                    <td class="px-4 py-3 text-center">139 [14]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Piauí</td>
+                                    <td class="px-4 py-3 text-center">112 [14]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Minas Gerais</td>
+                                    <td class="px-4 py-3 text-center">94 [15]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Ceará</td>
+                                    <td class="px-4 py-3 text-center">82 [14]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Rio de Janeiro</td>
+                                    <td class="px-4 py-3 text-center">70 [15]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold bg-stone-50 border-r border-stone-200">Espírito Santo</td>
+                                    <td class="px-4 py-3 text-center">67 [15]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="mb-2"><strong>Análise das Alternativas Incorretas:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 text-stone-600">
+                        <li><strong>Alternativa A:</strong> As atividades de caráter cultural (como shows, cinema, festividades, museus) registraram a menor distância média nacional de deslocamento na pesquisa REGIC (67 km), evidenciando que tais demandas são supridas com viagens curtas para centros sub-regionais ou cidades vizinhas de pequeno porte.[15]</li>
+                        <li><strong>Alternativa C:</strong> A pesquisa REGIC registrou uma expressiva atração exercida pelas cidades brasileiras localizadas na faixa de fronteira terrestre (102 municípios), as quais recebem fluxos constantes de cidadãos de países vizinhos para consumo de bens, serviços públicos de saúde e comércio.[14, 15]</li>
+                        <li><strong>Alternativa D:</strong> O estado de São Paulo registrou o maior número absoluto de Capitais Regionais do país, subindo de 12 para 20 (ou 26, se considerada a rede de influência expandida), demonstrando o denso dinamismo econômico de seu interior.[15]</li>
+                        <li><strong>Alternativa E:</strong> O motivo mais frequente para os fluxos transfronteiriços na rede de influência das cidades fronteiriças brasileiras reside na compra de calçados e vestuário, sendo responsável por conectar 65 localidades estrangeiras ao comércio de cidades brasileiras.[15]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 10,
+                question: "O dinamismo demográfico e a reorganização político-territorial do Brasil a partir do final do século XX alteraram significativamente a configuração dos municípios e o perfil de urbanização das macrorregiões brasileiras.[3, 4] Considere as seguintes assertivas sobre esse processo de transição urbana e municipal:<br><br>I. A promulgação da Constituição Federal de 1988 impulsionou uma expressiva criação de novos municípios no território nacional, sendo que a grande maioria dessas novas unidades territoriais apresenta perfil demográfico de pequeno porte, contando com menos de 20 mil habitantes.[4]<br>II. O Nordeste figura nos dados censitários históricos como a macrorregião que apresenta a menor taxa de urbanização do Brasil, a despeito do crescimento absoluto de suas principais capitais estaduais.[3]<br>III. A inversão da proporcionalidade entre as populações urbana e rural no Brasil consolidou-se em meados do século XX, período em que mais de 90% da população brasileira passou a se concentrar instantaneamente nas cidades da região Norte.[3, 19]<br><br>Assinale a alternativa correta.",
+                options: [
+                    "A) Apenas a assertiva I está correta.[4]",
+                    "B) Apenas as assertivas I e II estão corretas.[3, 4]",
+                    "C) Apenas as assertivas I e III estão corretas.[3, 4]",
+                    "D) Apenas as assertivas II e III estão corretas.[3]",
+                    "E) Todas as assertivas estão corretas.[3, 4]"
+                ],
+                correct: 1, // B
+                explanation: `
+                    <p class="mb-4"><strong>Análise de Conteúdo:</strong></p>
+                    <ul class="list-disc pl-5 space-y-3 text-stone-700">
+                        <li><strong>Assertiva I (Correta):</strong> Após a promulgação da Constituição de 1988, que concedeu maior autonomia político-administrativa aos distritos e facilitou os processos de emancipação, o Brasil registrou uma forte expansão municipal, com a criação de centenas de novas municipalidades.[4] A imensa maioria (mais de 74%) desses novos municípios emancipa-se com um contingente populacional de pequeno porte, inferior a 20 mil habitantes, apresentando forte dependência de transferências constitucionais de renda (como o Fundo de Participação dos Municípios).[4]</li>
+                        <li><strong>Assertiva II (Correta):</strong> De acordo com os dados históricos e censitários consolidados do IBGE, a região Nordeste apresenta a menor taxa de urbanização relativa do Brasil.[3] Embora abrigue importantes e populosas regiões metropolitanas litorâneas (como Salvador, Recife e Fortaleza), a forte presença de uma vasta população residente no meio rural semiárido e a histórica base agrária regional explicam a manutenção dessa menor taxa média em termos proporcionais.[3, 16, 23]</li>
+                        <li><strong>Assertiva III (Incorreta):</strong> A inversão da proporcionalidade demográfica urbana e rural no Brasil ocorreu entre as décadas de 1960 e 1970.[3, 19] Essa transição concentrou a maior parte da população nas grandes cidades do Sudeste (devido à industrialização centralizada no Centro-Sul), e não na região Norte do país.[3]</li>
+                    </ul>
+                `
+            }
+        ];
+
+        // Estado Global da Aplicação
+        let userAnswers = {}; // Guarda as respostas selecionadas {questãoID: optionIndex}
+        let isFinished = false; // Indica se o simulado já foi finalizado
+
+        // Inicializa a aplicação
+        window.addEventListener('DOMContentLoaded', () => {
+            renderNavGrid();
+            renderQuiz();
+            updateProgress();
+        });
+
+        // Altera o tamanho das fontes de forma global nas questões
+        function changeFontSize(size) {
+            const container = document.getElementById('quiz-container');
+            
+            // Remove classes anteriores
+            container.classList.remove('text-sm', 'text-base', 'text-lg');
+            
+            // Reseta destaques de botões de controle
+            document.querySelectorAll('[onclick^="changeFontSize"]').forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-900', 'font-bold');
+                btn.classList.add('hover:bg-stone-100', 'text-stone-600', 'font-medium');
+            });
+
+            // Adiciona nova classe
+            if (size === 'sm') {
+                container.classList.add('text-sm');
+                event.target.classList.add('bg-indigo-100', 'text-indigo-900', 'font-bold');
+                event.target.classList.remove('hover:bg-stone-100', 'text-stone-600');
+            } else if (size === 'base') {
+                container.classList.add('text-base');
+                document.getElementById('btn-font-base').classList.add('bg-indigo-100', 'text-indigo-900', 'font-bold');
+                document.getElementById('btn-font-base').classList.remove('hover:bg-stone-100', 'text-stone-600');
+            } else if (size === 'lg') {
+                container.classList.add('text-lg');
+                event.target.classList.add('bg-indigo-100', 'text-indigo-900', 'font-bold');
+                event.target.classList.remove('hover:bg-stone-100', 'text-stone-600');
+            }
+        }
+
+        // Altera o tom do papel (fundo) para maior ergonomia
+        function changeTheme(theme) {
+            const body = document.getElementById('body-container');
+            const btnWarm = document.getElementById('btn-theme-warm');
+            const btnNeutral = document.getElementById('btn-theme-neutral');
+
+            if (theme === 'warm') {
+                body.classList.remove('bg-paper-neutral');
+                body.classList.add('bg-paper-warm');
+                btnWarm.classList.add('border-indigo-600');
+                btnWarm.classList.remove('border-stone-300');
+                btnNeutral.classList.remove('border-indigo-600');
+                btnNeutral.classList.add('border-stone-300');
+            } else {
+                body.classList.remove('bg-paper-warm');
+                body.classList.add('bg-paper-neutral');
+                btnNeutral.classList.add('border-indigo-600');
+                btnNeutral.classList.remove('border-stone-300');
+                btnWarm.classList.remove('border-indigo-600');
+                btnWarm.classList.add('border-stone-300');
+            }
+        }
+
+        // Desenha a barra lateral de atalhos e status
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+            
+            quizData.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `nav-btn-${q.id}`;
+                btn.type = 'button';
+                btn.innerText = q.id;
+                btn.className = `h-10 w-full rounded-lg font-bold text-sm border flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-stone-50 border-stone-200 text-stone-500 hover:bg-stone-100`;
+                btn.onclick = () => {
+                    const el = document.getElementById(`question-card-${q.id}`);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        // Renderiza as Questões no formulário
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.id = `question-card-${q.id}`;
+                card.className = `question-card bg-white border border-stone-200 rounded-xl p-6 md:p-8 shadow-sm transition-all`;
+
+                // Cabeçalho da Questão
+                const header = document.createElement('div');
+                header.className = 'flex items-start justify-between gap-4 mb-4';
+                header.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold tracking-widest text-indigo-900 uppercase">Questão ${q.id}</span>
+                    </div>
+                    <span class="bg-stone-100 text-stone-600 text-xs px-2.5 py-1 rounded-full font-medium">Múltipla Escolha</span>
+                `;
+                card.appendChild(header);
+
+                // Enunciado da Questão
+                const questionText = document.createElement('div');
+                questionText.className = 'serif-title text-base md:text-lg text-stone-900 leading-relaxed font-semibold mb-6';
+                questionText.innerHTML = q.question;
+                card.appendChild(questionText);
+
+                // Alternativas
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'space-y-3';
+
+                q.options.forEach((opt, optIndex) => {
+                    const label = document.createElement('label');
+                    label.id = `label-q${q.id}-o${optIndex}`;
+                    label.className = `option-card block p-4 border border-stone-200 rounded-lg cursor-pointer transition-all hover:bg-stone-50 flex items-start gap-3 text-stone-700 leading-relaxed text-sm md:text-base`;
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question-${q.id}`;
+                    input.value = optIndex;
+                    input.className = 'mt-1 text-indigo-600 focus:ring-indigo-500 h-4.5 w-4.5 border-stone-300';
+                    input.checked = userAnswers[q.id] === optIndex;
+                    
+                    input.onchange = () => {
+                        if (isFinished) return;
+                        selectOption(q.id, optIndex);
+                    };
+
+                    label.appendChild(input);
+                    
+                    const textSpan = document.createElement('span');
+                    textSpan.innerHTML = opt;
+                    label.appendChild(textSpan);
+
+                    optionsContainer.appendChild(label);
+                });
+
+                card.appendChild(optionsContainer);
+
+                // Área do Gabarito Comentado (Oculta até finalizar)
+                const explanationBox = document.createElement('div');
+                explanationBox.id = `explanation-${q.id}`;
+                explanationBox.className = 'hidden mt-6 pt-6 border-t border-stone-200 transition-all';
+                explanationBox.innerHTML = `
+                    <div class="bg-amber-50/55 border border-amber-200/60 rounded-xl p-5 md:p-6 text-sm leading-relaxed text-stone-850">
+                        <h4 class="font-bold text-stone-900 flex items-center gap-2 mb-3 text-sm uppercase tracking-wider">
+                            <svg class="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                            Gabarito & Resolução Comentada
+                        </h4>
+                        <div class="space-y-4">
+                            <p class="font-bold text-stone-900">
+                                Gabarito Oficial: <span class="bg-indigo-900 text-white px-2 py-0.5 rounded text-xs ml-1">${getLetter(q.correct)}</span>
+                            </p>
+                            <div class="prose max-w-none text-stone-800">
+                                ${q.explanation}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                card.appendChild(explanationBox);
+
+                container.appendChild(card);
+            });
+        }
+
+        // Utilitário para transformar index de opção em letra (0 = A, 1 = B...)
+        function getLetter(index) {
+            return String.fromCharCode(65 + index);
+        }
+
+        // Manipula a seleção de alternativas pelo usuário
+        function selectOption(questionId, optionIndex) {
+            userAnswers[questionId] = optionIndex;
+            updateProgress();
+
+            // Atualiza o estilo visual da opção selecionada na questão correspondente
+            quizData.forEach(q => {
+                if (q.id === questionId) {
+                    q.options.forEach((_, idx) => {
+                        const lbl = document.getElementById(`label-q${questionId}-o${idx}`);
+                        if (idx === optionIndex) {
+                            lbl.classList.remove('border-stone-200', 'bg-white', 'hover:bg-stone-50');
+                            lbl.classList.add('border-indigo-600', 'bg-indigo-50/40', 'text-indigo-950', 'font-medium');
+                        } else {
+                            lbl.classList.remove('border-indigo-600', 'bg-indigo-50/40', 'text-indigo-950', 'font-medium');
+                            lbl.classList.add('border-stone-200', 'bg-white', 'hover:bg-stone-50');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Monitora o progresso e atualiza a barra de navegação e progresso geral
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const progressPercent = (answeredCount / quizData.length) * 100;
+
+            // Atualiza barra de progresso no painel
+            document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
+            document.getElementById('progress-text').innerText = `${answeredCount} / ${quizData.length}`;
+
+            // Atualiza a grade de navegação lateral
+            quizData.forEach(q => {
+                const btn = document.getElementById(`nav-btn-${q.id}`);
+                if (!btn) return;
+
+                if (isFinished) {
+                    const isCorrect = userAnswers[q.id] === q.correct;
+                    btn.classList.remove('bg-indigo-50', 'border-indigo-300', 'text-indigo-700', 'bg-stone-50', 'border-stone-200', 'text-stone-500');
+                    if (isCorrect) {
+                        btn.classList.add('bg-emerald-500', 'border-emerald-600', 'text-white');
+                    } else {
+                        btn.classList.add('bg-rose-500', 'border-rose-600', 'text-white');
+                    }
+                } else {
+                    if (userAnswers[q.id] !== undefined) {
+                        btn.classList.remove('bg-stone-50', 'border-stone-200', 'text-stone-500');
+                        btn.classList.add('bg-indigo-50', 'border-indigo-300', 'text-indigo-700');
+                    } else {
+                        btn.classList.add('bg-stone-50', 'border-stone-200', 'text-stone-500');
+                        btn.classList.remove('bg-indigo-50', 'border-indigo-300', 'text-indigo-700');
+                    }
+                }
+            });
+        }
+
+        // Calcula a pontuação e exibe os resultados na mesma página
+        function finishQuiz() {
+            // Verificar se o usuário respondeu a todas as questões
+            const answeredCount = Object.keys(userAnswers).length;
+            
+            // Caso falte alguma resposta, cria um modal para confirmar se deseja finalizar mesmo assim (não usa alert() nativo)
+            if (answeredCount < quizData.length) {
+                const confirmed = confirmCompletionModal(answeredCount);
+                if (!confirmed) return;
+            }
+
+            isFinished = true;
+            
+            // Travar opções de inputs de radio para evitar modificações após término
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Ocultar painel de ação original
+            document.getElementById('action-panel').classList.add('hidden');
+
+            // Calcular pontos
+            let score = 0;
+            quizData.forEach(q => {
+                const isCorrect = userAnswers[q.id] === q.correct;
+                if (isCorrect) score++;
+
+                // Revelar Gabarito Comentado de cada questão na mesma página
+                document.getElementById(`explanation-${q.id}`).classList.remove('hidden');
+
+                // Aplicar cores de acerto e erro em cada card e alternativa do Quiz
+                q.options.forEach((_, optIdx) => {
+                    const label = document.getElementById(`label-q${q.id}-o${optIdx}`);
+                    
+                    // Reseta estilos prévios
+                    label.classList.remove('border-indigo-600', 'bg-indigo-50/40', 'border-stone-200', 'bg-white', 'hover:bg-stone-50');
+
+                    // Alternativa Correta recebe verde pastel de destaque
+                    if (optIdx === q.correct) {
+                        label.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-950', 'font-medium');
+                        // Adicionar marca visual de correto
+                        const checkIcon = document.createElement('span');
+                        checkIcon.className = 'ml-auto text-emerald-600 font-bold text-sm bg-emerald-100 px-2 py-0.5 rounded';
+                        checkIcon.innerText = 'Gabarito';
+                        label.appendChild(checkIcon);
+                    } 
+                    // Alternativa Errada selecionada pelo usuário recebe destaque vermelho pastel
+                    else if (userAnswers[q.id] === optIdx) {
+                        label.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-950');
+                        // Adicionar marca visual de incorreto
+                        const errorIcon = document.createElement('span');
+                        errorIcon.className = 'ml-auto text-rose-600 font-bold text-sm bg-rose-100 px-2 py-0.5 rounded';
+                        errorIcon.innerText = 'Sua Escolha';
+                        label.appendChild(errorIcon);
+                    } else {
+                        // Não selecionada e incorreta
+                        label.classList.add('border-stone-200', 'bg-stone-50/40', 'text-stone-400', 'cursor-not-allowed');
+                    }
+                });
+            });
+
+            // Atualizar o placar
+            const scorePercent = Math.round((score / quizData.length) * 100);
+            document.getElementById('score-hits').innerText = `${score} / ${quizData.length}`;
+            document.getElementById('score-percent').innerText = `${scorePercent}%`;
+            document.getElementById('score-radial-text').innerText = `${scorePercent}%`;
+
+            // Configurar feedback personalizado de desempenho
+            let feedback = '';
+            if (score === 10) {
+                feedback = '<strong>Desempenho Extraordinário!</strong> Você gabaritou o simulado. Demonstra domínio conceitual absoluto sobre o processo de urbanização nacional, hierarquias urbanas do IBGE e modelos mundiais de industrialização/urbanização tardia. Excelente preparação para provas de nível complexo!';
+            } else if (score >= 8) {
+                feedback = '<strong>Excelente Resultado!</strong> Seu aproveitamento foi primoroso. Você detém sólido conhecimento dos fatores de atração e repulsão rurais, fluxos da pesquisa REGIC e formação das metrópoles brasileiras no pós-Vargas. Revise apenas os pequenos detalhes comentados nas resoluções para atingir a nota máxima!';
+            } else if (score >= 6) {
+                feedback = '<strong>Bom desempenho!</strong> Você apresenta uma boa compreensão base sobre a dinâmica urbana e a hierarquização das cidades no Brasil. Contudo, atente-se às minúcias da pesquisa REGIC de 2018 e às assimetrias do circuito econômico urbano para garantir uma pontuação imbatível na sua banca examinadora.';
+            } else {
+                feedback = '<strong>Estudo focado necessário!</strong> A urbanização e a industrialização brasileira constituem temas densos e cheios de detalhes históricos. Aproveite a resolução detalhada de cada questão disponível logo abaixo para reconstruir sua base conceitual sobre o êxodo rural, circuitos socioeconômicos e redes urbanas.';
+            }
+            document.getElementById('score-feedback').innerHTML = feedback;
+
+            // Animar o gráfico radial
+            document.getElementById('score-circle-fill').setAttribute('stroke-dasharray', `${scorePercent}, 100`);
+
+            // Revelar o scorecard de resultados
+            document.getElementById('results-scorecard').classList.remove('hidden');
+
+            // Habilitar legendas de acerto/erro na barra lateral
+            document.getElementById('nav-legend-finished').classList.remove('hidden');
+            document.getElementById('nav-legend-wrong').classList.remove('hidden');
+
+            // Atualizar barra lateral de progresso para exibir mapa de acertos/erros
+            updateProgress();
+
+            // Rolar suavemente para o scorecard de resultados
+            document.getElementById('results-scorecard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Modal customizado para confirmação de finalização incompleta
+        function confirmCompletionModal(answered) {
+            const total = quizData.length;
+            const remaining = total - answered;
+            return confirm(`Você respondeu apenas ${answered} de ${total} questões.\n\nDeseja mesmo assim finalizar o simulado e revelar o gabarito das ${remaining} questões restantes?`);
+        }
+
+        // Reinicia o simulado para o estado inicial de resposta
+        function restartQuiz() {
+            if (!confirm('Deseja realmente limpar suas respostas e reiniciar este simulado?')) return;
+
+            userAnswers = {};
+            isFinished = false;
+
+            // Recarregar os cards de visualização originais
+            renderNavGrid();
+            renderQuiz();
+            updateProgress();
+
+            // Esconder o painel de resultados e revelar o botão de ação principal
+            document.getElementById('results-scorecard').classList.add('hidden');
+            document.getElementById('action-panel').classList.remove('hidden');
+
+            // Ocultar legendas extras na barra lateral
+            document.getElementById('nav-legend-finished').classList.add('hidden');
+            document.getElementById('nav-legend-wrong').classList.add('hidden');
+
+            // Rolar de volta ao topo de maneira fluida
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
