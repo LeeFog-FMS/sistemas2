@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado EPT: Metodologias e Interdisciplinaridade - Instituto AOCP</title>
+    <!-- Tailwind CSS para Estilização Ágil -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para Elementos Visuais Modernos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Paleta de Cores de Leitura (Sépia Confortável/Warm Paper) */
+        body {
+            background-color: #fcfbf7;
+            color: #2b2925;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+        }
+        .readable-card {
+            background-color: #ffffff;
+            border: 1px solid #ebdcb9;
+            box-shadow: 0 4px 6px -1px rgba(180, 160, 120, 0.08), 0 2px 4px -1px rgba(180, 160, 120, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-button {
+            border: 1.5px solid #e5dfcf;
+            background-color: #fdfdfc;
+            transition: all 0.2s ease-in-out;
+        }
+        .option-button:hover:not(.disabled) {
+            background-color: #f7f4ea;
+            border-color: #d1c4a5;
+        }
+        .option-button.selected {
+            background-color: #fbf3db;
+            border-color: #c9af6d;
+            box-shadow: 0 0 0 3px rgba(201, 175, 109, 0.15);
+        }
+        .option-button.correct {
+            background-color: #ecfdf5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+        }
+        .option-button.incorrect {
+            background-color: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f1e6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4caa8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bfae80;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-100 selection:text-amber-900">
+
+    <!-- Barra de Leitura Superior -->
+    <div class="sticky top-0 z-30 w-full bg-[#fbf9f3] border-b border-[#e8dfc7] py-3 px-4 shadow-sm">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-amber-100 text-amber-800 rounded-lg">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif font-bold text-lg md:text-xl text-[#3d382e]">Simulado EPT</h1>
+                    <p class="text-xs text-stone-500 font-sans">Metodologias e Interdisciplinaridade na EPT • Instituto AOCP</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <!-- Cronômetro de Estudo -->
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-[#f5f1e6] border border-[#ebdcb9] rounded-full text-sm text-stone-700 font-mono" id="timer-container">
+                    <i data-lucide="clock" class="w-4 h-4 text-stone-500"></i>
+                    <span id="study-timer">00:00:00</span>
+                </div>
+                
+                <!-- Barra de Progresso do Simulado -->
+                <div class="flex items-center gap-2">
+                    <div class="w-24 md:w-32 bg-stone-200 h-2 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-amber-600 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                    <span id="progress-text" class="text-xs font-semibold text-stone-600 font-sans">0/10</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container Principal do App -->
+    <div class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- Conteúdo Principal: Questões -->
+        <main class="w-full lg:w-3/4 flex flex-col gap-8">
+            
+            <!-- Introdução do Simulado -->
+            <div class="readable-card p-6 rounded-2xl border border-amber-200 bg-amber-50/30">
+                <h2 class="font-serif font-bold text-xl text-[#3d382e] mb-2 flex items-center gap-2">
+                    <i data-lucide="clipboard-signature" class="w-5 h-5 text-amber-700"></i> Caderno de Questões
+                </h2>
+                <p class="text-sm text-stone-700 leading-relaxed font-sans">
+                    Bem-vindo(a) ao seu simulado focado em <strong>Metodologias de Ensino e Interdisciplinaridade na EPT</strong>, elaborado rigorosamente nos moldes e nível de complexidade cobrados pela banca <strong>Instituto AOCP</strong>. Leia atentamente as situações-problema e responda cada item. O gabarito e a resolução completa serão gerados dinamicamente ao clicar em "Finalizar Simulado".
+                </p>
+            </div>
+
+            <!-- Formulário das Questões -->
+            <form id="quiz-form" class="space-y-8" onsubmit="event.preventDefault();">
+                <!-- As questões serão injetadas dinamicamente aqui via JavaScript para otimizar manutenção e renderização limpa -->
+                <div id="questions-container" class="space-y-8"></div>
+                
+                <!-- Botão de Ação de Envio -->
+                <div class="pt-4 flex flex-col items-center gap-3">
+                    <button type="button" onclick="validateAndSubmit()" id="btn-submit" class="w-full sm:w-auto px-8 py-4 bg-[#7c5f35] hover:bg-[#664d2a] text-white font-serif font-semibold rounded-xl shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        <i data-lucide="check-square" class="w-5 h-5"></i> Finalizar Simulado e Ver Resoluções
+                    </button>
+                    <span id="validation-warning" class="text-xs text-red-600 font-semibold hidden"></span>
+                </div>
+            </form>
+
+            <!-- Card de Resultado Final Dinâmico -->
+            <div id="results-card" class="readable-card p-8 rounded-2xl hidden scroll-mt-24">
+                <div class="flex flex-col items-center text-center">
+                    <div id="result-icon-container" class="w-20 h-20 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                        <!-- Ícone dinâmico -->
+                    </div>
+                    <h2 id="result-heading" class="font-serif font-bold text-2xl text-[#3d382e] mb-1">Simulado Concluído!</h2>
+                    <p id="result-text" class="text-stone-600 text-sm max-w-lg mb-6"></p>
+                    
+                    <!-- Dashboard de Desempenho -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-xl bg-[#fbf9f3] p-4 rounded-xl border border-[#ebdcb9] mb-6">
+                        <div class="text-center p-2 border-r border-[#ebdcb9]/50 last:border-0">
+                            <span class="block text-xs text-stone-500 uppercase font-semibold">Acertos</span>
+                            <span id="score-hits" class="text-2xl font-serif font-bold text-emerald-700">0/10</span>
+                        </div>
+                        <div class="text-center p-2 border-r border-[#ebdcb9]/50 last:border-0">
+                            <span class="block text-xs text-stone-500 uppercase font-semibold">Precisão</span>
+                            <span id="score-pct" class="text-2xl font-serif font-bold text-stone-800">0%</span>
+                        </div>
+                        <div class="text-center p-2 border-r border-[#ebdcb9]/50 last:border-0">
+                            <span class="block text-xs text-stone-500 uppercase font-semibold">Tempo Total</span>
+                            <span id="score-time" class="text-2xl font-serif font-bold text-stone-800">00:00</span>
+                        </div>
+                        <div class="text-center p-2 last:border-0">
+                            <span class="block text-xs text-stone-500 uppercase font-semibold">Nível</span>
+                            <span id="score-rank" class="text-xs font-bold px-2 py-1 bg-amber-100 text-amber-800 rounded mt-1 inline-block">N/A</span>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="restartQuiz()" class="px-6 py-2.5 border border-[#7c5f35] text-[#7c5f35] hover:bg-[#fbf9f3] rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Refazer Simulado
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Barra Lateral de Navegação (Flutuante para Desktop) -->
+        <aside class="w-full lg:w-1/4">
+            <div class="sticky top-24 flex flex-col gap-6">
+                
+                <!-- Card de Status do Aluno -->
+                <div class="readable-card p-5 rounded-xl">
+                    <h3 class="font-serif font-bold text-[#3d382e] text-base mb-3 flex items-center gap-2 border-b border-[#e8dfc7] pb-2">
+                        <i data-lucide="bookmark" class="w-4 h-4 text-amber-700"></i> Folha de Respostas
+                    </h3>
+                    <div class="grid grid-cols-5 gap-2" id="grid-navigation">
+                        <!-- Gerado dinamicamente -->
+                    </div>
+                    
+                    <div class="mt-4 pt-3 border-t border-[#e8dfc7] flex flex-col gap-2 text-xs text-stone-600">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded bg-white border border-[#c9af6d]"></span>
+                            <span>Em branco</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded bg-[#fbf3db] border border-[#c9af6d]"></span>
+                            <span>Respondida</span>
+                        </div>
+                        <div class="flex items-center gap-2" id="status-correct-legend" style="display: none;">
+                            <span class="w-3 h-3 rounded bg-emerald-100 border border-emerald-500"></span>
+                            <span>Correta</span>
+                        </div>
+                        <div class="flex items-center gap-2" id="status-incorrect-legend" style="display: none;">
+                            <span class="w-3 h-3 rounded bg-red-100 border border-red-500"></span>
+                            <span>Incorreta</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dicas de Leitura Otimizada -->
+                <div class="readable-card p-5 rounded-xl bg-[#fdfdfc]">
+                    <h3 class="font-serif font-bold text-stone-800 text-sm mb-2 flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i> Conforto Visual
+                    </h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        Este site utiliza fontes de alta legibilidade de jornais literários e paleta de cores balanceada baseada em papel antigo para garantir foco prolongado sem causar enxaqueca ou cansaço aos olhos.
+                    </p>
+                </div>
+
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Rodapé de Autoria -->
+    <footer class="w-full bg-[#f3efe4] border-t border-[#e8dfc7] py-6 text-center text-xs text-stone-500 font-sans mt-12">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 Simulado Interativo AOCP. Projetado para fins educativos na EPT.</p>
+            <p class="italic">"O trabalho como princípio educativo e a interdisciplinaridade como práxis."</p>
+        </div>
+    </footer>
+
+    <!-- Scripts do Aplicativo -->
+    <script>
+        // Definição dos Dados das Questões exatamente como fornecido no documento
+        const questionsData = [
+            {
+                id: 1,
+                theme: "Concepção de Currículo Integrado na EPT",
+                ref: "Teoria Crítica e Politecnia (Marise Ramos)",
+                text: "Docentes de um Instituto Federal pretendem implantar, no campus em que atuam, um novo curso voltado à inovação tecnológica para o próximo ano letivo. Durante a revisão da matriz curricular que estava sendo elaborada, identificaram a fragmentação entre formação geral e formação técnica. Assim, a partir da situação apresentada e das concepções de currículo e currículo integrado na Educação Profissional e Tecnológica (EPT), a ação docente frente à reestruturação curricular consiste em:",
+                options: [
+                    { key: "A", text: "propor um currículo integrado que valorize a autoeducação, seja orientado por objetivos de autorrealização e executado por eixos de conhecimento técnico que se processem de maneira global." },
+                    { key: "B", text: "indicar um currículo instrumental e um currículo integrado em módulos, visando preparar os alunos para a sociedade industrial e tecnológica, treinando-os científica e politicamente para ingressarem no mercado de trabalho." },
+                    { key: "C", text: "apresentar um currículo instrumental-tecnicista, enfatizando que o essencial dessa proposta não é a problematização da realidade, mas o uso de técnicas teleológicas que permitam aplicação do conhecimento científico." },
+                    { key: "D", text: "defender um currículo integrado-diretivo, ressaltando que o novo curso deve ser encarado como um instrumento de desenvolvimento econômico e com uma maximização da produção tecnológica local." },
+                    { key: "E", text: "formular um currículo integrado que esteja diretamente ligado à concepção de escola politécnica e à superação da dicotomia entre instrução profissional e instrução geral, trabalho manual e trabalho intelectual." }
+                ],
+                correct: "E",
+                resolution: "O debate acerca da estrutura curricular nos Institutos Federais de Educação, Ciência e Tecnologia orbita em torno da superação histórica da dualidade educacional, que aparta a formação propedêutica voltada às elites da formação instrumental destinada às classes trabalhadoras. O currículo integrado opõe-se à simples justaposição de conteúdos isolados, estruturando-se a partir do trabalho como princípio educativo e da concepção de escola politécnica. Ao buscar a superação da dicotomia entre instrução profissional e geral, o currículo integrado estabelece relações dialéticas profundas entre trabalho manual e intelectual. Conforme as formulações teóricas de Marise Ramos, o currículo integrado não visa apenas a uma adaptação ao mercado produtivo, mas sim a uma formação humana omnilateral, problematizando os fenômenos em suas múltiplas dimensões históricas, sociais e tecnológicas. As demais alternativas são incorretas por defenderem visões instrumentais, tecnicistas ou puramente voltadas à adaptação flexível do trabalhador sob a lógica do mercado neoliberal de emprego."
+            },
+            {
+                id: 2,
+                theme: "Papel das TICs na Práxis da EPT",
+                ref: "Trabalho como Princípio Educativo",
+                text: "Em um Instituto Federal, durante a reformulação do Plano de Curso Técnico Integrado, a equipe pedagógica discute a importância de integrar as Tecnologias da Informação e Comunicação (TICs) de forma crítica e criativa ao currículo, de modo que contribuam para a formação humana e profissional dos estudantes. Considerando os pressupostos da Educação Profissional e Tecnológica (EPT) e a relação entre trabalho, educação e tecnologia, assinale a alternativa que apresenta corretamente o papel pedagógico das TICs nesse contexto.",
+                options: [
+                    { key: "A", text: "As TICs devem ser utilizadas como ferramentas exclusivas à execução das atividades técnicas, priorizando a produtividade e descartando a necessidade de outros materiais, como os impressos." },
+                    { key: "B", text: "O uso das TICs deve se restringir aos componentes curriculares de natureza tecnológica, uma vez que sua aplicação nas áreas humanas tende a desviar o foco da formação profissional." },
+                    { key: "C", text: "As TICs, quando integradas, favorecem a articulação entre teoria e prática, ampliando a compreensão dos processos produtivos e formativos na perspectiva do trabalho como princípio educativo." },
+                    { key: "D", text: "As TICs são recursos complementares e não obrigatórios, cuja adoção depende da autonomia individual de cada docente, não devendo interferir no projeto político-pedagógico da instituição." },
+                    { key: "E", text: "A introdução das TICs deve priorizar a substituição de métodos tradicionais de ensino por plataformas digitais, como forma de modernizar o processo educativo e acelerar o aprendizado técnico." }
+                ],
+                correct: "C",
+                resolution: "O papel das Tecnologias da Informação e Comunicação (TICs) na Educação Profissional e Tecnológica distancia-se da mera instrumentalização operacional ou do uso de ferramentas digitais como simples recursos pedagógicos neutros. Em uma perspectiva crítica de ensino, as tecnologias constituem-se como produtos históricos da atividade humana e do desenvolvimento científico, devendo ser integradas de modo a desvelar as contradições dos processos produtivos modernos. Quando incorporadas de forma integrada ao projeto pedagógico da EPT, as TICs funcionam como importantes nexos de mediação entre a teoria e a prática profissional. Elas promovem a interdisciplinaridade à medida que permitem aos educandos compreender a tecnologia como parte indissociável da cultura e do processo de transformação social do trabalho. As demais opções reduzem o potencial pedagógico das TICs ao campo puramente tecnicista, isolando-as a disciplinas técnicas ou preconizando a exclusão de mídias analógicas, o que contraria as bases da formação integral."
+            },
+            {
+                id: 3,
+                theme: "Interdisciplinaridade como Policompetência",
+                ref: "Práticas Docentes e Consciência Social",
+                text: "A educação é revestida de policompetências, como a interdisciplinaridade. A esse respeito, analise as assertivas e assinale a alternativa que aponta as corretas:",
+                subtext: `<div class="bg-stone-50 p-4 rounded-lg border border-stone-200 space-y-2 mb-4 text-sm text-stone-700">
+                    <p><strong>I.</strong> Nas práticas interdisciplinares, imperam posições acadêmicas prepotentes e unidirecionais.</p>
+                    <p><strong>II.</strong> A interdisciplinaridade é a intencionalidade e a funcionalidade docente de articular o contexto científico com o profissional e o prático.</p>
+                    <p><strong>III.</strong> A interdisciplinaridade estrutura concepções de mundo e de consciência social.</p>
+                    <p><strong>IV.</strong> A interdisciplinaridade na escola tem perspectiva educativa, pois os saberes escolares procedem de uma estruturação diferente das ciências.</p>
+                </div>`,
+                options: [
+                    { key: "A", text: "Apenas I e II." },
+                    { key: "B", text: "Apenas II e III." },
+                    { key: "C", text: "Apenas I, III e IV." },
+                    { key: "D", text: "Apenas II, III e IV." },
+                    { key: "E", text: "I, II, III e IV." }
+                ],
+                correct: "D",
+                resolution: "A análise das assertivas fundamenta-se nos preceitos contemporâneos da didática e da interdisciplinaridade: <br><br><strong>I. Incorreta:</strong> pois as práticas interdisciplinares exigem o diálogo recíproco e a horizontalidade democrática entre as disciplinas e seus respectivos docentes. Posicionamentos acadêmicos arrogantes, prepotentes ou puramente unidirecionais são característicos da fragmentação disciplinar cartesiana e positivista.<br><strong>II. Correta:</strong> ao destacar que a interdisciplinaridade na escola constitui-se como uma intencionalidade consciente e um esforço funcional do corpo docente para conectar o rigor dos conceitos científicos com a práxis e a realidade profissional e prática dos discentes.<br><strong>III. Correta:</strong> uma vez que a integração dos saberes escolares possibilita ao estudante superar visões fragmentadas da realidade social, auxiliando na estruturação de concepções críticas de mundo e no desenvolvimento de sua consciência cidadã.<br><strong>IV. Correta:</strong> porque a transposição didática que ocorre no contexto escolar possui um caráter educativo e integrador específico. Os saberes escolares procedem de uma organização curricular e didática distinta das metodologias puras que orientam as investigações científicas nas academias.<br><br>Dessa forma, estando corretas apenas as assertivas II, III e IV, a resposta correta está configurada na Alternativa D."
+            },
+            {
+                id: 4,
+                theme: "Interdisciplinaridade Científica vs. Escolar",
+                ref: "Epistemologia e Fins Pedagógicos (Ivani Fazenda)",
+                text: "Uma instituição de ensino, ao desenvolver a interdisciplinaridade, não pode permanecer na prática empírica ou em suposições didáticas convencionais; sendo necessário analisar detalhadamente os 'porquês' dessa prática. Portanto, a interdisciplinaridade escolar não pode ser confundida com a interdisciplinaridade científica. A partir do excerto apresentado, é correto afirmar que a interdisciplinaridade científica só é possível:",
+                options: [
+                    { key: "A", text: "por meio de saberes que procedem de uma estruturação diferente dos seus pertencentes." },
+                    { key: "B", text: "porque as finalidades, habilidades e técnicas visam favorecer a aprendizagem e a integração dos alunos." },
+                    { key: "C", text: "onde ocorre a união de várias disciplinas a partir de um mesmo objeto, no entanto é necessário criar uma situação problema para empreendê-la." },
+                    { key: "D", text: "devido à integração de atributos de ordem externa, melhor dizendo, das condições existentes possíveis para sua execução." },
+                    { key: "E", text: "a partir da gênese de suas definições mais comuns utilizadas, em que é possível verificar gradativamente a mudança na compreensão dos atores." }
+                ],
+                correct: "D",
+                resolution: "Com base nas formulações de Ivani Fazenda, há uma distinção conceitual e prática rigorosa entre a interdisciplinaridade que ocorre no campo da pesquisa científica e aquela que se desenvolve no interior da instituição escolar. A interdisciplinaridade escolar é orientada para o processo de ensino e aprendizagem, com foco em noções, finalidades pedagógicas, desenvolvimento de competências gerais e integração socioemocional dos educandos. Em contrapartida, a interdisciplinaridade científica apoia-se na produção de novos conhecimentos e marcos teóricos, articulando ramificações da ciência em virtude de demandas sociais complexas e de sua própria estrutura epistemológica. Nesse sentido, a interdisciplinaridade científica depende intimamente da articulação de atributos de ordem externa, associados diretamente às condições objetivas existentes e à infraestrutura metodológica para sua plena execução científica. As demais alternativas referem-se equivocadamente a processos de transposição didática ou a simplificações didáticas próprias da esfera puramente escolar."
+            },
+            {
+                id: 5,
+                theme: "Regulamentação da EPT e Articulação",
+                ref: "Decreto Federal nº 5.154/2004, PPI e CNCT",
+                text: "O Decreto Federal nº 5.154/2004 regulamenta os artigos 39 a 41 da Lei nº 9.394/1996 (LDB) e dispõe sobre a educação profissional e tecnológica em seus diferentes níveis e formas de articulação com a educação básica. O Catálogo Nacional de Cursos Técnicos (CNCT) e o Projeto Pedagógico Institucional (PPI) orientam a organização curricular e institucional dessa modalidade. Com base nesses dispositivos legais e conceituais, assinale a alternativa correta.",
+                options: [
+                    { key: "A", text: "O Decreto nº 5.154/2004 restringe a oferta da educação profissional à forma subsequente, sendo as formas integrada e concomitante permitidas apenas mediante autorização específica do Ministério da Educação." },
+                    { key: "B", text: "O Catálogo Nacional de Cursos Técnicos (CNCT) é um documento prescritivo e fixo, que determina os currículos obrigatórios e uniformes para todas as instituições que ofertam a educação profissional e tecnológica." },
+                    { key: "C", text: "O Projeto Pedagógico Institucional (PPI) é um documento interno de caráter administrativo, que trata exclusivamente da gestão financeira e orçamentária e da infraestrutura das instituições educacionais." },
+                    { key: "D", text: "O Decreto nº 5.154/2004 estabelece a possibilidade de articulação da educação profissional técnica de nível médio com o ensino médio nas formas integrada, concomitante e subsequente, orientando-se pela flexibilidade curricular." },
+                    { key: "E", text: "O CNCT e o PPI são instrumentos distintos e independentes, com características específicas, sem nenhuma relação entre si, visto que o primeiro trata de cursos de EJA e o segundo de diretrizes gerais da educação superior." }
+                ],
+                correct: "D",
+                resolution: "O Decreto Federal nº 5.154/2004 consolidou as bases normativas para a articulação da EPT de nível médio com o ensino médio comum. Ao regulamentar os artigos correspondentes da LDB, o decreto assegura que a educação profissional técnica de nível médio possa ocorrer de modo integrado (na mesma instituição e sob matrícula única), concomitante (com matrículas distintas, seja na mesma instituição ou em instituições de ensino parceiras) ou subsequente (para quem já concluiu o ensino regular de nível médio). Essa organização legal é estruturada sob o princípio da flexibilidade curricular, visando à complementaridade formativa. As demais alternativas são legalmente incorretas: o decreto não restringe a oferta apenas à forma subsequente, o Catálogo Nacional de Cursos Técnicos (CNCT) funciona como um instrumento de caráter orientador e dinâmico, e o Projeto Pedagógico Institucional (PPI) não se limita à gestão financeira e orçamentária, regulando os rumos político-pedagógicos globais das instituições."
+            },
+            {
+                id: 6,
+                theme: "Organização Curricular de Cursos Técnicos",
+                ref: "Resolução CNE/CP nº 1/2021 e Integração com EJA",
+                text: "As Diretrizes Curriculares Nacionais Gerais para a Educação Profissional e Tecnológica (EPT), no âmbito de seu marco regulatório, enfatizam a importância da articulação entre o ensino médio e a formação profissional. Sobre a educação profissional e tecnológica de nível médio, assinale a alternativa correta.",
+                options: [
+                    { key: "A", text: "Os cursos técnicos serão desenvolvidos nas formas integrada, logo após o término do ensino médio." },
+                    { key: "B", text: "A oferta de cursos técnicos a quem não concluiu o ensino médio na idade considerada adequada pode se dar de forma articulada com a EJA." },
+                    { key: "C", text: "O Projeto Pedagógico de Curso (PPC) da Educação Profissional Técnica de Nível Médio precisa ser elaborado de forma independente e desvinculada do Projeto Político Pedagógico (PPP) da instituição, por se tratar de outro segmento." },
+                    { key: "D", text: "Os cursos de qualificação profissional técnica e os cursos técnicos, na forma articulada integrada com o ensino médio na modalidade de EJA, devem assegurar o mínimo de 800 (oitocentas) horas." },
+                    { key: "E", text: "Devido à alta carga horária anual, não é necessário explicitar no currículo dos cursos técnicos de nível médio, nos termos da Lei nº 11.788/2008, a obrigatoriedade do estágio supervisionado. Fica a critério do estudante se vincular a uma empresa e exercer o estágio remunerado." }
+                ],
+                correct: "B",
+                resolution: "A Resolução CNE/CP nº 1/2021 atualizou o marco regulatório da EPT no Brasil, estabelecendo novas diretrizes curriculares nacionais gerais para este segmento. Ao normatizar a relação com a educação básica, a legislação reafirma que o itinerário profissionalizante de nível técnico pode ser articulada de forma concomitante ou integrada com a Educação de Jovens e Adultos (EJA). Essa modalidade de articulação visa ampliar o atendimento a trabalhadores que não puderam concluir seus estudos na idade considerada regular. As demais alternativas são falsas porque os cursos técnicos não são restritos ao formato pós-ensino médio, o PPC do curso técnico deve estar formal e conceitualmente alinhado com o Projeto Político-Pedagógico (PPP) institucional, os limites de carga horária para a integração com EJA seguem patamares específicos que superam a mera qualificação, e o estágio curricular deve ser expressamente disciplinado e regulado de acordo com o PPC e a legislação vigente."
+            },
+            {
+                id: 7,
+                theme: "Diretrizes da EPT na LDB",
+                ref: "Lei nº 9.394/1996 (Artigos 39 a 41)",
+                text: "A Educação Profissional e Tecnológica (EPT) oferecida pelas redes de ensino e regulada pela Lei de Diretrizes e Bases da Educação Nacional (LDB) contribui para a inserção e a atuação das pessoas no mundo do trabalho e na vida em sociedade. A EPT contempla a integração com os diferentes níveis e modalidades de ensino, além de buscar a interface com o mundo do trabalho, da ciência e da tecnologia. Acerca da temática apresentada e à luz dos dispositivos da LDB, julgue as assertivas:",
+                subtext: `<div class="bg-stone-50 p-4 rounded-lg border border-stone-200 space-y-2 mb-4 text-sm text-stone-700">
+                    <p><strong>I –</strong> A Educação Profissional Técnica de Nível Médio será desenvolvida prioritariamente na forma articulada com o Ensino Médio.</p>
+                    <p><strong>II –</strong> A Educação Profissional Técnica de Nível Médio deverá observar os objetivos e definições contidos nas Diretrizes Curriculares Nacionais estabelecidas pelo Conselho Nacional de Educação.</p>
+                    <p><strong>III –</strong> A Educação Profissional e Tecnológica, tendo em vista a busca pela eficiência, abrangerá apenas os cursos de Educação Profissional Técnica de Nível Médio.</p>
+                    <p><strong>IV –</strong> O conhecimento adquirido na Educação Profissional e Tecnológica, inclusive no trabalho, poderá ser objeto de avaliação, reconhecimento e certificação para prosseguimento ou conclusão de estudos.</p>
+                </div>`,
+                options: [
+                    { key: "A", text: "I e II." },
+                    { key: "B", text: "I e III." },
+                    { key: "C", text: "II e IV." },
+                    { key: "D", text: "II, III e IV." },
+                    { key: "E", text: "I, II, III e IV." }
+                ],
+                correct: "C",
+                resolution: "A Lei de Diretrizes e Bases da Educação Nacional (LDB), no que tange à Educação Profissional e Tecnológica (EPT), estabelece parâmetros claros: <br><br><strong>I. Incorreta:</strong> de acordo com o texto legal da LDB, a Educação Profissional Técnica de Nível Médio será desenvolvida nas formas articulada e subsequente, inexistindo no texto da lei a determinação de que ela ocorra 'prioritariamente' sob a forma articulada.<br><strong>II. Correta:</strong> ao consignar que os cursos técnicos de nível médio devem, por obrigatoriedade legal, manter estrita observância às Diretrizes Curriculares Nacionais estabelecidas pelo Conselho Nacional de Educação.<br><strong>III. Incorreta:</strong> porque a EPT não se restringe aos cursos técnicos de nível médio, abrangendo cursos de formação inicial e continuada (FIC), qualificações profissionais básicas e cursos de nível superior de tecnologia e pós-graduação.<br><strong>IV. Correta:</strong> ao determinar que os saberes adquiridos no trabalho ou na prática profissional pretérita podem ser objeto de metodologias formais de avaliação e certificação para o prosseguimento de estudos.<br><br>Dessa forma, as afirmativas corretas são apenas II e IV, configurando o acerto da Alternativa C."
+            },
+            {
+                id: 8,
+                theme: "Tipologias e Práticas de Metodologias Ativas",
+                ref: "Abordagens Didáticas Inovadoras",
+                text: "Uma professora buscou uma nova forma de organizar o processo educativo, pautando-se pelas discussões contemporâneas sobre metodologias ativas de ensino-aprendizagem, visando romper com o formato tradicional de transmissão de informações. Assinale a alternativa que apresenta corretamente exemplos dessas metodologias ativas.",
+                options: [
+                    { key: "A", text: "Aulas puramente expositivas com foco na reprodução de conteúdos, e exames centrados na memorização de fórmulas mecânicas." },
+                    { key: "B", text: "Exercícios sistemáticos de fixação por meio de tarefas de casa individuais, e leituras silenciosas e dirigidas sem momentos de debate." },
+                    { key: "C", text: "Instrução direta uniforme conduzida pelo docente para toda a turma de maneira padronizada, adotando-se um ritmo rígido de aprendizagem." },
+                    { key: "D", text: "Aprendizagem por vídeos históricos, método baseado no ensino a distância sem tutoria, e ensino por meio de aulas unicamente expositivas." },
+                    { key: "E", text: "Aprendizagem baseada em projetos, aprendizagem por meio de jogos, método do caso ou discussão e solução de casos, e ensino híbrido." }
+                ],
+                correct: "E",
+                resolution: "As metodologias ativas correspondem a modelos de ensino em que a centralidade do processo didático se desloca para o estudante, exigindo que ele mobilize conhecimentos, formule hipóteses e atue como sujeito crítico de sua própria aprendizagem. Entre os principais modelos consagrados na literatura pedagógica contemporânea e respaldados por instituições de ensino inovadoras, figuram a aprendizagem baseada em projetos, a gamificação e aprendizagem por jogos, os estudos de caso, as sequências baseadas na resolução de problemas e o ensino híbrido. Tais abordagens exigem uma intensa atitude interdisciplinar por integrarem diferentes componentes curriculares em torno de desafios concretos. As demais alternativas listam formatos didáticos puramente transmissivos, passivos, mecânicos ou de reprodução técnica, que desconsideram o protagonismo discente e reforçam a histórica divisão entre teoria e prática."
+            },
+            {
+                id: 9,
+                theme: "Planejamento Curricular e Cultura da Escola",
+                ref: "Projeto Político-Pedagógico e Gestão Coletiva",
+                text: "Durante o acompanhamento pedagógico realizado junto ao corpo docente de um Instituto Federal, constatou-se que os planejamentos de ensino elaborados pelos professores estavam desarticulados do projeto político-pedagógico. Muitos docentes afirmaram compreender que o planejamento é apenas um documento administrativo e burocrático, sem relação direta com a sua prática em sala de aula. Diante desse cenário, a ação pedagógica a ser adotada para modificar essa percepção e promover o trabalho como princípio educativo pressupõe conceber que:",
+                options: [
+                    { key: "A", text: "o planejamento de ensino deve se concentrar nos limites de cada disciplina de forma isolada, evitando interferências pedagógicas externas que gerem confusão conceitual aos discentes." },
+                    { key: "B", text: "o projeto pedagógico-curricular é a expressão da cultura organizacional da escola, sendo um conjunto de princípios e práticas que refletem e recriam essa cultura, intervindo e transformando a realidade." },
+                    { key: "C", text: "o plano de curso deve se limitar a detalhar a identificação formal do curso, as formas de acesso e a infraestrutura financeira, desvinculando-se de discussões sociopolíticas da comunidade." },
+                    { key: "D", text: "a elaboração do plano curricular apropriado para a escola deve desconsiderar as manifestações informais ou ocultas do currículo, centrando-se exclusivamente no currículo oficial prescrito pelo sistema." },
+                    { key: "E", text: "a organização didática deve priorizar a racionalidade técnica e o tecnicismo pedagógico, visando unicamente à inserção imediata e operacional dos discentes no mercado produtivo local." }
+                ],
+                correct: "B",
+                resolution: "O planejamento escolar em uma perspectiva transformadora e crítica afasta-se de concepções puramente formais, tecnoburocráticas e instrumentais de controle do trabalho docente. Para romper com o planejamento reduzido à burocracia, a gestão pedagógica e o corpo de educadores devem compreender que o projeto pedagógico-curricular constitui a própria materialização da cultura da escola. Trata-se de uma proposta viva de intencionalidades pedagógicas e políticas, a qual intervém de forma direta na realidade dos discentes. O planejamento interdisciplinar integrado em um Instituto Federal deve, portanto, estruturar as ações didáticas em torno do trabalho como princípio educativo e do projeto comum de sociedade. As demais opções contradizem as bases teóricas de gestão democrática ao defenderem o isolamento de disciplinas, a desvinculação social ou a submissão aos modelos do tecnicismo pedagógico puro."
+            },
+            {
+                id: 10,
+                theme: "Princípios Constituintes da Interdisciplinaridade",
+                ref: "Trabalho em Equipe e Diálogo Epistemológico",
+                text: "No âmbito das práticas educacionais integradoras e do trabalho em equipe, a interdisciplinaridade apresenta-se como um elemento de transformação da prática docente diária. Analise as assertivas sobre a interdisciplinaridade e assinale a alternativa que aponta as corretas:",
+                subtext: `<div class="bg-stone-50 p-4 rounded-lg border border-stone-200 space-y-2 mb-4 text-sm text-stone-700">
+                    <p><strong>I.</strong> A interdisciplinaridade transcende a união de forças para a obtenção de um objetivo comum, ela possibilita o diálogo, a troca de conceitos e ideias, a criatividade.</p>
+                    <p><strong>II.</strong> A interdisciplinaridade é uma atitude coletiva diante da questão do conhecimento, um projeto em que causa e intenção coincidem, um fazer que surja de um ato de vontade e que, portanto, exige uma imersão no trabalho cotidiano.</p>
+                    <p><strong>III.</strong> A interdisciplinaridade caracteriza-se pela intensidade das trocas entre especialistas e pela integração das disciplinas em um mesmo projeto.</p>
+                    <p><strong>IV.</strong> A interdisciplinaridade tem como princípio constituinte a igualdade.</p>
+                </div>`,
+                options: [
+                    { key: "A", text: "Apenas I, II e III." },
+                    { key: "B", text: "Apenas I, II e IV." },
+                    { key: "C", text: "Apenas I, III e IV." },
+                    { key: "D", text: "Apenas II, III e IV." },
+                    { key: "E", text: "I, II, III e IV." }
+                ],
+                correct: "E",
+                resolution: "No âmbito de processos de intervenção pedagógica e do trabalho coletivo de profissionais da educação, a interdisciplinaridade não pode ser reduzida a uma mera justaposição formal de tarefas ou à soma de esforços isolados de professores. Ela constitui uma profunda mudança de atitude diante do conhecimento escolar e da própria realidade social. <br><br><strong>I. Correta:</strong> assevera com precisão que a interdisciplinaridade transcende o esforço mecânico comum de especialistas, operando de modo a possibilitar diálogos teóricos profícuos, criatividade, flexibilização epistemológica e trocas de ideias.<br><strong>II. Correta:</strong> ao caracterizar a interdisciplinaridade como uma genuína atitude coletiva de inserção no trabalho cotidiano da escola, na qual as causas norteadoras e as intenções didáticas coincidem intencionalmente por meio de um ato político de vontade do coletivo docente.<br><strong>III. Correta:</strong> porque a prática interdisciplinar pressupõe a ocorrência de trocas epistemológicas densas e intensas, exigindo a coordenação e a integração orgânica das disciplinas escolares em torno de um mesmo projeto norteador.<br><strong>IV. Correta:</strong> ao ressaltar a igualdade como princípio constituinte da interdisciplinaridade. As áreas do conhecimento científico e as disciplinas escolares mantêm relações horizontais de reciprocidade e igual importância, sem que uma disciplina assuma papel de superioridade hierárquica ou prepotência intelectual em detrimento das demais.<br><br>Estando corretas as afirmativas I, II, III e IV, a resposta correta está configurada na Alternativa E."
+            }
+        ];
+
+        // Estado do Aplicativo
+        let userAnswers = {};
+        let startTime = Date.now();
+        let timerInterval = null;
+        let isSubmitted = false;
+
+        // Inicialização ao carregar a página
+        window.addEventListener("DOMContentLoaded", () => {
+            renderQuestions();
+            renderNavigation();
+            startTimer();
+            lucide.createIcons();
+            updateProgress();
+        });
+
+        // Inicializa o cronômetro de estudo
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                const h = String(Math.floor(elapsedSeconds / 3600)).padStart(2, '0');
+                const m = String(Math.floor((elapsedSeconds % 3600) / 60)).padStart(2, '0');
+                const s = String(elapsedSeconds % 60).padStart(2, '0');
+                document.getElementById("study-timer").innerText = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+
+        // Renderização dinâmica das questões na página
+        function renderQuestions() {
+            const container = document.getElementById("questions-container");
+            container.innerHTML = "";
+
+            questionsData.forEach((q, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.id = `q-card-${q.id}`;
+                questionElement.className = "readable-card p-6 md:p-8 rounded-2xl scroll-mt-24";
+                
+                // Cabeçalho da Questão (Tema e Referencial)
+                let headerHtml = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-4 mb-4">
+                        <span class="text-xs uppercase tracking-wider bg-amber-100 text-amber-900 font-bold px-3 py-1 rounded-full font-sans">
+                            Questão ${q.id}
+                        </span>
+                        <div class="flex flex-col text-right items-end">
+                            <span class="text-xs font-semibold text-stone-500 font-sans">${q.theme}</span>
+                            <span class="text-[10px] text-stone-400 font-mono">${q.ref}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Corpo do Texto
+                let textHtml = `
+                    <div class="font-serif leading-relaxed text-[#2b2925] text-base md:text-lg mb-4 space-y-4">
+                        <p>${q.text}</p>
+                    </div>
+                `;
+
+                // Subtexto / Assertivas se houver
+                let subtextHtml = q.subtext ? q.subtext : "";
+
+                // Opções de Múltipla Escolha
+                let optionsHtml = `<div class="space-y-3 mt-6">`;
+                q.options.forEach(opt => {
+                    optionsHtml += `
+                        <button type="button" 
+                                id="btn-opt-${q.id}-${opt.key}"
+                                onclick="selectOption(${q.id}, '${opt.key}')"
+                                class="option-button w-full text-left p-4 rounded-xl flex items-start gap-3 text-sm md:text-base leading-relaxed">
+                            <span class="font-sans font-bold border border-stone-300 w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-stone-50 text-stone-600 text-xs">
+                                ${opt.key}
+                            </span>
+                            <span class="font-serif text-[#33302a]">${opt.text}</span>
+                        </button>
+                    `;
+                });
+                optionsHtml += `</div>`;
+
+                // Área para Resolução Analítica Dinâmica
+                let resolutionHtml = `
+                    <div id="resolution-block-${q.id}" class="mt-6 p-5 bg-amber-50/50 border border-amber-200/60 rounded-xl hidden transition-all duration-300">
+                        <h4 class="font-serif font-bold text-[#3d382e] text-sm mb-2 flex items-center gap-1.5 border-b border-amber-200 pb-1.5">
+                            <i data-lucide="info" class="w-4 h-4 text-amber-700"></i> Resolução Analítica (Gabarito: ${q.correct})
+                        </h4>
+                        <p class="text-sm text-stone-700 leading-relaxed font-serif">${q.resolution}</p>
+                    </div>
+                `;
+
+                questionElement.innerHTML = headerHtml + textHtml + subtextHtml + optionsHtml + resolutionHtml;
+                container.appendChild(questionElement);
+            });
+            
+            // Recria ícones do Lucide
+            lucide.createIcons();
+        }
+
+        // Renderiza a grade de navegação à direita
+        function renderNavigation() {
+            const grid = document.getElementById("grid-navigation");
+            grid.innerHTML = "";
+
+            questionsData.forEach(q => {
+                const navBtn = document.createElement("button");
+                navBtn.type = "button";
+                navBtn.id = `nav-btn-${q.id}`;
+                navBtn.onclick = () => scrollToQuestion(q.id);
+                navBtn.className = "w-full aspect-square border border-[#ebdcb9] rounded-lg text-xs font-bold flex items-center justify-center bg-white text-stone-600 transition-all duration-200 hover:bg-[#fbf3db]";
+                navBtn.innerText = q.id;
+                grid.appendChild(navBtn);
+            });
+        }
+
+        // Seleção de opções interativa
+        function selectOption(questionId, optionKey) {
+            if (isSubmitted) return; // Desativa interação se já finalizado
+
+            // Remove classe selecionada de todas as outras opções da questão
+            questionsData.find(q => q.id === questionId).options.forEach(opt => {
+                const btn = document.getElementById(`btn-opt-${questionId}-${opt.key}`);
+                btn.classList.remove("selected");
+            });
+
+            // Adiciona classe de seleção ao botão atual
+            const targetBtn = document.getElementById(`btn-opt-${questionId}-${optionKey}`);
+            targetBtn.classList.add("selected");
+
+            // Registra resposta
+            userAnswers[questionId] = optionKey;
+
+            // Atualiza barra de progresso e navegação à direita
+            updateProgress();
+            updateNavigationStatus(questionId, true);
+        }
+
+        // Atualiza a barra de progresso no cabeçalho
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const pct = (answeredCount / questionsData.length) * 100;
+            document.getElementById("progress-bar").style.width = `${pct}%`;
+            document.getElementById("progress-text").innerText = `${answeredCount}/${questionsData.length}`;
+        }
+
+        // Altera visual da folha de respostas rápida à direita
+        function updateNavigationStatus(questionId, answered) {
+            const btn = document.getElementById(`nav-btn-${questionId}`);
+            if (answered) {
+                btn.className = "w-full aspect-square border border-[#c9af6d] rounded-lg text-xs font-bold flex items-center justify-center bg-[#fbf3db] text-amber-950 shadow-sm transition-all duration-200 hover:bg-[#fbf3db]";
+            } else {
+                btn.className = "w-full aspect-square border border-[#ebdcb9] rounded-lg text-xs font-bold flex items-center justify-center bg-white text-stone-600 transition-all duration-200 hover:bg-[#fbf3db]";
+            }
+        }
+
+        // Rola suavemente até a questão desejada ao clicar na barra lateral
+        function scrollToQuestion(id) {
+            const el = document.getElementById(`q-card-${id}`);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        // Valida se o aluno preencheu todas antes de processar
+        function validateAndSubmit() {
+            if (isSubmitted) return;
+
+            const unanswered = [];
+            questionsData.forEach(q => {
+                if (!userAnswers[q.id]) {
+                    unanswered.push(q.id);
+                }
+            });
+
+            const warningEl = document.getElementById("validation-warning");
+            
+            if (unanswered.length > 0) {
+                warningEl.innerHTML = `<i class="inline-block w-4 h-4 mr-1 align-middle" data-lucide="alert-triangle"></i> Atenção: você deixou as seguintes questões em branco: <strong>${unanswered.join(", ")}</strong>. Responda-as antes de enviar.`;
+                warningEl.classList.remove("hidden");
+                lucide.createIcons();
+                // Rola para a primeira questão não respondida
+                scrollToQuestion(unanswered[0]);
+                return;
+            }
+
+            warningEl.classList.add("hidden");
+            submitQuiz();
+        }
+
+        // Submissão oficial e cálculo de resultados
+        function submitQuiz() {
+            isSubmitted = true;
+            clearInterval(timerInterval); // Interrompe relógio
+
+            // Desativa botões de opções
+            const allOptionBtns = document.querySelectorAll(".option-button");
+            allOptionBtns.forEach(btn => btn.classList.add("disabled"));
+
+            let hits = 0;
+
+            // Calcula acertos e aplica destaques visuais (Vermelho / Verde)
+            questionsData.forEach(q => {
+                const userAns = userAnswers[q.id];
+                const correctAns = q.correct;
+
+                const userBtn = document.getElementById(`btn-opt-${q.id}-${userAns}`);
+                const correctBtn = document.getElementById(`btn-opt-${q.id}-${correctAns}`);
+                const navBtn = document.getElementById(`nav-btn-${q.id}`);
+
+                // Exibe bloco de fundamentação teórica
+                const resBlock = document.getElementById(`resolution-block-${q.id}`);
+                resBlock.classList.remove("hidden");
+
+                if (userAns === correctAns) {
+                    hits++;
+                    userBtn.classList.add("correct");
+                    // Nav btn verde
+                    navBtn.className = "w-full aspect-square border border-emerald-500 rounded-lg text-xs font-bold flex items-center justify-center bg-emerald-100 text-emerald-900";
+                } else {
+                    userBtn.classList.add("incorrect");
+                    correctBtn.classList.add("correct");
+                    // Nav btn vermelho
+                    navBtn.className = "w-full aspect-square border border-red-500 rounded-lg text-xs font-bold flex items-center justify-center bg-red-100 text-red-900";
+                }
+            });
+
+            // Apresenta as estatísticas na folha de respostas lateral
+            document.getElementById("status-correct-legend").style.display = "flex";
+            document.getElementById("status-incorrect-legend").style.display = "flex";
+
+            // Calcula o tempo decorrido no estudo
+            const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const durationH = Math.floor(elapsedSeconds / 3600);
+            const durationM = Math.floor((elapsedSeconds % 3600) / 60);
+            const durationS = elapsedSeconds % 60;
+            const timeStr = `${durationH > 0 ? durationH + 'h ' : ''}${durationM}m ${durationS}s`;
+
+            // Calcula nível de proficiência
+            const hitPercentage = (hits / questionsData.length) * 100;
+            let rank = "Regular";
+            let iconColor = "bg-red-100 text-red-800";
+            let iconName = "alert-circle";
+            let textFeedback = "";
+
+            if (hitPercentage >= 90) {
+                rank = "Excelente!";
+                iconColor = "bg-emerald-100 text-emerald-800";
+                iconName = "award";
+                textFeedback = "Parabéns! Excelente performance no simulado de EPT. Você demonstra sólida compreensão epistemológica sobre o currículo integrado e diretrizes institucionais.";
+            } else if (hitPercentage >= 70) {
+                rank = "Bom";
+                iconColor = "bg-amber-100 text-amber-800";
+                iconName = "check-circle";
+                textFeedback = "Bom resultado! Você está no caminho certo. Uma revisão focada nas legislações e metodologias ativas pode garantir o fechamento de sua prova no concurso.";
+            } else {
+                rank = "Melhorar";
+                iconColor = "bg-orange-100 text-orange-800";
+                iconName = "book-open";
+                textFeedback = "Estudo Necessário. A EPT possui um arcabouço normativo e histórico complexo. Dedique um tempo maior para ler as resoluções explicativas anexadas abaixo de cada questão.";
+            }
+
+            // Exibe o Card de Resultado Geral
+            document.getElementById("score-hits").innerText = `${hits}/10`;
+            document.getElementById("score-pct").innerText = `${hitPercentage}%`;
+            document.getElementById("score-time").innerText = timeStr;
+            
+            const rankBadge = document.getElementById("score-rank");
+            rankBadge.innerText = rank;
+            rankBadge.className = `text-xs font-bold px-2.5 py-1 rounded mt-1 inline-block ${iconColor}`;
+
+            // Configura o Ícone e o Título
+            const iconContainer = document.getElementById("result-icon-container");
+            iconContainer.className = `w-20 h-20 rounded-full flex items-center justify-center mb-4 shadow-inner ${iconColor}`;
+            iconContainer.innerHTML = `<i data-lucide="${iconName}" class="w-10 h-10"></i>`;
+            document.getElementById("result-text").innerText = textFeedback;
+
+            const resultsCard = document.getElementById("results-card");
+            resultsCard.classList.remove("hidden");
+            
+            // Oculta temporariamente o cronômetro superior
+            document.getElementById("timer-container").style.display = "none";
+
+            // Rola suavemente para o card de resultados
+            resultsCard.scrollIntoView({ behavior: "smooth" });
+
+            // Altera botão de submissão para estado desabilitado
+            const btnSubmit = document.getElementById("btn-submit");
+            btnSubmit.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5"></i> Simulado Avaliado`;
+            btnSubmit.classList.add("opacity-50", "cursor-not-allowed");
+            btnSubmit.removeAttribute("onclick");
+
+            lucide.createIcons();
+        }
+
+        // Reseta todos os parâmetros para reiniciar o simulado
+        function restartQuiz() {
+            userAnswers = {};
+            isSubmitted = false;
+            document.getElementById("results-card").classList.add("hidden");
+            document.getElementById("timer-container").style.display = "flex";
+            document.getElementById("status-correct-legend").style.display = "none";
+            document.getElementById("status-incorrect-legend").style.display = "none";
+
+            // Reabilita o botão de envio
+            const btnSubmit = document.getElementById("btn-submit");
+            btnSubmit.className = "w-full sm:w-auto px-8 py-4 bg-[#7c5f35] hover:bg-[#664d2a] text-white font-serif font-semibold rounded-xl shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2";
+            btnSubmit.innerHTML = `<i data-lucide="check-square" class="w-5 h-5"></i> Finalizar Simulado e Ver Resoluções`;
+            btnSubmit.setAttribute("onclick", "validateAndSubmit()");
+
+            renderQuestions();
+            renderNavigation();
+            updateProgress();
+            
+            clearInterval(timerInterval);
+            startTimer();
+            lucide.createIcons();
+            
+            // Rola para o topo
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    </script>
+</body>
+</html>

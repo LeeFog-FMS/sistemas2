@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo: Concepções de Currículo e Currículo Integrado na EPT</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para Leitura Confortável -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Configurações Tipográficas para Longa Leitura */
+        .font-reading {
+            font-family: 'Merriweather', Georgia, serif;
+            line-height: 1.8;
+            letter-spacing: -0.01em;
+        }
+        .font-ui {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Paletas de Cores de Conforto Visual */
+        :root {
+            /* Papiro / Creme (Padrão) */
+            --bg-page: #faf6f0;
+            --bg-card: #f5eedf;
+            --text-main: #2d2620;
+            --text-muted: #5c5043;
+            --border-color: #e6dac6;
+            --accent: #8c6239;
+            --accent-hover: #6f4c27;
+            --selected-bg: #ece2ce;
+        }
+
+        .theme-claro {
+            --bg-page: #fafafa;
+            --bg-card: #ffffff;
+            --text-main: #18181b;
+            --text-muted: #52525b;
+            --border-color: #e4e4e7;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --selected-bg: #eff6ff;
+        }
+
+        .theme-noite {
+            --bg-page: #151515;
+            --bg-card: #202020;
+            --text-main: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --border-color: #2d2d30;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --selected-bg: #2d2a22;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .card-quiz {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .text-muted-custom {
+            color: var(--text-muted);
+        }
+
+        .border-custom {
+            border-color: var(--border-color);
+        }
+
+        /* Estilo para Linhas de Leitura Máxima (Prevenção de Fadiga) */
+        .readable-width {
+            max-width: 72ch; /* Limita largura de leitura de texto a ~72 caracteres */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Classes de Destaques */
+        .option-button {
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-main);
+        }
+
+        .option-button:hover {
+            background-color: var(--selected-bg);
+        }
+
+        .option-selected {
+            background-color: var(--selected-bg) !important;
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 0 1px var(--accent);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: #ffffff;
+        }
+        .btn-accent:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        /* Tabelas Customizadas do Documento */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        .custom-table th, .custom-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            text-align: left;
+        }
+        .custom-table th {
+            background-color: var(--selected-bg);
+            font-weight: 700;
+        }
+        .custom-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+    </style>
+</head>
+<body class="font-ui antialiased">
+
+    <!-- Cabeçalho de Navegação e Configurações -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-opacity-90 shadow-sm border-b border-custom transition-all duration-300" style="background-color: var(--bg-page); border-color: var(--border-color)">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 rounded-lg bg-opacity-20 flex items-center justify-center" style="background-color: var(--accent)">
+                    <svg class="w-6 h-6" style="color: var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold leading-tight">Simulado EPT</h1>
+                    <p class="text-xs text-muted-custom">Concepções de Currículo e Currículo Integrado</p>
+                </div>
+            </div>
+
+            <!-- Controles de Configuração -->
+            <div class="flex items-center space-x-4">
+                <!-- Modo do Quiz -->
+                <div class="flex rounded-md p-0.5 border border-custom bg-opacity-50" style="background-color: var(--bg-card)">
+                    <button id="mode-simulado" onclick="setQuizMode('simulado')" class="px-3 py-1 text-xs rounded font-medium transition-all duration-150 btn-accent">
+                        Simulado
+                    </button>
+                    <button id="mode-estudo" onclick="setQuizMode('estudo')" class="px-3 py-1 text-xs rounded font-medium transition-all duration-150 text-muted-custom">
+                        Modo Estudo
+                    </button>
+                </div>
+
+                <!-- Seletor de Tema -->
+                <div class="flex space-x-1" aria-label="Tema">
+                    <button onclick="changeTheme('creme')" class="w-7 h-7 rounded-full bg-[#faf6f0] border border-stone-400 focus:ring-2 focus:ring-stone-500" title="Modo Papiro (Ideal para leitura)"></button>
+                    <button onclick="changeTheme('claro')" class="w-7 h-7 rounded-full bg-white border border-gray-300 focus:ring-2 focus:ring-blue-500" title="Modo Alabastro (Dia)"></button>
+                    <button onclick="changeTheme('noite')" class="w-7 h-7 rounded-full bg-[#151515] border border-zinc-700 focus:ring-2 focus:ring-yellow-500" title="Modo Noturno (Baixa luz)"></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Apresentação do Simulado -->
+        <section class="mb-12 text-center border-b border-custom pb-8">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-3 btn-accent bg-opacity-15" style="color: var(--accent)">
+                Estilo Banca Instituto AOCP
+            </span>
+            <h2 class="text-3xl font-extrabold tracking-tight mb-4 font-reading sm:text-4xl">
+                Simulado Interativo de EPT
+            </h2>
+            <p class="text-lg text-muted-custom readable-width font-reading font-light">
+                Explore 10 questões completas focadas nas concepções de currículo integrado, politecnia, omnilateralidade e legislações vigentes aplicadas à Educação Profissional e Tecnológica.
+            </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-4 text-xs font-medium text-muted-custom">
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    10 Questões Completas
+                </span>
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    Modos Estudo ou Simulado
+                </span>
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    Filtro Ocular Anti-fadiga
+                </span>
+            </div>
+        </section>
+
+        <!-- Barra de Progresso Lateral/Superior -->
+        <section class="mb-8 sticky top-16 z-30 p-4 rounded-xl border border-custom shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-300" style="background-color: var(--bg-card)">
+            <div class="flex-1">
+                <div class="flex justify-between items-center text-sm mb-1.5 font-medium">
+                    <span>Progresso das Respostas</span>
+                    <span id="progress-text" class="text-xs">0 de 10 respondidas</span>
+                </div>
+                <div class="w-full bg-stone-300 bg-opacity-40 h-2.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full rounded-full btn-accent transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="flex gap-2 shrink-0">
+                <button onclick="scrollToResultSection()" id="btn-review-shortcuts" class="px-4 py-2 text-xs rounded font-semibold border border-custom hover:bg-stone-100 dark:hover:bg-zinc-800 transition-all duration-150 flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-6l-7 7-7-7"></path></svg>
+                    Ver Gabaritos/Resultados
+                </button>
+            </div>
+        </section>
+
+        <!-- Container das Questões -->
+        <section id="quiz-container" class="space-y-10">
+            <!-- As questões serão injetadas dinamicamente via JS -->
+        </section>
+
+        <!-- Botão de Finalização para Modo Simulado -->
+        <section id="actions-panel" class="mt-12 py-8 border-t border-custom text-center">
+            <button onclick="finishQuiz()" id="btn-finish" class="px-8 py-4 rounded-xl font-bold text-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 btn-accent flex items-center justify-center gap-3 mx-auto">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Finalizar Simulado e Ver Resoluções
+            </button>
+            <p class="text-xs text-muted-custom mt-3">Você poderá revisar os gabaritos e as resoluções detalhadas de cada questão logo abaixo.</p>
+        </section>
+
+        <!-- Seção de Resultados (Visível após submissão) -->
+        <section id="results-panel" class="mt-12 p-8 rounded-2xl border border-custom shadow-lg text-center hidden transition-all duration-500" style="background-color: var(--bg-card)">
+            <div class="inline-flex p-4 rounded-full bg-opacity-10 mb-4" id="score-icon-container" style="background-color: var(--accent)">
+                <!-- Ícone Dinâmico -->
+                <svg id="score-icon" class="w-12 h-12" style="color: var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            
+            <h3 class="text-3xl font-extrabold mb-2 font-reading">Resultado do Simulado</h3>
+            <p id="score-badge" class="text-5xl font-black my-4 text-center" style="color: var(--accent)">0 / 0</p>
+            
+            <div class="readable-width text-center">
+                <p id="result-text" class="text-lg text-muted-custom font-reading italic leading-relaxed mb-6">
+                    A análise do seu aproveitamento será exibida aqui.
+                </p>
+            </div>
+
+            <!-- Grade de Gabarito Rápido -->
+            <div class="mb-8">
+                <h4 class="text-sm font-bold uppercase tracking-wider text-muted-custom mb-3">Gabarito Rápido de Suas Respostas</h4>
+                <div class="flex flex-wrap justify-center gap-2" id="quick-gabarito-grid">
+                    <!-- Gerado Dinamicamente -->
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="restartQuiz()" class="px-6 py-3 rounded-lg font-bold text-sm border border-custom transition-all duration-150 hover:bg-stone-100 dark:hover:bg-zinc-800 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"></path></svg>
+                    Refazer Simulado
+                </button>
+                <button onclick="scrollToQuestion(1)" class="px-6 py-3 rounded-lg font-bold text-sm btn-accent transition-all duration-150 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    Revisar Resoluções Detalhadas
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé Emancipatório -->
+    <footer class="mt-20 py-8 border-t border-custom text-center text-xs text-muted-custom">
+        <div class="max-w-4xl mx-auto px-4 space-y-2">
+            <p class="font-medium">Formação Omnilateral, Politecnia e Currículo Integrado na EPT.</p>
+            <p>Plataforma Desenvolvida para Leitura Focada de Textos Acadêmicos e Resoluções Pedagógicas.</p>
+            <p class="opacity-60">Instituto Federal de Educação, Ciência e Tecnologia.</p>
+        </div>
+    </footer>
+
+    <!-- Banco de Dados das Questões e Lógicas do App -->
+    <script>
+        // Dados das Questões em JSON estruturado a partir do arquivo fornecido
+        const questoes = [
+            {
+                id: 1,
+                enunciado: "Docentes de um Instituto Federal pretendem implantar, no campus em que atuam, um novo curso voltado à inovação tecnológica para o próximo ano letivo. Durante a revisão da matriz curricular que estava sendo elaborada, identificaram a fragmentação entre formação geral e formação técnica. Assim, a partir da situação apresentada e das concepções de currículo e currículo integrado na Educação Profissional e Tecnológica, a ação docente frente à reestruturação curricular consiste em:",
+                opcoes: {
+                    A: "propor um currículo integrado que valorize a autoeducação, seja orientado por objetivos de autorrealização e executado por eixos de conhecimento técnico que se processem de maneira global.",
+                    B: "indicar um currículo instrumental e um currículo integrado em módulos, visando preparar os alunos para a sociedade industrial e tecnológica, treinando-os científica e politicamente para ingressarem no mercado de trabalho.",
+                    C: "apresentar um currículo instrumental-tecnicista, enfatizando que o essencial dessa proposta não é a problematização da realidade, mas o uso de técnicas teleológicas que permitam aplicação do conhecimento científico.",
+                    D: "defender um currículo integrado-diretivo, ressaltando que o novo curso deve ser encarado como um instrumento de desenvolvimento econômico e com uma maximização da produção tecnológica local.",
+                    E: "formular um currículo integrado que esteja diretamente ligado à concepção de escola politécnica e à superação da dicotomia entre instrução profissional e instrução geral, trabalho manual e trabalho intelectual."
+                },
+                gabarito: "E",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: E</p>
+                        <p>A reestruturação curricular voltada à superação da fragmentação entre a formação técnica e a formação geral é um dos desafios históricos mais expressivos da Educação Profissional e Tecnológica (EPT). No âmbito dos Institutos Federais, essa problemática é enfrentada a partir do referencial teórico das pedagogias críticas, que combatem o dualismo estrutural histórico da educação brasileira — o qual historicamente destina a escola propedêutica de formação geral às elites e a formação estritamente instrumental de caráter manual às classes populares.</p>
+                        <p>A ação docente que visa solucionar essa dicotomia consiste em propor e executar um currículo integrado fundamentado na politecnia, o qual visa à síntese integradora e recíproca entre a ciência, o trabalho e a cultura, restaurando a unidade entre o trabalho manual e o trabalho intelectual.</p>
+                        <div class="mt-2 text-sm pl-4 border-l-2 border-amber-500 opacity-90 space-y-1">
+                            <p><strong>Por que as outras alternativas estão incorretas?</strong></p>
+                            <p>• <strong>A:</strong> Os termos "autoeducação" e "autorrealização" derivam de concepções pedagógicas de base existencialista, escolanovista ou de matriz individualista, as quais não se coadunam com o caráter emancipatório do currículo politécnico.</p>
+                            <p>• <strong>B:</strong> Um "currículo instrumental" combinado com "módulos" fragmentados reforça a perspectiva pragmática de preparação imediata para o mercado corporativo, impedindo a compreensão da totalidade.</p>
+                            <p>• <strong>C:</strong> O modelo "instrumental-tecnicista" esvazia a dimensão político-social da formação humana, concentrando-se em aspectos técnicos e de mera aplicação da ciência.</p>
+                            <p>• <strong>D:</strong> O currículo "integrado-diretivo" focado em maximizar a produção local subordina a função social da escola pública às metas de produtividade do capital.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                enunciado: "Sobre a concepção de currículo integrado na Educação Profissional e Tecnológica (EPT), analise as afirmações a seguir:<br/><br/>" +
+                           "I. A concepção de currículo integrado remete à ideia de completude, à compreensão das partes em relação ao todo ou da unidade dentro da diversidade, com base nos conceitos de Politecnia e Formação Integrada.<br/>" +
+                           "II. A concepção de currículo integrado demanda valorização da polivalência, segundo exigências e princípios inerentes ao domínio da estrutura lógica, conceitual, investigativa e metodológica dos diversos cursos e atores participantes.<br/>" +
+                           "III. A concepção de currículo integrado compreende a educação como uma totalidade social nas múltiplas mediações que caracterizam os processos educativos. Nesse sentido, a formação geral é parte inseparável da formação para o trabalho.<br/>" +
+                           "IV. A concepção de currículo integrado supera o ser humano segmentado historicamente pela divisão social do trabalho entre o planejar e o executar. Fundamenta-se, pois, na priorização do trabalho e da tecnologia, na globalização das aprendizagens e nas especializações dos saberes.<br/><br/>" +
+                           "Estão corretas as afirmações:",
+                opcoes: {
+                    A: "I e II, apenas.",
+                    B: "II e IV, apenas.",
+                    C: "I e III, apenas.",
+                    D: "III e IV, apenas.",
+                    E: "I, II, III e IV."
+                },
+                gabarito: "C",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: C (I e III, apenas)</p>
+                        <p>O currículo integrado expressa uma concepção epistemológica e política que compreende a educação como uma totalidade social nas múltiplas mediações que estruturam os processos educativos. A sustentação teórica desse modelo ancora-se nas categorias de politecnia e formação integral (omnilateral), que concebem o ser humano em sua multidimensionalidade.</p>
+                        <p>• <strong>Assertiva I (Correta):</strong> A integração evoca a completude e a superação da fragmentação curricular, baseando-se no nexo indissociável entre ciência, cultura e trabalho.</p>
+                        <p>• <strong>Assertiva II (Incorreta):</strong> A "polivalência" é um conceito de extração toyotista decorrente da reestruturação produtiva do capital, que exige um trabalhador capaz de operar múltiplos postos de trabalho mecânicos ou de serviços sem deter o domínio científico e intelectual daqueles processos. O currículo integrado opõe-se à polivalência instrumental, defendendo a politecnia.</p>
+                        <p>• <strong>Assertiva III (Correta):</strong> Reconhece a formação geral propedêutica como indissociável da formação voltada ao trabalho, articulando o instrumental técnico à reflexão crítica sobre a organização social.</p>
+                        <p>• <strong>Assertiva IV (Incorreta):</strong> Embora afirme que o currículo integrado busca superar a divisão social do trabalho, ela incorre em contradição terminal ao preconizar que esse modelo fundamenta-se na "globalização das aprendizagens" e nas "especializações dos saberes", as quais são categorias alinhadas ao pragmatismo mercadológico e à hiperespecialização alienante.</p>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                enunciado: "A Resolução CNE/CP nº 1/2021 representa um avanço significativo na Educação Profissional e Tecnológica no Brasil (EPT), visto que institui as Diretrizes Curriculares Nacionais para esse segmento, o que implica um novo marco regulatório que atualiza as diretrizes curriculares e revoga as anteriores. Sobre a organização e o funcionamento da EPT, de acordo com as Diretrizes Curriculares Nacionais para a Educação Profissional e Tecnológica, informe se é (V) verdadeiro ou (F) falso o que se afirma a seguir:<br/><br/>" +
+                           "( ) Entende-se por itinerário formativo na EPT o conjunto de unidades curriculares, etapas ou módulos que compõem a sua organização em eixos tecnológicos e respectiva área tecnológica.<br/>" +
+                           "( ) Entre os critérios para planejamento e organização dos cursos de EPT, está a conciliação das demandas identificadas com a vocação e a capacidade da instituição ou rede de ensino, considerando as reais condições de viabilização da proposta pedagógica.<br/>" +
+                           "( ) A Educação Profissional Técnica de Nível Médio, incluindo saídas intermediárias de qualificação profissional técnica e cursos de especialização profissional técnica, também faz parte da EPT.<br/>" +
+                           "( ) A EPT pode se desenvolver em articulação com as etapas e as modalidades da educação básica, com exceção da educação superior.<br/><br/>" +
+                           "Assinale a alternativa com a sequência correta:",
+                opcoes: {
+                    A: "V – V – V – F.",
+                    B: "V – V – F – F.",
+                    C: "F – F – V – F.",
+                    D: "F – V – F – V.",
+                    E: "V – V – V – V."
+                },
+                gabarito: "A",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: A (V – V – V – F)</p>
+                        <p>A regulamentação e normatização da Educação Profissional e Tecnológica (EPT) no cenário educacional brasileiro contam com as balizas legais da Resolução CNE/CP nº 1/2021, que fixa as Diretrizes Curriculares Nacionais para a EPT.</p>
+                        <p>• <strong>(V) Primeira afirmativa:</strong> O texto da Resolução define formalmente os itinerários formativos como o conjunto sequencial de unidades curriculares, módulos e etapas organizados sob eixos tecnológicos.</p>
+                        <p>• <strong>(V) Segunda afirmativa:</strong> Estabelece que o planejamento dos cursos técnicos e tecnológicos deve buscar o equilíbrio entre as vocações socioeconômicas locais e as reais capacidades de infraestrutura, corpo docente e condições pedagógicas da instituição.</p>
+                        <p>• <strong>(V) Terceira afirmativa:</strong> A EPT engloba a Educação Profissional Técnica de Nível Médio, que engloba tanto as habilitações técnicas plenas quanto as saídas intermediárias de qualificação profissional e as especializações técnicas pós-médio.</p>
+                        <p>• <strong>(F) Quarta afirmativa:</strong> A EPT não se aparta da educação superior; a legislação prevê, de modo expresso, que a EPT pode articular-se e desenvolver-se em todos os níveis e modalidades da educação nacional, abrangendo os Cursos Superiores de Tecnologia (CST), pós-graduações tecnológicas e atividades extensionistas integradas ao ensino superior.</p>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                enunciado: "O Decreto Federal nº 5.154/2004 regulamenta os artigos 39 a 41 da Lei nº 9.394/1996 (LDB) e dispõe sobre a educação profissional e tecnológica em seus diferentes níveis e formas de articulação com a educação básica. O Catálogo Nacional de Cursos Técnicos (CNCT) e o Projeto Pedagógico Institucional (PPI) orientam a organização curricular e institucional dessa modalidade. Com base nesses dispositivos legais e conceituais, assinale a alternativa correta.",
+                opcoes: {
+                    A: "O Decreto nº 5.154/2004 restringe a oferta da educação profissional à forma subsequente, sendo as formas integrada e concomitante permitidas apenas mediante autorização específica do Ministério da Educação.",
+                    B: "O Catálogo Nacional de Cursos Técnicos (CNCT) é um documento prescritivo e fixo, que determina os currículos obrigatórios e uniformes para todas as instituições que ofertam a educação profissional e tecnológica.",
+                    C: "O Projeto Pedagógico Institucional (PPI) é um documento interno de caráter administrativo, que trata exclusivamente da gestão financeira e orçamentária e da infraestrutura das instituições educacionais.",
+                    D: "O Decreto nº 5.154/2004 estabelece a possibilidade de articulação da educação profissional técnica de nível médio com o ensino médio nas formas integrada, concomitante e subsequente, orientando-se pela flexibilidade curricular.",
+                    E: "O CNCT e o PPI são instrumentos distintos e independentes, com características específicas, sem nenhuma relação entre si, visto que o primeiro trata de cursos de EJA e o segundo de diretrizes gerais da educação superior."
+                },
+                gabarito: "D",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: D</p>
+                        <p>O Decreto Federal nº 5.154/2004 consagra as bases legais da EPT e estabelece as possibilidades de articulação entre a formação profissional e o Ensino Médio. A sua correta interpretação revela que o texto legal assegura a possibilidade de oferta do ensino técnico nas formas integrada (matrícula única com plano curricular unificado), concomitante (matrículas distintas em uma ou mais instituições) e subsequente (destinada a quem já concluiu o Ensino Médio), permitindo a flexibilidade curricular.</p>
+                        <div class="mt-2 text-sm pl-4 border-l-2 border-amber-500 opacity-90 space-y-1">
+                            <p><strong>Por que as outras alternativas estão incorretas?</strong></p>
+                            <p>• <strong>A:</strong> O Decreto nº 5.154/2004 não impõe restrição à oferta integrada e concomitante, as quais são legitimadas amplamente.</p>
+                            <p>• <strong>B:</strong> O Catálogo Nacional de Cursos Técnicos (CNCT) constitui um instrumento de referência e orientação nacional e dinâmico, e não um documento prescritivo rígido.</p>
+                            <p>• <strong>C:</strong> O Projeto Pedagógico Institucional (PPI) é um documento político-filosófico e pedagógico amplo, que norteia a identidade pedagógica e ética da instituição.</p>
+                            <p>• <strong>E:</strong> Há mútua relação entre o CNCT e o PPI; as matrizes definidas no CNCT balizam a estruturação dos cursos descritos no PPI institucional.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                enunciado: "O currículo integrado constitui uma concepção de organização curricular bastante discutida no âmbito da Educação Profissional e Tecnológica (EPT) e nas propostas formativas voltadas à classe trabalhadora, especialmente à luz da perspectiva politécnica e ou omnilateral. Considerando os fundamentos que o sustentam, o currículo integrado, dentre as suas características, é concebido como:",
+                opcoes: {
+                    A: "um modelo de currículo modular e uma organização institucional seriada que articula os conhecimentos das disciplinas em projetos de ensino, priorizando as disciplinas comuns das áreas de ensino.",
+                    B: "um processo de unificação administrativa de cursos e um ensino por módulos como meio de assegurar a existência de um currículo transdisciplinar.",
+                    C: "uma proposta pedagógica que privilegia a lógica da empregabilidade, da flexibilidade e da adaptação imediata ao mercado, como uma unidade interdisciplinar da teoria e da prática.",
+                    D: "uma concepção pedagógica e uma organização institucional que integra a formação geral, técnica e política, tendo o trabalho como princípio educativo.",
+                    E: "um projeto político e pedagógico em que se admite a lógica mercadológica da educação, reconhecendo-a como direito social e elemento essencial da cidadania e da emancipação humana."
+                },
+                gabarito: "D",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: D</p>
+                        <p>A caracterização essencial do currículo integrado apoia-se em sua natureza crítico-emancipatória. Ele não se resume a um arranjo metodológico ou técnico-administrativo, mas define-se como um projeto político-pedagógico que articula as dimensões intelectual, física, política e técnica do educando. Tendo o trabalho como princípio educativo, esse modelo compreende que o processo de produção material da existência humana deve ser o núcleo organizador de todos os saberes escolares, permitindo que o educando compreenda as bases sociais, científicas e tecnológicas da sociedade contemporânea.</p>
+                        <div class="mt-2 text-sm pl-4 border-l-2 border-amber-500 opacity-90 space-y-1">
+                            <p><strong>Por que as outras alternativas estão incorretas?</strong></p>
+                            <p>• <strong>A:</strong> Estruturas estritamente modulares que meramente justapõem conteúdos propedêuticos não garantem a integração estrutural do conhecimento de forma crítica.</p>
+                            <p>• <strong>B:</strong> Reduz a integração a um formalismo organizacional/administrativo e modular, o qual não atinge a dimensão epistemológica do projeto.</p>
+                            <p>• <strong>C:</strong> A ênfase na empregabilidade e adaptação flexível ao mercado é o pilar do ideário neoliberal, que subordina a formação humana ao utilitarismo do capital.</p>
+                            <p>• <strong>E:</strong> O currículo integrado rejeita a lógica mercadológica da educação, promovendo-a como direito de emancipação e transformação social coletiva.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                enunciado: "No âmbito da Educação Profissional e Tecnológica (EPT), a discussão teórica sobre o \"trabalho como princípio educativo\" fundamenta a proposição do currículo integrado. Diante dessa perspectiva epistemológica, assinale a alternativa que reflete a correta conceituação desse princípio fundamental.",
+                opcoes: {
+                    A: "O trabalho como princípio educativo resume-se ao desenvolvimento de atitudes comportamentais voltadas para a empregabilidade imediata do aluno no mercado globalizado.",
+                    B: "Trata-se de uma estratégia didática focada no ensino prático em oficinas, garantindo que a teoria seja suprimida em benefício do rápido aprendizado técnico operacional.",
+                    C: "Consiste na compreensão do trabalho em sua dimensão ontológica, isto é, como processo de transformação da natureza e produção do próprio ser humano, servindo de eixo organizador dos conhecimentos científicos e culturais no currículo.",
+                    D: "Refere-se à inserção precoce do educando em postos de trabalho sob a modalidade de estágio supervisionado, sob tutela exclusiva das empresas parceiras.",
+                    E: "Configura-se como um princípio voltado à valorização da polivalência instrumental, estimulando a competitividade e o mérito individual como motores de ascensão socioeconômica."
+                },
+                gabarito: "C",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: C</p>
+                        <p>O conceito de trabalho como princípio educativo possui uma dimensão ontológica que remonta à essência da formação humana na perspectiva crítica. Significa reconhecer que o ser humano se autoproduz e transforma a natureza por meio do trabalho, produzindo cultura, linguagem e conhecimento científico.</p>
+                        <p>Portanto, na organização curricular da EPT, o trabalho não é concebido como mera prática laborativa para adestramento de movimentos corporais (perspectiva tecnicista), mas como o eixo ordenador e articulador de toda a ciência, tecnologia e cultura geradas pela humanidade.</p>
+                        <div class="mt-2 text-sm pl-4 border-l-2 border-amber-500 opacity-90 space-y-1">
+                            <p><strong>Por que as outras alternativas estão incorretas?</strong></p>
+                            <p>• <strong>A:</strong> Reduz o trabalho ao conceito mercantilizado de "empregabilidade" corporativa.</p>
+                            <p>• <strong>B:</strong> Reflete o pragmatismo tecnicista de esvaziamento teórico, confinando o aluno a práticas operacionais alienadas.</p>
+                            <p>• <strong>D:</strong> Foca na instrumentalização precoce através de estágios concebidos de forma utilitária para o setor privado.</p>
+                            <p>• <strong>E:</strong> A polivalência instrumental e a meritocracia individual pertencem ao referencial teórico neoliberal que mercantiliza a educação.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                enunciado: "Os Institutos Federais de Educação, Ciência e Tecnologia assentam suas propostas pedagógicas no princípio da indissociabilidade entre ensino, pesquisa e extensão. A respeito das categorias teóricas de \"politecnia\" e \"omnilateralidade\" e suas conexões com o currículo integrado na EPT, assinale a alternativa correta.",
+                opcoes: {
+                    A: "A politecnia equipara-se à polivalência, na medida em que ambas defendem que o trabalhador moderno deve dominar múltiplos procedimentos técnicos para se adaptar com agilidade ao mercado de trabalho.",
+                    B: "A omnilateralidade contrapõe-se à formação integral, uma vez que foca exclusivamente na excelência técnica das áreas tecnológicas avançadas do setor produtivo.",
+                    C: "A concepção politécnica visa à superação da divisão social do trabalho, articulando o trabalho intelectual ao manual, de modo que o estudante compreenda os fundamentos científicos de todas as fases do processo produtivo.",
+                    D: "A politecnia sugere que a matriz curricular deve fragmentar os conhecimentos em módulos instrumentais independentes, facilitando a flexibilização do percurso formativo.",
+                    E: "A formação omnilateral propõe um modelo curricular voltado exclusivamente à preparação para concursos públicos e ao preenchimento de vagas estatais de caráter administrativo."
+                },
+                gabarito: "C",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: C</p>
+                        <p>A politecnia opõe-se à polivalência instrumental ao defender que a formação humana deve assegurar o domínio teórico-prático de todos os fundamentos das forças produtivas. O seu objetivo pedagógico central é a omnilateralidade, que significa a formação integral e multidimensional do ser humano, desenvolvendo harmonicamente suas faculdades físicas, intelectuais, estéticas e políticas, contrapondo-se à alienação imposta pela fragmentação do trabalho no sistema capitalista.</p>
+                        
+                        <p class="font-bold mt-4">Tabela Comparativa: Politecnia vs. Polivalência</p>
+                        <div class="overflow-x-auto">
+                            <table class="custom-table text-xs">
+                                <thead>
+                                    <tr>
+                                        <th>Categoria Analítica</th>
+                                        <th>Politecnia e Omnilateralidade (Perspectiva Emancipatória)</th>
+                                        <th>Polivalência e Flexibilidade (Perspectiva Neoliberal)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-bold">Concepção de Trabalho</td>
+                                        <td>Atividade ontológica de autorrealização e transformação social.</td>
+                                        <td>Recurso produtivo mercantilizável voltado à geração de valor econômico.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">Objetivo do Ensino</td>
+                                        <td>Superar a divisão entre o planejar (intelectual) e o executar (manual).</td>
+                                        <td>Formar o indivíduo "multifuncional" adaptável aos postos de trabalho.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">Integração Curricular</td>
+                                        <td>Articulação profunda e unificada entre trabalho, ciência, cultura e tecnologia.</td>
+                                        <td>Organização modular independente voltada a competências pontuais.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">Relação com a Sociedade</td>
+                                        <td>Desenvolvimento humano integral e superação das contradições de classe.</td>
+                                        <td>Formação adaptativa voltada à empregabilidade e à competitividade individual.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                enunciado: "A Lei de Diretrizes e Bases da Educação Nacional (LDB – Lei nº 9.394/1996) estabelece os fundamentos regulatórios da Educação Profissional e Tecnológica (EPT) no país, definindo a organização de seus cursos e as formas de articulação com a educação básica. Considerando as determinações e possibilidades contidas na referida Lei, assinale a alternativa correta.",
+                opcoes: {
+                    A: "A LDB desestimula e restringe a oferta da educação profissional na forma integrada com o Ensino Médio, priorizando legalmente apenas o modelo de ensino subsequente de cunho estritamente técnico.",
+                    B: "Os diplomas de cursos de educação profissional técnica de nível médio, quando registrados, terão validade nacional e habilitarão ao prosseguimento de estudos na educação superior.",
+                    C: "A EPT constitui uma modalidade de ensino fechada e restritiva, cujo acesso é destinado exclusivamente a trabalhadores em situação de desemprego ou que estejam completamente fora da educação básica regular.",
+                    D: "A legislação nacional em vigor proíbe terminantemente o reconhecimento ou a certificação de qualificações profissionais intermediárias ao longo de itinerários de formação técnica na EPT.",
+                    E: "A oferta de cursos técnicos de nível médio integrados ao ensino médio é de competência e execução restrita às instituições de ensino privado, sendo vedada sua oferta por redes públicas."
+                },
+                gabarito: "B",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: B</p>
+                        <p>A análise sistemática da Lei de Diretrizes e Bases da Educação Nacional (LDB - Lei nº 9.394/1996) revela a segurança jurídica conferida aos concluintes dos cursos técnicos de EPT. Os diplomas emitidos e devidamente registrados em conformidade com o sistema nacional de ensino possuem validade de abrangência nacional e cumprem duplo papel legal: atestam a habilitação técnica para o exercício profissional correspondente e garantem o pleno direito ao prosseguimento de estudos na educação superior.</p>
+                        
+                        <p class="font-bold mt-4">Tabela: Estruturas de Oferta da Educação Profissional Técnica de Nível Médio</p>
+                        <div class="overflow-x-auto">
+                            <table class="custom-table text-xs">
+                                <thead>
+                                    <tr>
+                                        <th>Forma de Articulação</th>
+                                        <th>Requisitos de Acesso</th>
+                                        <th>Tipo de Matrícula</th>
+                                        <th>Característica do Projeto Pedagógico</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-bold">Integrada</td>
+                                        <td>Conclusão do Ensino Fundamental.</td>
+                                        <td>Matrícula Única na mesma instituição de ensino.</td>
+                                        <td>Projeto Pedagógico Unificado que integra as disciplinas de formação geral e técnica.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">Concomitante</td>
+                                        <td>Matrícula ativa no Ensino Médio.</td>
+                                        <td>Duas Matrículas distintas (na mesma ou em instituições diferentes).</td>
+                                        <td>Matrizes curriculares distintas, podendo ocorrer convênios de complementaridade.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">Subsequente</td>
+                                        <td>Conclusão do Ensino Médio.</td>
+                                        <td>Matrícula Única específica na formação técnica.</td>
+                                        <td>Foco exclusivo na formação técnica e tecnológica do egresso do Ensino Médio.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-2 text-sm pl-4 border-l-2 border-amber-500 opacity-90 space-y-1">
+                            <p><strong>Invalidação das demais alternativas:</strong></p>
+                            <p>• <strong>A:</strong> A LDB estimula expressamente a oferta integrada, modelo considerado ideal para superar o dualismo escolar.</p>
+                            <p>• <strong>C:</strong> A EPT é uma modalidade aberta, que atende a múltiplos públicos, sem limitação de situação trabalhista.</p>
+                            <p>• <strong>D:</strong> Admite-se amplamente a estruturação de itinerários contínuos com certificações e qualificações intermediárias.</p>
+                            <p>• <strong>E:</strong> Cursos integrados são ofertados de forma destacada por instituições públicas (federais, estaduais e municipais).</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                enunciado: "O currículo integrado na EPT propõe a articulação de quatro dimensões fundamentais da existência humana: o Trabalho, a Ciência, a Tecnologia e a Cultura. No âmbito do planejamento e da prática curricular, a integração dessas dimensões implica que:",
+                opcoes: {
+                    A: "a ciência deve ser ensinada de forma puramente teórica e abstrata, reservando a tecnologia para as práticas empíricas e isoladas das disciplinas técnicas.",
+                    B: "a cultura atua como elemento secundário ou decorativo do currículo, restrito a comemorações cívicas e atividades festivas agendadas no calendário escolar.",
+                    C: "o trabalho constitui o eixo estruturante, a ciência representa o conhecimento das forças produtivas, a tecnologia a sua tradução operacional e a cultura as expressões artísticas e sociais da práxis humana, integrados numa totalidade formativa.",
+                    D: "as disciplinas de formação propedêutica sejam subordinadas à lógica tecnicista do treinamento profissionalizante para atendimento imediato do setor produtivo local.",
+                    E: "as tecnologias digitais sejam utilizadas como ferramentas exclusivas de mediação, de forma a automatizar o trabalho docente e anular os debates sociais e políticos na sala de aula."
+                },
+                gabarito: "C",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: C</p>
+                        <p>A apropriação do conhecimento no currículo integrado ocorre mediante a apreensão articulada do Trabalho, da Ciência, da Tecnologia e da Cultura como dimensões complementares e indissociáveis.</p>
+                        <p>O Trabalho constitui a atividade geradora de saberes práticos e ontológicos; a Ciência compreende a teorização rigorosa e racional das leis da natureza; a Tecnologia traduz operacionalmente essas descobertas científicas em processos e ferramentas; e a Cultura congrega as manifestações históricas, éticas, sociais e artísticas produzidas pela humanidade ao longo de seu desenvolvimento.</p>
+                        <p>A integração exige que todas essas dimensões caminhem juntas, de modo que nenhum componente seja esvaziado de seu sentido crítico.</p>
+                        <div class="mt-2 text-sm pl-4 border-l-2 border-amber-500 opacity-90 space-y-1">
+                            <p><strong>Por que as outras alternativas estão incorretas?</strong></p>
+                            <p>• <strong>A:</strong> Mantém o dualismo clássico de afastar teoria (ciência pura) e prática (técnica isolada).</p>
+                            <p>• <strong>B:</strong> Reduz a rica dimensão cultural da sociedade a datas decorativas e superficiais.</p>
+                            <p>• <strong>D:</strong> Subordina e empobrece a formação propedêutica geral em favor do adestramento do capital local.</p>
+                            <p>• <strong>E:</strong> Confere um papel tecnicista de substituição docente às tecnologias digitais, omitindo debates sociais.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                enunciado: "A indissociabilidade entre ensino, pesquisa e extensão constitui um princípio constitucional e pedagógico fundamental para as instituições que ofertam a EPT. À luz desse princípio e das estratégias para a materialização de um currículo integrado, analise as assertivas abaixo:<br/><br/>" +
+                           "I. A integração entre ensino, pesquisa e extensão viabiliza a construção de saberes situados, permitindo que a teoria e a prática educacional respondam às demandas concretas dos territórios rurais e urbanos.<br/>" +
+                           "II. No âmbito da EPT, o “ensino com pesquisa” é uma categoria pedagógica que supera a produção acadêmica formal, assumindo-se como estratégia de investigação da realidade e das contradições sociais.<br/>" +
+                           "III. A extensão universitária e tecnológica no contexto da EPT é compreendida como um fluxo unidirecional de transferência de tecnologias e conhecimentos da instituição para as comunidades locais.<br/>" +
+                           "IV. A estrutura curricular na EPT materializa a indissociabilidade por meio de dispositivos pedagógicos concretos, tais como Projetos Integradores e Atividades de Investigação da Realidade Local.<br/>" +
+                           "V. A articulação entre as três dimensões (ensino-pesquisa-extensão) é condição para a formação omnilateral do educando, visando ao desenvolvimento humano integral e à transformação das relações sociais.<br/><br/>" +
+                           "Estão corretas as assertivas:",
+                opcoes: {
+                    A: "I, II e III, apenas.",
+                    B: "I, II, IV e V, apenas.",
+                    C: "I, III, IV e V, apenas.",
+                    D: "II, III, IV e V, apenas.",
+                    E: "I, II, III, IV e V."
+                },
+                gabarito: "B",
+                resolucao: `
+                    <div class="space-y-4">
+                        <p class="font-semibold text-emerald-600 dark:text-emerald-400">Gabarito Correto: B (I, II, IV e V, apenas)</p>
+                        <p>A organicidade metodológica e teórica da EPT, materializada no cotidiano dos Institutos Federais de ensino, alicerça-se no princípio pedagógico e constitucional da indissociabilidade entre o Ensino, a Pesquisa e a Extensão. Esse pilar estruturante garante que a produção do saber científico seja articulada à práxis social e territorial.</p>
+                        <p>• <strong>Assertiva I (Correta):</strong> A indissociabilidade assegura que os saberes gerados pela escola respondam às demandas e contradições vivenciadas nos territórios rurais e urbanos.</p>
+                        <p>• <strong>Assertiva II (Correta):</strong> O "ensino com pesquisa" converte o processo investigativo em princípio cognitivo pedagógico essencial para o estudante, superando o formalismo acadêmico tradicional.</p>
+                        <p>• <strong>Assertiva III (Incorreta):</strong> À luz das teorias críticas de educação, a extensão não se constitui como um fluxo unidirecional e paternalista de "transferência de tecnologia", mas sim como um diálogo bilateral e de intercâmbio horizontal de conhecimentos com a comunidade.</p>
+                        <p>• <strong>Assertiva IV (Correta):</strong> Dispositivos práticos como Projetos Integradores (PI) e Atividades de Investigação da Realidade Local (AIRL) representam a materialização didática da indissociabilidade no percurso formativo.</p>
+                        <p>• <strong>Assertiva V (Correta):</strong> A articulação orgânica dessas três dimensões é precondição indispensável para que ocorra a formação omnilateral do educando.</p>
+                    </div>
+                `
+            }
+        ];
+
+        // Estado Global da Aplicação
+        let respostasDoUsuario = {};
+        let quizFinalizado = false;
+        let modoAtual = "simulado"; // 'simulado' (corrige ao final) ou 'estudo' (corrige na hora)
+
+        // Inicialização do Quiz
+        window.onload = function() {
+            renderizarQuestoes();
+            atualizarProgresso();
+        };
+
+        // Renderização Dinâmica das Questões
+        function renderizarQuestoes() {
+            const container = document.getElementById("quiz-container");
+            container.innerHTML = "";
+
+            questoes.forEach((q) => {
+                const qCard = document.createElement("article");
+                qCard.id = `quest-${q.id}`;
+                qCard.className = "card-quiz rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300";
+                
+                // Cabeçalho da Questão
+                let html = `
+                    <div class="flex justify-between items-center mb-4 border-b border-custom pb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-muted-custom">Questão 0${q.id} de 10</span>
+                        <span id="badge-status-${q.id}" class="text-xs font-semibold hidden px-2.5 py-1 rounded-full"></span>
+                    </div>
+                    <div class="font-reading text-lg font-normal mb-6 leading-relaxed readable-width">
+                        ${q.enunciado}
+                    </div>
+                    <div class="space-y-3 readable-width">
+                `;
+
+                // Renderizar Opções de Resposta
+                Object.entries(q.opcoes).forEach(([key, value]) => {
+                    html += `
+                        <button 
+                            id="opt-${q.id}-${key}"
+                            onclick="selecionarOpcao(${q.id}, '${key}')"
+                            class="option-button w-full text-left p-4 rounded-xl text-base font-reading transition-all duration-150 flex items-start gap-3"
+                        >
+                            <span class="font-ui font-bold bg-stone-300 bg-opacity-30 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-sm border border-custom select-none">
+                                ${key}
+                            </span>
+                            <span class="leading-relaxed pt-0.5">${value}</span>
+                        </button>
+                    `;
+                });
+
+                html += `
+                    </div>
+                    <!-- Seção de Feedback Detalhado (Oculta até correção) -->
+                    <div id="feedback-${q.id}" class="mt-6 p-6 rounded-xl border border-custom hidden bg-stone-100 bg-opacity-50 dark:bg-zinc-800 dark:bg-opacity-50 transition-all duration-300">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span id="feedback-icon-${q.id}"></span>
+                            <h4 class="text-sm font-bold uppercase tracking-wider">Explicação e Resolução Detalhada</h4>
+                        </div>
+                        <div class="font-reading text-base leading-relaxed text-muted-custom border-t border-custom pt-4">
+                            ${q.resolucao}
+                        </div>
+                    </div>
+                `;
+
+                qCard.innerHTML = html;
+                container.appendChild(qCard);
+            });
+        }
+
+        // Seleção de Opções com Tratamento por Modo de Jogo
+        function selecionarOpcao(questaoId, opcao) {
+            if (quizFinalizado && modoAtual === "simulado") return;
+
+            // Se for no modo estudo e a questão já foi respondida, bloqueia novas mudanças
+            if (modoAtual === "estudo" && respostasDoUsuario[questaoId]) return;
+
+            respostasDoUsuario[questaoId] = opcao;
+            atualizarVisualOpcoes(questaoId, opcao);
+            atualizarProgresso();
+
+            // Se estiver no Modo Estudo, exibe o feedback imediatamente
+            if (modoAtual === "estudo") {
+                revelarQuestaoIndividual(questaoId);
+            }
+        }
+
+        // Atualização Visual do Botão Selecionado
+        function atualizarVisualOpcoes(questaoId, opcaoSelecionada) {
+            const alternativas = ["A", "B", "C", "D", "E"];
+            alternativas.forEach((opt) => {
+                const btn = document.getElementById(`opt-${questaoId}-${opt}`);
+                if (btn) {
+                    if (opt === opcaoSelecionada) {
+                        btn.classList.add("option-selected");
+                    } else {
+                        btn.classList.remove("option-selected");
+                    }
+                }
+            });
+        }
+
+        // Atualização da Barra de Progresso Superior
+        function atualizarProgresso() {
+            const totalQuestoes = questoes.length;
+            const respondidas = Object.keys(respostasDoUsuario).length;
+            const percentual = (respondidas / totalQuestoes) * 100;
+
+            document.getElementById("progress-bar").style.width = `${percentual}%`;
+            document.getElementById("progress-text").innerText = `${respondidas} de ${totalQuestoes} respondidas`;
+        }
+
+        // Definição dos Modos: Estudo vs Simulado
+        function setQuizMode(modo) {
+            if (modo === modoAtual) return;
+            modoAtual = modo;
+
+            const btnSimulado = document.getElementById("mode-simulado");
+            const btnEstudo = document.getElementById("mode-estudo");
+            const btnFinish = document.getElementById("btn-finish");
+
+            if (modo === "simulado") {
+                btnSimulado.className = "px-3 py-1 text-xs rounded font-medium transition-all duration-150 btn-accent";
+                btnEstudo.className = "px-3 py-1 text-xs rounded font-medium transition-all duration-150 text-muted-custom";
+                btnFinish.classList.remove("hidden");
+                restartQuiz(); // Reinicia para limpar feedback imediato indesejado
+            } else {
+                btnEstudo.className = "px-3 py-1 text-xs rounded font-medium transition-all duration-150 btn-accent";
+                btnSimulado.className = "px-3 py-1 text-xs rounded font-medium transition-all duration-150 text-muted-custom";
+                btnFinish.classList.add("hidden");
+                restartQuiz(); // Reinicia para permitir fluxos limpos de estudo
+            }
+        }
+
+        // Correção de uma Questão Individual (Usada no Modo Estudo)
+        function revelarQuestaoIndividual(questaoId) {
+            const q = questoes.find(item => item.id === questaoId);
+            const userChoice = respostasDoUsuario[questaoId];
+            const isCorrect = userChoice === q.gabarito;
+
+            const badge = document.getElementById(`badge-status-${questaoId}`);
+            const feedbackBlock = document.getElementById(`feedback-${questaoId}`);
+            const iconSpan = document.getElementById(`feedback-icon-${questaoId}`);
+
+            // Estilizar Badge Superior
+            badge.classList.remove("hidden");
+            if (isCorrect) {
+                badge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:bg-opacity-30 dark:text-emerald-400";
+                badge.innerText = "Correta";
+            } else {
+                badge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:bg-opacity-30 dark:text-red-400";
+                badge.innerText = `Incorreta (Gabarito: ${q.gabarito})`;
+            }
+
+            // Exibir a Resolução
+            feedbackBlock.classList.remove("hidden");
+            
+            // Ícone e Título de Acerto/Erro
+            if (isCorrect) {
+                iconSpan.innerHTML = `
+                    <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                `;
+            } else {
+                iconSpan.innerHTML = `
+                    <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                `;
+            }
+
+            // Destacar opções de forma diferenciada
+            const alternativas = ["A", "B", "C", "D", "E"];
+            alternativas.forEach((opt) => {
+                const btn = document.getElementById(`opt-${questaoId}-${opt}`);
+                if (btn) {
+                    btn.disabled = true; // Desabilita novos cliques após responder
+                    if (opt === q.gabarito) {
+                        btn.style.borderColor = "#10b981"; // Verde para o Gabarito Correto
+                        btn.style.backgroundColor = "rgba(16, 185, 129, 0.08)";
+                    } else if (opt === userChoice && !isCorrect) {
+                        btn.style.borderColor = "#ef4444"; // Vermelho para a escolha errada do usuário
+                        btn.style.backgroundColor = "rgba(239, 68, 68, 0.08)";
+                    }
+                }
+            });
+
+            // Verifica se todas foram respondidas no modo estudo para consolidar resultados de qualquer forma
+            if (Object.keys(respostasDoUsuario).length === questoes.length) {
+                showResultsPanel();
+            }
+        }
+
+        // Finalização Geral do Simulado (Modo Simulado)
+        function finishQuiz() {
+            const totalRespondido = Object.keys(respostasDoUsuario).length;
+            
+            if (totalRespondido < 10) {
+                const modalConfirm = confirm(`Você respondeu apenas ${totalRespondido} de 10 questões. Deseja finalizar o simulado mesmo assim e ver os gabaritos?`);
+                if (!modalConfirm) return;
+            }
+
+            quizFinalizado = true;
+
+            // Bloquear opções de clique e revelar todas as correções e gabaritos
+            questoes.forEach((q) => {
+                const questaoId = q.id;
+                const userChoice = respostasDoUsuario[questaoId];
+                const isCorrect = userChoice === q.gabarito;
+
+                const badge = document.getElementById(`badge-status-${questaoId}`);
+                const feedbackBlock = document.getElementById(`feedback-${questaoId}`);
+                const iconSpan = document.getElementById(`feedback-icon-${questaoId}`);
+
+                badge.classList.remove("hidden");
+                if (isCorrect) {
+                    badge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:bg-opacity-30 dark:text-emerald-400";
+                    badge.innerText = "Correta";
+                } else if (userChoice === undefined) {
+                    badge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900 dark:bg-opacity-30 dark:text-amber-400";
+                    badge.innerText = `Não Respondida (Gabarito: ${q.gabarito})`;
+                } else {
+                    badge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:bg-opacity-30 dark:text-red-400";
+                    badge.innerText = `Incorreta (Gabarito: ${q.gabarito})`;
+                }
+
+                feedbackBlock.classList.remove("hidden");
+
+                if (isCorrect) {
+                    iconSpan.innerHTML = `
+                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    `;
+                } else {
+                    iconSpan.innerHTML = `
+                        <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    `;
+                }
+
+                // Desabilitar botões e ajustar cores finais
+                const alternativas = ["A", "B", "C", "D", "E"];
+                alternativas.forEach((opt) => {
+                    const btn = document.getElementById(`opt-${questaoId}-${opt}`);
+                    if (btn) {
+                        btn.disabled = true;
+                        if (opt === q.gabarito) {
+                            btn.style.borderColor = "#10b981";
+                            btn.style.backgroundColor = "rgba(16, 185, 129, 0.08)";
+                        } else if (opt === userChoice && !isCorrect) {
+                            btn.style.borderColor = "#ef4444";
+                            btn.style.backgroundColor = "rgba(239, 68, 68, 0.08)";
+                        }
+                    }
+                });
+            });
+
+            // Apresentar Painel de Resultados
+            showResultsPanel();
+            scrollToResultSection();
+        }
+
+        // Construção e Exibição do Painel de Resultados
+        function showResultsPanel() {
+            const resultsPanel = document.getElementById("results-panel");
+            const scoreBadge = document.getElementById("score-badge");
+            const resultText = document.getElementById("result-text");
+            const quickGabaritoGrid = document.getElementById("quick-gabarito-grid");
+            const iconContainer = document.getElementById("score-icon-container");
+            const iconSvg = document.getElementById("score-icon");
+
+            let acertos = 0;
+            questoes.forEach((q) => {
+                if (respostasDoUsuario[q.id] === q.gabarito) {
+                    acertos++;
+                }
+            });
+
+            scoreBadge.innerText = `${acertos} / 10`;
+
+            // Feedback Textual Baseado em Desempenho
+            let msg = "";
+            let colorAccent = "var(--accent)";
+            if (acertos === 10) {
+                msg = "Excelente! Desempenho fantástico. Você domina amplamente as bases históricas, teóricas e legais do Currículo Integrado e as diretrizes regulatórias da EPT.";
+                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L11 3z"></path>`;
+            } else if (acertos >= 8) {
+                msg = "Muito bem! Excelente nível de preparação. Você demonstra compreender conceitos críticos complexos, como Politecnia, Ontologia do Trabalho e a LDB.";
+                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>`;
+            } else if (acertos >= 5) {
+                msg = "Bom desempenho. Você compreende os pilares fundamentais, mas sugerimos revisar as distinções sutis feitas pela banca, como a diferença crítica entre politecnia e polivalência.";
+                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>`;
+            } else {
+                msg = "O estudo dessas concepções de currículo integrado exige leituras densas e profundas. Recomendamos rever detalhadamente cada uma das resoluções comentadas para consolidar a teoria.";
+                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>`;
+            }
+            resultText.innerText = msg;
+
+            // Gerar botões de Gabarito Rápido interativos
+            quickGabaritoGrid.innerHTML = "";
+            questoes.forEach((q) => {
+                const userChoice = respostasDoUsuario[q.id];
+                const isCorrect = userChoice === q.gabarito;
+                
+                let btnColorClass = "";
+                if (userChoice === undefined) {
+                    btnColorClass = "bg-stone-200 text-stone-700 dark:bg-zinc-700 dark:text-zinc-300";
+                } else if (isCorrect) {
+                    btnColorClass = "bg-emerald-100 text-emerald-800 border-emerald-500 dark:bg-emerald-900 dark:bg-opacity-40 dark:text-emerald-300";
+                } else {
+                    btnColorClass = "bg-red-100 text-red-800 border-red-500 dark:bg-red-900 dark:bg-opacity-40 dark:text-red-300";
+                }
+
+                quickGabaritoGrid.innerHTML += `
+                    <button onclick="scrollToQuestion(${q.id})" class="w-12 h-12 rounded-xl border font-bold flex flex-col items-center justify-center transition-all duration-150 transform hover:scale-105 ${btnColorClass}">
+                        <span class="text-xs opacity-75">Q${q.id}</span>
+                        <span class="text-sm">${userChoice || "-"}</span>
+                    </button>
+                `;
+            });
+
+            resultsPanel.classList.remove("hidden");
+        }
+
+        // Lógica de Reinício do Simulado
+        function restartQuiz() {
+            respostasDoUsuario = {};
+            quizFinalizado = false;
+            
+            // Esconder o painel de resultados
+            document.getElementById("results-panel").classList.add("hidden");
+
+            // Re-renderizar questões
+            renderizarQuestoes();
+            atualizarProgresso();
+
+            // Rolar suavemente para o início
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Seletor de Temas
+        function changeTheme(tema) {
+            const body = document.body;
+            body.className = "font-ui antialiased"; // limpa classes anteriores
+            
+            if (tema === "claro") {
+                body.classList.add("theme-claro");
+            } else if (tema === "noite") {
+                body.classList.add("theme-noite");
+            } else {
+                // Creme / Papiro padrão
+                // Sem classe extra mantém o padrão Creme definido nas variáveis de CSS
+            }
+        }
+
+        // Scroll Suave para Questões Específicas
+        function scrollToQuestion(questaoId) {
+            const el = document.getElementById(`quest-${questaoId}`);
+            if (el) {
+                const headerOffset = 80;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+
+                // Pequeno efeito piscante para atrair atenção ao foco de rolagem
+                el.classList.add("ring-2", "ring-amber-500");
+                setTimeout(() => {
+                    el.classList.remove("ring-2", "ring-amber-500");
+                }, 1000);
+            }
+        }
+
+        function scrollToResultSection() {
+            // Se for simulado e não finalizado ainda, solicita finalização
+            if (modoAtual === "simulado" && !quizFinalizado) {
+                const proceed = confirm("Deseja finalizar o Simulado para verificar os gabaritos e resoluções completas?");
+                if (!proceed) return;
+                finishQuiz();
+                return;
+            }
+
+            const el = document.getElementById("results-panel");
+            if (el) {
+                el.classList.remove("hidden");
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    </script>
+</body>
+</html>

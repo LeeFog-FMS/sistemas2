@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Indissociabilidade na EPT - Estilo AOCP</title>
+    <!-- Tailwind CSS para design ágil e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fdfdfc',
+                            100: '#f6f5f0',
+                            200: '#ebe8dc',
+                            300: '#d5cfba',
+                            400: '#bab195',
+                            500: '#9d9170',
+                            600: '#7e7354',
+                            700: '#615840',
+                            800: '#464030',
+                            900: '#2b271f',
+                        },
+                        accent: {
+                            success: '#2e7d32',
+                            error: '#c62828',
+                            neutral: '#374151',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['Georgia', 'ui-serif', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos adicionais para conforto de leitura de longo prazo */
+        body {
+            background-color: #fcfbfa; /* Tom de fundo off-white/papel para evitar cansaço visual */
+            color: #1c1917; /* Texto quase preto suave */
+        }
+        .readable-content {
+            max-width: 72ch; /* Limite de caracteres por linha para leitura ideal */
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col selection:bg-brand-200">
+
+    <!-- Cabeçalho Principal -->
+    <header class="border-b border-brand-200 bg-brand-50 sticky top-0 z-50 transition-shadow duration-200" id="mainHeader">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <span class="text-xs font-semibold tracking-widest text-brand-600 uppercase">Estudo para Concursos</span>
+                <h1 class="text-xl sm:text-2xl font-serif font-bold text-brand-900 leading-tight">Indissociabilidade na EPT</h1>
+            </div>
+            <!-- Indicador de Progresso -->
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <div class="w-full sm:w-48 bg-brand-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-brand-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+                <span id="progressText" class="text-sm font-medium text-brand-700 whitespace-nowrap">0 de 10 respondidas</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl mx-auto w-full px-4 py-8">
+        <!-- Card de Introdução Silencioso -->
+        <div class="mb-8 border-l-4 border-brand-500 pl-4 py-1">
+            <p class="text-sm text-brand-700 leading-relaxed max-w-3xl">
+                Responda às 10 questões completas no estilo do <strong>Instituto AOCP</strong>. Ao final da página, clique em <strong>"Finalizar Quiz"</strong> para verificar seus acertos e analisar as resoluções comentadas completas de cada questão.
+            </p>
+        </div>
+
+        <form id="quizForm" onsubmit="event.preventDefault();" class="space-y-12">
+            <!-- Questão 1 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="1">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 01</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Políticas institucionais e o princípio da indissociabilidade na EPT</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p class="mb-4">Analise as assertivas a seguir e assinale a alternativa que aponta a(s) correta(s).</p>
+                    <p class="pl-4 border-l-2 border-brand-300 italic text-brand-800 mb-4 text-sm sm:text-base">
+                        I. As políticas e as ações institucionais de ensino e aprendizagem concretizam-se na imbricação da indissociabilidade entre ensino, pesquisa, extensão e inovação, por meio de interações e intervenções dos atores envolvidos.
+                    </p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q1" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) Apenas I e II.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q1" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) Apenas I e III.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q1" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) Apenas II e III.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q1" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) I, II e III.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q1" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) Apenas III.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa correta é a <strong>D</strong>. O gabarito baseia-se diretamente no padrão de cobrança observado nas provas de nível superior aplicadas pelo Instituto AOCP, como no certame do Instituto Federal do Ceará (IFCE) para a Carreira do Magistério do Ensino Básico, Técnico e Tecnológico (EBTT).</p>
+                        <p>A análise detalhada de cada assertiva evidencia a consistência teórica adotada pela banca examinadora:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>A <strong>assertiva I</strong> está correta ao apontar que o princípio de indissociabilidade atua como o eixo articulador de todas as políticas e ações institucionais desenvolvidas pela Rede Federal de EPT, perpassando e integrando a totalidade das ofertas educacionais disponibilizadas à comunidade interna e externa.</li>
+                            <li>A <strong>assertiva II</strong> é verdadeira, pois a indissociabilidade entre as três dimensões acadêmicas encontra-se formalmente registrada e expressa nas diretrizes e planos educacionais voltados à organização das políticas sociais e econômicas do país, conectando a educação às demandas sociais brasileiras.</li>
+                            <li>A <strong>assertiva III</strong> também é correta, uma vez que a relação dialética entre o ensino e a aprendizagem se materializa de forma prática por meio da articulação estreita entre o ensino, a pesquisa aplicada, a extensão e a inovação tecnológica, a partir das ações conjuntas desenvolvidas por estudantes, docentes, técnicos e a comunidade circundante.</li>
+                        </ul>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: D</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 2 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="2">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 02</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Desafios pedagógicos do trabalho pedagógico integrado</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>A indissociabilidade entre ensino, pesquisa e extensão possibilita desenvolver um trabalho pedagógico que supere a dicotomia entre teoria e prática, integrando práticas pedagógicas inovadoras. Sendo assim, qual é o principal desafio do trabalho pedagógico integrado entre ensino, pesquisa e extensão?</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q2" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) Organizá-lo em ações vinculadas com o desenvolvimento de competências e soft skills junto ao corpo discente.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q2" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) Pensá-lo e organizá-lo articuladamente com o contexto social, cultural, político, econômico e ambiental, dialogando com a comunidade.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q2" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) Organizá-lo de forma a identificar os diversos locais para a realização das atividades em apoio às comunidades vulneráveis.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q2" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) Direcioná-lo na busca por condições de competitividade e fortalecimento dos mecanismos de gestão privada.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q2" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) Pensá-lo e organizá-lo em aparatos de desenvolvimento científico, econômico e tecnológico, determinando seus agentes externos.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa correta é a <strong>B</strong>. Esta questão reproduz fielmente a questão de concurso público elaborada pelo Instituto AOCP para o cargo de Pedagogo da Universidade Federal de Sergipe (UFS).</p>
+                        <p>O trabalho pedagógico amparado no princípio da indissociabilidade visa superar a histórica separação entre a teoria (conteúdo de sala de aula) e a prática (ação concreta na realidade social). O principal desafio enfrentado pelos educadores na concepção de projetos integrados reside em pensá-los e organizá-los em estreito alinhamento com a realidade concreta na qual a instituição está inserida, abrangendo as variáveis sociais, culturais, políticas, econômicas e ambientais do território e mantendo um diálogo permanente e simétrico com a comunidade.</p>
+                        <p>Os demais distratores desviam-se das premissas freireanas e críticas que orientam a educação pública federal. A alternativa A limita a ação à visão mercadológica de "soft skills" e competências individuais básicas. A alternativa C reduz a extensão universitária e tecnológica a uma perspectiva meramente assistencialista voltada unicamente a "comunidades pobres", em vez de uma interação dialógica ampla. A alternativa D atrela o projeto educacional aos mecanismos de competitividade e gestão privada, o que contraria o papel da educação pública e socialmente referenciada. Por fim, a alternativa E propõe um modelo científico e tecnológico instrumentalista determinado por agentes externos, enfraquecendo a autonomia pedagógica institucional.</p>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: B</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 3 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="3">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 03</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Função social e formativa do princípio da indissociabilidade</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>A indissociabilidade entre ensino, pesquisa e extensão no trabalho pedagógico é um princípio norteador nas instituições de Educação Profissional e Tecnológica (EPT). Sobre a relevância e a aplicação desse princípio, assinale a alternativa correta.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q3" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) A relação entre ensino, pesquisa e extensão no trabalho pedagógico é importante apenas para a formação de professores de licenciaturas.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q3" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) A indissociabilidade entre ensino, pesquisa e extensão no trabalho pedagógico é fundamental para uma formação crítica e reflexiva do estudante.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q3" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) A indissociabilidade entre ensino, pesquisa e extensão no trabalho pedagógico é importante apenas para a ascensão na carreira acadêmica dos docentes.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q3" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) O princípio da indissociabilidade restringe-se aos cursos de pós-graduação stricto sensu, não se aplicando aos cursos técnicos de nível médio.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q3" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) O ensino deve ser considerado o único pilar obrigatório, enquanto a pesquisa e a extensão constituem atividades facultativas de caráter puramente burocrático.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa correta é a <strong>B</strong>. O Instituto AOCP utiliza frequentemente assertivas voltadas à valorização da formação crítica do educando em provas para carreiras de docência e suporte pedagógico nos Institutos Federais, como ilustrado nas questões aplicadas no Instituto Federal do Maranhão (IF-MA).</p>
+                        <p>O princípio da indissociabilidade entre ensino, pesquisa e extensão constitui um compromisso ético-político de formação humana integral. A interação entre as três esferas garante que o estudante da EPT não seja submetido a uma formação estritamente pragmática e manual de adestramento profissional. Ao investigar a realidade (pesquisa) e atuar sobre as demandas da sociedade (extensão) articulado ao conteúdo conceitual (ensino), o discente desenvolve uma consciência crítica e reflexiva sobre sua atuação cidadã e profissional.</p>
+                        <p>Os distratores mostram-se incorretos por restringirem a relevância do princípio à formação de professores (A) ou à progressão de carreira dos docentes (C), o que anula o caráter democrático e integrador da tríade. A alternativa D contraria a legislação, já que a indissociabilidade deve ser garantida em todas as etapas educacionais da EPT. A alternativa E estabelece uma hierarquia inaceitável ao rebaixar a pesquisa e a extensão a elementos secundários ou burocráticos, descaracterizando o princípio de unidade do tripé acadêmico.</p>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: B</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 4 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="4">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 04</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Legislação da Rede Federal (Lei nº 11.892/2008)</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>A Lei nº 11.892/2008 institui a Rede Federal de Educação Profissional, Científica e Tecnológica e cria os Institutos Federais de Educação, Ciência e Tecnologia. Com base nessa legislação, assinale a alternativa <strong>INCORRETA</strong>.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q4" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) Cada Instituto Federal é organizado em estrutura multicampi, com proposta orçamentária semestral identificada para cada campus e a reitoria, inclusive no que diz respeito a pessoal, encargos sociais e benefícios aos servidores.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q4" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) No âmbito de sua atuação, os Institutos Federais exercerão o papel de instituições acreditadoras e certificadoras de competências profissionais.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q4" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) Os Institutos Federais têm por finalidades e características, dentre outras, promover a integração e a verticalização da educação básica à educação profissional e à educação superior, otimizando a infraestrutura física, os quadros de pessoal e os recursos de gestão.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q4" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) A administração dos Institutos Federais terá como órgãos superiores o Colégio de Dirigentes e o Conselho Superior.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q4" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) Dentre outros requisitos, para candidatar-se ao cargo de Reitor, os docentes pertencentes ao Quadro de Pessoal Ativo Permanente de qualquer dos campi que integram o Instituto Federal devem possuir o mínimo de 5 (cinco) anos de efetivo exercício em instituição federal de educação profissional e tecnológica.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa a ser assinalada (que contém a afirmativa <strong>INCORRETA</strong>) é a <strong>A</strong>. A formulação de questões que exigem a identificação de alternativas incorretas baseadas na legislação federal (especialmente a Lei nº 11.892/2008) constitui uma das principais metodologias de avaliação da banca Instituto AOCP.</p>
+                        <p>A alternativa A está incorreta porque, de acordo com o artigo 5º da Lei nº 11.892/2008, cada Instituto Federal é organizado em uma estrutura multicampi, com proposta orçamentária <strong>anual</strong> (e não semestral) identificada para cada campus e para a reitoria, <strong>exceto</strong> (e não inclusive) no que diz respeito a pessoal, encargos sociais e benefícios aos servidores, os quais permanecem centralizados na gestão orçamentária sistêmica.</p>
+                        <p>As demais alternativas encontram-se em perfeita consonância com o texto literal da Lei nº 11.892/2008:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>O artigo 6º prevê expressamente que os Institutos Federais exercerão o papel de instituições acreditadoras e certificadoras de competências profissionais (B).</li>
+                            <li>O artigo 6º também elenca como finalidade a integração e a verticalização da educação básica à educação superior para a otimização de recursos e infraestrutura (C).</li>
+                            <li>O artigo 10 estipula que a administração superior terá como órgãos superiores o Colégio de Dirigentes e o Conselho Superior (D).</li>
+                            <li>O artigo 12 estabelece os requisitos mínimos para a candidatura ao cargo de reitor, exigindo cinco anos de efetivo exercício em instituição federal de educação profissional e tecnológica (E).</li>
+                        </ul>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: A</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 5 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="5">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 05</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Fundamentos conceituais da EPT</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>Na construção do currículo integrado na Educação Profissional e Tecnológica (EPT), diversos conceitos teóricos são articulados para superar a fragmentação do conhecimento. Assinale a alternativa que apresenta os conceitos fundamentais utilizados para tecer os sentidos dessa constituição curricular e que dão suporte à indissociabilidade entre ensino, pesquisa e extensão.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q5" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) Empreendedorismo de base tecnológica, competitividade industrial, eficiência produtiva e responsabilidade fiscal.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q5" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) Currículo de integração, trabalho como princípio educativo, pesquisa como princípio pedagógico, interdisciplinaridade e indissociabilidade.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q5" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) Ensino propedêutico tradicional, adestramento profissionalizante, segmentação disciplinar e certificação em soft skills.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q5" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) Pedagogia diretiva, tecnicismo instrumental, divisão social do trabalho e formação voltada exclusivamente ao emprego assalariado.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q5" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) Teoria do capital humano, racionalismo pedagógico, eficiência gerencial e privatização dos espaços de pesquisa aplicada.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa correta é a <strong>B</strong>. O referencial teórico que ampara as avaliações de didática, legislação e fundamentos da EPT nas provas do Instituto AOCP fundamenta-se nas concepções críticas da educação e do trabalho.</p>
+                        <p>A constituição curricular que sustenta os Institutos Federais ancora-se na superação histórica da dualidade pedagógica que dividia a formação voltada para a elite intelectual daquela destinada à formação operacional das classes trabalhadoras. Para tecer os sentidos de um currículo integrado, a literatura especializada em EPT e as diretrizes oficiais valem-se de categorias conceituais unificadas: o currículo de integração (que unifica disciplinas de formação geral e técnica), o trabalho como princípio educativo (entendido no seu aspecto ontológico de produção de existência e cultura), a pesquisa como princípio pedagógico (entendida como metodologia de ensino-aprendizagem), a interdisciplinaridade e o princípio de indissociabilidade entre ensino, pesquisa e extensão.</p>
+                        <p>Os demais blocos de respostas trazem termos que pertencem à pedagogia tecnicista, gerencialista e neoliberal (como nas alternativas A, C, D e E), as quais enfraquecem o compromisso humanístico e de formação omnilateral propostos na Rede Federal de Educação Profissional, Científica e Tecnológica.</p>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: B</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 6 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="6">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 06</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Base jurídica e equivalência regulatória dos Institutos Federais</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>O estabelecimento das dimensões de ensino, pesquisa e extensão encontra-se respaldado pela Constituição Federal de 1988 e pela Lei de Diretrizes e Bases da Educação Nacional (LDB). No que se refere ao tratamento legal dado a essas dimensões no âmbito dos Institutos Federais, assinale a alternativa correta.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q6" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) Os Institutos Federais, por possuírem natureza jurídica de autarquias voltadas ao ensino básico e técnico, são desobrigados de cumprir as exigências de pesquisa e extensão estabelecidas para as universidades federais.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q6" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) A Constituição Federal de 1988, no artigo 207, estipula a autonomia didático-científica e o princípio da indissociabilidade entre ensino, pesquisa e extensão apenas para as universidades federais, não havendo equiparação legal para os Institutos Federais.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q6" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) Os Institutos Federais são especializados na oferta de educação profissional e tecnológica e equiparam-se às universidades federais para efeitos regulatórios no âmbito da educação superior, o que reforça o compromisso com a indissociabilidade entre ensino, pesquisa e extensão.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q6" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) A equiparação dos Institutos Federais às universidades federais limita-se ao uso de instrumentos de gestão patrimonial, sendo vedada a concessão de bolsas de pesquisa aplicada a docentes da carreira EBTT.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q6" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) A Lei de Diretrizes e Bases da Educação Nacional restringe o desenvolvimento do pensamento reflexivo e do espírito científico ao ensino propedêutico das escolas técnicas vinculadas.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-4">
+                        <p>A alternativa correta é a <strong>C</strong>. A fundamentação jurídica desta questão baseia-se na correlação de dois marcos regulatórios: o artigo 207 da Constituição Federal de 1988 e os artigos da Lei nº 11.892/2008.</p>
+                        <p>Embora o princípio da indissociabilidade entre ensino, pesquisa e extensão tenha sido originalmente instituído e direcionado para o âmbito universitário pela Carta Magna, a criação dos Institutos Federais em 2008 alterou a dinâmica regulatória da educação tecnológica. A Lei nº 11.892/2008 determinou expressamente que os Institutos Federais equiparam-se às universidades federais para efeitos de regulação, avaliação e supervisão das instituições e dos cursos de educação superior. Dessa forma, os IFs incorporaram legalmente o dever de zelar pelo equilíbrio e mútua realimentação da tríade acadêmica em suas ofertas formativas.</p>
+                        
+                        <div class="overflow-x-auto my-4 border border-brand-200 rounded-lg">
+                            <table class="min-w-full text-xs sm:text-sm text-left border-collapse">
+                                <thead class="bg-brand-100 text-brand-900 border-b border-brand-200 font-semibold">
+                                    <tr>
+                                        <th class="p-3">Aspecto de Comparação</th>
+                                        <th class="p-3">Universidades Federais (LDB - Lei nº 9.394/1996)</th>
+                                        <th class="p-3">Institutos Federais (Lei nº 11.892/2008)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-200 text-brand-800">
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Garantia Constitucional</td>
+                                        <td class="p-3">Autonomia didático-científica e princípio da indissociabilidade (Art. 207 da CF/88).</td>
+                                        <td class="p-3">Equiparação legal plena às Universidades Federais para fins regulatórios e de supervisão.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Exigência Docente</td>
+                                        <td class="p-3">Mínimo de um terço (1/3) do corpo docente com titulação de mestrado ou doutorado.</td>
+                                        <td class="p-3">Mínimo de um terço (1/3) do corpo docente com titulação de pós-graduação stricto sensu.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Regime de Trabalho</td>
+                                        <td class="p-3">Mínimo de um terço (1/3) em regime de tempo integral.</td>
+                                        <td class="p-3">Corpo docente regido pela carreira EBTT, com incentivo ao regime de dedicação exclusiva.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Perfil da Oferta</td>
+                                        <td class="p-3">Foco concentrado na educação superior (graduação e programas de pós-graduação).</td>
+                                        <td class="p-3">Atuação pluricurricular e verticalizada (da educação básica técnica à pós-graduação).</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Orçamento</td>
+                                        <td class="p-3">Proposta orçamentária anual sistêmica e centralizada pela reitoria universitária.</td>
+                                        <td class="p-3">Estrutura multicampi com proposta orçamentária anual e individualizada por campus.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="font-medium text-brand-900">Gabarito: C</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 7 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="7">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 07</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Prática profissional e a materialização da tríade no Ensino Médio Integrado</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>O compromisso de educação integral expresso nos documentos norteadores dos Institutos Federais encontra nas orientações de indissociabilidade possibilidades concretas de efetivação. Para viabilizar essa integração na educação básica profissional, destaca-se o papel de estratégias metodológicas específicas. Diante desse cenário, assinale a alternativa correta.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q7" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) A Prática Profissional Integrada (PPI), prevista nos projetos pedagógicos dos cursos, constitui uma metodologia integradora compatível com a interdisciplinaridade, a contextualização e a indissociabilidade entre ensino, pesquisa e extensão.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q7" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) A prática profissional integrada ao currículo do estudante de nível médio técnico deve ocorrer exclusivamente sob a forma de estágio supervisionado em empresas de grande porte.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q7" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) A integração curricular entre teoria e prática deve ocorrer por meio de atividades extracurriculares voluntárias, sem previsão de carga horária nos Projetos Pedagógicos de Curso (PPC).</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q7" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) O princípio educativo do trabalho e a pesquisa como princípio pedagógico são diretrizes exclusivas dos cursos superiores de tecnologia, não se aplicando ao Ensino Médio Integrado.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q7" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) A indissociabilidade no Ensino Médio Integrado prescinde de organização intencional nos currículos, visto que a conjugação de conhecimentos técnicos e práticos ocorre de maneira espontânea.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa correta é a <strong>A</strong>. Esta questão explora a transposição didática do princípio da indissociabilidade para a prática pedagógica interna das instituições da Rede Federal de EPT, objeto de análise recorrente nos currículos de cursos integrados.</p>
+                        <p>A indissociabilidade entre ensino, pesquisa e extensão exige arranjos metodológicos intencionais no currículo dos cursos. Conforme as diretrizes institucionais do Instituto Federal de Educação, Ciência e Tecnologia Farroupilha (IFFar) e de outros IFs, a Prática Profissional Integrada (PPI) constitui um instrumento de grande relevância pedagógica. A PPI é prevista de forma explícita na estruturação do percurso formativo e nos Projetos Pedagógicos de Curso (PPC) como uma ação curricular intencional. Ela funciona como uma metodologia integradora compatível com a interdisciplinaridade, a contextualização e o trabalho como princípio educativo, possibilitando que o discente investige a sua realidade social e produtiva no decorrer do processo de ensino-aprendizagem.</p>
+                        <p>Os demais distratores trazem visões limitadas ao reduzir a prática profissional ao estágio obrigatório em indústrias (B), ao sugerir a exclusão da carga horária oficial do curso (C), ao restringir a pesquisa científica à pós-graduação (D) ou ao supor que a integração curricular possa se dar sem planejamento e de forma meramente espontânea (E).</p>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: A</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 8 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="8">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 08</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: O tripé acadêmico e a relação dialógica com a sociedade</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>A indissociabilidade entre ensino, pesquisa e extensão pode ser interpretada por meio da analogia de um tripé, cuja sustentação exige o equilíbrio e a isonomia entre as três dimensões. Sobre a dinâmica de funcionamento desse tripé e sua relação com a comunidade, assinale a alternativa correta.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q8" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) A instituição de ensino deve funcionar como uma via de mão única, transferindo o conhecimento técnico acumulado para a comunidade passiva.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q8" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) O equilíbrio do tripé acadêmico pressupõe que o ensino atue de maneira hegemônica, devendo a pesquisa e a extensão receber tratamento secundário e recursos residuais.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q8" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) A indissociabilidade exige que haja uma via de mão-dupla com a comunidade, a qual deve poder trazer seus problemas e conhecimentos para que sejam tratados e pesquisados com rigor científico, realimentando continuamente o ciclo pedagógico.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q8" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) O diálogo com a comunidade externa deve ocorrer à margem das salas de aula, sendo restrito às atribuições burocráticas das Coordenadorias de Extensão.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q8" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) A pesquisa aplicada na EPT deve desvincular-se das necessidades dos arranjos produtivos, sociais e culturais locais para garantir a neutralidade da produção acadêmica.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa correta é a <strong>C</strong>. O cerne desta questão reside na compreensão da "via de mão-dupla" que deve regular a extensão e a pesquisa científica aplicada no contexto dos Institutos Federais e das universidades equiparadas.</p>
+                        <p>A analogia do tripé evidencia que a estabilidade institucional e pedagógica das instituições da Rede Federal de EPT exige um tratamento equilibrado e isonômico das funções de ensino, pesquisa e extensão, recebendo o mesmo grau de relevância e atenção de docentes, gestores e discentes. Nessa perspectiva dialógica, a extensão e a pesquisa não podem funcionar de forma assistencialista ou em "via de mão única" — em que a instituição se limita a ditar ou repassar soluções de maneira unidirecional à comunidade (o que invalida as alternativas A e B). O equilíbrio consolida-se por meio de uma constante interação com a comunidade externa, que atua como parceira ativa, trazendo suas demandas, necessidades sociais e saberes tradicionais para que sejam tratados de forma rigorosa pelas atividades acadêmicas de ensino e de investigação científica (pesquisa), alimentando de forma contínua o currículo institucional.</p>
+                        <p>Os distratores D e E são incorretos porque tentam isolar o diálogo comunitário das salas de aula ou afastar a pesquisa científica dos arranjos locais, o que violaria o papel transformador e a responsabilidade social da EPT.</p>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: C</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 9 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="9">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 09</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Particularidades do princípio da indissociabilidade na Rede Federal</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>O Princípio da Indissociabilidade entre Ensino, Pesquisa e Extensão (PIEPE) encontra heranças históricas tanto no modelo universitário quanto no processo de consolidação da Rede Federal de EPT. Sobre os tensionamentos e a complexidade de implementação do PIEPE na Rede Federal, assinale a alternativa correta.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q9" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) A trajetória do PIEPE nos Institutos Federais reflete um paralelismo simples com o modelo das universidades clássicas, não apresentando particularidades ou tensionamentos na sua identidade institucional.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q9" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) O modelo de ensino superior herdado da tradição napoleônica, voltado estritamente à formação profissionalizante, serviu de suporte histórico para a implementação imediata da indissociabilidade na educação básica técnica.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q9" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) A complexidade das finalidades dos Institutos Federais exige o desenvolvimento de atividades de ensino, pesquisa e extensão de forma indissociável em todos os níveis e modalidades da Educação Profissional e Tecnológica (EPT).</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q9" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) A Lei nº 11.892/2008 restringe a aplicação do princípio de indissociabilidade aos campi de referência metropolitana, isentando os campi do interior do desenvolvimento de pesquisas aplicadas.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q9" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) O desequilíbrio entre os pilares do tripé acadêmico é uma característica desejável na Rede Federal para assegurar a otimização dos recursos públicos e a aceleração da certificação em massa.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-4">
+                        <p>A alternativa correta é a <strong>C</strong>. A complexidade identitária e histórica da Rede Federal de Educação Profissional, Científica e Tecnológica afasta análises baseadas em paralelismos simplistas com o modelo das universidades clássicas, conforme apontam as investigações científicas sobre o Princípio da Indissociabilidade entre Ensino, Pesquisa e Extensão (PIEPE).</p>
+                        <p>Enquanto a universidade tradicional brasileira herdou fortes características do modelo napoleônico (focado na preparação propedêutica e técnica) e do modelo humboldtiano (centrado no cultivo do saber científico puro), os Institutos Federais foram estruturados sob uma lógica singular. Pela redação da Lei nº 11.892/2008, os IFs assumiram o compromisso de ofertar educação profissional e tecnológica de forma verticalizada em todos os seus níveis e modalidades, estendendo-se desde os cursos de qualificação básica (FIC) e técnicos de nível médio até os cursos de pós-graduação stricto sensu.</p>
+                        
+                        <div class="overflow-x-auto my-4 border border-brand-200 rounded-lg">
+                            <table class="min-w-full text-xs sm:text-sm text-left border-collapse">
+                                <thead class="bg-brand-100 text-brand-900 border-b border-brand-200 font-semibold">
+                                    <tr>
+                                        <th class="p-3">Modelo de Educação</th>
+                                        <th class="p-3">Origem Histórica</th>
+                                        <th class="p-3">Relação com a Tríade Acadêmica</th>
+                                        <th class="p-3">Impacto na Rede Federal de EPT</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-200 text-brand-800 text-xs">
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Modelo Napoleônico</td>
+                                        <td class="p-3">França pós-revolucionária.</td>
+                                        <td class="p-3">Foco quase exclusivo na função de ensino profissional para as carreiras de Estado.</td>
+                                        <td class="p-3">Atua como uma herança histórica centralizadora que tensiona a introdução de pesquisa e extensão.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Modelo Humboldtiano</td>
+                                        <td class="p-3">Alemanha (Univ. de Berlim).</td>
+                                        <td class="p-3">Integração indissociável entre ensino e pesquisa pura (busca pelo saber acadêmico desinteressado).</td>
+                                        <td class="p-3">Fornece as bases científicas que amparam a pesquisa acadêmica rigorosa, mas distanciada da extensão social.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Modelo Norte-Americano</td>
+                                        <td class="p-3">Estados Unidos (Land-Grant Colleges).</td>
+                                        <td class="p-3">Forte integração com o setor produtivo, incorporando a extensão aplicada à agricultura e mecânica.</td>
+                                        <td class="p-3">Inspira a relação próxima entre a instituição e as demandas produtivas do mercado de trabalho.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-brand-50">Modelo da EPT (RFEPCT)</td>
+                                        <td class="p-3">Brasil (Lei nº 11.892/2008).</td>
+                                        <td class="p-3">Indissociabilidade plena amparada no trabalho como princípio educativo e na pesquisa como princípio pedagógico.</td>
+                                        <td class="p-3">Exige o desenvolvimento integrado de ensino, pesquisa e extensão em todos os níveis, da educação básica à pós-graduação.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="font-medium text-brand-900">Gabarito: C</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 10 -->
+            <div class="bg-brand-50 border border-brand-200 rounded-xl p-6 sm:p-8 transition-all duration-300 shadow-sm question-card" data-q-index="10">
+                <div class="flex items-center justify-between mb-4 border-b border-brand-200 pb-3">
+                    <span class="text-sm font-semibold text-brand-600">Questão 10</span>
+                    <span class="px-2.5 py-0.5 text-xs bg-brand-100 text-brand-800 rounded-full font-medium">Banca: Estilo AOCP</span>
+                </div>
+                
+                <div class="text-xs text-brand-600 mb-4 uppercase tracking-wider font-semibold">Assunto: Dimensão cultural e a formação omnilateral na EPT</div>
+                
+                <div class="prose prose-stone mb-6 max-w-none text-brand-900 leading-relaxed font-serif text-base sm:text-lg">
+                    <p>Estudos voltados ao aperfeiçoamento das práticas educativas na EPT propõem discussões sobre a incorporação de novos elementos à tríade tradicional da indissociabilidade. No que tange à inclusão da dimensão cultural nesse processo, assinale a alternativa correta.</p>
+                </div>
+
+                <div class="space-y-3" role="radiogroup">
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q10" value="A" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">A) A cultura deve ser compreendida de forma acessória e marginal, servindo apenas como entretenimento ou festividade desvinculada das práticas científicas e do currículo formativo.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q10" value="B" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">B) A articulação entre ensino, pesquisa, extensão e cultura fundamenta-se na perspectiva de uma educação que busca a formação humana integral e omnilateral do estudante, valorizando o trabalho como produção de cultura.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q10" value="C" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">C) A dimensão cultural é incompatível com as demandas técnicas do setor industrial, devendo o currículo dos Institutos Federais focar exclusivamente no adestramento técnico operacional.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q10" value="D" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">D) A inclusão da dimensão cultural no tripé acadêmico restringe-se a ações pedagógicas voltadas aos alunos do ensino fundamental vinculados às escolas parceiras.</span>
+                    </label>
+                    <label class="flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group">
+                        <input type="radio" name="q10" value="E" class="mt-1 mr-3 text-brand-700 focus:ring-brand-500 accent-brand-700">
+                        <span class="text-brand-900 text-sm sm:text-base">E) A preservação da identidade cultural local e regional é um papel secundário dos Institutos Federais, cuja finalidade primária é a atração de investimentos estrangeiros diretos.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Invisível no início) -->
+                <div class="mt-6 pt-6 border-t border-brand-200 hidden resolution-box">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Resolução e Comentário
+                    </h4>
+                    <div class="prose prose-stone text-sm sm:text-base text-brand-800 leading-relaxed font-sans space-y-3">
+                        <p>A alternativa correta é a <strong>B</strong>. No âmbito de pesquisas educacionais e programas acadêmicos como o ProfEPT, pesquisadores apontam a necessidade de se ampliar a discussão clássica do tripé acadêmico.</p>
+                        <p>A inserção da dimensão "cultural" de forma orgânica e transversal ao ensino, à pesquisa e à extensão constitui um elemento fundamental para a consecução de uma formação humana integral e omnilateral (que abrange todas as dimensões do ser humano, incluindo o trabalho, a ciência, a tecnologia e a arte). A cultura é compreendida não sob uma perspectiva de consumismo artístico de elite ou de simples atividades recreativas isoladas (refutando a alternativa A), mas sim no seu sentido amplo e antropológico de produção material e simbólica da existência humana pelo trabalho, sendo um pilar essencial para uma educação de caráter emancipatório.</p>
+                        <p>Os demais distratores trazem proposições reducionistas que veem a cultura como incompatível com a qualificação industrial (C), de aplicação restrita à educação básica inicial (D) ou de menor relevância frente aos objetivos financeiros globais (E), o que fragiliza a missão social dos Institutos Federais.</p>
+                        <p class="font-medium text-brand-900 mt-2">Gabarito: B</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painel de Resultados (Oculto até finalizar) -->
+            <div id="resultsPanel" class="hidden bg-brand-50 border-2 border-brand-300 rounded-xl p-6 sm:p-8 shadow-md scroll-mt-24">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-serif font-bold text-brand-900 mb-2">Resultado do Quiz</h2>
+                    <p class="text-brand-700 text-sm sm:text-base">Confira seu desempenho geral na avaliação:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
+                    <div class="bg-white p-4 rounded-lg border border-brand-200">
+                        <span class="block text-xs font-semibold text-brand-600 uppercase tracking-wide">Acertos</span>
+                        <span id="scoreValue" class="text-4xl font-serif font-bold text-brand-900">0 / 10</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-brand-200">
+                        <span class="block text-xs font-semibold text-brand-600 uppercase tracking-wide">Aproveitamento</span>
+                        <span id="percentageValue" class="text-4xl font-serif font-bold text-brand-900">0%</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-brand-200 flex flex-col justify-center">
+                        <span class="block text-xs font-semibold text-brand-600 uppercase tracking-wide">Desempenho</span>
+                        <span id="performanceFeedback" class="text-lg font-bold mt-1 text-brand-800">A avaliar</span>
+                    </div>
+                </div>
+
+                <div class="bg-brand-100 rounded-lg p-4 text-sm text-brand-800 leading-relaxed mb-6">
+                    <h3 class="font-semibold text-brand-900 mb-1">Gabarito Rápido de Referência:</h3>
+                    <div class="grid grid-cols-5 sm:grid-cols-10 gap-2 mt-3 font-mono font-bold text-center">
+                        <div class="bg-white p-2 rounded border border-brand-200">Q1: <span class="text-brand-900">D</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q2: <span class="text-brand-900">B</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q3: <span class="text-brand-900">B</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q4: <span class="text-brand-900">A</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q5: <span class="text-brand-900">B</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q6: <span class="text-brand-900">C</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q7: <span class="text-brand-900">A</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q8: <span class="text-brand-900">C</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q9: <span class="text-brand-900">C</span></div>
+                        <div class="bg-white p-2 rounded border border-brand-200">Q10: <span class="text-brand-900">B</span></div>
+                    </div>
+                </div>
+
+                <p class="text-center text-xs text-brand-600">
+                    As resoluções detalhadas com comentários e fundamentações teóricas de cada questão foram liberadas diretamente em cada card acima.
+                </p>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 border-t border-brand-200">
+                <button type="button" id="submitBtn" onclick="evaluateQuiz()" class="w-full sm:w-auto px-8 py-4 bg-brand-800 text-white font-semibold rounded-lg hover:bg-brand-900 transition-colors duration-200 shadow focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
+                    Finalizar Quiz e Ver Resoluções
+                </button>
+                <button type="button" id="resetBtn" onclick="resetQuiz()" class="w-full sm:w-auto px-8 py-4 bg-white text-brand-800 border border-brand-300 font-semibold rounded-lg hover:bg-brand-100 transition-colors duration-200 focus:outline-none hidden">
+                    Refazer Quiz
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="bg-brand-100 border-t border-brand-200 mt-20 py-8">
+        <div class="max-w-4xl mx-auto px-4 text-center text-xs sm:text-sm text-brand-600 space-y-2">
+            <p>© 2026 - Questões Comentadas: A Indissociabilidade entre Ensino, Pesquisa e Extensão na EPT.</p>
+            <p>Layout projetado cientificamente com tons suaves para evitar fadiga em sessões prolongadas de estudo.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts do Quiz -->
+    <script>
+        // Configuração das respostas corretas
+        const correctAnswers = {
+            q1: 'D',
+            q2: 'B',
+            q3: 'B',
+            q4: 'A',
+            q5: 'B',
+            q6: 'C',
+            q7: 'A',
+            q8: 'C',
+            q9: 'C',
+            q10: 'B'
+        };
+
+        const totalQuestions = Object.keys(correctAnswers).length;
+
+        // Monitorar respostas para atualizar a barra de progresso em tempo real
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                updateProgress();
+            });
+        });
+
+        function getAnsweredCount() {
+            let answered = 0;
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) {
+                    answered++;
+                }
+            }
+            return answered;
+        }
+
+        function updateProgress() {
+            const answered = getAnsweredCount();
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+            document.getElementById('progressText').innerText = `${answered} de ${totalQuestions} respondidas`;
+        }
+
+        function evaluateQuiz() {
+            const answered = getAnsweredCount();
+            
+            // Forçar aviso visual caso existam questões não respondidas
+            if (answered < totalQuestions) {
+                const confirmSubmit = confirm(`Você respondeu apenas ${answered} de ${totalQuestions} questões. Deseja finalizar assim mesmo para ver as resoluções?`);
+                if (!confirmSubmit) return;
+            }
+
+            let score = 0;
+            const userAnswers = {};
+
+            // Desabilitar todas as opções após finalizar e colorir
+            for (let i = 1; i <= totalQuestions; i++) {
+                const qName = `q${i}`;
+                const checkedRadio = document.querySelector(`input[name="${qName}"]:checked`);
+                const userChoice = checkedRadio ? checkedRadio.value : null;
+                userAnswers[qName] = userChoice;
+
+                const correctChoice = correctAnswers[qName];
+                const card = document.querySelector(`.question-card[data-q-index="${i}"]`);
+
+                if (userChoice === correctChoice) {
+                    score++;
+                }
+
+                // Destacar respostas nos rótulos das opções
+                const labels = card.querySelectorAll('label');
+                labels.forEach(label => {
+                    const input = label.querySelector('input');
+                    // Desabilita inputs para travar as respostas enviadas
+                    input.disabled = true;
+
+                    // Remove estilos de hover padrão
+                    label.classList.remove('hover:bg-brand-100', 'cursor-pointer');
+
+                    if (input.value === correctChoice) {
+                        // Resposta correta (Destaca em verde suave)
+                        label.classList.add('bg-green-50', 'border-green-400', 'text-green-900');
+                        label.classList.remove('bg-white', 'border-brand-200');
+                        
+                        // Ícone de check
+                        const checkIcon = document.createElement('span');
+                        checkIcon.innerHTML = ' <strong class="text-green-700 ml-1">(Gabarito Correto) ✓</strong>';
+                        label.appendChild(checkIcon);
+                    } else if (userChoice && input.value === userChoice && userChoice !== correctChoice) {
+                        // Usuário errou (Destaca a opção marcada em vermelho suave)
+                        label.classList.add('bg-red-50', 'border-red-300', 'text-red-900');
+                        label.classList.remove('bg-white', 'border-brand-200');
+                        
+                        // Ícone de erro
+                        const errorIcon = document.createElement('span');
+                        errorIcon.innerHTML = ' <strong class="text-red-700 ml-1">(Sua escolha incorreta) ✗</strong>';
+                        label.appendChild(errorIcon);
+                    }
+                });
+
+                // Exibe a resolução oculta de cada questão
+                const resBox = card.querySelector('.resolution-box');
+                if (resBox) {
+                    resBox.classList.remove('hidden');
+                    // Efeito suave para revelar resoluções
+                    resBox.classList.add('animate-fade-in');
+                }
+            }
+
+            // Exibir Painel de Resultados Gerais
+            const resultsPanel = document.getElementById('resultsPanel');
+            resultsPanel.classList.remove('hidden');
+
+            // Atualiza valores no painel
+            document.getElementById('scoreValue').innerText = `${score} / ${totalQuestions}`;
+            const percentageScore = (score / totalQuestions) * 100;
+            document.getElementById('percentageValue').innerText = `${percentageScore}%`;
+
+            // Fornecer feedback textual personalizado
+            const feedbackText = document.getElementById('performanceFeedback');
+            if (percentageScore >= 90) {
+                feedbackText.innerText = "Excelente! Desempenho nível aprovação.";
+                feedbackText.className = "text-lg font-bold mt-1 text-green-700";
+            } else if (percentageScore >= 70) {
+                feedbackText.innerText = "Muito Bom! Siga revisando os pontos fracos.";
+                feedbackText.className = "text-lg font-bold mt-1 text-brand-700";
+            } else if (percentageScore >= 50) {
+                feedbackText.innerText = "Regular. Recomenda-se ler as resoluções com atenção.";
+                feedbackText.className = "text-lg font-bold mt-1 text-yellow-700";
+            } else {
+                feedbackText.innerText = "Necessita reforço. Estude as fundamentações teóricas.";
+                feedbackText.className = "text-lg font-bold mt-1 text-red-700";
+            }
+
+            // Ocultar botão de envio e mostrar o de reiniciar
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('resetBtn').classList.remove('hidden');
+
+            // Rolar suavemente para o painel de resultados
+            resultsPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            // Recarregar os inputs
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+                radio.disabled = false;
+            });
+
+            // Limpar estilos customizados dos labels
+            document.querySelectorAll('.question-card label').forEach(label => {
+                label.className = "flex items-start p-4 rounded-lg border border-brand-200 bg-white hover:bg-brand-100 cursor-pointer transition duration-150 group";
+                const badge = label.querySelector('span strong');
+                if (badge) {
+                    badge.remove();
+                }
+            });
+
+            // Ocultar caixas de resolução
+            document.querySelectorAll('.resolution-box').forEach(box => {
+                box.classList.add('hidden');
+            });
+
+            // Ocultar painel de resultados
+            document.getElementById('resultsPanel').classList.add('hidden');
+
+            // Alternar visibilidade dos botões
+            document.getElementById('submitBtn').classList.remove('hidden');
+            document.getElementById('resetBtn').classList.add('hidden');
+
+            // Resetar barra de progresso
+            updateProgress();
+
+            // Rolar suavemente de volta ao topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
