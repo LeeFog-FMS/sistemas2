@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula de Ortografia e Acentuação - IFCE (Banca AOCP)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #0f172a; }
+        
+        .grifado-amarelo { background-color: #fef08a; padding: 0.1rem 0.2rem; border-radius: 0.2rem; font-weight: 600; }
+        .grifado-verde { background-color: #dcfce7; padding: 0.1rem 0.2rem; border-radius: 0.2rem; font-weight: 600; }
+        .grifado-vermelho { background-color: #fee2e2; padding: 0.1rem 0.2rem; border-radius: 0.2rem; font-weight: 600; }
+        
+        /* Garantindo que tabelas não quebrem o layout em telas minúsculas */
+        .responsive-container { overflow-x: hidden; }
+    </style>
+</head>
+<body class="selection:bg-indigo-100">
+
+    <header class="border-b border-slate-100 py-10 px-4 max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-2">
+                <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest px-3 py-1 bg-indigo-50 rounded-full border border-indigo-100">Material de Alto Rendimento</span>
+                <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Ortografia e Acentuação Gráfica</h1>
+                <p class="text-slate-500 text-lg font-medium">Professor de Geografia - IFCE | <span class="text-slate-900">Banca Instituto AOCP</span></p>
+            </div>
+            <div class="flex items-center gap-4 text-slate-400">
+                <div class="text-right hidden sm:block">
+                    <p class="text-[10px] font-bold uppercase">Última Atualização</p>
+                    <p class="text-xs font-semibold text-slate-600">Pós-Acordo Ortográfico</p>
+                </div>
+                <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 responsive-container">
+
+        <section class="bg-slate-50 border border-slate-200 rounded-3xl p-6 md:p-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="volume-2" class="text-indigo-600"></i>
+                        Recurso de Audio-Revisão
+                    </h3>
+                    <p class="text-sm text-slate-500">Configure o arquivo e estude por áudio enquanto lê os esquemas.</p>
+                </div>
+                <div class="w-full md:w-80">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Caminho do Arquivo MP3</label>
+                    <div class="relative">
+                        <input type="text" id="mp3-filename" value="aula-geografia-ifce.mp3" 
+                               class="w-full text-sm rounded-xl border-slate-200 bg-white py-2.5 pl-4 pr-24 border focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                        <button id="btn-load-audio" class="absolute right-1.5 top-1.5 bg-indigo-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-indigo-700">CARREGAR</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 border border-slate-200 flex flex-col sm:flex-row items-center gap-6">
+                <button id="btn-play-pause" class="w-14 h-14 bg-slate-900 rounded-full flex items-center justify-center text-white hover:bg-indigo-600 transition-all shadow-lg active:scale-95">
+                    <i data-lucide="play" id="icon-play" class="w-6 h-6 ml-1"></i>
+                </button>
+                <div class="flex-1 w-full space-y-2">
+                    <div class="flex justify-between items-end">
+                        <span id="audio-status-text" class="text-xs font-bold text-indigo-600 uppercase tracking-tighter">Pronto para iniciar</span>
+                        <div class="text-[10px] font-mono text-slate-400">
+                            <span id="time-current">00:00</span> / <span id="time-duration">00:00</span>
+                        </div>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full cursor-pointer relative" id="progress-container">
+                        <div id="progress-bar" class="absolute top-0 left-0 h-full bg-indigo-500 rounded-full w-0 transition-all"></div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 border-l pl-6 border-slate-100">
+                    <i data-lucide="volume-1" class="w-4 h-4 text-slate-400"></i>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.8" class="w-20 h-1 bg-slate-200 rounded-lg appearance-none accent-indigo-600">
+                </div>
+            </div>
+            <audio id="main-audio"></audio>
+        </section>
+
+        <section class="space-y-4">
+            <div class="bg-indigo-50/30 border border-indigo-100 rounded-2xl p-6">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 mb-3">
+                    <i data-lucide="info" class="text-indigo-600"></i>
+                    Visão Geral: Ortografia e Acentuação no Contexto EBTT
+                </h2>
+                <p class="text-slate-700 text-sm leading-relaxed">
+                    A <span class="grifado-amarelo">Ortografia Oficial</span> e a <span class="grifado-amarelo">Acentuação Gráfica</span> não são apenas regras gramaticais isoladas para o Instituto AOCP; elas representam o padrão de norma culta exigido para a produção de materiais didáticos e documentos oficiais na carreira docente do IFCE. Em provas de nível superior (EBTT), a banca abandona a decoreba simples e foca na <span class="font-bold underline">aplicação prática em fragmentos de texto</span>, testando a capacidade do professor em revisar e validar a escrita técnica.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div class="text-xs bg-white p-3 rounded-lg border border-indigo-50 shadow-sm">
+                        <span class="font-bold text-indigo-700 uppercase block mb-1">Características Essenciais</span>
+                        Foco na clareza, correção normativa e adequação ao Novo Acordo Ortográfico.
+                    </div>
+                    <div class="text-xs bg-white p-3 rounded-lg border border-indigo-50 shadow-sm">
+                        <span class="font-bold text-indigo-700 uppercase block mb-1">Perfil da Banca</span>
+                        Rigorosa na distinção entre regras gerais e acentos diferenciais.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <h3 class="text-2xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-4">01. Base Silábica e Regras Gerais</h3>
+            
+            <p class="text-slate-600 text-sm">O acerto da questão começa na <span class="font-bold">separação silábica</span>. Para a AOCP, um erro na classificação de um ditongo anula a regra de acentuação.</p>
+
+            <!-- Tabela Responsiva Inteligente -->
+            <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm bg-white">
+                <!-- Desktop View -->
+                <table class="hidden md:table w-full text-sm text-left">
+                    <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] tracking-widest border-b">
+                        <tr>
+                            <th class="px-6 py-4">Classificação</th>
+                            <th class="px-6 py-4">Regra (Gabarito)</th>
+                            <th class="px-6 py-4">Exemplos (Foco Geografia)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="px-6 py-4 font-bold">Monossílabos Tônicos</td>
+                            <td class="px-6 py-4">Acentuam-se os terminados em <span class="grifado-amarelo">A(s), E(s), O(s)</span>.</td>
+                            <td class="px-6 py-4 italic">há, já, pé, pó, só.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-bold">Oxítonas</td>
+                            <td class="px-6 py-4">Acentuam-se os terminados em <span class="grifado-amarelo">A(s), E(s), O(s), EM, ENS</span>.</td>
+                            <td class="px-6 py-4 italic">Paraná, Amapá, você, também.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-bold">Paroxítonas</td>
+                            <td class="px-6 py-4">Acentuam-se as terminadas em L, N, R, X, PS, I, US, UM, ÃO e <span class="font-bold underline">Ditongos</span>.</td>
+                            <td class="px-6 py-4 italic">Fóssil, caráter, <span class="grifado-amarelo">área</span>, relevância.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-bold text-emerald-700 italic">Proparoxítonas</td>
+                            <td class="px-6 py-4 font-semibold text-emerald-800 uppercase text-[11px]">Todas são acentuadas!</td>
+                            <td class="px-6 py-4 italic">antrópico, física, geográfica.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Mobile View (Cards) -->
+                <div class="md:hidden divide-y divide-slate-100">
+                    <div class="p-5 space-y-2">
+                        <div class="flex justify-between"><span class="text-[10px] font-black text-indigo-600 uppercase">Monossílabos</span> <span class="text-[10px] font-bold text-slate-400">Regra 01</span></div>
+                        <p class="text-sm font-bold text-slate-800">Terminados em A, E, O (seguidos ou não de S).</p>
+                        <p class="text-xs text-slate-500 italic font-mono">Ex: há, já, pó.</p>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <div class="flex justify-between"><span class="text-[10px] font-black text-indigo-600 uppercase">Oxítonas</span> <span class="text-[10px] font-bold text-slate-400">Regra 02</span></div>
+                        <p class="text-sm font-bold text-slate-800">Terminados em A, E, O, EM, ENS.</p>
+                        <p class="text-xs text-slate-500 italic font-mono">Ex: Paraná, Amapá, também.</p>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <div class="flex justify-between"><span class="text-[10px] font-black text-indigo-600 uppercase">Paroxítonas</span> <span class="text-[10px] font-bold text-slate-400">Regra 03</span></div>
+                        <p class="text-sm font-bold text-slate-800">Terminados em Ditongo, L, N, R, X, PS, I, US, UM, ÃO.</p>
+                        <p class="text-xs text-slate-500 italic font-mono">Ex: <span class="grifado-amarelo">área</span>, relevância, <span class="grifado-amarelo">litosfera</span> (NÃO acentua pois é paroxítona em A).</p>
+                    </div>
+                    <div class="p-5 space-y-2 bg-emerald-50/30">
+                        <div class="flex justify-between"><span class="text-[10px] font-black text-emerald-600 uppercase">Proparoxítonas</span> <span class="text-[10px] font-bold text-emerald-400">Regra Universal</span></div>
+                        <p class="text-sm font-bold text-emerald-900">Todas, absolutamente todas, são acentuadas.</p>
+                        <p class="text-xs text-emerald-700 italic font-mono">Ex: antrópico, física, geográfica.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-5 border-2 border-amber-100 rounded-2xl bg-amber-50/20">
+                    <h4 class="font-bold text-amber-800 text-sm flex items-center gap-2 mb-2">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i> O Peguinha do "IA"
+                    </h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        A AOCP aceita a dupla classificação para palavras como <span class="italic font-bold">relevância</span>: 
+                        1) <span class="font-bold">Paroxítona</span> terminada em ditongo crescente. 
+                        2) <span class="font-bold">Proparoxítona eventual/aparente</span>. Atente-se ao comando da questão!
+                    </p>
+                </div>
+                <div class="p-5 border-2 border-rose-100 rounded-2xl bg-rose-50/20">
+                    <h4 class="font-bold text-rose-800 text-sm flex items-center gap-2 mb-2">
+                        <i data-lucide="x-circle" class="w-4 h-4"></i> Litosfera / Atmosfera
+                    </h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <span class="font-bold">Armadilha de Geografia:</span> Palavras terminadas em <span class="italic">-sfera</span> são paroxítonas terminadas em "A", portanto <span class="grifado-vermelho">NÃO possuem acento</span>. Muita gente confunde com proparoxítona.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <h3 class="text-2xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-4">02. Regras Pós-Acordo (Onde o erro se esconde)</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Ditongos Abertos -->
+                <div class="space-y-3">
+                    <div class="h-1 bg-indigo-600 w-12 rounded"></div>
+                    <h4 class="font-bold text-slate-800">Ditongos ÉI, ÓI</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Perderam o acento nas <span class="font-bold">paroxítonas</span>.</p>
+                    <div class="flex flex-col gap-1 text-[11px] font-mono">
+                        <span class="text-emerald-600 font-bold">✅ Herói (Oxítona)</span>
+                        <span class="text-red-500 font-bold">❌ Ideia (Paroxítona)</span>
+                        <span class="text-red-500 font-bold">❌ Paleozoico</span>
+                    </div>
+                </div>
+
+                <!-- Vogais Dobradas -->
+                <div class="space-y-3">
+                    <div class="h-1 bg-indigo-600 w-12 rounded"></div>
+                    <h4 class="font-bold text-slate-800">Vogais Dobradas</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Fim do acento circunflexo em <span class="font-bold">OO</span> e <span class="font-bold">EE</span>.</p>
+                    <div class="flex flex-col gap-1 text-[11px] font-mono">
+                        <span class="text-emerald-600 font-bold">✅ Voo / Enjoo</span>
+                        <span class="text-emerald-600 font-bold">✅ Creem / Leem</span>
+                        <span class="text-red-500 font-bold text-xs">❌ Voô / Creêm</span>
+                    </div>
+                </div>
+
+                <!-- Hiato em Paroxítonas -->
+                <div class="space-y-3">
+                    <div class="h-1 bg-indigo-600 w-12 rounded"></div>
+                    <h4 class="font-bold text-slate-800">Hiato I e U</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Cai o acento se precedido por ditongo em <span class="font-bold">paroxítonas</span>.</p>
+                    <div class="flex flex-col gap-1 text-[11px] font-mono">
+                        <span class="text-emerald-600 font-bold">✅ Piauí (Oxítona)</span>
+                        <span class="text-red-500 font-bold">❌ Feiura</span>
+                        <span class="text-red-500 font-bold">❌ Baiuca</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <h3 class="text-2xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-4">03. Acento Diferencial (Ter e Vir)</h3>
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                <p class="text-sm text-slate-700 mb-6">Regra essencial para concordância em fragmentos técnicos de Geografia Humana/Populacional.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Formas Simples</span>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl">
+                                <span class="text-sm">Ele <span class="font-bold">tem / vem</span></span>
+                                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">SINGULAR</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-white border border-indigo-100 rounded-xl">
+                                <span class="text-sm">Eles <span class="grifado-verde">têm / vêm</span></span>
+                                <span class="text-[10px] bg-indigo-600 px-2 py-0.5 rounded text-white font-bold italic">PLURAL</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Derivados (Manter, Deter, Intervir)</span>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl">
+                                <span class="text-sm">Ele <span class="grifado-amarelo">mantém</span></span>
+                                <span class="text-[10px] bg-amber-50 px-2 py-0.5 rounded text-amber-600 font-bold">AGUDO (SG)</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-white border border-indigo-100 rounded-xl">
+                                <span class="text-sm">Eles <span class="grifado-verde">mantêm</span></span>
+                                <span class="text-[10px] bg-indigo-600 px-2 py-0.5 rounded text-white font-bold italic">CIRC (PL)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-8">
+            <h3 class="text-2xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-4">04. Ortografia e Uso do Hífen</h3>
+            
+            <!-- Grid de Ortografia -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 border border-slate-200 rounded-2xl space-y-4">
+                    <h4 class="font-extrabold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="edit-3" class="w-5 h-5 text-indigo-500"></i> Uso de X / CH / S / Z
+                    </h4>
+                    <ul class="text-xs text-slate-600 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-indigo-600 font-black">•</span>
+                            <span>Usa-se <span class="font-bold text-slate-900">X</span> após ditongos (Ex: <span class="italic">peixe, caixa</span>) e após a sílaba "EN" (Ex: <span class="italic">enxurrada</span>).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-indigo-600 font-black">•</span>
+                            <span>Palavras derivadas mantêm a letra da primitiva: <span class="font-bold text-slate-900">Pesquisa (S) → Pesquisar (S)</span>. <span class="font-bold text-slate-900">Deslize (Z) → Deslizar (Z)</span>.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-6 border border-slate-200 rounded-2xl space-y-4">
+                    <h4 class="font-extrabold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="git-branch" class="w-5 h-5 text-indigo-500"></i> Regras de Hífen (Geografia)
+                    </h4>
+                    <ul class="text-xs text-slate-600 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-indigo-600 font-black">•</span>
+                            <span>Prefixos que terminam em vogal <span class="font-bold">diferente</span> da que inicia a segunda palavra: <span class="underline">NÃO usa hífen</span>. (Ex: <span class="grifado-verde">semiárido</span>, <span class="grifado-verde">infraestrutura</span>).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-indigo-600 font-black">•</span>
+                            <span>Vogal + R ou S: Duplica a consoante e <span class="underline">NÃO usa hífen</span>. (Ex: <span class="grifado-amarelo">microrregião</span>, <span class="grifado-amarelo">biossistema</span>).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-indigo-600 font-black">•</span>
+                            <span>Obrigatório se a segunda palavra começar com <span class="font-bold">H</span>. (Ex: <span class="grifado-verde">geo-história</span>, <span class="grifado-verde">anti-higiênico</span>).</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-indigo-950 text-white rounded-3xl p-8 space-y-4">
+                <h4 class="text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="target" class="text-indigo-400"></i>
+                    Estratégia AOCP: Identificação de Erros em Fragmentos
+                </h4>
+                <p class="text-indigo-200 text-sm">Ao analisar um parágrafo da prova para encontrar o erro ortográfico, use este checklist mental:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                    <div class="flex gap-3 items-start">
+                        <div class="w-6 h-6 rounded bg-indigo-800 flex items-center justify-center text-[10px] font-bold shrink-0">1</div>
+                        <p class="text-xs">Busque por palavras com <span class="font-bold">X</span> (é a letra com maior índice de erros na banca).</p>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <div class="w-6 h-6 rounded bg-indigo-800 flex items-center justify-center text-[10px] font-bold shrink-0">2</div>
+                        <p class="text-xs">Verifique as paroxítonas em ditongo (<span class="italic">áreas, geográficas</span>) e se não falta acento.</p>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <div class="w-6 h-6 rounded bg-indigo-800 flex items-center justify-center text-[10px] font-bold shrink-0">3</div>
+                        <p class="text-xs">Confira o hífen em termos geográficos (<span class="italic">socioeconômico</span> é junto!).</p>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <div class="w-6 h-6 rounded bg-indigo-800 flex items-center justify-center text-[10px] font-bold shrink-0">4</div>
+                        <p class="text-xs">Observe o acento diferencial: o sujeito está no plural? O verbo deve ter circunflexo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="py-12 border-t border-slate-100 text-center space-y-6">
+            <div class="max-w-md mx-auto">
+                <h5 class="text-slate-900 font-bold mb-2">Teoria Concluída!</h5>
+                <p class="text-slate-500 text-sm mb-6">Agora você deve validar este conhecimento através da resolução de questões estilo AOCP.</p>
+                <a href="ortografiaquestoes.html" class="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold hover:bg-indigo-600 transition-all shadow-xl group">
+                    IR PARA QUESTÕES DA BANCA
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-50 py-12 text-center">
+        <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">IFCE • Ortografia e Acentuação • 2026</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const audio = document.getElementById('main-audio');
+        const btnPlayPause = document.getElementById('btn-play-pause');
+        const iconPlay = document.getElementById('icon-play');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const timeCurrent = document.getElementById('time-current');
+        const timeDuration = document.getElementById('time-duration');
+        const audioStatusText = document.getElementById('audio-status-text');
+        const volumeSlider = document.getElementById('volume-slider');
+        const mp3FilenameInput = document.getElementById('mp3-filename');
+        const btnLoadAudio = document.getElementById('btn-load-audio');
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        function loadAudio() {
+            const file = mp3FilenameInput.value.trim();
+            if (file) {
+                audio.src = file;
+                audio.load();
+                audioStatusText.textContent = "Arquivo Carregado: " + file;
+                audioStatusText.className = "text-xs font-bold text-indigo-600 uppercase tracking-tighter";
+            }
+        }
+
+        btnLoadAudio.addEventListener('click', loadAudio);
+        window.addEventListener('load', loadAudio);
+
+        btnPlayPause.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    iconPlay.setAttribute('data-lucide', 'pause');
+                    audioStatusText.textContent = "Reproduzindo...";
+                    audioStatusText.className = "text-xs font-bold text-emerald-600 uppercase tracking-tighter";
+                    lucide.createIcons();
+                }).catch(() => {
+                    audioStatusText.textContent = "Erro: Arquivo não encontrado";
+                    audioStatusText.className = "text-xs font-bold text-red-500 uppercase tracking-tighter";
+                });
+            } else {
+                audio.pause();
+                iconPlay.setAttribute('data-lucide', 'play');
+                audioStatusText.textContent = "Pausado";
+                audioStatusText.className = "text-xs font-bold text-amber-500 uppercase tracking-tighter";
+                lucide.createIcons();
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${percent}%`;
+            timeCurrent.textContent = formatTime(audio.currentTime);
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            timeDuration.textContent = formatTime(audio.duration);
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pos * audio.duration;
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+
+        audio.addEventListener('ended', () => {
+            iconPlay.setAttribute('data-lucide', 'play');
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

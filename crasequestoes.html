@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Emprego do Sinal Indicativo de Crase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+        
+        /* Smooth transitions */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Radio button custom styling */
+        input[type="radio"] {
+            accent-color: #0369a1; /* Tailwind sky-700 */
+        }
+    </style>
+    <!-- Chosen Palette: Ivory/Sand background (bg-stone-50), Slate/Stone for text (text-slate-800, text-stone-600), Sky Blue for interactions (sky-700), Emerald/Rose for results. -->
+    <!-- Application Structure Plan: A linear, single-page quiz application. 
+         1. Introduction header explaining the context.
+         2. Dynamic quiz form where users answer 10 questions sequentially.
+         3. A hidden results section that activates upon submission.
+         4. The results section replaces the quiz form, showing overall performance, then iterating through each question to display the user's choice, the correct answer (color-coded), and a detailed resolution block. This structure prevents cognitive overload by keeping the interface clean and focuses attention on learning during the review phase. -->
+    <!-- Visualization & Content Choices: 
+         - Goal: Assess and educate on the rules of 'Crase'.
+         - Method: Interactive HTML Form (radio buttons) transitioning to a detailed review layout.
+         - Interaction: Selection of answers, final submission triggers view change.
+         - Justification: Standard multiple-choice format mimics actual exams. In-line resolutions provide immediate feedback and context for learning without navigating away.
+         - Confirming NO SVG/Mermaid used. Typography and CSS layout handle all visual hierarchy. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-[#FDFBF7] text-slate-800 font-sans antialiased min-h-screen selection:bg-sky-200 selection:text-sky-900">
+
+    <main class="max-w-3xl mx-auto px-4 py-12 md:py-16">
+        
+        <!-- Header Section -->
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">Simulado: Emprego da Crase</h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                Teste seus conhecimentos sobre o sinal indicativo de crase com base no estilo de cobrança do <strong>Instituto AOCP</strong>. Analise com atenção os casos obrigatórios, proibitivos e facultativos.
+            </p>
+        </header>
+
+        <!-- Quiz View -->
+        <div id="quiz-view" class="fade-in">
+            <form id="quiz-form" class="space-y-8">
+                <div id="questions-container" class="space-y-8">
+                    <!-- Questions will be injected here by JS -->
+                </div>
+
+                <div class="pt-8 border-t border-stone-200 text-center">
+                    <p id="error-message" class="text-rose-600 font-medium mb-4 hidden">Por favor, responda todas as questões antes de finalizar.</p>
+                    <button type="submit" class="bg-sky-700 hover:bg-sky-800 text-white font-semibold py-3 px-8 rounded-lg shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-600 text-lg">
+                        Finalizar Simulado
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results View (Hidden initially) -->
+        <div id="results-view" class="hidden fade-in space-y-10">
+            
+            <!-- Score Banner -->
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200 text-center">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Desempenho Final</h2>
+                <div class="text-5xl font-black mb-4" id="score-display">
+                    <!-- Score injected here -->
+                </div>
+                <p class="text-slate-600 text-lg" id="score-message">
+                    <!-- Message injected here -->
+                </p>
+                <button type="button" onclick="location.reload()" class="mt-6 inline-block bg-stone-100 hover:bg-stone-200 text-slate-700 font-medium py-2 px-6 rounded-md transition-colors duration-200">
+                    Refazer Simulado
+                </button>
+            </div>
+
+            <div class="border-b border-stone-200 pb-2">
+                <h3 class="text-xl font-bold text-slate-800">Gabarito e Resoluções Detalhadas</h3>
+                <p class="text-slate-500 mt-1">Revise suas respostas abaixo.</p>
+            </div>
+
+            <div id="resolutions-container" class="space-y-8">
+                <!-- Detailed resolutions injected here -->
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // Data structure for the Quiz
+        const quizData = [
+            {
+                id: 1,
+                question: "Assinale a alternativa que preenche corretamente as lacunas: \"Fomos ___ praia assistir ___ queima de fogos e depois voltamos ___ casa.\"",
+                options: [
+                    "à, a, à",
+                    "a, à, a",
+                    "à, à, a",
+                    "a, a, à",
+                    "à, à, à"
+                ],
+                correctAnswer: 2, // Index 2 is "à, à, a"
+                resolution: "<strong>Resolução:</strong> <br>1. 'Fomos <strong>à</strong> praia' (verbo ir exige preposição 'a' + artigo feminino 'a' do substantivo 'praia'). <br>2. 'assistir <strong>à</strong>' (o verbo assistir, no sentido de presenciar, exige preposição 'a', que se funde com o artigo 'a' de 'queima'). <br>3. 'voltamos <strong>a</strong> casa' (a palavra 'casa', quando significa o próprio lar e não vem acompanhada de especificadores, <strong>não</strong> admite artigo, logo, não há crase)."
+            },
+            {
+                id: 2,
+                question: "Segundo a norma-padrão, o acento grave indicativo de crase está empregado <strong>corretamente</strong> em:",
+                options: [
+                    "O pagamento foi feito à prazo.",
+                    "Começou à chover muito forte ontem.",
+                    "Entregou o documento sigiloso à Vossa Senhoria.",
+                    "Referiu-se àquele episódio com extrema tristeza.",
+                    "Os adversários ficaram cara à cara no debate."
+                ],
+                correctAnswer: 3, 
+                resolution: "<strong>Resolução:</strong> A alternativa correta é a que utiliza o pronome demonstrativo. Ocorreu a fusão da preposição 'a' (exigida pelo verbo referir-se: quem se refere, refere-se <em>a</em> algo) com a vogal 'a' inicial do pronome 'aquele' (a + aquele = <strong>àquele</strong>).<br><br>Erros nas demais:<br>A) Errado, 'prazo' é palavra masculina.<br>B) Errado, não se usa crase antes de verbo (chover).<br>C) Errado, não se usa crase antes da maioria dos pronomes de tratamento, como Vossa Senhoria.<br>E) Errado, não há crase em expressões formadas por palavras repetidas (cara a cara)."
+            },
+            {
+                id: 3,
+                question: "O emprego do sinal indicativo de crase é considerado <strong>facultativo</strong> na seguinte frase:",
+                options: [
+                    "A testemunha chegou às pressas para o depoimento.",
+                    "É dever do cidadão obedecer às leis de trânsito.",
+                    "O rapaz entregou o presente à sua mãe.",
+                    "A professora dirigiu-se à diretora da escola.",
+                    "O avião da comitiva chegou à uma hora da tarde."
+                ],
+                correctAnswer: 2,
+                resolution: "<strong>Resolução:</strong> O uso da crase é facultativo em três casos principais: após a preposição 'até', antes de nomes próprios femininos e <strong>antes de pronomes possessivos femininos no singular</strong>. Na frase 'entregou o presente a/à sua mãe', 'sua' é um pronome possessivo feminino singular, tornando o uso do artigo antes dele opcional. Logo, 'a sua mãe' ou 'à sua mãe' estão corretos."
+            },
+            {
+                id: 4,
+                question: "Preencha as lacunas corretamente: \"Devido ___ forte chuva, o evento que ocorreria ___ 15h foi adiado, o que gerou transtornos ___ pessoas que já estavam presentes.\"",
+                options: [
+                    "a, às, as",
+                    "à, as, às",
+                    "à, às, às",
+                    "a, as, as",
+                    "à, às, as"
+                ],
+                correctAnswer: 2,
+                resolution: "<strong>Resolução:</strong> <br>1. 'Devido <strong>à</strong> forte chuva' (a locução 'devido a' pede preposição 'a', que se funde com o artigo 'a' do substantivo feminino 'chuva'). <br>2. 'ocorreria <strong>às</strong> 15h' (ocorre crase obrigatória antes de indicação de horas exatas). <br>3. 'gerou transtornos <strong>às</strong> pessoas' (o nome 'transtornos' rege preposição 'a' [transtorno a alguém], que se funde com o artigo plural 'as' de 'pessoas')."
+            },
+            {
+                id: 5,
+                question: "Assinale a alternativa em que ocorre <strong>erro</strong> no emprego da crase:",
+                options: [
+                    "Fui à Bahia nas minhas últimas férias de verão.",
+                    "O compositor dedicou a canção à Maria.",
+                    "O setor de atendimento funciona de segunda à sexta-feira.",
+                    "O convidado saiu à francesa da reunião de diretoria.",
+                    "O funcionário estava disposto a ajudar na organização."
+                ],
+                correctAnswer: 2,
+                resolution: "<strong>Resolução:</strong> A alternativa com erro é 'funciona de segunda à sexta-feira'. O paralelismo sintático dita que, se usamos apenas a preposição 'de' (de segunda), devemos usar apenas a preposição 'a' (a sexta-feira). Para que houvesse crase, deveríamos usar a contração 'da' no início: 'da segunda à sexta-feira'.<br>As demais estão corretas: A) Vou a, volto da = crase há (fui à Bahia). B) Crase facultativa antes de nome próprio (à Maria). D) Locução adverbial feminina com crase obrigatória (à francesa). E) Sem crase antes de verbo (a ajudar)."
+            },
+            {
+                id: 6,
+                question: "Assinale a opção que completa adequadamente as lacunas: \"O diretor fez alusão ___ normas antigas, referindo-se ___ que não foram cumpridas, e enviou um memorando ___ todas as filiais.\"",
+                options: [
+                    "as, àquelas, a",
+                    "às, aquelas, à",
+                    "as, àquelas, à",
+                    "às, àquelas, a",
+                    "às, aquelas, a"
+                ],
+                correctAnswer: 3,
+                resolution: "<strong>Resolução:</strong> <br>1. 'fez alusão <strong>às</strong> normas' (quem faz alusão, faz alusão 'a' algo. Preposição 'a' + artigo plural 'as' = às). <br>2. 'referindo-se <strong>àquelas</strong>' (verbo referir-se exige preposição 'a' + pronome demonstrativo aquelas = àquelas). <br>3. 'memorando <strong>a</strong> todas' (não ocorre crase antes de pronomes indefinidos como 'todas', usa-se apenas a preposição)."
+            },
+            {
+                id: 7,
+                question: "\"Chegamos até a muralha.\" Caso o autor quisesse utilizar o acento indicativo de crase, mantendo a correção gramatical de acordo com a norma-padrão, a frase ficaria:",
+                options: [
+                    "Chegamos até à muralha.",
+                    "Chegamos à té a muralha.",
+                    "Chegamos até a à muralha.",
+                    "O uso da crase é rigorosamente proibido após a palavra 'até'.",
+                    "A palavra 'muralha' não admite uso de artigo feminino definido."
+                ],
+                correctAnswer: 0,
+                resolution: "<strong>Resolução:</strong> Após a preposição 'até', o uso da preposição 'a' indicadora de movimento/limite é <strong>facultativo</strong>. Sendo facultativa a preposição, e estando diante de uma palavra feminina que admite artigo ('muralha'), a crase também se torna facultativa. Portanto, as duas formas estão absolutamente corretas: 'até a muralha' (só artigo) ou 'até à muralha' (preposição facultativa 'a' + artigo 'a')."
+            },
+            {
+                id: 8,
+                question: "Indique a frase em que a palavra destacada <strong>NÃO</strong> deve receber o acento grave indicativo de crase:",
+                options: [
+                    "Amanhã, vou A cidade comprar mantimentos para a viagem.",
+                    "O imigrante voltou A terra natal no domingo passado.",
+                    "Os marinheiros desceram A terra para descansar após a longa viagem.",
+                    "O historiador sempre se refere A Roma antiga em seus livros.",
+                    "Após o motor quebrar, o pequeno barco ficou A deriva."
+                ],
+                correctAnswer: 2,
+                resolution: "<strong>Resolução:</strong> A palavra 'terra', quando usada em oposição a 'bordo' (navio, mar, avião) indicando chão firme, <strong>não admite artigo</strong>. Logo, se não tem artigo, não há crase: 'Os marinheiros desceram a terra'. <br>Nas demais opções há crase obrigatória: 'à cidade' (destino), 'à terra natal' (a palavra terra está <em>especificada</em> por 'natal', logo exige artigo e crase), 'à Roma antiga' (topônimo <em>especificado</em> admite crase), e 'à deriva' (locução adverbial feminina)."
+            },
+            {
+                id: 9,
+                question: "Assinale a alternativa que preenche corretamente a lacuna: \"Não conte o segredo ___ ela, pois estamos ___ beira de um colapso e tudo pode ir ___ ruínas.\"",
+                options: [
+                    "a, a, a",
+                    "à, à, a",
+                    "a, à, a",
+                    "a, à, à",
+                    "à, a, à"
+                ],
+                correctAnswer: 2,
+                resolution: "<strong>Resolução:</strong> <br>1. 'segredo <strong>a</strong> ela' (caso proibitivo: não se usa crase antes de pronome pessoal do caso reto). <br>2. '<strong>à</strong> beira de' (caso obrigatório: locução prepositiva cujo núcleo é uma palavra feminina). <br>3. 'ir <strong>a</strong> ruínas' (quando o 'a' está no singular e a palavra seguinte está no plural feminino, o 'a' é apenas uma preposição isolada, sem artigo plural 'as', logo, não há crase. Para haver crase, deveria ser 'ir às ruínas')."
+            },
+            {
+                id: 10,
+                question: "Assinale a alternativa totalmente <strong>correta</strong> quanto ao uso ou não da crase:",
+                options: [
+                    "A candidata estava disposta à responder tudo o que foi perguntado.",
+                    "O artista pintou o belíssimo quadro à óleo.",
+                    "Comprei a nova televisão de tela plana à vista.",
+                    "O deputado defendeu a sua tese passo à passo na assembleia.",
+                    "Solicitei o reembolso financeiro à ela ontem pela manhã."
+                ],
+                correctAnswer: 2,
+                resolution: "<strong>Resolução:</strong> A alternativa correta apresenta a locução adverbial de base feminina 'à vista', que exige o acento grave indicativo de crase para evitar ambiguidade (diferenciar do verbo avistar, por exemplo).<br><br>Erros nas demais:<br>A) Não ocorre crase antes de verbo no infinitivo (responder).<br>B) 'Óleo' é palavra masculina.<br>D) Não ocorre crase entre palavras repetidas (passo a passo).<br>E) Não ocorre crase antes de pronome pessoal (ela)."
+            }
+        ];
+
+        // State to hold user answers
+        const userAnswers = new Array(quizData.length).fill(null);
+
+        // DOM Elements
+        const quizContainer = document.getElementById('questions-container');
+        const quizForm = document.getElementById('quiz-form');
+        const quizView = document.getElementById('quiz-view');
+        const resultsView = document.getElementById('results-view');
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreMessage = document.getElementById('score-message');
+        const resolutionsContainer = document.getElementById('resolutions-container');
+        const errorMessage = document.getElementById('error-message');
+
+        // Function to render the quiz questions
+        function renderQuiz() {
+            quizData.forEach((item, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all hover:shadow-md';
+                
+                // Question Header
+                const questionHeader = document.createElement('h3');
+                questionHeader.className = 'text-lg font-semibold text-slate-800 mb-4 leading-relaxed';
+                questionHeader.innerHTML = `<span class="text-sky-700 mr-2">Questão ${index + 1}.</span> ${item.question}`;
+                questionDiv.appendChild(questionHeader);
+
+                // Options Container
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'space-y-3';
+
+                item.options.forEach((option, optIndex) => {
+                    const label = document.createElement('label');
+                    label.className = 'flex items-start p-3 rounded-lg border border-stone-100 hover:bg-stone-50 cursor-pointer transition-colors';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question-${index}`;
+                    input.value = optIndex;
+                    input.className = 'mt-1 mr-3 w-4 h-4 text-sky-700 border-stone-300 focus:ring-sky-600';
+                    
+                    // Event listener to record answer
+                    input.addEventListener('change', (e) => {
+                        userAnswers[index] = parseInt(e.target.value);
+                        label.parentElement.querySelectorAll('label').forEach(l => l.classList.remove('bg-sky-50', 'border-sky-200'));
+                        label.classList.add('bg-sky-50', 'border-sky-200');
+                    });
+
+                    const span = document.createElement('span');
+                    span.className = 'text-slate-700 leading-relaxed';
+                    span.innerHTML = option;
+
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    optionsDiv.appendChild(label);
+                });
+
+                questionDiv.appendChild(optionsDiv);
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        // Function to calculate score and render results
+        function processResults(e) {
+            e.preventDefault();
+            
+            // Validation: Check if all questions are answered
+            if (userAnswers.includes(null)) {
+                errorMessage.classList.remove('hidden');
+                // Scroll to the first unanswered question roughly
+                const firstUnansweredIndex = userAnswers.indexOf(null);
+                const questionElements = quizContainer.children;
+                if(questionElements[firstUnansweredIndex]) {
+                    questionElements[firstUnansweredIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            errorMessage.classList.add('hidden');
+
+            // Calculate Score
+            let correctCount = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === quizData[index].correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            // Update Score UI
+            const percentage = Math.round((correctCount / quizData.length) * 100);
+            scoreDisplay.innerHTML = `<span class="${percentage >= 70 ? 'text-emerald-600' : (percentage >= 50 ? 'text-amber-500' : 'text-rose-600')}">${correctCount}</span><span class="text-slate-400 text-3xl">/10</span>`;
+            
+            if (percentage >= 80) {
+                scoreMessage.textContent = "Excelente! Você domina as regras de crase.";
+            } else if (percentage >= 50) {
+                scoreMessage.textContent = "Bom trabalho, mas vale a pena revisar alguns detalhes nas resoluções.";
+            } else {
+                scoreMessage.textContent = "Atenção! Recomendamos um estudo mais aprofundado do tema. Leia atentamente as resoluções abaixo.";
+            }
+
+            // Build Detailed Resolutions
+            resolutionsContainer.innerHTML = ''; // Clear previous if any
+            
+            quizData.forEach((item, index) => {
+                const userAnswerIndex = userAnswers[index];
+                const isCorrect = userAnswerIndex === item.correctAnswer;
+
+                const resDiv = document.createElement('div');
+                resDiv.className = 'bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm';
+
+                // Question Title with Status Icon
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'flex items-start justify-between mb-4';
+                
+                const qTitle = document.createElement('h4');
+                qTitle.className = 'text-lg font-semibold text-slate-800 leading-relaxed pr-4';
+                qTitle.innerHTML = `Questão ${index + 1}: <span class="font-normal text-slate-600">${item.question}</span>`;
+                
+                const statusBadge = document.createElement('span');
+                if (isCorrect) {
+                    statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 whitespace-nowrap mt-1';
+                    statusBadge.textContent = 'Acertou';
+                } else {
+                    statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 whitespace-nowrap mt-1';
+                    statusBadge.textContent = 'Errou';
+                }
+
+                headerDiv.appendChild(qTitle);
+                headerDiv.appendChild(statusBadge);
+                resDiv.appendChild(headerDiv);
+
+                // Render Options to show User Choice vs Correct Choice
+                const optsDiv = document.createElement('div');
+                optsDiv.className = 'space-y-2 mb-6 ml-2 border-l-2 border-stone-100 pl-4';
+                
+                item.options.forEach((optText, optIdx) => {
+                    const optP = document.createElement('p');
+                    optP.className = 'text-[15px] p-2 rounded';
+                    
+                    if (optIdx === item.correctAnswer) {
+                        // This is the correct answer
+                        optP.classList.add('bg-emerald-50', 'text-emerald-900', 'font-medium', 'border', 'border-emerald-200');
+                        optP.innerHTML = `✓ ${optText}`;
+                    } else if (optIdx === userAnswerIndex && !isCorrect) {
+                        // User chose this, and it's wrong
+                        optP.classList.add('bg-rose-50', 'text-rose-900', 'line-through', 'decoration-rose-300', 'border', 'border-rose-100');
+                        optP.innerHTML = `✗ ${optText}`;
+                    } else {
+                        // Standard option
+                        optP.classList.add('text-slate-500');
+                        optP.innerHTML = `&bull; ${optText}`;
+                    }
+                    optsDiv.appendChild(optP);
+                });
+                resDiv.appendChild(optsDiv);
+
+                // Resolution Text Block
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'bg-stone-50 p-4 rounded-lg text-slate-700 text-sm md:text-base leading-relaxed border border-stone-100 border-l-4 border-l-sky-500';
+                explanationDiv.innerHTML = item.resolution;
+                resDiv.appendChild(explanationDiv);
+
+                resolutionsContainer.appendChild(resDiv);
+            });
+
+            // View Transition
+            quizView.classList.add('hidden');
+            resultsView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz();
+            quizForm.addEventListener('submit', processResults);
+        });
+
+    </script>
+</body>
+</html>

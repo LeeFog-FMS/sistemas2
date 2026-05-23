@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo: Concordância e Regência (AOCP)</title>
+    <!-- Tailwind CSS para um design ágil e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        warmbg: '#FAF8F5',       /* Fundo suave off-white/sépia leve */
+                        warmcard: '#FFFFFF',     /* Fundo dos cards */
+                        darktext: '#2D2A26',     /* Texto grafite escuro e suave */
+                        accent: '#4A5D4E',       /* Verde sálvia escuro para destaques */
+                        accentlight: '#F0F3F1',  /* Verde sálvia claro para hover e fundos secundários */
+                        borderwarm: '#E8E5DF'    /* Bordas suaves */
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'ui-serif', 'serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            background-color: #FAF8F5;
+            color: #2D2A26;
+        }
+        /* Efeito de transição suave */
+        .transition-all {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Header / Barra de Navegação Superior -->
+    <header class="sticky top-0 z-50 bg-warmbg/95 backdrop-blur border-b border-borderwarm py-4 px-6">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <span class="text-xs font-semibold tracking-wider uppercase text-accent">Simulado de Concurso</span>
+                <h1 class="text-xl font-bold font-serif text-darktext">Instituto AOCP — Concordância & Regência</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Seletor de Modo de Visualização -->
+                <span class="text-xs font-medium text-gray-500">Visualização:</span>
+                <div class="bg-gray-100 p-1 rounded-lg border border-borderwarm flex gap-1">
+                    <button id="btnModeSingle" onclick="setViewMode('single')" class="px-3 py-1 text-xs font-semibold rounded-md transition-all bg-white text-darktext shadow-sm">
+                        Uma por Vez
+                    </button>
+                    <button id="btnModeAll" onclick="setViewMode('all')" class="px-3 py-1 text-xs font-semibold rounded-md transition-all text-gray-500 hover:text-darktext">
+                        Ver Todas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 sm:px-6">
+        
+        <!-- Progresso e Cronômetro (Sempre Visíveis no Início) -->
+        <div id="quizHeader" class="bg-white rounded-xl p-5 border border-borderwarm shadow-sm mb-6 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="relative w-12 h-12 flex items-center justify-center bg-accentlight rounded-full text-accent font-bold text-lg" id="progressCircle">
+                    <span id="progressText">0%</span>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-sm">Seu Progresso</h3>
+                    <p class="text-xs text-gray-500"><span id="answeredCount">0</span> de 10 respondidas</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="text-right">
+                    <span class="text-xs text-gray-400 block uppercase font-semibold">Tempo de Simulado</span>
+                    <span id="timer" class="text-lg font-mono font-bold text-darktext">00:00</span>
+                </div>
+                <button onclick="confirmReset()" class="text-xs text-red-600 hover:text-red-800 font-semibold border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-lg transition-all">
+                    Reiniciar
+                </button>
+            </div>
+        </div>
+
+        <!-- Área dos Cards de Questões -->
+        <div id="questionsContainer" class="space-y-6">
+            <!-- As questões serão geradas dinamicamente aqui via Javascript para evitar redundâncias na renderização de estados -->
+        </div>
+
+        <!-- Navegação entre questões (Apenas no modo de visualização "Uma por Vez") -->
+        <div id="singleNavControls" class="flex justify-between items-center mt-6 bg-white p-4 rounded-xl border border-borderwarm shadow-sm">
+            <button id="btnPrev" onclick="navigateQuestion(-1)" class="px-4 py-2 text-sm font-semibold rounded-lg text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                Anterior
+            </button>
+            
+            <!-- Indicador do Carrossel de Questões -->
+            <div class="flex gap-1 overflow-x-auto max-w-[200px] sm:max-w-none px-2 py-1" id="carouselDots">
+                <!-- Gerado dinamicamente -->
+            </div>
+
+            <button id="btnNext" onclick="navigateQuestion(1)" class="px-4 py-2 text-sm font-semibold rounded-lg text-white bg-accent hover:bg-opacity-90 transition-all flex items-center gap-1">
+                Próxima
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+
+        <!-- Botão Finalizador Grande -->
+        <div class="mt-8 mb-12 flex justify-center" id="actionArea">
+            <button id="btnSubmitQuiz" onclick="submitQuiz()" class="w-full sm:w-auto px-12 py-4 bg-accent text-white font-bold rounded-xl shadow-md hover:bg-opacity-95 transform hover:-translate-y-0.5 transition-all text-center text-lg">
+                Finalizar Simulado e Ver Resoluções
+            </button>
+        </div>
+
+        <!-- SEÇÃO DE RESULTADOS (Ocultada por padrão, revelada ao finalizar) -->
+        <div id="resultsSection" class="hidden space-y-8 mt-4 transition-all duration-500">
+            <!-- Painel de Estatísticas -->
+            <div class="bg-white rounded-2xl border-2 border-accent p-6 sm:p-8 shadow-md">
+                <div class="text-center pb-6 border-b border-borderwarm">
+                    <span class="text-xs font-bold tracking-widest text-accent uppercase block mb-1">Simulado Concluído</span>
+                    <h2 class="text-3xl font-serif font-bold text-darktext">Seu Desempenho</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 py-8 text-center">
+                    <div>
+                        <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Nota Final</span>
+                        <div class="text-4xl font-serif font-black text-darktext" id="resultScore">0 / 10</div>
+                        <span class="text-xs text-gray-500" id="resultPercent">0% de acertos</span>
+                    </div>
+                    <div class="border-y sm:border-y-0 sm:border-x border-borderwarm py-4 sm:py-0">
+                        <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Tempo Total</span>
+                        <div class="text-4xl font-mono font-bold text-darktext" id="resultTime">00:00</div>
+                        <span class="text-xs text-gray-500">Duração do quiz</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-400 font-bold uppercase block mb-1">Classificação</span>
+                        <div class="text-xl font-bold text-accent" id="resultMessage">Excelente!</div>
+                        <span class="text-xs text-gray-500" id="resultSubtitle">Pronto para a prova.</span>
+                    </div>
+                </div>
+
+                <!-- Filtros para revisão rápida -->
+                <div class="flex flex-wrap items-center justify-center gap-2 pt-4 border-t border-borderwarm">
+                    <span class="text-xs font-semibold text-gray-500 mr-2">Rever Questões:</span>
+                    <button onclick="filterResults('all')" id="filterAll" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-accent text-white transition-all">
+                        Todas
+                    </button>
+                    <button onclick="filterResults('correct')" id="filterCorrect" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-gray-100 text-gray-600 hover:bg-green-50 hover:text-green-700 transition-all">
+                        Apenas Corretas
+                    </button>
+                    <button onclick="filterResults('incorrect')" id="filterIncorrect" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-700 transition-all">
+                        Apenas Incorretas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Guia de Estudos e Tabela Teórica Integrada -->
+            <div class="bg-white rounded-xl border border-borderwarm p-6 shadow-sm">
+                <button onclick="toggleStudyGuide()" class="w-full flex items-center justify-between text-left">
+                    <div>
+                        <h3 class="font-serif font-bold text-lg text-darktext">Guia Rápido de Estudos — Preferências AOCP</h3>
+                        <p class="text-xs text-gray-500">Explore as principais pegadinhas abordadas neste simulado</p>
+                    </div>
+                    <span id="studyGuideIcon" class="p-2 bg-accentlight text-accent rounded-lg transition-transform duration-300">
+                        <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </span>
+                </button>
+                
+                <div id="studyGuideContent" class="mt-6 overflow-x-auto transition-all duration-300">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-accentlight text-accent border-b border-borderwarm">
+                                <th class="p-3 font-semibold rounded-tl-lg">Tópico Gramatical</th>
+                                <th class="p-3 font-semibold">Regra Geral da Norma-Padrão</th>
+                                <th class="p-3 font-semibold rounded-tr-lg">Preferência e Tratamento do Instituto AOCP</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-borderwarm text-gray-700">
+                            <tr>
+                                <td class="p-3 font-semibold">Adjetivo Posposto a Substantivos</td>
+                                <td class="p-3">Concorda no plural (gênero masculino prevalente se diferentes) ou com o termo mais próximo (atrativa).</td>
+                                <td class="p-3 bg-amber-50/20 font-medium">Reconhece ambas as formas de concordância (atrativa e gramatical) como corretas e explora a substituição mútua.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Coletivos e Partitivos</td>
+                                <td class="p-3">Admite flexão verbal no singular (concordância com o núcleo) ou no plural (concordância com o especificador).</td>
+                                <td class="p-3 bg-amber-50/20 font-medium">Cobra as reescritas de termos partitivos para testar a flexibilidade do candidato diante da dupla concordância.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Numerais Percentuais (80%)</td>
+                                <td class="p-3">Verbo concorda com o numeral ou com o substantivo especificador; sem especificador, concorda apenas com o numeral.</td>
+                                <td class="p-3 bg-amber-50/20 font-medium">Cobra rigorosamente a obrigatoriedade de plural se o numeral for maior que um e não houver especificador explícito.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Oração Subjetiva com "se"</td>
+                                <td class="p-3">O pronome "se" atua como partícula apassivadora (PA) de orações subjetivas substantivas ("Exige-se isso").</td>
+                                <td class="p-3 bg-amber-50/20 font-medium font-bold text-red-800">Classifica o "se" como índice de indeterminação do sujeito (IIS) quando o sujeito é uma oração subordinada. (Pegadinha Polêmica!)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Crase e Regência</td>
+                                <td class="p-3">A crase resulta da fusão da preposição "a" com o artigo feminino "a" ou pronomes.</td>
+                                <td class="p-3 bg-amber-50/20 font-medium">Distingue com precisão a regência de verbos de movimento/deslocamento (ir/chegar) da regência nominal.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Crase Facultativa</td>
+                                <td class="p-3">Antes de nomes próprios femininos, possessivos femininos no singular e após a preposição "até".</td>
+                                <td class="p-3 bg-amber-50/20 font-medium">Explora a crase facultativa antes de pronomes possessivos femininos no singular como foco principal de descarte.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-white border-t border-borderwarm py-6 text-center text-xs text-gray-400 mt-12">
+        <p>Desenvolvido com fins didáticos para o estudo de concursos públicos da banca Instituto AOCP.</p>
+        <p class="mt-1">Normas de acessibilidade e design de leitura otimizados.</p>
+    </footer>
+
+    <!-- Script de Funcionamento do Simulado -->
+    <script>
+        // Banco de Dados das Questões (Exatamente idênticas ao documento fonte)
+        const questions = [
+            {
+                id: 1,
+                source: "Adaptada / Instituto AOCP - SES-PE",
+                statement: "Tendo em vista as normas que regem a concordância verbal e nominal na norma-padrão da Língua Portuguesa, analise a construção gramatical do período “A felicidade sempre foi uma ideia e uma prática complexas.” e assinale a alternativa correta.",
+                options: {
+                    A: "O emprego do adjetivo plural “complexas” é gramaticalmente incorreto, dado que a concordância nominal deveria se dar de forma obrigatória com o substantivo feminino singular mais próximo, no caso, “prática”.",
+                    B: "O adjetivo “complexas” admite dupla possibilidade de flexão, podendo apresentar-se tanto no plural quanto no singular (“complexa”), hipótese em que concordaria de maneira atrativa apenas com o substantivo feminino singular mais próximo.",
+                    C: "Caso o verbo “haver” fosse introduzido no período correlato “Há, no entanto, coisas que nos lembram...”, sua flexão deveria ocorrer obrigatoriamente no plural para estabelecer a devida harmonia com o termo “coisas”.",
+                    D: "Na oração “Há, no entanto, coisas que nos lembram...”, o verbo “haver” está flexionado na terceira pessoa do singular porque o termo subsequente, “coisas”, exerce a função sintática de sujeito da oração e apresenta-se de forma singularizada semanticamente.",
+                    E: "Na eventual substituição do verbo “haver” pelo verbo “existir” no trecho “Há, no entanto, coisas que nos lembram...”, este último deveria ser mantido no singular, uma vez que ambos os verbos partilham da mesma classificação gramatical de impessoalidade."
+                },
+                correct: "B",
+                explanation: `<strong>Justificativa do Gabarito (B):</strong> No trecho “A felicidade sempre foi uma ideia e uma prática complexas.”, o adjetivo “complexas” qualifica dois substantivos femininos singulares (“ideia” e “prática”). Quando um adjetivo qualifica múltiplos substantivos de mesmo gênero e está posposto a eles, a norma gramatical autoriza duas construções: a concordância gramatical (o adjetivo vai para o plural no gênero correspondente: “complexas”) ou a concordância atrativa (o adjetivo concorda apenas com o substantivo mais próximo: “uma ideia e uma prática complexa”). Portanto, a concordância é facultativa.<br><br>
+                <strong>Por que as outras alternativas estão incorretas?</strong><br>
+                • <strong>A:</strong> Incorreta porque a concordância nominal no plural (“complexas”) é totalmente válida e padrão.<br>
+                • <strong>C:</strong> Incorreta porque o verbo “haver”, no sentido de existir, comporta-se como impessoal (sem sujeito), devendo permanecer na 3ª pessoa do singular.<br>
+                • <strong>D:</strong> Incorreta porque em orações com verbo impessoal “haver”, o termo subsequente (“coisas”) é o objeto direto, e não o sujeito.<br>
+                • <strong>E:</strong> Incorreta porque o verbo “existir” é classificado como pessoal e possui sujeito (“coisas existem”), devendo, portanto, flexionar-se no plural.`
+            },
+            {
+                id: 2,
+                source: "Adaptada / Instituto AOCP - PC-GO - Agente de Polícia",
+                statement: "No excerto “[...] ele tem uma importância e um efeito inegáveis [...]”, observa-se a aplicação das regras de concordância nominal entre o adjetivo posposto “inegáveis” e dois substantivos de gêneros distintos. Sobre esse mecanismo gramatical, assinale a alternativa correta.",
+                options: {
+                    A: "Se o adjetivo estivesse anteposto aos substantivos, assumindo a forma “[...] ele tem inegáveis importância e efeito [...]”, a flexão no masculino plural seria mantida por concordar simultaneamente com os dois núcleos.",
+                    B: "Por se referir a dois substantivos associados na mesma estrutura sintática, o adjetivo posposto não admite, sob nenhuma circunstância gramatical, a flexão no número singular.",
+                    C: "O adjetivo poderia estar flexionado legitimamente no singular, concordando de forma atrativa apenas com o substantivo masculino singular mais próximo, gerando a redação “[...] uma importância e um efeito inegável [...]”.",
+                    D: "Se o adjetivo estivesse anteposto aos substantivos, ele se flexionaria obrigatoriamente no singular e no masculino (“inegável”), visto que o gênero masculino atua como a forma neutra padrão da língua.",
+                    E: "La única forma aceitável para a estruturação do período exige que o adjetivo posposto concorde apenas com o termo feminino mais distante, em razão de sua relevância semântica no contexto da frase."
+                },
+                correct: "C",
+                explanation: `<strong>Justificativa do Gabarito (C):</strong> O adjetivo “inegáveis” qualifica dois substantivos de gêneros diferentes: “importância” (fem.) e “efeito” (masc.). Por estar posposto, admite concordância gramatical pluralizada no masculino neutro (“inegáveis”) ou concordância atrativa com o núcleo mais próximo (“efeito”, masculino singular). Assim, a forma “uma importância e um efeito inegável” é legítima e correta.<br><br>
+                <strong>Por que as outras alternativas estão incorretas?</strong><br>
+                • <strong>A:</strong> Incorreta porque a anteposição exige concordância com o substantivo adjacente (“inegável importância...”).<br>
+                • <strong>B:</strong> Incorreta porque a concordância atrativa (singular) é plenamente aceita.<br>
+                • <strong>D:</strong> Incorreta porque o adjetivo anteposto concorda com o mais próximo, que é "importância" (feminino), devendo ficar: "inegável importância e efeito".<br>
+                • <strong>E:</strong> Incorreta porque a concordância atrativa se faz sempre com o termo mais próximo (efeito), e não com o mais distante.`
+            },
+            {
+                id: 3,
+                source: "Adaptada / Instituto AOCP - EBSERH",
+                statement: "A concordância verbal com expressões partitivas ou coletivos especificados constitui uma das preferências de cobrança em provas de concursos públicos. Diante disso, analise o período “A maioria dos negócios está na categoria MEI” e assinale a alternativa correta.",
+                options: {
+                    A: "Ocorre inadequação gramatical no trecho, pois o verbo de ligação “está” deveria flexionar-se obrigatoriamente no plural para concordar com o termo especificador “dos negócios”.",
+                    B: "O verbo admite dupla concordância: pode permanecer no singular (“está”), concordando com o núcleo partitivo singular “maioria”, ou flexionar-se no plural (“estão”), concordando com o termo especificador plural “negócios”.",
+                    C: "Se o substantivo especificador “negócios” fosse suprimido do trecho, a forma verbal passaria a ser obrigatoriamente pluralizada para manter a coerência da expressão partitiva.",
+                    D: "A concordância do verbo se faz exclusivamente no singular para concordar com o termo “dos negócios”, que atua sintaticamente como o sujeito simples da oração.",
+                    E: "Expressões como “a maioria de”, “a maior parte de” e “uma porção de”, quando seguidas de substantivo plural, exigem da norma-padrão a flexão verbal rígida e exclusiva na terceira pessoa do plural."
+                },
+                correct: "B",
+                explanation: `<strong>Justificativa do Gabarito (B):</strong> Quando o sujeito é composto por expressão partitiva (“a maioria de”, “a maior parte de”, etc.) seguida de termo pluralizador especificador (“dos negócios”), o verbo admite dupla concordância facultativa: pode concordar com o núcleo singular (“está”) ou com o especificador plural (“estão”).<br><br>
+                <strong>Por que as outras alternativas estão incorretas?</strong><br>
+                • <strong>A:</strong> Incorreta porque o singular “está” é perfeitamente válido.<br>
+                • <strong>C:</strong> Incorreta porque, sem o especificador plural, a concordância só pode ocorrer no singular com "A maioria" (“A maioria está”).<br>
+                • <strong>D:</strong> Incorreta porque “dos negócios” atua como adjunto e não como o sujeito simples propriamente dito.<br>
+                • <strong>E:</strong> Incorreta porque essas expressões partitivas geram concordância facultativa (e não rígida no plural).`
+            },
+            {
+                id: 4,
+                source: "Adaptada / Instituto AOCP - Câmara de Cabo de Santo Agostinho-PE",
+                statement: "Considerando as regras de concordância verbal que regem as relações entre sujeito, verbos de ligação e predicativos, assinale a alternativa que analisa corretamente a flexão do verbo em destaque no excerto “Um exemplo de aplicação dos princípios ergonômicos são os telefones com teclas.”.",
+                options: {
+                    A: "O verbo está no plural para concordar adequadamente com o sujeito composto anteposto, cujos núcleos são “aplicação” e “princípios ergonômicos”.",
+                    B: "A flexão no plural justifica-se pelo fato de o verbo concordar diretamente com o termo preposicionado “dos princípios ergonômicos”, que atua como sujeito da oração.",
+                    C: "O verbo encontra-se no plural por concordar com o predicativo do sujeito “os telefones com teclas”, o que constitui uma concordância facultativa e legítima para o verbo de ligação “ser”.",
+                    D: "O verbo deveria estar obrigatoriamente flexionado na terceira pessoa do singular para estabelecer concordância com o núcleo do sujeito simples, que é o substantivo “exemplo”.",
+                    E: "A concordância com o predicativo do sujeito configura um desvio gramatical grave, visto que o verbo “ser” deve concordar exclusivamente com o núcleo do sujeito, independentemente de sua natureza morfológica."
+                },
+                correct: "C",
+                explanation: `<strong>Justificativa do Gabarito (C):</strong> Na estrutura apresentada, o sujeito é simples (núcleo singular: “exemplo”) e o predicativo do sujeito está no plural (“os telefones com teclas”). O verbo de ligação “ser” possui a regra especial de poder concordar facultativamente com o predicativo no plural em vez do sujeito no singular, quando este se refere a coisas ou conceitos abstratos. É uma flexão correta e atrativa amplamente explorada pela AOCP.<br><br>
+                <strong>Por que as outras alternativas estão incorretas?</strong><br>
+                • <strong>A:</strong> O sujeito é simples (núcleo "exemplo") e os outros termos são modificadores preposicionados.<br>
+                • <strong>B:</strong> O verbo nunca concorda com termos regidos por preposição (“dos princípios”).<br>
+                • <strong>D:</strong> A flexão no singular (“é os telefones”) é possível teoricamente, mas o plural não é inadequado, o que torna a obrigatoriedade do singular uma afirmação falsa.<br>
+                • <strong>E:</strong> Não há desvio gramatical; trata-se de uma norma canônica da concordância do verbo "ser".`
+            },
+            {
+                id: 5,
+                source: "Adaptada / Instituto AOCP - IF-MA",
+                statement: "A reescritura de passagens textuais exige atenção redobrada quanto às regras de concordância com numerais percentuais e frações. Com base no excerto “[...] 80% dos participantes mostraram menos probabilidade de ajudar os outros [...]”, assinale a alternativa que apresenta uma reescrita INCORRETA do ponto de vista da concordância verbal.",
+                options: {
+                    A: "A maioria dos participantes mostraram menos probabilidade de ajudar os outros.",
+                    B: "A maioria deles mostrou menos probabilidade de ajudar os outros.",
+                    C: "A maioria mostrou menos probabilidade de ajudar os outros.",
+                    D: "Mais da metade dos participantes mostraram menos probabilidade de ajudar os outros.",
+                    E: "80% mostrou menos probabilidade de ajudar os outros."
+                },
+                correct: "E",
+                explanation: `<strong>Justificativa do Gabarito (E - Alternativa Incorreta):</strong> Quando temos um numeral percentual sem especificador explícito ao lado (por exemplo, "80%..."), a concordância deve ser feita obrigatoriamente com o número inteiro representado na porcentagem. Sendo o número superior a um (80), o verbo precisa estar no plural (“80% mostraram”). A concordância no singular (“mostrou”) só seria permitida com um termo especificador singular explícito (ex: "80% do grupo mostrou").<br><br>
+                <strong>Análise das reescritas corretas:</strong><br>
+                • <strong>A e D:</strong> Estruturas partitivas com especificadores plurais admitem concordância opcional no plural (“mostraram”).<br>
+                • <strong>B e C:</strong> A concordância pode dar-se no singular diretamente com o núcleo partitivo “maioria” (“mostrou”).`
+            },
+            {
+                id: 6,
+                source: "Adaptada / Instituto AOCP - EBSERH",
+                statement: "As relações de concordância verbal e nominal são estruturadas de forma a garantir a coesão textual. Tendo em vista as normas gramaticais brasileiras, assinale a alternativa correta.",
+                options: {
+                    A: "No trecho “Silêncio, da mesma forma, pode significar desapego, libertação, livramento de amarras que nos impedem o caminhar tranquilo...”, o verbo “impedem” deveria estar no singular para concordar com o substantivo “livramento”.",
+                    B: "Em “O pensamento e a fala devem conviver harmonicamente”, o verbo destacado está flexionado no plural por concordar com o sujeito composto que o antecede.",
+                    C: "No período “Nesses casos, o calar-se equivale ao crepúsculo moroso de nossa existência.”, a forma verbal “equivale” apresenta desvio e deveria figurar no plural (“equivalem”) para concordar com “Nesses casos”.",
+                    D: "No excerto “Temos que serenar a celeridade que intranquiliza os nossos corações...”, o verbo “intranquiliza” está incorreto, pois deveria estar no plural para concordar com “nossos corações”.",
+                    E: "No segmento “[...] o silêncio tem muito a dizer, carregando em seu aparente vazio uma intensidade tamanha de sentimentos [...]”, a palavra “tamanha” está inadequada e deveria ser flexionada no masculino para concordar com “vazio”."
+                },
+                correct: "B",
+                explanation: `<strong>Justificativa do Gabarito (B):</strong> Na frase “O pensamento e a fala devem conviver harmonicamente”, temos um sujeito composto e anteposto formado pelos núcleos “pensamento” e “fala”. Pela regra geral, o sujeito composto anteposto exige a concordância verbal na 3ª pessoa do plural (“devem”).<br><br>
+                <strong>Por que as outras alternativas estão incorretas?</strong><br>
+                • <strong>A:</strong> O sujeito de “impedem” é o pronome “que”, que retoma as “amarras” (plural); logo, o verbo correto é pluralizado.<br>
+                • <strong>C:</strong> O núcleo do sujeito de “equivale” é o infinitivo substantivado singular “o calar-se”. “Nesses casos” é apenas um adjunto adverbial.<br>
+                • <strong>D:</strong> O pronome “que” retoma o antecedente singular “celeridade”; logo, o verbo deve ficar no singular (“intranquiliza”).<br>
+                • <strong>E:</strong> A palavra “tamanha” é um adjetivo que está concordando corretamente com o substantivo feminino mais próximo que qualifica, que é “intensidade” (“intensidade tamanha”).`
+            },
+            {
+                id: 7,
+                source: "Adaptada / Instituto AOCP - CBM-GO - Aspirante",
+                statement: "A palavra “se” desempenha diferentes funções sintáticas e morfológicas que afetam a concordância verbal. Assinale a alternativa em que o termo “se” exerce a função de partícula apassivadora.",
+                options: {
+                    A: "“Da mesma forma, pode-se pensar neles em termos mais fantasiosos […]”",
+                    B: "“Não se trata, evidentemente, de mandar remédios para o consumidor final [...]”",
+                    C: "“...enviar de um centro de distribuição para um posto de saúde ou algo que se assemelhe a isso...”",
+                    D: "“...um posto de saúde [...], que se responsabiliza pela distribuição do material...”",
+                    E: "“Daí que se empregou a estratégia de colocar nos drones pequenos pacotes de remédios...”"
+                },
+                correct: "E",
+                explanation: `<strong>Justificativa do Gabarito (E):</strong> Na frase “se empregou a estratégia”, o verbo “empregar” é Transitivo Direto (VTD) e vem acompanhado do pronome “se”. A estrutura aceita perfeitamente a conversão para a voz passiva analítica: “a estratégia foi empregada”. Logo, o “se” é classificado como partícula apassivadora (ou pronome apassivador), sendo “a estratégia” o sujeito paciente.<br><br>
+                <strong>Análise das demais funções do "se":</strong><br>
+                • <strong>A:</strong> "Pensar" é transitivo indireto ("pensar em neles"). O "se" é Índice de Indeterminação do Sujeito (IIS).<br>
+                • <strong>B:</strong> "Tratar-se de" é transitivo indireto com preposição obrigatória. O "se" é Índice de Indeterminação do Sujeito (IIS).<br>
+                • <strong>C e D:</strong> Os verbos "assemelhar-se" e "responsabilizar-se" são essencialmente pronominais. O "se" é classificado como Parte Integrante do Verbo (PIV).`
+            },
+            {
+                id: 8,
+                source: "Adaptada / Instituto AOCP - PC-ES - Auxiliar de Perícia",
+                statement: "No excerto “Exige-se que ela esteja constantemente atenta...”, a classificação sintática do pronome “se” seguiu um entendimento muito específico adotado pela banca organizadora. Diante do exposto e da análise das estruturas gramaticais correlatas, assinale a alternativa que indica o posicionamento mantido pela banca para o termo destacado.",
+                options: {
+                    A: "O “se” classifica-se como partícula apassivadora, visto que projeta uma oração subjetiva em voz passiva sintética.",
+                    B: "O “se” atua como índice de indeterminação do sujeito, sob a alegação de que a oração subordinada que funciona como sujeito paciente impede a classificação do termo como pronome apassivador.",
+                    C: "O “se” atua como conjunção integrante, conectando a oração principal ao seu complemento direto oracional.",
+                    D: "O “se” representa uma partícula de realce ou expletiva, cuja retirada do período não alteraria a estrutura morfológica da oração.",
+                    E: "O “se” funciona como pronome reflexivo recíproco, indicando que a ação de exigência é compartilhada mutuamente."
+                },
+                correct: "B",
+                explanation: `<strong>Justificativa do Gabarito (B - Pegadinha de Banca!):</strong> No período “Exige-se [que ela esteja constantemente atenta]”, a oração subordinada funciona como sujeito oracional subjetivo do verbo “exigir” (“Isso é exigido”). <br>
+                De acordo com a doutrina tradicional mais comum, o "se" deveria ser uma partícula apassivadora (PA). No entanto, em provas específicas, o <strong>Instituto AOCP</strong> adotou um entendimento minoritário (também defendido por alguns gramáticos), sustentando que, para haver classificação de partícula apassivadora, é necessária a presença de um sujeito nominal concreto com o qual o verbo possa concordar em número (singular/plural), o que não ocorre na presença de um sujeito oracional. Sob essa premissa singular da banca, o "se" foi classificado como <strong>Índice de Indeterminação do Sujeito (IIS)</strong>. Essa é uma pegadinha essencial para candidatos dessa banca.`
+            },
+            {
+                id: 9,
+                source: "Adaptada / Instituto AOCP - Câmara de Maringá - Assistente",
+                statement: "A ocorrência do acento indicativo de crase está diretamente relacionada à regência dos verbos e dos nomes que exigem preposição. Assinale a alternativa em que o uso da crase se justifica pelo mesmo caso de regência observado em “Claro que estou indo à festa”.",
+                options: {
+                    A: "Muitas pessoas não tiveram acesso à informação.",
+                    B: "Todos já estão adaptados às novas regras.",
+                    C: "A tela pintada por ele é semelhante à dela.",
+                    D: "Os funcionários são vinculados à outra empresa.",
+                    E: "Cheguei à reunião na hora exata."
+                },
+                correct: "E",
+                explanation: `<strong>Justificativa do Gabarito (E):</strong> No trecho “estou indo à festa”, a ocorrência da crase decorre da <strong>regência verbal</strong> do verbo de movimento e destino “ir”, que exige a preposição “a” (ir a algum lugar), somada ao artigo feminino definido “a” da palavra “festa”. Na alternativa E, o verbo “chegar” apresenta o mesmíssimo comportamento de regência verbal de deslocamento (“chegar a algum lugar”), fundindo a preposição exigida pelo verbo com o artigo feminino de “reunião” (“Cheguei à reunião”).<br><br>
+                <strong>Por que as outras alternativas estão incorretas?</strong><br>
+                Todas as outras alternativas são casos de <strong>regência nominal</strong> (termos regidos por nomes):<br>
+                • <strong>A:</strong> "Acesso" é um substantivo que rege preposição.<br>
+                • <strong>B, C e D:</strong> "Adaptados", "semelhante" e "vinculados" são adjetivos/nomes que regem preposição.`
+            },
+            {
+                id: 10,
+                source: "Adaptada / Instituto AOCP",
+                statement: "O emprego do acento grave pode assumir caráter obrigatório ou facultativo a depender dos termos regentes e dos elementos regidos. Assinale a alternativa em que a ocorrência da crase é facultativa segundo as normas gramaticais.",
+                options: {
+                    A: "“E neste novo modelo, temos à disposição todo o conteúdo da plataforma, (...)”.",
+                    B: "“(...) e não ficamos limitados apenas à nossa rede.”.",
+                    C: "“Não é à toa que, em 2022, Kim Kardashian e duas das maiores influenciadoras do mundo apoiaram a campanha (...)”.",
+                    D: "“(...) uma tentativa de reverter a decisão da empresa de não dar preferência às postagens publicadas por 'amigos'.”.",
+                    E: "“O crescimento do TikTok tem sido usualmente atribuído à rejeição da nova geração das redes mais maduras...”."
+                },
+                correct: "B",
+                explanation: `<strong>Justificativa do Gabarito (B):</strong> Na alternativa B, o acento grave ocorre antes de um pronome possessivo adjetivo feminino singular que acompanha substantivo (“nossa rede”). Na gramática normativa da Língua Portuguesa, o uso do artigo definido feminino antes de possessivos singulares é opcional (pode-se escrever "a nossa rede" ou "nossa rede"). Por consequência, a ocorrência de crase diante desse possessivo também se torna <strong>facultativa</strong>.<br><br>
+                <strong>Por que as outras alternativas apresentam crase obrigatória?</strong><br>
+                • <strong>A:</strong> "À disposição" é uma locução conjuntiva/prepositiva feminina clássica (crase obrigatória).<br>
+                • <strong>C:</strong> "À toa" é uma locução adverbial feminina de modo (crase obrigatória).<br>
+                • <strong>D e E:</strong> Fusão de preposições exigidas pelos nomes regentes ("preferência a" e "atribuído a") com os artigos das palavras "postagens" e "rejeição" (crase obrigatória).`
+            }
+        ];
+
+        // Estado da Aplicação
+        let currentMode = 'single'; // 'single' ou 'all'
+        let currentQuestionIndex = 0; // Índice da questão ativa no modo 'single'
+        let userAnswers = {}; // Armazena as respostas do usuário {questionId: selectedOption}
+        let quizSubmitted = false;
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let activeFilter = 'all'; // 'all', 'correct', 'incorrect'
+
+        // Inicialização
+        window.onload = function() {
+            renderQuestions();
+            startTimer();
+            updateProgress();
+            renderCarouselDots();
+        };
+
+        // Gerenciar cronômetro
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            secondsElapsed = 0;
+            timerInterval = setInterval(() => {
+                if (!quizSubmitted) {
+                    secondsElapsed++;
+                    document.getElementById('timer').innerText = formatTime(secondsElapsed);
+                }
+            }, 1000);
+        }
+
+        function formatTime(secs) {
+            let mins = Math.floor(secs / 60);
+            let remainingSecs = secs % 60;
+            return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
+        }
+
+        // Alternar modos de visualização
+        function setViewMode(mode) {
+            currentMode = mode;
+            
+            // Alterar estilo dos botões do modo
+            const btnSingle = document.getElementById('btnModeSingle');
+            const btnAll = document.getElementById('btnModeAll');
+            const singleNav = document.getElementById('singleNavControls');
+
+            if (mode === 'single') {
+                btnSingle.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all bg-white text-darktext shadow-sm";
+                btnAll.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all text-gray-500 hover:text-darktext";
+                singleNav.classList.remove('hidden');
+                singleNav.classList.add('flex');
+            } else {
+                btnAll.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all bg-white text-darktext shadow-sm";
+                btnSingle.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all text-gray-500 hover:text-darktext";
+                singleNav.classList.remove('flex');
+                singleNav.classList.add('hidden');
+            }
+
+            renderQuestions();
+        }
+
+        // Renderizar questões com base no modo atual e filtros ativos
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                // Filtro para pós-submissão
+                if (quizSubmitted && activeFilter !== 'all') {
+                    const isCorrect = userAnswers[q.id] === q.correct;
+                    if (activeFilter === 'correct' && !isCorrect) return;
+                    if (activeFilter === 'incorrect' && isCorrect) return;
+                }
+
+                // Ocultar questões não ativas no modo 'single'
+                if (currentMode === 'single' && idx !== currentQuestionIndex && !quizSubmitted) {
+                    return;
+                }
+
+                const questionCard = document.createElement('div');
+                questionCard.id = `q-card-${q.id}`;
+                questionCard.className = `bg-white rounded-xl border p-5 sm:p-6 transition-all ${
+                    quizSubmitted 
+                    ? (userAnswers[q.id] === q.correct ? 'border-green-300 shadow-green-50/50 shadow-md' : 'border-red-200 shadow-red-50/50 shadow-md')
+                    : 'border-borderwarm shadow-sm hover:shadow-md'
+                }`;
+
+                // Cabeçalho do Card
+                let headerHTML = `
+                    <div class="flex items-center justify-between mb-3 pb-3 border-b border-gray-100">
+                        <span class="text-xs font-bold text-accent">Questão ${idx + 1} de ${questions.length}</span>
+                        <span class="text-xxs px-2.5 py-1 bg-accentlight text-accent rounded-full font-medium max-w-[200px] sm:max-w-none truncate">${q.source}</span>
+                    </div>
+                    <p class="text-sm font-serif leading-relaxed text-darktext mb-6 font-medium">${q.statement}</p>
+                `;
+
+                // Renderizar opções
+                let optionsHTML = '<div class="space-y-3 mb-6">';
+                Object.entries(q.options).forEach(([key, value]) => {
+                    const isSelected = userAnswers[q.id] === key;
+                    let optionStyle = "border-borderwarm bg-white hover:bg-accentlight hover:border-accent";
+                    let checkIcon = "";
+
+                    if (quizSubmitted) {
+                        if (key === q.correct) {
+                            // Certa oficial
+                            optionStyle = "border-green-600 bg-green-50 text-green-900 font-semibold";
+                            checkIcon = `<span class="ml-auto text-green-700 bg-green-200/60 p-1 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></span>`;
+                        } else if (isSelected && isSelected !== q.correct) {
+                            // Escolhida errada pelo usuário
+                            optionStyle = "border-red-400 bg-red-50 text-red-900 font-semibold";
+                            checkIcon = `<span class="ml-auto text-red-700 bg-red-200/60 p-1 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></span>`;
+                        } else {
+                            optionStyle = "border-gray-100 bg-gray-50/50 text-gray-400 cursor-not-allowed";
+                        }
+                    } else if (isSelected) {
+                        optionStyle = "border-accent bg-accentlight text-accent font-semibold ring-1 ring-accent";
+                    }
+
+                    optionsHTML += `
+                        <button 
+                            onclick="selectOption(${q.id}, '${key}')" 
+                            ${quizSubmitted ? 'disabled' : ''} 
+                            class="w-full text-left p-3.5 rounded-lg border text-xs sm:text-sm transition-all flex items-start gap-3 ${optionStyle}"
+                        >
+                            <span class="w-6 h-6 shrink-0 rounded-md bg-gray-100 flex items-center justify-center font-bold text-xs ${isSelected ? 'bg-accent text-white' : 'text-gray-500'}">${key}</span>
+                            <span class="flex-grow pt-0.5">${value}</span>
+                            ${checkIcon}
+                        </button>
+                    `;
+                });
+                optionsHTML += '</div>';
+
+                // Renderizar explicação de cada questão se o quiz foi submetido
+                let explanationHTML = '';
+                if (quizSubmitted) {
+                    const isUserCorrect = userAnswers[q.id] === q.correct;
+                    explanationHTML = `
+                        <div class="mt-4 p-4 rounded-lg bg-stone-50 border border-borderwarm text-xs sm:text-sm">
+                            <div class="flex items-center gap-2 mb-2 font-bold ${isUserCorrect ? 'text-green-700' : 'text-red-700'}">
+                                <span>${isUserCorrect ? '✓ Você acertou!' : '✗ Você errou.'}</span>
+                                <span class="text-gray-500 font-normal">Gabarito: <strong class="text-accent">${q.correct}</strong></span>
+                            </div>
+                            <div class="text-gray-700 leading-relaxed pt-2 border-t border-dashed border-gray-200">
+                                ${q.explanation}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                questionCard.innerHTML = headerHTML + optionsHTML + explanationHTML;
+                container.appendChild(questionCard);
+            });
+
+            // Atualiza botões do carrossel para acompanhar
+            updateCarouselActiveDot();
+        }
+
+        // Lógica de seleção de alternativas
+        function selectOption(questionId, option) {
+            if (quizSubmitted) return;
+            userAnswers[questionId] = option;
+            updateProgress();
+            renderQuestions();
+        }
+
+        // Atualizar estatísticas de progresso
+        function updateProgress() {
+            const answered = Object.keys(userAnswers).length;
+            document.getElementById('answeredCount').innerText = answered;
+            
+            const percentage = Math.round((answered / questions.length) * 100);
+            document.getElementById('progressText').innerText = `${percentage}%`;
+        }
+
+        // Navegação pelo modo de visualização única
+        function navigateQuestion(direction) {
+            currentQuestionIndex += direction;
+            if (currentQuestionIndex < 0) currentQuestionIndex = 0;
+            if (currentQuestionIndex >= questions.length) currentQuestionIndex = questions.length - 1;
+            renderQuestions();
+        }
+
+        // Renderização dos pontinhos indicadores inferiores
+        function renderCarouselDots() {
+            const dotsContainer = document.getElementById('carouselDots');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < questions.length; i++) {
+                const btn = document.createElement('button');
+                btn.className = `w-8 h-8 rounded-full border text-xs font-bold transition-all shrink-0 flex items-center justify-center ${
+                    i === currentQuestionIndex ? 'bg-accent text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-500'
+                }`;
+                btn.innerText = i + 1;
+                btn.onclick = () => {
+                    currentQuestionIndex = i;
+                    renderQuestions();
+                };
+                dotsContainer.appendChild(btn);
+            }
+        }
+
+        function updateCarouselActiveDot() {
+            const dots = document.getElementById('carouselDots').children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentQuestionIndex) {
+                    dots[i].className = "w-8 h-8 rounded-full border text-xs font-bold transition-all shrink-0 flex items-center justify-center bg-accent text-white ring-2 ring-accentlight";
+                } else {
+                    const answered = userAnswers[questions[i].id] !== undefined;
+                    dots[i].className = `w-8 h-8 rounded-full border text-xs font-bold transition-all shrink-0 flex items-center justify-center ${
+                        answered ? 'bg-accentlight text-accent border-accent/30' : 'bg-gray-100 text-gray-500 border-borderwarm'
+                    }`;
+                }
+            }
+
+            // Gerenciar estado de desabilitação de botões de navegação
+            document.getElementById('btnPrev').disabled = currentQuestionIndex === 0;
+            document.getElementById('btnNext').disabled = currentQuestionIndex === questions.length - 1;
+
+            if (currentQuestionIndex === 0) {
+                document.getElementById('btnPrev').classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                document.getElementById('btnPrev').classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            if (currentQuestionIndex === questions.length - 1) {
+                document.getElementById('btnNext').classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                document.getElementById('btnNext').classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // Finalizar Simulado
+        function submitQuiz() {
+            // Verificar se o usuário respondeu tudo
+            const totalAnswered = Object.keys(userAnswers).length;
+            if (totalAnswered < questions.length) {
+                if (!confirm(`Você respondeu apenas ${totalAnswered} de ${questions.length} questões. Deseja realmente finalizar o simulado agora?`)) {
+                    return;
+                }
+            }
+
+            quizSubmitted = true;
+            clearInterval(timerInterval);
+
+            // Calcular Resultados
+            let correctCount = 0;
+            questions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            // Forçar visualização total das questões resolvidas após envio para melhor leitura das explicações
+            currentMode = 'all';
+            const btnSingle = document.getElementById('btnModeSingle');
+            const btnAll = document.getElementById('btnModeAll');
+            btnAll.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all bg-white text-darktext shadow-sm";
+            btnSingle.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all text-gray-500 hover:text-darktext";
+            
+            document.getElementById('singleNavControls').className = "hidden";
+
+            // Alimentar painel de estatísticas
+            const percentage = Math.round((correctCount / questions.length) * 100);
+            document.getElementById('resultScore').innerText = `${correctCount} / ${questions.length}`;
+            document.getElementById('resultPercent').innerText = `${percentage}% de aproveitamento`;
+            document.getElementById('resultTime').innerText = formatTime(secondsElapsed);
+
+            // Mensagem de feedback contextualizada
+            let title = "Excelente!";
+            let subtitle = "Domínio pleno das regras e armadilhas da AOCP.";
+            if (percentage < 50) {
+                title = "Precisa de Revisão";
+                subtitle = "Foque nas exceções explicadas logo abaixo para evoluir.";
+            } else if (percentage < 80) {
+                title = "Bom Desempenho!";
+                subtitle = "Algumas exceções sintáticas exigem mais atenção.";
+            }
+
+            document.getElementById('resultMessage').innerText = title;
+            document.getElementById('resultSubtitle').innerText = subtitle;
+
+            // Transição visual do envio de respostas
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('actionArea').className = "hidden"; // Oculta o botão de finalizar
+            document.getElementById('quizHeader').classList.add('border-accent', 'border-2'); // Altera estilo do cabeçalho de progresso
+
+            renderQuestions();
+
+            // Rolagem suave até a seção de estatísticas
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Filtro rápido de pós-submissão
+        function filterResults(filter) {
+            activeFilter = filter;
+            
+            // Gerenciar classes dos botões do filtro
+            const btnAll = document.getElementById('filterAll');
+            const btnCorrect = document.getElementById('filterCorrect');
+            const btnIncorrect = document.getElementById('filterIncorrect');
+
+            btnAll.className = "px-3 py-1.5 text-xs font-bold rounded-lg transition-all bg-gray-100 text-gray-600 hover:bg-gray-200";
+            btnCorrect.className = "px-3 py-1.5 text-xs font-bold rounded-lg transition-all bg-gray-100 text-gray-600 hover:bg-green-50 hover:text-green-700";
+            btnIncorrect.className = "px-3 py-1.5 text-xs font-bold rounded-lg transition-all bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-700";
+
+            if (filter === 'all') {
+                btnAll.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-accent text-white transition-all";
+            } else if (filter === 'correct') {
+                btnCorrect.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-green-600 text-white transition-all";
+            } else if (filter === 'incorrect') {
+                btnIncorrect.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-red-600 text-white transition-all";
+            }
+
+            renderQuestions();
+        }
+
+        // Controle do Painel Teórico / Guia de Estudos
+        let guideVisible = true;
+        function toggleStudyGuide() {
+            const content = document.getElementById('studyGuideContent');
+            const icon = document.getElementById('studyGuideIcon');
+            guideVisible = !guideVisible;
+
+            if (guideVisible) {
+                content.classList.remove('hidden');
+                icon.classList.remove('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        // Reiniciar simulado para nova tentativa
+        function confirmReset() {
+            if (confirm("Deseja mesmo reiniciar seu progresso e limpar todas as respostas?")) {
+                userAnswers = {};
+                quizSubmitted = false;
+                currentQuestionIndex = 0;
+                activeFilter = 'all';
+                currentMode = 'single';
+
+                // Resetar UI
+                document.getElementById('resultsSection').classList.add('hidden');
+                document.getElementById('actionArea').className = "mt-8 mb-12 flex justify-center";
+                document.getElementById('quizHeader').className = "bg-white rounded-xl p-5 border border-borderwarm shadow-sm mb-6 flex flex-wrap justify-between items-center gap-4";
+                
+                // Resetar seletor superior de modo
+                const btnSingle = document.getElementById('btnModeSingle');
+                const btnAll = document.getElementById('btnModeAll');
+                btnSingle.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all bg-white text-darktext shadow-sm";
+                btnAll.className = "px-3 py-1 text-xs font-semibold rounded-md transition-all text-gray-500 hover:text-darktext";
+
+                document.getElementById('singleNavControls').className = "flex justify-between items-center mt-6 bg-white p-4 rounded-xl border border-borderwarm shadow-sm";
+
+                startTimer();
+                updateProgress();
+                renderQuestions();
+                renderCarouselDots();
+            }
+        }
+    </script>
+</body>
+</html>

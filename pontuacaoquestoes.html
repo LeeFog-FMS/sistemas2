@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado de Elite - Pontuação e Semântica no Discurso (AOCP)</title>
+    <!-- Tailwind CSS para utilitários de design moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#FDFBF7',     // Creme suave (Alabaster) para fundo relaxante
+                            dark: '#2E2B28',      // Grafite quente para leitura de alto conforto
+                            accent: '#1E3A8A',    // Azul acadêmico profundo
+                            terracotta: '#7C2D12',// Terracota clássico para realces elegantes
+                            success: '#14532D',   // Verde floresta suave para acertos
+                            successBg: '#F0FDF4', // Fundo verde ultra-suave
+                            error: '#7F1D1D',     // Vermelho escuro suave para erros
+                            errorBg: '#FEF2F2',   // Fundo vermelho ultra-suave
+                            border: '#E7E5E4'     // Borda suave de tom areia
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', 'PT Serif', 'serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ajustes finos adicionais para otimização tipográfica de longas leituras */
+        body {
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+            background-color: #FAF8F5; /* Fundo levemente aquecido para evitar cansaço visual */
+        }
+        .prose-custom p, .prose-custom li {
+            line-height: 1.75;
+            letter-spacing: -0.011em;
+        }
+    </style>
+</head>
+<body class="text-brand-dark font-sans selection:bg-brand-terracotta/20 selection:text-brand-terracotta min-h-screen flex flex-col">
+
+    <!-- Cabeçalho Principal -->
+    <header class="border-b border-brand-border bg-brand-light/90 backdrop-blur-md sticky top-0 z-40 transition-shadow duration-300">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-brand-accent text-white p-2 rounded-lg font-bold text-sm tracking-wider shadow-inner">AOCP</span>
+                <div>
+                    <h1 class="text-lg font-bold text-stone-900 tracking-tight leading-tight">Simulado de Elite</h1>
+                    <p class="text-xs text-stone-500 font-medium">Pontuação & Valor Semântico no Discurso</p>
+                </div>
+            </div>
+            <!-- Status de Progresso do Quiz -->
+            <div class="flex items-center space-x-4">
+                <div class="text-right hidden sm:block">
+                    <div class="text-xs text-stone-400 font-bold uppercase tracking-widest">Progresso</div>
+                    <div class="text-sm font-semibold text-stone-700"><span id="answered-count">0</span> de 10 respondidas</div>
+                </div>
+                <div class="w-24 bg-stone-200 h-2 rounded-full overflow-hidden hidden sm:block">
+                    <div id="progress-bar-fill" class="bg-brand-accent h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Layout de Colunas Centralizadas -->
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+        
+        <!-- Conteúdo Principal do Quiz (Coluna Esquerda) -->
+        <div class="lg:col-span-8 space-y-8 max-w-3xl">
+            
+            <!-- Card de Instruções Iniciais -->
+            <section id="instructions-card" class="bg-brand-light border border-brand-border rounded-xl p-6 shadow-sm">
+                <div class="flex items-start space-x-4">
+                    <div class="text-brand-accent p-1.5 bg-blue-50 rounded-lg mt-0.5">
+                        <!-- Icone de Livro/Informação -->
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2 2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-stone-900 mb-2 font-serif">Instruções para o Simulado</h2>
+                        <p class="text-sm text-stone-600 leading-relaxed font-serif">
+                            Este simulado foi estruturado com base no padrão rígido e multidisciplinar de cobrança do <strong>Instituto AOCP</strong>. Leia com atenção os fragmentos literários e informativos e escolha a melhor opção. Evite telas brilhantes e busque um local confortável para leitura prolongada.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formulário das Questões -->
+            <form id="quiz-form" class="space-y-8" onsubmit="event.preventDefault();">
+                
+                <!-- QUESTÃO 1 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="0" data-correct-answer="B">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 1</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <p class="text-lg font-serif leading-relaxed text-stone-800 mb-6 font-medium">
+                        Em relação ao excerto <span class="bg-stone-100 px-1 border-b border-stone-300 font-sans text-base">“Se fosse lançada como moda, no mesmo ano a grande maioria das pessoas entraria em ressonância.”</span>, assinale a alternativa correta.
+                    </p>
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q0" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> A vírgula está sendo empregada no excerto porque “no mesmo ano” é um adjunto adverbial deslocado de sua posição canônica.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q0" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> A primeira oração do excerto está na voz passiva, com sujeito oculto recuperável pelo contexto e sem agente.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q0" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> O verbo “entrar” tem o mesmo significado e a mesma transitividade que em “Entrei o pórtico da capela receoso”.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q0" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> “Grande maioria” é uma expressão pleonástica.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q0" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> O verbo “entraria” estabelece erroneamente concordância com o núcleo do sujeito “maioria”.</span>
+                        </label>
+                    </div>
+                    <!-- Resolução oculta que revela ao finalizar -->
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 1:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: B</strong></p>
+                            <p class="mb-3">A oração <em>“Se fosse lançada como moda”</em> apresenta locução verbal na voz passiva analítica (<em>“fosse lançada”</em>). O sujeito é classificado como oculto (ou elíptico) porque é omitido na oração subordinada, mas recuperável contextualmente por meio do sujeito da oração principal (<em>“a grande maioria das pessoas”</em>). Além disso, a estrutura não apresenta agente da passiva expresso, preenchendo todos os requisitos da assertiva.</p>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-stone-600 font-sans">
+                                <li><strong>Alternativa A incorreta:</strong> A primeira vírgula presente no excerto justifica-se por isolar a oração subordinada adverbial condicional que se encontra anteposta à oração principal. O termo “no mesmo ano” é um adjunto adverbial que não está isolado por vírgula no trecho.</li>
+                                <li><strong>Alternativa C incorreta:</strong> No excerto, o verbo “entrar” é intransitivo e rege a preposição “em” (“entrar em ressonância”). Já em “Entrei o pórtico...”, o verbo é transitivo direto (entrar algo/algum lugar, sem preposição exigida pelo verbo).</li>
+                                <li><strong>Alternativa E incorreta:</strong> O verbo “entraria” está flexionado de maneira correta no singular concordando com o núcleo do sujeito singular “maioria”.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 2 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="1" data-correct-answer="D">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 2</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <p class="text-lg font-serif leading-relaxed text-stone-800 mb-6 font-medium">
+                        Sobre a utilização da vírgula nos seguintes excertos, assinale a alternativa correta.
+                    </p>
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q1" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> Em “Pode ser mais ou menos ambicioso, mas nos impulsiona [...]”, a vírgula separa uma oração principal de uma oração subordinada.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q1" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> Em “Já uma fantasia é algo que vive em nossa mente, que gostamos de imaginar [...]”, a vírgula poderia ser omitida sem que isso causasse prejuízo sintático ao excerto.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q1" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> Em “Talvez tenham ficado um pouco desatualizados ou, simplesmente, sejam impossíveis de alcançar [...]”, o uso das vírgulas é obrigatório.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q1" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> Em “Somos estimulados a sonhar, a buscar objetivos [...]”, a vírgula separa duas orações de mesmo estatuto sintático.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q1" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> Em “[...] nos alivia da pressão de conseguir estas últimas, das quais [...] não necessitamos.”, a vírgula indica que a oração adjetiva é restritiva, não explicativa.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 2:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: D</strong></p>
+                            <p class="mb-3">No período <em>“Somos estimulados a sonhar, a buscar objetivos [...]”</em>, as duas orações subordinadas reduzidas de infinitivo exercem idêntica função sintática e encontram-se coordenadas assindeticamente. A vírgula é empregada de maneira canônica para separar termos que guardam o mesmo estatuto sintático no período composto.</p>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-stone-600 font-sans">
+                                <li><strong>Alternativa A incorreta:</strong> A vírgula antecede a conjunção “mas” para isolar uma oração coordenada adversativa, e não oração subordinada.</li>
+                                <li><strong>Alternativa B incorreta:</strong> As duas orações adjetivas estão coordenadas. A omissão da vírgula prejudicaria a conexão coordenada lógica do período e geraria erro de pontuação e paralelismo.</li>
+                                <li><strong>Alternativa C incorreta:</strong> O termo “simplesmente” é um advérbio unitário (curta extensão) intercalado. O emprego das vírgulas que o isolam é estritamente facultativo.</li>
+                                <li><strong>Alternativa E incorreta:</strong> A presença da vírgula marca de modo categórico que a oração adjetiva iniciada por “das quais” possui natureza explicativa (e não restritiva).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 3 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="2" data-correct-answer="A">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 3</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <div class="text-lg font-serif leading-relaxed text-stone-800 mb-4 font-medium">
+                        Levando em conta os usos da vírgula, relacione as colunas e assinale a alternativa com a sequência correta.
+                    </div>
+                    
+                    <!-- Bloco de Associação -->
+                    <div class="bg-stone-50 border border-brand-border rounded-xl p-5 mb-6 text-sm font-serif leading-relaxed text-stone-700 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-stone-600 font-sans text-xs font-semibold uppercase tracking-wider">
+                            <div class="bg-stone-100 p-2.5 rounded border border-stone-200">1. Isolar conjunção adversativa</div>
+                            <div class="bg-stone-100 p-2.5 rounded border border-stone-200">2. Isolar adjunto adverbial deslocado</div>
+                            <div class="bg-stone-100 p-2.5 rounded border border-stone-200">3. Inadequada, separando sujeito/predicado</div>
+                            <div class="bg-stone-100 p-2.5 rounded border border-stone-200">4. Separar termos coordenados</div>
+                            <div class="bg-stone-100 p-2.5 rounded border-stone-200 col-span-1 md:col-span-2 text-center">5. Isolar oração adjetiva explicativa</div>
+                        </div>
+                        <div class="space-y-3 pt-3 border-t border-stone-200">
+                            <p><strong>( &nbsp; )</strong> “[...] essa relação, que é tão importante, para o ser humano pode ser fragilizada pela mudança abrupta da rotina e por reações emocionais inerentes ao momento.”</p>
+                            <p><strong>( &nbsp; )</strong> “Claramente, essa emoção precisa ser 'colocada para fora' [...]”</p>
+                            <p><strong>( &nbsp; )</strong> “Sinais de estresse podem ser expressos pela pessoa com quem dividimos o convívio como alterações de sono, apetite, irritabilidade e tristeza.”</p>
+                            <p><strong>( &nbsp; )</strong> “Oferecer ajuda com diálogo aberto e uma visão menos estigmatizada do sofrimento mental, pode ser um grande passo para uma relação saudável.”</p>
+                            <p><strong>( &nbsp; )</strong> “[...] relação familiar é um elemento importante em tempos de pandemia, todavia, estratégias de cuidado e leitura emocional do outro e de si mesmo podem determinar a qualidade e a força dessa relação como um aspecto estrutural da saúde mental.”</p>
+                        </div>
+                    </div>
+
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q2" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> 5 – 2 – 4 – 3 – 1.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q2" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> 5 – 1 – 4 – 3 – 2.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q2" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> 1 – 3 – 5 – 4 – 2.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q2" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> 4 – 2 – 3 – 1 – 5.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q2" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> 3 – 4 – 5 – 2 – 1.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 3:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: A</strong></p>
+                            <p class="mb-3">A correta correlação sintática e semântica de cada excerto é a seguinte:</p>
+                            <ul class="list-decimal pl-5 space-y-2 text-xs text-stone-600 font-sans">
+                                <li><strong>(5)</strong> <em>“...relação, que é tão importante, para o...”</em>: A oração relativa introduzida pelo pronome explicativo “que” está intercalada e isolada por vírgulas.</li>
+                                <li><strong>(2)</strong> <em>“Claramente, essa emoção...”</em>: O advérbio modal isolado em início de período consiste em adjunto adverbial deslocado.</li>
+                                <li><strong>(4)</strong> <em>“...sono, apetite, irritabilidade e...”</em>: Vírgulas que estruturam uma coordenação assindética de termos análogos (lista de sintomas).</li>
+                                <li><strong>(3)</strong> <em>“Oferecer ajuda... mental, pode ser...”</em>: Desvio normativo grave, pois uma única vírgula separa de forma inadequada o extenso sujeito oracional do seu respectivo verbo.</li>
+                                <li><strong>(1)</strong> <em>“...tempos de pandemia, todavia, estratégias...”</em>: Vírgula que antecede e isola a conjunção coordenada adversativa.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 4 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="3" data-correct-answer="D">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 4</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <p class="text-lg font-serif leading-relaxed text-stone-800 mb-6 font-medium">
+                        Em <span class="bg-stone-100 px-1 border-b border-stone-300 font-sans text-base">“[...] destaca as principais dificuldades enfrentadas pelas famílias: demora no diagnóstico [...]”</span>, os dois-pontos foram empregados com a finalidade de:
+                    </p>
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q3" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> marcar o início de uma enumeração concessiva que resume as ideias anteriores.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q3" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> iniciar uma citação textual direta de fala ou pensamento do enunciador.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q3" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> antecipar uma ideia contrastante, funcionando como substituto de conjunção adversativa.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q3" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> introduzir uma explicação concatenada à frase anteriormente apresentada.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q3" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> separar duas orações com sujeitos diferentes para manter a fluidez do enunciado.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 4:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: D</strong></p>
+                            <p class="mb-3">Nesta construção sintática, os dois-pontos funcionam de forma assertiva como um delimitador/operador explicativo. A informação subsequente (<em>“demora no diagnóstico”</em>) introduz uma especificação ou esclarecimento detalhado acerca do que são, no texto, as <em>“principais dificuldades enfrentadas pelas famílias”</em>.</p>
+                            <p class="text-xs text-stone-600 font-sans">As demais opções incorrem em erros de classificação funcional do sinal gráfico, rotulando-o inadequadamente como gerador de concessão (A), citação direta (B), oposição adversativa (C) ou separador de sujeitos (E).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 5 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="4" data-correct-answer="E">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 5</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <div class="text-lg font-serif leading-relaxed text-stone-800 mb-4 font-medium">
+                        Considere as seguintes afirmações acerca dos sinais de pontuação empregados na estruturação do texto sobre a síndrome de Burnout:
+                    </div>
+
+                    <!-- Afirmações Romanas -->
+                    <div class="bg-stone-50 border border-brand-border rounded-xl p-5 mb-6 text-sm font-serif leading-relaxed text-stone-700 space-y-3">
+                        <p><strong>I.</strong> No título, o travessão poderia substituir, sem prejuízo gramatical ou de sentido, os dois-pontos: “Burnout – equilíbrio entre vida profissional e pessoal é essencial contra esgotamento”.</p>
+                        <p><strong>II.</strong> Em “Segundo Larissa Fonseca, psicóloga clínica e especialista na doença, é mais complexo alcançar esse patamar quando todos estão hiperconectados [...]”, os termos isolados por vírgulas desempenham a função de aposto explicativo.</p>
+                        <p><strong>III.</strong> Em “[...] 47% dos colaboradores que responderam a pesquisa afirmam [...]”, a omissão da vírgula antes da oração iniciada por “que” confere a ela um valor de restrição semântica.</p>
+                    </div>
+
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q4" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> I, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q4" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> II, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q4" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> I e II, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q4" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> II e III, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q4" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> I, II e III.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 5:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: E (Todas as afirmativas estão corretas)</strong></p>
+                            <ul class="list-decimal pl-5 space-y-2 text-xs text-stone-600 font-sans">
+                                <li><strong>I. Correta:</strong> Em manchetes e subtítulos informativos de jornais e periódicos, a pontuação por travessão simples substitui perfeitamente os dois-pontos na conexão e expansão de sentido do tema principal do texto.</li>
+                                <li><strong>II. Correta:</strong> O segmento expressivo <em>“psicóloga clínica e especialista na doença”</em> refere-se a Larissa Fonseca explicando seu papel social, qualificando-a. Trata-se, portando, de um clássico aposto explicativo.</li>
+                                <li><strong>III. Correta:</strong> Sem o uso das vírgulas delimitadoras, a oração adjetiva introduzida por “que” exerce valor meramente restritivo (apenas os 47% do total correspondente de colaboradores que efetivamente responderam o questionário).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 6 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="5" data-correct-answer="D">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 6</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <p class="text-lg font-serif leading-relaxed text-stone-800 mb-6 font-medium">
+                        Considerando o uso adequado da vírgula e o seu valor semântico na construção do discurso, assinale a alternativa correta.
+                    </p>
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q5" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> Em “[...] uma pesquisa realizada pela Faculdade de Medicina da Universidade de São Paulo (USP), em 2021, já mostrava [...]”, as vírgulas têm uso facultativo devido à posição da expressão destacada, isto é, no meio da sentença; caso tal expressão fosse deslocada à esquerda – início da oração –, as vírgulas seriam obrigatórias.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q5" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> No trecho: “[...] sempre prontos para atender às necessidades de colegas, líderes e clientes.”, as vírgulas têm função enumerativa-apositiva, isto é, enumeram e explicam um dado, nesse caso, explicam de quem são as necessidades.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q5" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> No trecho: “[...] ocorre uma sobrecarga emocional e física, que mantém o corpo em estado constante de alerta, [...].”, as vírgulas isolam uma oração adjetiva cuja função é atribuir uma característica restritiva de sentido ao termo antecedente, nesse caso, à expressão “sobrecarga emocional e física”.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q5" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> Em “[...] o bem-estar no trabalho é tão importante quanto o salário, ou seja, não existe mais espaço para sacrificar o bem-estar.”, as vírgulas empregadas isolam uma expressão explicativa, a qual esclarece o conteúdo da sentença anterior.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q5" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> Em “A pandemia trouxe à tona a importância da saúde mental no trabalho, e as duas especialistas enxergam que existe um movimento crescente de conscientização.”, o uso da vírgula é facultativo, devido ao emprego da conjunção “e”.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 6:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: D</strong></p>
+                            <p class="mb-3">A locução explicativa <em>“ou seja”</em>, tal como qualquer outra locução de natureza corretiva ou retificativa (<em>“por exemplo”</em>, <em>“isto é”</em>), deve vir, por preceito obrigatório, devidamente isolada por vírgulas.</p>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-stone-600 font-sans">
+                                <li><strong>A incorreta:</strong> A expressão “em 2021” é curta (apenas 2 elementos). Seu isolamento tanto na posição central quanto no início da oração é classificado como facultativo pela norma culta.</li>
+                                <li><strong>B incorreta:</strong> As vírgulas desempenham função meramente enumerativa e coordenativa de objetos indiretos de “necessidade de”, sem valor de aposto.</li>
+                                <li><strong>C incorreta:</strong> A presença da vírgula antes de “que mantém” determina que a oração adjetiva seja explicativa, e não restritiva.</li>
+                                <li><strong>E incorreta:</strong> Trata-se de orações coordenadas com sujeitos distintos (Oração 1: “A pandemia”; Oração 2: “as duas especialistas”). Portanto, a presença da vírgula antes do “e” é recomendada e justificada, e não estritamente facultativa.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 7 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="6" data-correct-answer="C">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 7</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <p class="text-lg font-serif leading-relaxed text-stone-800 mb-6 font-medium">
+                        Em relação ao uso dos sinais de pontuação empregados no texto, assinale a alternativa correta.
+                    </p>
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q6" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> No trecho “Acho que uma das grandes contradições da nossa vida – e uma grande perda, em consequência – é o fato de que, quando mais precisamos aprender, mais temos vergonha de aprender.”, os travessões foram utilizados para isolar uma exemplificação.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q6" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> As vírgulas em “Às vezes, para não nos sentirmos deixados para trás, somos capazes de fingir que entendemos alguma coisa...” foram utilizadas devido à anteposição do adjunto adverbial de incerteza “às vezes”.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q6" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> Em “Não podemos ter medo de aprender – seja lá a faixa etária em que estivermos.”, o travessão poderia ser substituído, sem alterar o sentido da frase, por uma vírgula.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q6" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> Em “Mas o problema está justamente aí: eu provavelmente nunca precisei tanto da ajuda dos outros...”, os dois pontos foram utilizados para introduzir uma enumeração.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q6" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> As aspas foram utilizadas em “...e preferimos sufocar ou ignorar perguntas que julgamos bobas ou “burras”...” com a finalidade exclusiva de marcar o discurso direto de um enunciador secundário.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 7:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: C</strong></p>
+                            <p class="mb-3">No período <em>“Não podemos ter medo de aprender – seja lá a faixa etária em que estivermos.”</em>, o travessão simples é empregado como realce estilístico final. A substituição por vírgula simples preserva a integral correção gramatical e coesão da frase, mantendo o sentido intacto.</p>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-stone-600 font-sans">
+                                <li><strong>A incorreta:</strong> Os travessões isolam uma reflexão de natureza opinativo-explicativa, e não uma exemplificação.</li>
+                                <li><strong>B incorreta:</strong> A dupla vírgula se deve à intercalação e deslocamento da oração subordinada adverbial final reduzida de infinitivo (<em>“para não nos sentirmos deixados para trás”</em>).</li>
+                                <li><strong>D incorreta:</strong> Os dois-pontos introduzem um esclarecimento e fundamentação lógica do enunciado, e não uma enumeração de termos.</li>
+                                <li><strong>E incorreta:</strong> As aspas evidenciam o uso conotativo, irônico e de quebra do tom formal para o vocábulo destacado, não tendo caráter de citação em discurso direto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 8 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="7" data-correct-answer="D">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 8</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <div class="text-lg font-serif leading-relaxed text-stone-800 mb-4 font-medium">
+                        Analise o uso de sinais de pontuação nas proposições extraídas de um texto sobre a morfossintaxe do português:
+                    </div>
+
+                    <!-- Proposições Romanas -->
+                    <div class="bg-stone-50 border border-brand-border rounded-xl p-5 mb-6 text-sm font-serif leading-relaxed text-stone-700 space-y-3">
+                        <p><strong>I.</strong> Em “No português e em muitas línguas, verbos expressam tempo.”, o uso da vírgula é motivado pelo deslocamento do adjunto adnominal.</p>
+                        <p><strong>II.</strong> Em “A terminação -ou, que exprime esse passado, é adicionada à raiz verbal compr- [...]”, as vírgulas são utilizadas para isolar uma oração adjetiva explicativa.</p>
+                        <p><strong>III.</strong> Em “Podem expressar inúmeras coisas através de partículas ou morfemas acoplados: concordâncias, advérbios, objetos indiretos etc.”, o uso dos dois-pontos introduz um termo explicativo de natureza enumerativa.</p>
+                    </div>
+
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q7" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> I, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q7" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> II, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q7" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> I e III, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q7" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> II e III, apenas.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q7" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> I, II e III.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 8:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: D (Apenas II e III estão corretas)</strong></p>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-stone-600 font-sans">
+                                <li><strong>Proposição I Incorreta:</strong> Em <em>“No português e em muitas línguas, verbos...”</em>, a vírgula é obrigatória devido ao deslocamento antecipado de um adjunto adverbial de lugar composto (6 vocábulos), e não de um adjunto adnominal.</li>
+                                <li><strong>Proposição II Correta:</strong> A oração intercalada <em>“que exprime esse passado”</em> é classificada como adjetiva explicativa, servindo o uso das vírgulas para delimitar esse papel acessório e explicativo.</li>
+                                <li><strong>Proposição III Correta:</strong> Os dois-pontos cumprem com exatidão a função de introduzir uma listagem de termos em caráter de aposto explicativo e enumerativo (<em>“concordâncias, advérbios, objetos indiretos etc.”</em>).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 9 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="8" data-correct-answer="C">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 9</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <p class="text-lg font-serif leading-relaxed text-stone-800 mb-6 font-medium">
+                        A respeito do emprego do travessão e de outros sinais de pontuação, assinale a alternativa correta de acordo com as diretrizes normativas da língua padrão.
+                    </p>
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q8" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> Em “A rodovia BR-101, no trecho localizado em Santa Catarina, foi a campeã de acidentes em 2021.”, as vírgulas justificam-se por isolar um aposto de especificação geográfica.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q8" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> Em “Naquele ano, a Polícia Rodoviária Federal registrou 71 mil infrações por falta de... Em 2019, foram cerca de 47 mil infrações desse tipo”, o travessão que separa as duas sentenças poderia ser substituído por vírgula simples, sem prejuízo gramatical.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q8" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> Em “Mas a BR-116, conhecida como a rodovia da morte, é mais letal – especialmente no estado de São Paulo, cujo trecho concentra o maior número de vítimas do país”, o travessão é empregado para enfatizar e isolar um elemento de valor explicativo-restritivo posicionado no final do período.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q8" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> Em todas as suas ocorrências, o travessão desempenha unicamente a função de indicar a alternância de interlocutores na estrutura do discurso direto.</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q8" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> O emprego de travessão simples é gramaticalmente proibido para substituir os dois-pontos em frases afirmativas, restringindo-se o seu uso bilateral para termos intercalados.</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 9:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: C</strong></p>
+                            <p class="mb-3">Na oração destacada, o travessão isola e introduz em posição final uma restrição explicativa que especifica a letalidade no trecho paulista (<em>“especialmente no estado de São Paulo...”</em>), sendo recurso estilístico-sintático altamente recomendado pela norma padrão para focar a atenção do leitor.</p>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-stone-600 font-sans">
+                                <li><strong>A incorreta:</strong> As vírgulas isolam adjunto adverbial de lugar longo intercalado, não aposto de especificação geográfica.</li>
+                                <li><strong>B incorreta:</strong> A alteração geraria um grave vício de justaposição indevida de orações sem conector coordenado.</li>
+                                <li><strong>D incorreta:</strong> O travessão é versátil, possuindo função de substituição de vírgula, de parênteses e isolamento de apostos finais.</li>
+                                <li><strong>E incorreta:</strong> O uso do travessão simples no lugar dos dois-pontos para isolar explicações finais é gramaticalmente válido e muito frequente.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 10 -->
+                <div class="question-container bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200" data-question-index="9" data-correct-answer="A">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-brand-terracotta tracking-wider uppercase bg-red-50 px-2.5 py-1 rounded-full">Questão 10</span>
+                        <span class="question-status text-xs font-semibold text-stone-400">Pendente</span>
+                    </div>
+                    <p class="text-lg font-serif leading-relaxed text-stone-800 mb-6 font-medium">
+                        Assinale a alternativa em que o uso da vírgula está de acordo com a norma-padrão da língua portuguesa.
+                    </p>
+                    <div class="options-wrapper space-y-3">
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q9" value="A" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>A)</strong> “Hoje, 83 anos depois da publicação da obra, o sonho da ficção surge na realidade.”</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q9" value="B" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>B)</strong> “Oferecer ajuda com diálogo aberto e uma visão menos estigmatizada do sofrimento mental, pode ser um grande passo para uma relação saudável.”</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q9" value="C" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>C)</strong> “À primeira vista o projeto, parece birutice.”</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q9" value="D" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>D)</strong> “A família, sob uma perspectiva antropológica é um grupo social concreto no qual se estabelece a reciprocidade...”</span>
+                        </label>
+                        <label class="option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150">
+                            <input type="radio" name="q9" value="E" class="mt-1 mr-3 h-4 w-4 text-brand-accent border-stone-300 focus:ring-brand-accent">
+                            <span class="text-sm sm:text-base text-stone-700 font-serif"><strong>E)</strong> “O ser humano tende, a buscar prazer em todas as suas vivências.”</span>
+                        </label>
+                    </div>
+                    <div class="resolution-box mt-6 hidden border-t border-brand-border pt-6">
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-100 text-stone-700 font-serif text-sm leading-relaxed">
+                            <h4 class="font-bold text-brand-accent mb-2 font-sans flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Resolução Comentada da Questão 10:
+                            </h4>
+                            <p class="mb-3"><strong>Gabarito: A</strong></p>
+                            <p class="mb-3">A construção temporal adverbial intercalada <em>“83 anos depois da publicação da obra”</em> é classificada como adjunto adverbial de longa extensão. Portanto, seu isolamento por meio de dupla vírgula é estritamente obrigatório.</p>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs text-stone-600 font-sans">
+                                <li><strong>B incorreta:</strong> A vírgula isolada separa indevidamente o extenso sujeito oracional (<em>“Oferecer ajuda...”</em>) do verbo principal (<em>“pode ser”</em>).</li>
+                                <li><strong>C incorreta:</strong> Separou-se indevidamente o sujeito (<em>“o projeto”</em>) do verbo predicativo correspondente (<em>“parece”</em>).</li>
+                                <li><strong>D incorreta:</strong> O adjunto adverbial intercalado longo (<em>“sob uma perspectiva antropológica”</em>) iniciou seu isolamento com vírgula, mas não o fechou antes de <em>“é um grupo...”</em> (faltou a segunda vírgula).</li>
+                                <li><strong>E incorreta:</strong> A vírgula foi aplicada incorretamente quebrando a transitividade lógica entre o verbo (<em>“tende”</em>) e o seu complemento regido pela preposição <em>“a”</em>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão de Enviar no final do Formulário -->
+                <div class="pt-4 flex justify-center">
+                    <button type="button" id="submit-quiz-btn" onclick="submitQuiz()" class="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-blue-900 text-white font-bold rounded-xl shadow-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-accent">
+                        Finalizar e Enviar Respostas
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- SEÇÃO DE RESULTADOS & RESOLUÇÃO COMPLETA (OCULTA ATÉ O SUBMIT) -->
+            <section id="results-section" class="hidden space-y-8 animate-fadeIn">
+                
+                <!-- Dashboard de Resultados -->
+                <div class="bg-brand-light border-2 border-brand-accent/30 rounded-2xl p-6 sm:p-8 shadow-lg text-center">
+                    <h2 class="text-2xl font-bold text-stone-900 mb-2 font-serif">Simulado Concluído</h2>
+                    <p class="text-stone-500 mb-6 font-medium">Veja abaixo seu desempenho e a análise teórica de cada questão.</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-lg mx-auto mb-6">
+                        <div class="bg-stone-50 border border-brand-border p-4 rounded-xl">
+                            <span class="block text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Acertos</span>
+                            <span id="score-text" class="text-3xl font-extrabold text-brand-accent">0 / 10</span>
+                        </div>
+                        <div class="bg-stone-50 border border-brand-border p-4 rounded-xl">
+                            <span class="block text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Aproveitamento</span>
+                            <span id="percentage-text" class="text-3xl font-extrabold text-brand-accent">0%</span>
+                        </div>
+                        <div class="bg-stone-50 border border-brand-border p-4 rounded-xl">
+                            <span class="block text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Classificação</span>
+                            <span id="rank-text" class="text-base font-extrabold text-brand-terracotta leading-8">Iniciante</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button type="button" onclick="restartQuiz()" class="px-6 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-sm rounded-lg border border-stone-200 transition-colors duration-150">
+                            Refazer Simulado
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Painel Geral de Resoluções e Tabelas -->
+                <div class="bg-brand-light border border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm">
+                    <h3 class="text-xl font-bold text-stone-900 mb-4 font-serif pb-2 border-b border-stone-200">
+                        Análise de Pontuação e Teoria Sintática
+                    </h3>
+                    <p class="text-sm text-stone-600 leading-relaxed mb-6 font-serif">
+                        A estruturação sintática e os efeitos semânticos gerados pelos sinais de pontuação constituem tópicos recorrentes e de alto nível de exigência nos exames elaborados pelo Instituto AOCP. Abaixo, resumimos o valor e grau de obrigatoriedade dos principais sinais mapeados no simulado:
+                    </p>
+
+                    <!-- Tabela de Sinais de Pontuação -->
+                    <div class="overflow-x-auto mb-8">
+                        <table class="w-full text-left border-collapse text-sm text-stone-600">
+                            <thead>
+                                <tr class="border-b-2 border-stone-200 bg-stone-50/50">
+                                    <th class="py-3 px-4 font-bold text-stone-800">Sinal de Pontuação</th>
+                                    <th class="py-3 px-4 font-bold text-stone-800">Estrutura Sintática Alvo</th>
+                                    <th class="py-3 px-4 font-bold text-stone-800">Efeito Semântico Principal</th>
+                                    <th class="py-3 px-4 font-bold text-stone-800">Obrigatoriedade</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-stone-900">Vírgula (,)</td>
+                                    <td class="py-3 px-4">Adjunto adverbial deslocado longo</td>
+                                    <td class="py-3 px-4">Demarcação espacial/temporal</td>
+                                    <td class="py-3 px-4 text-xs font-semibold text-brand-terracotta">Obrigatório (3+ palavras)</td>
+                                </tr>
+                                <tr class="bg-stone-50/35">
+                                    <td class="py-3 px-4 font-bold text-stone-900">Vírgula (,)</td>
+                                    <td class="py-3 px-4">Adjunto adverbial deslocado curto</td>
+                                    <td class="py-3 px-4">Demarcação de circunstância</td>
+                                    <td class="py-3 px-4 text-xs font-semibold text-stone-500">Facultativo (até 2 palavras)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-stone-900">Vírgula (,)</td>
+                                    <td class="py-3 px-4">Oração subordinada adjetiva explicativa</td>
+                                    <td class="py-3 px-4">Generalização e esclarecimento</td>
+                                    <td class="py-3 px-4 text-xs font-semibold text-brand-terracotta">Obrigatório (muda para restritivo)</td>
+                                </tr>
+                                <tr class="bg-stone-50/35">
+                                    <td class="py-3 px-4 font-bold text-stone-900">Dois-pontos (:)</td>
+                                    <td class="py-3 px-4">Aposto explicativo ou termos coordenados</td>
+                                    <td class="py-3 px-4">Introdução de especificação/lista</td>
+                                    <td class="py-3 px-4 text-xs font-semibold text-brand-terracotta">Obrigatório para apostos</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-stone-900">Travessão (—)</td>
+                                    <td class="py-3 px-4">Elemento intercalado parentético (duplo)</td>
+                                    <td class="py-3 px-4">Isolamento de opinião ou comentário</td>
+                                    <td class="py-3 px-4 text-xs font-semibold text-stone-500">Facultativo (permuta com vírgula)</td>
+                                </tr>
+                                <tr class="bg-stone-50/35">
+                                    <td class="py-3 px-4 font-bold text-stone-900">Travessão (—)</td>
+                                    <td class="py-3 px-4">Termo de encerramento da frase (simples)</td>
+                                    <td class="py-3 px-4">Ênfase discursiva e relevo estilístico</td>
+                                    <td class="py-3 px-4 text-xs font-semibold text-stone-500">Facultativo (efeito expressivo)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabela de Diferenciação Semântica -->
+                    <h3 class="text-lg font-bold text-stone-900 mb-4 font-serif pb-2 border-b border-stone-200">
+                        O Valor da Vírgula na Semântica do Discurso
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm text-stone-600">
+                            <thead>
+                                <tr class="border-b-2 border-stone-200 bg-stone-50/50">
+                                    <th class="py-3 px-4 font-bold text-stone-800">Estrutura com Vírgula</th>
+                                    <th class="py-3 px-4 font-bold text-stone-800">Efeito Semântico (Explicativo)</th>
+                                    <th class="py-3 px-4 font-bold text-stone-800">Estrutura sem Vírgula</th>
+                                    <th class="py-3 px-4 font-bold text-stone-800">Efeito Semântico (Restritivo)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="py-3 px-4 italic">“Os motoristas, que beberam, foram punidos.”</td>
+                                    <td class="py-3 px-4"><strong>Todos</strong> os motoristas do contexto beberam e todos foram devidamente punidos.</td>
+                                    <td class="py-3 px-4 italic">“Os motoristas que beberam foram punidos.”</td>
+                                    <td class="py-3 px-4"><strong>Apenas</strong> os motoristas que ingeriram bebida foram punidos; os demais não.</td>
+                                </tr>
+                                <tr class="bg-stone-50/35">
+                                    <td class="py-3 px-4 italic">“À primeira vista, o projeto parece birutice.”</td>
+                                    <td class="py-3 px-4">O adjunto adverbial de curta extensão é isolado por opção de realce ou pausa de ritmo.</td>
+                                    <td class="py-3 px-4 italic">“À primeira vista o projeto parece birutice.”</td>
+                                    <td class="py-3 px-4">A ausência mantém a fluidez sem quebra sintática de leitura.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 italic">“A relação familiar, que preza o bem-estar, é vital.”</td>
+                                    <td class="py-3 px-4">Explica-se uma qualidade constante de toda relação familiar saudável.</td>
+                                    <td class="py-3 px-4 italic">“A relação familiar que preza o bem-estar é vital.”</td>
+                                    <td class="py-3 px-4">Determina que somente a família que foca no bem-estar é vital.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- Painel Lateral de Controle (Coluna Direita) -->
+        <div class="lg:col-span-4 space-y-6">
+            
+            <div class="sticky top-24 space-y-6">
+                
+                <!-- Card de Status Rápido e Gabarito Dinâmico -->
+                <div class="bg-brand-light border border-brand-border rounded-xl p-5 shadow-sm">
+                    <h3 class="text-sm font-bold text-stone-900 tracking-wider uppercase mb-4 font-sans text-center">Gabarito & Respostas</h3>
+                    
+                    <!-- Grade de navegação rápida pelas questões -->
+                    <div class="grid grid-cols-5 gap-2.5 mb-6" id="questions-nav-grid">
+                        <button type="button" onclick="scrollToQuestion(0)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">1</button>
+                        <button type="button" onclick="scrollToQuestion(1)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">2</button>
+                        <button type="button" onclick="scrollToQuestion(2)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">3</button>
+                        <button type="button" onclick="scrollToQuestion(3)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">4</button>
+                        <button type="button" onclick="scrollToQuestion(4)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">5</button>
+                        <button type="button" onclick="scrollToQuestion(5)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">6</button>
+                        <button type="button" onclick="scrollToQuestion(6)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">7</button>
+                        <button type="button" onclick="scrollToQuestion(7)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">8</button>
+                        <button type="button" onclick="scrollToQuestion(8)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">9</button>
+                        <button type="button" onclick="scrollToQuestion(9)" class="nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none">10</button>
+                    </div>
+
+                    <div class="h-px bg-stone-100 my-4"></div>
+
+                    <!-- Informações Extras de Estudo -->
+                    <div class="space-y-3.5 text-xs text-stone-500 font-serif leading-relaxed">
+                        <p class="flex items-center text-stone-600 font-sans font-semibold">
+                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-terracotta mr-2"></span> Foco do Simulado:
+                        </p>
+                        <ul class="list-disc pl-5 space-y-1 text-stone-600 font-sans">
+                            <li>Adjuntos adverbiais deslocados</li>
+                            <li>Função explicativa vs. restritiva</li>
+                            <li>Aposto explicativo</li>
+                            <li>Dois-pontos e travessões</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Painel de Notificação sem uso de Alerts (Custom Dialog) -->
+                <div id="status-box" class="bg-brand-successBg border border-green-200 p-4 rounded-xl text-center hidden">
+                    <p id="status-message" class="text-xs font-bold text-brand-success"></p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Rodapé Minimalista -->
+    <footer class="border-t border-brand-border bg-stone-100 py-6 mt-12 text-center text-xs text-stone-400 font-semibold uppercase tracking-wider">
+        <div class="max-w-6xl mx-auto px-4">
+            AOCP — Simulado Interativo de elite — Todos os direitos reservados
+        </div>
+    </footer>
+
+    <!-- LÓGICA DE INTERATIVIDADE (JS PURO) -->
+    <script>
+        const quizForm = document.getElementById('quiz-form');
+        const resultsSection = document.getElementById('results-section');
+        const submitQuizBtn = document.getElementById('submit-quiz-btn');
+        const answeredCountEl = document.getElementById('answered-count');
+        const progressBarFillEl = document.getElementById('progress-bar-fill');
+        const navDots = document.querySelectorAll('.nav-dot');
+        const questionContainers = document.querySelectorAll('.question-container');
+        
+        // Estrutura para armazenar as respostas selecionadas
+        let userAnswers = Array(10).fill(null);
+        let quizSubmitted = false;
+
+        // Monitorar cliques para alterar o estado do simulado e pintar marcadores
+        document.addEventListener('change', (e) => {
+            if (e.target.type === 'radio' && e.target.name.startsWith('q')) {
+                const questionIndex = parseInt(e.target.name.replace('q', ''));
+                userAnswers[questionIndex] = e.target.value;
+
+                // Atualizar visual da label selecionada
+                updateOptionsStyling(questionIndex);
+                
+                // Atualizar progresso geral
+                updateProgress();
+            }
+        });
+
+        // Função para estilizar de forma responsiva a opção marcada pelo candidato
+        function updateOptionsStyling(index) {
+            if (quizSubmitted) return; // Trava interações pós-finalização
+
+            const container = questionContainers[index];
+            const cards = container.querySelectorAll('.option-card');
+            const statusEl = container.querySelector('.question-status');
+
+            // Sinalizar como "Respondido"
+            statusEl.textContent = "Respondido";
+            statusEl.classList.remove('text-stone-400');
+            statusEl.classList.add('text-stone-700', 'font-bold');
+
+            cards.forEach(card => {
+                const radio = card.querySelector('input[type="radio"]');
+                if (radio.checked) {
+                    card.classList.add('border-brand-accent', 'bg-blue-50/40');
+                    card.classList.remove('border-stone-200', 'hover:bg-stone-50');
+                } else {
+                    card.classList.remove('border-brand-accent', 'bg-blue-50/40');
+                    card.classList.add('border-stone-200', 'hover:bg-stone-50');
+                }
+            });
+
+            // Atualizar o marcador lateral na direita
+            const dot = navDots[index];
+            dot.classList.add('bg-stone-900', 'text-white', 'border-stone-900');
+            dot.classList.remove('text-stone-500', 'border-stone-200');
+        }
+
+        // Função para monitorar quantidade de questões feitas
+        function updateProgress() {
+            const completedCount = userAnswers.filter(ans => ans !== null).length;
+            answeredCountEl.textContent = completedCount;
+            
+            const progressPercent = (completedCount / 10) * 100;
+            progressBarFillEl.style.width = `${progressPercent}%`;
+        }
+
+        // Rolagem de tela suave para o container da questão desejada
+        function scrollToQuestion(index) {
+            questionContainers[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Submissão do Quiz de Forma Segura
+        function submitQuiz() {
+            const unanswered = userAnswers.map((ans, idx) => ans === null ? idx + 1 : null).filter(val => val !== null);
+
+            // Validação sem uso de alerts nativos (Custom UI)
+            if (unanswered.length > 0) {
+                const statusBox = document.getElementById('status-box');
+                const statusMsg = document.getElementById('status-message');
+                
+                statusBox.classList.remove('hidden', 'bg-brand-successBg', 'border-green-200');
+                statusBox.classList.add('bg-brand-errorBg', 'border-red-200');
+                statusMsg.classList.remove('text-brand-success');
+                statusMsg.classList.add('text-brand-error');
+                
+                statusMsg.textContent = `Atenção: Responda todas as questões! Pendentes: ${unanswered.join(', ')}`;
+                statusBox.classList.remove('hidden');
+                
+                // Scroll para a primeira não respondida
+                scrollToQuestion(unanswered[0] - 1);
+                return;
+            }
+
+            // Ativa o estado de finalizado
+            quizSubmitted = true;
+            submitQuizBtn.disabled = true;
+            submitQuizBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Esconder caixa de erros caso exista
+            document.getElementById('status-box').classList.add('hidden');
+
+            let score = 0;
+
+            // Percorrer todas as questões avaliando as respostas
+            questionContainers.forEach((container, idx) => {
+                const correctAns = container.getAttribute('data-correct-answer');
+                const selectedAns = userAnswers[idx];
+                const cards = container.querySelectorAll('.option-card');
+                const statusEl = container.querySelector('.question-status');
+                const resolutionBox = container.querySelector('.resolution-box');
+
+                // Desabilitar todas as opções de input
+                container.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
+
+                // Analisar cada label
+                cards.forEach(card => {
+                    const radio = card.querySelector('input[type="radio"]');
+                    const value = radio.value;
+
+                    // Remover classes antigas de seleção interativa
+                    card.classList.remove('border-brand-accent', 'bg-blue-50/40', 'hover:bg-stone-50', 'border-stone-200');
+
+                    if (value === correctAns) {
+                        // Resposta correta sempre fica em destaque verde
+                        card.classList.add('border-green-600', 'bg-green-50');
+                        card.innerHTML += `<span class="ml-auto text-green-700 font-bold font-sans text-xs uppercase flex items-center bg-green-100 px-2 py-0.5 rounded-md">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Gabarito
+                        </span>`;
+                    } else if (value === selectedAns && selectedAns !== correctAns) {
+                        // Se o candidato marcou essa incorreta, fica em destaque vermelho
+                        card.classList.add('border-red-600', 'bg-red-50');
+                        card.innerHTML += `<span class="ml-auto text-red-700 font-bold font-sans text-xs uppercase flex items-center bg-red-100 px-2 py-0.5 rounded-md">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                            Incorreta
+                        </span>`;
+                    } else {
+                        // Demais opções não escolhidas
+                        card.classList.add('border-stone-200', 'opacity-65');
+                    }
+                });
+
+                // Atualizar o marcador lateral e feedback da questão
+                const dot = navDots[idx];
+                dot.classList.remove('bg-stone-900', 'border-stone-900', 'text-white');
+
+                if (selectedAns === correctAns) {
+                    score++;
+                    statusEl.textContent = "Acertou";
+                    statusEl.className = "question-status text-xs font-bold text-green-700 uppercase bg-green-100 px-2 py-0.5 rounded-md";
+                    dot.classList.add('bg-green-600', 'text-white', 'border-green-600');
+                } else {
+                    statusEl.textContent = "Errou";
+                    statusEl.className = "question-status text-xs font-bold text-red-700 uppercase bg-red-100 px-2 py-0.5 rounded-md";
+                    dot.classList.add('bg-red-600', 'text-white', 'border-red-600');
+                }
+
+                // Revelar resolução comentada abaixo da respectiva questão
+                resolutionBox.classList.remove('hidden');
+            });
+
+            // Gerar o Dashboard final
+            displayFinalResults(score);
+        }
+
+        // Processar notas e construir feedback no Dashboard
+        function displayFinalResults(score) {
+            const percentage = Math.round((score / 10) * 100);
+            
+            // Inserir valores nos campos correspondentes
+            document.getElementById('score-text').textContent = `${score} / 10`;
+            document.getElementById('percentage-text').textContent = `${percentage}%`;
+
+            let rank = "";
+            let rankClass = "";
+
+            if (score >= 9) {
+                rank = "Elite (Excelente)";
+            } else if (score >= 7) {
+                rank = "Avançado";
+            } else if (score >= 5) {
+                rank = "Intermediário";
+            } else {
+                rank = "Iniciante (Revisar)";
+            }
+
+            const rankEl = document.getElementById('rank-text');
+            rankEl.textContent = rank;
+
+            // Exibir a seção geral de resoluções com animação
+            resultsSection.classList.remove('hidden');
+
+            // Scroll suave para os resultados no topo
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reiniciar simulado limpando estado das opções e travas
+        function restartQuiz() {
+            quizSubmitted = false;
+            userAnswers = Array(10).fill(null);
+            
+            // Resetar botões de navegação lateral
+            navDots.forEach((dot, idx) => {
+                dot.className = "nav-dot w-full py-2 border border-stone-200 text-stone-500 font-bold rounded-lg text-sm transition-all focus:outline-none";
+            });
+
+            // Limpar formulário de inputs
+            quizForm.reset();
+
+            // Restaurar estilo padrão dos containers e labels
+            questionContainers.forEach(container => {
+                const statusEl = container.querySelector('.question-status');
+                const resolutionBox = container.querySelector('.resolution-box');
+                const cards = container.querySelectorAll('.option-card');
+
+                statusEl.textContent = "Pendente";
+                statusEl.className = "question-status text-xs font-semibold text-stone-400";
+                
+                resolutionBox.classList.add('hidden');
+
+                // Re-habilitar inputs
+                container.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = false);
+
+                // Limpar tags de acerto e erro inseridas via JS
+                cards.forEach(card => {
+                    card.className = "option-card flex items-start p-4 rounded-xl border border-stone-200 cursor-pointer hover:bg-stone-50 transition-colors duration-150";
+                    const iconSpan = card.querySelector('span.ml-auto');
+                    if (iconSpan) {
+                        iconSpan.remove();
+                    }
+                });
+            });
+
+            // Resetar contador e barra de progresso
+            updateProgress();
+
+            // Bloquear visualização de resultados
+            resultsSection.classList.add('hidden');
+
+            // Ativar botão de submissão
+            submitQuizBtn.disabled = false;
+            submitQuizBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            // Rolar suavemente para o início
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>

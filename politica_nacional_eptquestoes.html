@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado PNEPT - Estilo Instituto AOCP</title>
+    <!-- Tailwind CSS para estilização moderna e limpa -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter para máxima legibilidade acadêmica e conforto visual -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafaf9; /* Tom levemente quente para evitar cansaço visual */
+            color: #1c1917; /* Tom de grafite muito escuro para contraste suave, superior ao preto puro */
+        }
+        /* Otimizações finas de tipografia para textos longos */
+        .prose-custom p {
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+            color: #44403c;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <!-- Cabeçalho Principal -->
+    <header class="border-b border-stone-200 bg-white/80 backdrop-blur-md sticky top-0 z-30 transition-all duration-300">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-50 text-indigo-700 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-stone-900">Simulado PNEPT</h1>
+                    <p class="text-xs text-stone-500">Política Nacional de Educação Profissional e Tecnológica (Decreto nº 12.603/2025)</p>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso / Score -->
+            <div class="flex items-center gap-4 w-full sm:w-auto justify-end">
+                <div class="text-right">
+                    <span id="progress-text" class="text-xs font-semibold text-stone-600 block">Progresso: 0 / 10 respondidas</span>
+                    <div class="w-44 bg-stone-200 h-2 rounded-full overflow-hidden mt-1 inline-block">
+                        <div id="progress-bar" class="bg-indigo-600 h-2 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo do Simulado -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8">
+        
+        <!-- Apresentação do Simulado -->
+        <div class="mb-10 bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-start gap-4">
+                <div class="text-amber-600 bg-amber-50 p-3 rounded-xl hidden sm:block">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 mb-2">Banca: Instituto AOCP</span>
+                    <h2 class="text-xl font-bold text-stone-900 mb-2">Estudo Dirigido com Questões Inéditas e Comentadas</h2>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Este caderno foi estruturado para simular o estilo de cobrança clássico do <strong>Instituto AOCP</strong>, focado na literalidade da legislação, distinção estrita entre Princípios, Diretrizes e Objetivos, e interpretações pedagógicas correlatas. Responda a todas as questões para liberar as resoluções comentadas de forma integrada.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário de Questões -->
+        <form id="quiz-form" class="space-y-8" onsubmit="event.preventDefault();">
+            
+            <!-- Questão 1 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="1">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 01</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    De acordo com o Decreto nº 12.603, de 28 de agosto de 2025, que institui a Política Nacional de Educação Profissional e Tecnológica (PNEPT), a estrutura regulatória diferencia formalmente os princípios, as diretrizes e os objetivos que guiam a formação técnica no país. Com base nessa classificação normativa, assinale a alternativa que apresenta, de maneira correta e exclusiva, um princípio da PNEPT.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q1" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> A formulação, a implementação e a avaliação das políticas educacionais com transparência, participação social e governança democrática.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q1" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> O desenvolvimento de políticas de acesso, de permanência e de êxito dos sujeitos da educação profissional e tecnológica.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q1" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> Aderência da oferta educacional ao contexto social, econômico e produtivo, local e nacional, para a inserção dos egressos no mundo do trabalho.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q1" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> A promoção da integração entre os diferentes níveis e as modalidades educacionais, para o fortalecimento da verticalização do ensino.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q1" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> O fomento a ações de extensão, de pesquisa, de inovação, de produção cultural e de práticas desportivas no âmbito da educação profissional e tecnológica.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: C</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> A diferenciação taxonômica entre princípios, diretrizes e objetivos é uma das principais fontes de questões elaboradas pelo Instituto AOCP em provas de legislação educacional. Conforme o artigo 2º, inciso VI, do Decreto nº 12.603/2025, a "aderência da oferta educacional ao contexto social, econômico e produtivo, local e nacional, para a inserção dos egressos no mundo do trabalho" é classificada explicitamente no rol de <strong>princípios</strong> da PNEPT.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong></p>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><strong>A está incorreta</strong> porque a formulação, implementação e avaliação com transparência e governança democrática constitui uma <strong>diretriz</strong> orientadora (Artigo 3º, inciso II).</li>
+                            <li><strong>B está incorreta</strong> pois o desenvolvimento de políticas de acesso, de permanência e de êxito é categorizado expressamente como uma <strong>diretriz</strong> da política nacional (Artigo 3º, inciso I).</li>
+                            <li><strong>D está incorreta</strong> dado que a promoção da integração entre diferentes níveis e modalidades de ensino para fins de verticalização curricular é definida como uma <strong>diretriz</strong> (Artigo 3º, inciso V).</li>
+                            <li><strong>E está incorreta</strong> porque o fomento às ações de extensão, pesquisa, inovação, produção cultural e práticas desportivas é estabelecido como um dos <strong>objetivos</strong> do plano normativo (Artigo 4º, inciso VIII).</li>
+                        </ul>
+                        
+                        <!-- Tabela HTML de apoio -->
+                        <div class="overflow-x-auto mt-4 rounded-lg border border-stone-200 bg-white">
+                            <table class="min-w-full text-left text-xs">
+                                <thead class="bg-stone-100 text-stone-700 uppercase font-semibold">
+                                    <tr>
+                                        <th class="p-3">Categoria Normativa</th>
+                                        <th class="p-3">Natureza Conceitual</th>
+                                        <th class="p-3">Função na PNEPT</th>
+                                        <th class="p-3">Exemplos</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-200 text-stone-600">
+                                    <tr>
+                                        <td class="p-3 font-semibold text-stone-900">Princípios (Art. 2º)</td>
+                                        <td class="p-3">Premissas éticas, filosóficas e pedagógicas permanentes.</td>
+                                        <td class="p-3">Oferecer o alicerce valorativo e estrutural da proposta pedagógica nacional.</td>
+                                        <td class="p-3">Centralidade do trabalho; Indissociabilidade entre ensino, pesquisa, extensão e inovação.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-stone-900">Diretrizes (Art. 3º)</td>
+                                        <td class="p-3">Linhas de ação, orientações de gestão e rumos de planejamento.</td>
+                                        <td class="p-3">Orientar o desenho e a condução das políticas públicas de educação técnica.</td>
+                                        <td class="p-3">Estímulo à interiorização; Formação digital de sujeitos; Integração para verticalização do ensino.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-stone-900">Objetivos (Art. 4º)</td>
+                                        <td class="p-3">Metas finalísticas, fins práticos e resultados a alcançar.</td>
+                                        <td class="p-3">Delimitar as frentes de entrega e o monitoramento de resultados institucionais.</td>
+                                        <td class="p-3">Articular a oferta com o PNE; Implementar ações afirmativas; Promover formação profissional.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 2 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="2">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 02</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    No âmbito das bases filosóficas e pedagógicas que fundamentam a Política Nacional de Educação Profissional e Tecnológica (PNEPT), instituída pelo Decreto nº 12.603/2025, o trabalho assume uma dimensão central na organização curricular. A respeito dos princípios norteadores expressos no artigo 2º do referido diploma legal, assinale a alternativa correta.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q2" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> A política estabelece a dissociação estrutural entre teoria e prática no processo de ensino-aprendizagem, visando à especialização puramente instrumental do trabalhador.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q2" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> O trabalho é definido formalmente na legislação como princípio educativo, orientando a centralidade da proposta político-pedagógica.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q2" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> As concepções pedagógicas das instituições de ensino técnico devem ser padronizadas e centralizadas pela União, sendo vedado o pluralismo de ideias para garantir a eficiência produtiva.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q2" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> A indissociabilidade aplica-se unicamente à relação entre o ensino e a pesquisa, cabendo às atividades de extensão e de inovação um caráter puramente facultativo e comercial.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q2" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> O respeito às diferenças de gênero e étnico-raciais constitui uma diretriz operacional provisória, cuja execução é restrita aos programas federais de qualificação rápida de jovens.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: B</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O Artigo 2º, inciso II, do Decreto nº 12.603/2025 estabelece como princípio basilar da educação profissional a "centralidade do trabalho como princípio educativo". Este preceito representa a superação teórica da tradicional fragmentação escolar entre educação geral (intelectual) e educação técnica (manual), asseverando que o trabalho é elemento constituinte da identidade social, humana e cidadã.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong></p>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><strong>A está incorreta</strong> porque o inciso V do Artigo 2º preconiza exatamente o oposto: a indissociabilidade entre teoria e prática no processo pedagógico.</li>
+                            <li><strong>C está incorreta</strong> porque o Artigo 2º, inciso XI, prega o respeito ao pluralismo de ideias e às concepções pedagógicas, assegurando a autonomia escolar.</li>
+                            <li><strong>D está incorreta</strong> porque o princípio da indissociabilidade une indissoluvelmente quatro dimensões: ensino, pesquisa, extensão e inovação (Artigo 2º, inciso I).</li>
+                            <li><strong>E está incorreta</strong> porque o respeito às diferenças regionais, étnico-raciais e de gênero é um princípio permanente de sustentação e não uma diretriz operacional provisória de curto alcance (Artigo 2º, inciso VII).</li>
+                        </ul>
+                        <p>Do ponto de vista pedagógico profundo, a centralidade do trabalho como princípio educativo implica que as propostas político-pedagógicas não devem focar apenas na aquisição de competências mecanicistas ou em treinamentos técnicos curtos e alienados das demandas sociais. O trabalho é a categoria pela qual o educando compreende as transformações históricas, a produção de ciência, a constituição da tecnologia e a evolução da cultura. Com isso, assegura-se que a formação profissional seja integral, emancipadora e verdadeiramente voltada para a cidadania plena e ativa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 3 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="3">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 03</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    As diretrizes da Política Nacional de Educação Profissional e Tecnológica (PNEPT) orientam a formulação das propostas de ensino em consonância com as transformações contemporâneas do mundo do trabalho. Conforme o artigo 3º do Decreto nº 12.603/2025, a PNEPT estabelece o incentivo a práticas educacionais que promovam o desenvolvimento sustentável e abordagens inovadoras de economia. Assinale a alternativa que indica, correta e exclusivamente, as economias nominalmente especificadas na referida norma jurídica.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q3" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> Economia de livre mercado, economia verde, economia compartilhada e economia social.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q3" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> Economia circular, economia verde, economia criativa e economia do cuidado.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q3" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> Economia planificada, economia digital, economia do conhecimento e economia solidária.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q3" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> Economia de baixo carbono, economia industrial, economia de serviços e economia circular.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q3" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> Economia de subsistência, economia azul, economia criativa e economia do bem-estar.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: B</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O Artigo 3º, inciso IV, do Decreto nº 12.603/2025 prevê expressamente como diretriz de condução da PNEPT <em>"o incentivo às práticas educacionais que promovam o desenvolvimento sustentável, a economia circular, a economia verde, a economia criativa, a economia do cuidado, entre outras abordagens inovadoras, e o fortalecimento dos arranjos produtivos locais"</em>. A alternativa B transcreve com exatidão as quatro economias destacadas nominalmente na referida regulamentação nacional.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong> As alternativas A, C, D e E incluem terminologias econômicas que, embora relevantes na literatura da administração pública e econômica contemporânea (como "economia compartilhada", "economia azul", "economia social" ou "economia solidária"), não constam de modo literal do dispositivo legal em análise, tornando as respectivas assertivas incorretas frente às exigências de exatidão do Instituto AOCP.</p>
+                        <p>A inclusão desses modelos reflete a sintonia do arcabouço normativo com as transições demográficas, climáticas e tecnológicas de terceira ordem. A economia do cuidado, por exemplo, responde ao rápido envelhecimento populacional do país e às necessidades de assistência, demandando novos arranjos de qualificação técnica. Já as economias verde e circular indicam o direcionamento da PNEPT para as demandas globais de sustentabilidade, de modo que os arranjos produtivos locais e a inserção laboral operem sob a égide da transição ecológica e do baixo impacto ambiental, capacitando os trabalhadores para os chamados "empregos verdes".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 4 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="4">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 04</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    O Decreto nº 12.603/2025 preconiza que a Política Nacional de Educação Profissional e Tecnológica (PNEPT) deve atuar em consonância com as metas do planejamento educacional amplo do país. Diante dos objetivos estabelecidos para a PNEPT no artigo 4º, assinale a alternativa correta.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q4" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> A articulação da oferta da educação profissional e tecnológica deve observar de forma obrigatória as metas estabelecidas no Plano Nacional de Educação (PNE).</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q4" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> A PNEPT objetiva a exclusão de dados estatísticos nacionais de fluxo e rendimento escolar, determinando a adoção de sistemas de avaliação isolados da rede pública geral.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q4" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> O estímulo à participação ativa do mundo do trabalho deve ser restrito ao financiamento de bolsas, sendo vedada a inserção socioprodutiva de egressos nas tomadas de decisão curricular.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q4" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> A política tem como objetivo concentrar a expansão das ofertas educacionais unicamente nos grandes centros urbanos e capitais estaduais, desencorajando o processo de interiorização.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q4" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> A formação continuada de docentes da educação técnica é desestimulada pela política nacional, devendo o fomento público concentrar-se apenas na certificação de bacharéis sem formação pedagógica.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: A</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O Artigo 4º, inciso I, do Decreto nº 12.603/2025 estabelece que constitui objetivo explícito da PNEPT <em>"articular a oferta da educação profissional e tecnológica, observadas as metas do Plano Nacional de Educação (PNE)"</em>. Essa ligação estrutural visa unificar o planejamento público nacional e garantir coerência entre os investimentos na educação profissional e no restante do sistema educacional do país.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong></p>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><strong>B está incorreta</strong> porque o Artigo 6º elege formalmente o Censo Escolar da Educação Básica, o Censo da Educação Superior e o SINAEPT como fontes estratégicas de dados para retroalimentar a formulação das políticas.</li>
+                            <li><strong>C está incorreta</strong> pois o Artigo 4º, inciso IV, aponta o estímulo à participação ativa do mundo do trabalho na formulação e oferta visando à inserção socioprodutiva de egressos, indo além do simples patrocínio financeiro.</li>
+                            <li><strong>D está incorreta</strong> dado que o estímulo à interiorização e o respeito às assimetrias regionais são tidos como pilares estruturais da lei (Artigo 3º, inciso VIII).</li>
+                            <li><strong>E está incorreta</strong> porque o Artigo 4º, inciso IX, determina expressamente o fomento à formação inicial e continuada de profissionais da educação técnica, visando a elevar sua qualificação docente.</li>
+                        </ul>
+                        <p>Historicamente, as políticas públicas brasileiras sofreram de crônica desarticulação setorial, em que a expansão física de institutos ou as ofertas de qualificação ocorriam à revelia dos planos estratégicos gerais ou sem a consolidação qualitativa dos quadros profissionais. Ao atrelar a PNEPT de forma prioritária às metas globais do PNE, a norma estimula o regime de cooperação federativa e assegura que a ampliação das matrículas de nível técnico observe a meta de equalização de oportunidades de acesso e a melhoria dos índices globais de escolarização e produtividade do trabalho.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 5 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="5">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 05</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltiplos Itens</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    A banca Instituto AOCP frequentemente utiliza a análise de múltiplos itens para verificar a precisão do candidato em relação à literalidade e à interpretação sistemática das leis educacionais. Com base nas diretrizes que orientam a PNEPT constantes no artigo 3º do Decreto nº 12.603/2025, analise as afirmativas a seguir:
+                </p>
+                
+                <!-- Itens de Análise -->
+                <div class="bg-stone-50 border border-stone-200 rounded-xl p-5 mb-6 space-y-4">
+                    <p class="text-sm text-stone-700 leading-relaxed"><strong class="text-indigo-600">I.</strong> A construção de itinerários formativos diversificados e atualizados deve ser orientada para os interesses dos sujeitos e suas trajetórias educacionais e profissionais, reconhecendo a educação e a aprendizagem como um percurso contínuo de desenvolvimento.</p>
+                    <p class="text-sm text-stone-700 leading-relaxed"><strong class="text-indigo-600">II.</strong> A promoção da integração entre os diferentes níveis e as modalidades educacionais constitui diretriz voltada ao fortalecimento da verticalização do ensino.</p>
+                    <p class="text-sm text-stone-700 leading-relaxed"><strong class="text-indigo-600">III.</strong> O estímulo à interiorização da oferta da educação profissional e tecnológica deve ser operacionalizado com a desconsideração de particularidades locais, ambientais e sociais, de modo a priorizar a unificação curricular.</p>
+                    <p class="text-sm text-stone-700 leading-relaxed"><strong class="text-indigo-600">IV.</strong> A promoção da formation digital estende-se tanto aos sujeitos (estudantes) quanto aos profissionais da educação profissional e tecnológica.</p>
+                </div>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q5" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> Apenas as afirmativas I e II estão corretas.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q5" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> Apenas as afirmativas II e III estão corretas.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q5" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> Apenas as afirmativas I, II e IV estão corretas.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q5" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> Apenas as afirmativas I, III e IV estão corretas.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q5" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> As afirmativas I, II, III e IV estão corretas.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: C</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong></p>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><strong>A afirmativa I está correta</strong> porque reflete exatamente a redação expressa na diretriz do Artigo 3º, inciso III, ao indicar que a educação profissional é um percurso contínuo de desenvolvimento no ciclo de vida do cidadão.</li>
+                            <li><strong>A afirmativa II está correta</strong> visto que a verticalização do ensino — que possibilita ao estudante ingressar na qualificação técnica e transitar de maneira fluida e integrada até a pós-graduação tecnológica dentro da mesma rede institucional — é uma das diretrizes da PNEPT, conforme disposto no Artigo 3º, inciso V.</li>
+                            <li><strong>A afirmativa III está incorreta</strong> porque o Artigo 3º, inciso VIII, preconiza explicitamente o exato oposto: a interiorização deve respeitar as especificidades ambientais, sociais, econômicas e culturais locais, sendo inválida a ideia de uma uniformização que desconsidere essas características territoriais.</li>
+                            <li><strong>A afirmativa IV está correta</strong> pois expressa adequadamente a diretriz constante no Artigo 3º, inciso VI, a qual inclui docentes, técnicos e discentes no processo de inclusão digital e alfabetização tecnológica avançada.</li>
+                        </ul>
+                        <p><strong>Conclusão:</strong> Diante da correção das afirmativas I, II e IV, a alternativa correta a ser assinalada é a C.</p>
+                        <p>A verticalização e a interiorização são fundamentais para que a expansão de escolas técnicas reduza de forma concreta os gargalos históricos de exclusão e desigualdade produtiva no interior do Brasil. A formulação de diretrizes que valorizam as particularidades sociais, culturais e ecológicas de cada localidade (em oposição à padronização simplista) impede que o ensino profissional ignore a vocação econômica do ecossistema local ou os arranjos produtivos locais (APLs), mantendo as ofertas de cursos conectadas às reais potencialidades de desenvolvimento socioeconômico regional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 6 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="6">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 06</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    No que tange aos objetivos da Política Nacional de Educação Profissional e Tecnológica (PNEPT), delineados no artigo 4º do Decreto nº 12.603/2025, a inclusão social e a equidade são eixos de atuação prioritária para a mitigação de disparidades regionais. Diante disso, assinale a alternativa que apresenta de forma correta um dos objetivos da PNEPT.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q6" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> Implementar ações afirmativas e políticas públicas que promovam o acesso, a permanência e o êxito na educação profissional e tecnológica, incentivando a inclusão e a redução de desigualdades.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q6" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> Desestimular as produções de caráter cultural e as práticas desportivas na formação técnica, concentrando a totalidade da carga horária no treinamento profissional imediato de natureza industrial.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q6" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> Fomentar mecanismos de livre concorrência entre as instituições públicas formadoras, vedando a colaboração técnica ou o regime de cooperação federativa.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q6" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> Concentrar a oferta educacional de nível técnico unicamente em cursos subsequentes, proibindo a integração de matrículas com o ensino médio regular ou com a educação de jovens e adultos (EJA).</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q6" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> Excluir do planejamento governamental o monitoramento de egressos das instituições formadoras, sob a premissa de preservação de dados individuais e autonomia de mercado.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: A</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O Artigo 4º, inciso V, do Decreto nº 12.603/2025 elege como objetivo prioritário da PNEPT a promoção de <em>"ações afirmativas e políticas públicas que promovam o acesso, a permanência e o êxito na educação profissional e tecnológica, incentivando a inclusão e a redução de desigualdades"</em>.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong></p>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><strong>B está incorreta</strong> porque o incentivo à produção cultural e práticas desportivas é expressamente elencado como objetivo legal do desenvolvimento integral dos educandos, em consonância com o Artigo 4º, inciso VIII.</li>
+                            <li><strong>C está incorreta</strong> já que a PNEPT tem como base a governança democrática e colaborativa, e não o fomento a lógicas de competição hostil ou de enfraquecimento do regime de cooperação entre entes públicos.</li>
+                            <li><strong>D está incorreta</strong> pois o decreto estimula no Artigo 9º a oferta articulada e integrada e prega que a educação profissional deve se integrar preferencialmente com a Educação de Jovens e Adultos (EJA).</li>
+                            <li><strong>E está incorreta</strong> dado que o acompanhamento de egressos constitui objetivo de gestão e dimensão explícita do processo nacional de avaliação por meio do SINAEPT (Artigo 4º, incisos IV e X, e Artigo 19, inciso V).</li>
+                        </ul>
+                        <p>O conceito de "acesso, permanência e êxito" expressa uma evolução das políticas públicas educacionais do Estado avaliador contemporâneo. No passado, as políticas focavam excessivamente no acesso quantitativo de matrículas (abertura de turmas). Ao colocar a permanência (assistência estudantil, apoio pedagógico, recursos digitais) e o êxito (conclusão do curso e inserção profissional de qualidade) como objetivos legais e passíveis de avaliação periódica, a PNEPT induz as instituições formadoras a criarem programas internos de acompanhamento psicopedagógico e curricular direcionados às camadas mais vulneráveis e socialmente marginalizadas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 7 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="7">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 07</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    O Decreto nº 12.603/2025 detalha princípios de ordem ética, política e sociocultural que devem sustentar a atuação das instituições que oferecem educação profissional e tecnológica no país. O "respeito às diferenças regionais, culturais, étnico-raciais e de gênero, e às necessidades específicas de diferentes grupos sociais, valorizando a diversidade, a equidade, a sustentabilidade, a inclusão social e a cidadania" é capitulado formalmente como um(a):
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q7" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> Diretriz da PNEPT, vinculada diretamente ao financiamento das redes federais de ensino.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q7" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> Estratégia de inserção socioprodutiva de caráter facultativo para as instituições privadas.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q7" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> Princípio da PNEPT, devendo reger as propostas político-pedagógicas e as ações da política nacional.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q7" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> Objetivo de avaliação de desempenho institucional sob a coordenação exclusiva do Ministério do Trabalho.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q7" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> Critério de governança corporativa restrito aos cursos de pós-graduação stricto sensu tecnológica.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: C</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O respeito à diversidade cultural, regional, étnico-racial e de gênero é categorizado como um <strong>princípio</strong> estrutural da PNEPT, no Artigo 2º, inciso VII, do Decreto nº 12.603/2025. Ao definir esse conjunto de valores como princípio, o decreto assegura que a promoção da equidade não seja vista meramente como uma meta provisória ou como uma diretriz operacional flexível, mas sim como uma base indissociável de toda e qualquer atividade formativa.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong> As alternativas A, B, D e E estão incorretas porque pretendem rebaixar ou reclassificar esse princípio legal a outras funções menores, tais como "diretriz operacional facultativa", "estratégia provisória de mercado", ou "critério exclusivo de pós-graduação", falseando a sistemática do texto regulamentador federal, que aplica tais princípios a todos os níveis e modalidades da educação profissional no território nacional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 8 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="8">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 08</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    Conforme estabelecido pelo artigo 5º do Decreto nº 12.603/2025, a Política Nacional de Educação Profissional e Tecnológica (PNEPT) é estruturada a partir de três grandes eixos de atuação. Assinale a alternativa que elenca corretamente esses eixos estruturantes.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q8" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> Unificação de matrizes curriculares nacionais; Subsídio direto ao patronato comercial; Privatização de institutos tecnológicos regionais.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q8" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> Coordenação e articulação de políticas e processos educacionais; Expansão de ofertas educacionais; Melhoria da qualidade e alinhamento com as demandas da sociedade e do mercado.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q8" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> Universalização da educação profissional básica; Centralização orçamentária do Ministério da Educação; Substituição progressiva do ensino médio propedêutico.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q8" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> Ensino técnico agropecuário; Ensino técnico industrial de exportação; Fomento à formação em serviços metropolitanos de tecnologia da informação.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q8" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> Cooperação técnico-científica internacional; Financiamento exclusivo de polos exportadores; Avaliação diagnóstica de competências cognitivas básicas.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: B</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O Artigo 5º do Decreto nº 12.603/2025 define de forma explícita que os três grandes eixos de atuação e articulação da PNEPT são o estabelecimento de políticas coordenadas, o fomento à expansão de vagas e o investimento na qualidade pedagógica alinhada com as demandas do mercado.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong> As alternativas A, C, D e E misturam conceitos alheios ao decreto ou inserem vocábulos distorcidos de livre mercado e privatização de institutos federais, violando as premissas de atuação pública e as ações integradoras sob liderança tripartite previstas na norma federal para a política educacional brasileira.</p>
+                        
+                        <!-- Diagrama Reconstruído com HTML/CSS Moderno -->
+                        <div class="mt-6 mb-4">
+                            <p class="text-xs font-bold text-stone-500 uppercase tracking-wider mb-3 text-center">Estrutura Operacional da PNEPT (Art. 5º)</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white border border-stone-200 rounded-lg p-4 shadow-sm">
+                                    <div class="text-indigo-600 font-bold text-xs uppercase mb-2">Eixo I</div>
+                                    <div class="text-stone-900 font-semibold text-sm mb-2">Coordenação e Articulação</div>
+                                    <ul class="text-xs text-stone-600 space-y-1 list-disc pl-4">
+                                        <li>Comissão Tripartite Paritária Permanente (CTPP)</li>
+                                        <li>Articulação com PNE e Setores Estratégicos</li>
+                                        <li>Fortalecimento do regime de colaboração</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white border border-stone-200 rounded-lg p-4 shadow-sm">
+                                    <div class="text-indigo-600 font-bold text-xs uppercase mb-2">Eixo II</div>
+                                    <div class="text-stone-900 font-semibold text-sm mb-2">Expansão de Ofertas</div>
+                                    <ul class="text-xs text-stone-600 space-y-1 list-disc pl-4">
+                                        <li>Foco na interiorização e arranjos locais</li>
+                                        <li>Itinerários da formação técnica contínua</li>
+                                        <li>Integração prioritária com EJA e Aprendizagem</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white border border-stone-200 rounded-lg p-4 shadow-sm">
+                                    <div class="text-indigo-600 font-bold text-xs uppercase mb-2">Eixo III</div>
+                                    <div class="text-stone-900 font-semibold text-sm mb-2">Qualidade e Alinhamento</div>
+                                    <ul class="text-xs text-stone-600 space-y-1 list-disc pl-4">
+                                        <li>Criação do SINAEPT (Avaliação Inep)</li>
+                                        <li>Fomento à capacitação continuada de docentes</li>
+                                        <li>Atualização do Catálogo Nacional de Cursos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>Esta arquitetura de eixos integrados demonstra a sincronia exigida pelo legislador: a ampliação física de ofertas do Eixo II requer a devida articulação federativa e setorial do Eixo I para evitar descompassos e sobreposição de ofertas, e necessita da sistemática avaliativa e da qualificação de formadores do Eixo III para garantir que o diploma técnico de fato promova a inserção produtiva e a emancipação do trabalhador.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 9 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="9">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 09</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    A análise da correlação entre os princípios e as diretrizes expressos no Decreto nº 12.603/2025 revela a complexidade da articulação das esferas governamentais com o mercado e com as instituições escolares. Com base nas definições normativas dessas duas categorias, assinale a alternativa correta.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q9" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> O fortalecimento das estratégias de colaboração entre as instituições formadoras, o mundo do trabalho e os gestores responsáveis pelas políticas de trabalho e educação profissional constitui um princípio da PNEPT.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q9" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> O respeito ao pluralismo de ideias e às concepções pedagógicas é classificado como uma diretriz provisória da PNEPT.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q9" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> A cooperação e a integração entre os sistemas de ensino representam um princípio da PNEPT, ao passo que o fortalecimento das estratégias de colaboração com o mundo do trabalho e gestores de políticas é tido como diretriz.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q9" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> A indissociabilidade entre o ensino, a pesquisa, a extensão e a inovação constitui uma diretriz a ser implementada de forma facultativa pelas instituições federais.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q9" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> A valorização de trabalhadores e trabalhadoras da educação profissional é definida legalmente como um objetivo quantitativo, cuja consecução depende de avaliações nacionais externas anuais do Inep.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: C</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O candidato deve atentar para a exata demarcação dos termos do texto regulamentador. A cooperação e integração entre os sistemas de ensino constitui um <strong>princípio</strong> consagrado no Artigo 2º, inciso VIII. Por outro lado, o fortalecimento de estratégias específicas de colaboração com as instâncias do trabalho e gestores de políticas laborais é explicitado como uma das <strong>diretrizes</strong> orientadoras da PNEPT no Artigo 3º, inciso IX.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong></p>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><strong>A está incorreta</strong> porque classifica o fortalecimento de estratégias de colaboração como princípio, quando na verdade trata-se de uma diretriz (Artigo 3º, inciso IX).</li>
+                            <li><strong>B está incorreta</strong> dado que o pluralismo de ideias e de concepções pedagógicas é listado de modo permanente como um princípio de ação (Artigo 2º, inciso XI) e não como diretriz.</li>
+                            <li><strong>D está incorreta</strong> visto que a indissociabilidade entre ensino, pesquisa, extensão e inovação é um princípio mandatório estrutural (Artigo 2º, inciso I) e não uma diretriz de extensão voluntária ou optativa.</li>
+                            <li><strong>E está incorreta</strong> porque a valorização dos trabalhadores é um princípio da PNEPT (Artigo 2º, inciso IX) e não um objetivo quantitativo atrelado ao desempenho individual avaliado pelo Inep.</li>
+                        </ul>
+                        <p>No plano prático-organizacional, a distinção fundamental reside no fato de que os princípios oferecem a moldura ético-legal intangível que rege a atuação das redes de ensino, enquanto as diretrizes são orientações mutáveis que buscam viabilizar os objetivos da política por meio de ações de gestão. Assim, o princípio da cooperação federativa exige que os diferentes sistemas de ensino operem de forma harmônica e compartilhada, ao passo que a diretriz de colaboração com o mundo do trabalho orienta os gestores a estabelecerem pontes e convênios locais com empresas, sindicatos e demais agentes econômicos para alinhar os currículos aos desafios locais do setor produtivo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questão 10 -->
+            <div class="question-card bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-sm transition-all duration-300" data-qindex="10">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Questão 10</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">Múltipla Escolha</span>
+                </div>
+                
+                <p class="text-stone-900 font-medium text-base mb-6 leading-relaxed">
+                    De acordo com o artigo 1º do Decreto nº 12.603/2025, a Política Nacional de Educação Profissional e Tecnológica (PNEPT) é articulada com o Plano Nacional de Educação (PNE) e possui uma finalidade integradora clara. A respeito dessa finalidade e das conexões intersetoriais da PNEPT descritas nos parágrafos do primeiro artigo do decreto, assinale a alternativa correta.
+                </p>
+
+                <!-- Opções -->
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q10" value="A" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">A)</strong> A PNEPT deve atuar de maneira desarticulada de outras políticas públicas, como as de ciência e tecnologia ou de geração de emprego, para evitar superposição de recursos e desvio de finalidade escolar.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q10" value="B" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">B)</strong> Por meio da PNEPT busca-se estabelecer a conexão entre a educação, a inclusão social e a inserção socioprodutiva, observadas as necessidades de desenvolvimento sustentável e socioeconômico e o estímulo à inovação.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q10" value="C" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">C)</strong> O decreto veda a articulação da PNEPT com políticas públicas de saúde, de cultura e de desenvolvimento sustentável, centralizando as ações educacionais unicamente no atendimento imediato ao setor manufatureiro industrial.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q10" value="D" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">D)</strong> A PNEPT visa à exclusão da formação cidadã, elegendo como finalidade precípua a educação técnica instrumentalista focada no adestramento mecânico do trabalhador.</span>
+                    </label>
+                    <label class="flex items-start gap-4 p-4 rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer transition-all duration-200">
+                        <input type="radio" name="q10" value="E" class="mt-1 text-indigo-600 focus:ring-indigo-500 border-stone-300" onchange="updateProgress()">
+                        <span class="text-sm text-stone-700 leading-relaxed"><strong class="text-stone-900">E)</strong> A governança da política nacional afasta a participação e a escuta social, concentrando as tomadas de decisão e a elaboração de catálogos nos órgãos de cúpula do Ministério da Educação.</span>
+                    </label>
+                </div>
+
+                <!-- Resolução (Inicialmente Oculta) -->
+                <div class="resolution-container hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50 rounded-xl p-6">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3">Gabarito Oficial: B</span>
+                    <h4 class="text-sm font-bold text-stone-900 mb-2">Resolução Comentada:</h4>
+                    <div class="prose-custom text-sm text-stone-600 leading-relaxed">
+                        <p><strong>Análise Legal e Pedagógica:</strong> O Artigo 1º do Decreto nº 12.603/2025 estabelece as diretrizes estruturantes gerais da política nacional. No § 2º, preceitua que a PNEPT busca <em>"estabelecer a conexão entre a educação, a inclusão social e a inserção socioprodutiva, observadas as necessidades de desenvolvimento sustentável e socioeconômico do País e o estímulo à inovação, com integração entre os diferentes sistemas de ensino"</em>. Adicionalmente, o § 3º determina a articulação da PNEPT com outras políticas públicas estruturantes (ciência, tecnologia, emprego, saúde, cultura, etc.). A alternativa B expressa com fidelidade a redação e os propósitos normativos desses parágrafos.</p>
+                        <p><strong>Exame das Alternativas Incorretas:</strong></p>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><strong>A está incorreta</strong> ao preconizar a desarticulação da educação técnica em relação às políticas científicas e de emprego, o que contraria o princípio de atuação sistêmica exigido pelo decreto (Artigo 1º, § 3º).</li>
+                            <li><strong>C está incorreta</strong> porque o decreto defende e estimula a mútua articulação intersetorial com esferas como a saúde, cultura e meio ambiente para robustecer a atuação governamental integrada (Artigo 1º, § 3º).</li>
+                            <li><strong>D está incorreta</strong> já que a finalidade declarada da PNEPT é precisamente assegurar a "formação integral e cidadã da população" (Artigo 1º, § 1º), opondo-se à mera visão reducionista e instrumentalizadora do ensino instrumental clássico.</li>
+                            <li><strong>E está incorreta</strong> porque as instâncias de governança da PNEPT preveem participação e escuta social sistemática das representações civis e dos trabalhadores do campo e das cidades através da Comissão Tripartite Paritária Permanente da PNEPT - CTPP (Artigos 14 e 15).</li>
+                        </ul>
+                        <p>Esta concepção sistêmica é essencial para impedir a histórica fragmentação de ações na esfera governamental. Ao aproximar a educação das pastas de Ciência e Tecnologia, Meio Ambiente, Cultura e Saúde, o decreto reconhece que os arranjos de ensino profissionalizante não devem funcionar em isolamento acadêmico. A educação profissional e tecnológica opera, portanto, como uma política pública transversal: de um lado, atua como vetor de desenvolvimento socioeconômico e gerador de inovações tecnológicas para os arranjos produtivos; de outro, atua como instrumento de distribuição de renda, inclusão socioprodutiva ativa e garantia de cidadania integral para a juventude e a classe trabalhadora brasileira.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Envio / Feedback Inicial -->
+            <div class="pt-6 pb-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-stone-200">
+                <div class="text-sm text-stone-500" id="incomplete-warning">
+                    Preencha todas as 10 questões para finalizar o simulado.
+                </div>
+                <button type="button" onclick="submitQuiz()" id="submit-btn" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2">
+                    Finalizar Simulado
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+
+        <!-- Seção de Resultados e Painel Consolidado de Resoluções -->
+        <section id="results-panel" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-white border-2 border-indigo-600 rounded-2xl p-6 sm:p-8 shadow-md text-center max-w-2xl mx-auto">
+                <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-extrabold text-stone-900 mb-2">Simulado Concluído!</h3>
+                <p class="text-stone-600 text-sm mb-6 max-w-md mx-auto">Sua pontuação foi computada. Confira abaixo o detalhamento do seu desempenho e a análise teórica de cada questão respondida.</p>
+                
+                <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-6">
+                    <div class="bg-stone-50 rounded-xl p-4 border border-stone-200">
+                        <span class="text-xs text-stone-500 block font-medium">Acertos</span>
+                        <span id="score-hits" class="text-3xl font-extrabold text-indigo-600">0 / 10</span>
+                    </div>
+                    <div class="bg-stone-50 rounded-xl p-4 border border-stone-200">
+                        <span class="text-xs text-stone-500 block font-medium">Aproveitamento</span>
+                        <span id="score-percentage" class="text-3xl font-extrabold text-emerald-600">0%</span>
+                    </div>
+                </div>
+
+                <div class="text-sm font-semibold text-indigo-600 mb-4" id="performance-feedback"></div>
+
+                <button type="button" onclick="resetQuiz()" class="text-xs font-semibold text-stone-500 hover:text-stone-800 underline transition-colors">
+                    Reiniciar Simulado e Tentar Novamente
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="border-t border-stone-200 bg-white py-8 text-center text-sm text-stone-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>© 2026 Simulado Preparatório para Concursos Públicos. Todos os direitos reservados.</p>
+            <p class="text-xs text-stone-400 mt-1">Desenvolvido com foco em acessibilidade e estudos de longa duração no ecossistema da educação profissional brasileira.</p>
+        </div>
+    </footer>
+
+    <!-- Sistema Lógico de Interação via JS Puro -->
+    <script>
+        // Gabarito oficial das 10 questões
+        const answerKey = {
+            q1: 'C',
+            q2: 'B',
+            q3: 'B',
+            q4: 'A',
+            q5: 'C',
+            q6: 'A',
+            q7: 'C',
+            q8: 'B',
+            q9: 'C',
+            q10: 'B'
+        };
+
+        // Atualiza a barra de progresso em tempo real
+        function updateProgress() {
+            const totalQuestions = 10;
+            let answeredCount = 0;
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) {
+                    answeredCount++;
+                }
+            }
+
+            const percentage = (answeredCount / totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').innerText = `Progresso: ${answeredCount} / ${totalQuestions} respondidas`;
+
+            // Altera o aviso de incompletude caso o usuário já tenha marcado todas
+            const warning = document.getElementById('incomplete-warning');
+            if (answeredCount === totalQuestions) {
+                warning.innerText = "Excelente! Você preencheu todas as questões e já pode finalizar.";
+                warning.classList.remove('text-stone-500');
+                warning.classList.add('text-emerald-600', 'font-semibold');
+            } else {
+                warning.innerText = `Preencha todas as 10 questões para finalizar o simulado. Falta(m) ${totalQuestions - answeredCount}.`;
+                warning.classList.remove('text-emerald-600', 'font-semibold');
+                warning.classList.add('text-stone-500');
+            }
+        }
+
+        // Submete o simulado
+        function submitQuiz() {
+            const totalQuestions = 10;
+            let unanswered = [];
+            let hits = 0;
+
+            // Coleta respostas e valida se todas foram respondidas
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) {
+                    unanswered.push(i);
+                }
+            }
+
+            // Exibe aviso flutuante caso existam questões pendentes (Prevenção contra cliques indesejados)
+            if (unanswered.length > 0) {
+                const confirmSubmit = confirm(`Você deixou as seguintes questões sem resposta: ${unanswered.join(', ')}. Deseja finalizar mesmo assim?`);
+                if (!confirmSubmit) return;
+            }
+
+            // Bloqueia as interações e calcula acertos
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const userChoice = selected ? selected.value : null;
+                const correctAnswer = answerKey[`q${i}`];
+                
+                // Trata estilo visual nos cards das opções respondidas
+                const card = document.querySelector(`.question-card[data-qindex="${i}"]`);
+                const labels = card.querySelectorAll('label');
+
+                labels.forEach(label => {
+                    const radio = label.querySelector('input[type="radio"]');
+                    radio.disabled = true; // Desabilita os radios para evitar alterações pós-gabarito
+                    
+                    // Se esta é a resposta correta oficial, destaca em verde
+                    if (radio.value === correctAnswer) {
+                        label.classList.remove('border-stone-200', 'hover:border-stone-300', 'hover:bg-stone-50');
+                        label.classList.add('border-emerald-500', 'bg-emerald-50/50', 'text-emerald-900');
+                        // Insere uma tag de "Correta" ao lado do texto
+                        const badge = document.createElement('span');
+                        badge.className = "ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800";
+                        badge.innerText = "Gabarito";
+                        label.appendChild(badge);
+                    }
+                    
+                    // Se o usuário errou e selecionou esta alternativa incorreta, destaca em vermelho
+                    if (userChoice && radio.value === userChoice && userChoice !== correctAnswer) {
+                        label.classList.remove('border-stone-200', 'hover:border-stone-300', 'hover:bg-stone-50');
+                        label.classList.add('border-rose-300', 'bg-rose-50/50', 'text-rose-900');
+                        // Insere aviso de escolha incorreta
+                        const badge = document.createElement('span');
+                        badge.className = "ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-rose-100 text-rose-800";
+                        badge.innerText = "Sua Escolha";
+                        label.appendChild(badge);
+                    }
+                });
+
+                // Revela a respectiva resolução explicativa logo abaixo da questão
+                const resContainer = card.querySelector('.resolution-container');
+                resContainer.classList.remove('hidden');
+
+                if (userChoice === correctAnswer) {
+                    hits++;
+                }
+            }
+
+            // Renderiza painel de estatísticas finais
+            const percentage = (hits / totalQuestions) * 100;
+            document.getElementById('score-hits').innerText = `${hits} / ${totalQuestions}`;
+            document.getElementById('score-percentage').innerText = `${percentage}%`;
+
+            let feedbackMsg = '';
+            if (percentage >= 80) {
+                feedbackMsg = 'Excelente desempenho! Você está muito bem preparado para provas de alto nível sobre a PNEPT.';
+            } else if (percentage >= 60) {
+                feedbackMsg = 'Bom trabalho! Uma revisão nos pontos específicos (Diferença entre Princípio e Diretriz) consolidará seus acertos para a nota máxima.';
+            } else {
+                feedbackMsg = 'Continue estudando! Leia atentamente os comentários das resoluções detalhadas abaixo para sanar suas dúvidas.';
+            }
+            document.getElementById('performance-feedback').innerText = feedbackMsg;
+
+            // Exibe e move o foco visual para o painel de resultados com transição suave
+            const resultsPanel = document.getElementById('results-panel');
+            resultsPanel.classList.remove('hidden');
+            resultsPanel.scrollIntoView({ behavior: 'smooth' });
+
+            // Esconde botão de envio principal e aviso de incompletude
+            document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('incomplete-warning').classList.add('hidden');
+        }
+
+        // Reinicia o simulado para estado original
+        function resetQuiz() {
+            const confirmReset = confirm("Deseja realmente limpar suas respostas e tentar novamente o simulado?");
+            if (!confirmReset) return;
+
+            // Recarrega a página de forma simples e limpa
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>

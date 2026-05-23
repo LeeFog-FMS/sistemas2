@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crase Definitiva: IFCE AOCP Professor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+        .highlight-yellow {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.2rem;
+            font-weight: 600;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        /* Garantir que tabelas não quebrem o layout */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <main class="max-w-4xl mx-auto px-6 py-10">
+        
+        <header class="border-b-2 border-slate-100 pb-8 mb-10">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-blue-100">Conteúdo Revisado e Completo</span>
+            </div>
+            <h1 class="text-4xl font-extrabold text-slate-900 leading-tight">
+                Emprego do Sinal Indicativo de Crase
+            </h1>
+            <p class="text-lg text-slate-500 mt-3">
+                Curso Intensivo para Professor EBTT - <span class="font-bold text-slate-700">IFCE (Instituto AOCP)</span>.
+            </p>
+        </header>
+
+        <section class="mb-12 p-6 bg-slate-50 border border-slate-200 rounded-2xl card-shadow">
+            <div class="flex flex-col md:flex-row md:items-center gap-6">
+                <div class="flex-1">
+                    <h3 class="flex items-center gap-2 font-bold text-slate-800 mb-1">
+                        <i data-lucide="volume-2" class="w-5 h-5 text-blue-600"></i> Audioaula de Fixação
+                    </h3>
+                    <p class="text-sm text-slate-500">Ouça o resumo técnico enquanto revisa os tópicos abaixo.</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="mp3-source" value="aula-crase.mp3" 
+                            class="text-xs border border-slate-300 rounded-lg px-3 py-2 w-48 focus:ring-2 focus:ring-blue-500 outline-none"
+                            placeholder="Nome do arquivo.mp3">
+                        <button onclick="carregarAudio()" class="bg-slate-900 text-white text-xs px-4 py-2 rounded-lg font-semibold hover:bg-slate-800 transition-all flex items-center gap-2">
+                            <i data-lucide="play-circle" class="w-4 h-4"></i> Atualizar
+                        </button>
+                    </div>
+                    <audio id="audio-player" class="w-full h-8" controls>
+                        <source id="audio-source" src="aula-crase.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <article class="space-y-12">
+            
+            <section>
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3 mb-6">
+                    <span class="flex items-center justify-center w-8 h-8 bg-slate-900 text-white rounded-lg text-sm">01</span>
+                    Definição e Características Essenciais
+                </h2>
+                <div class="space-y-4 text-slate-700">
+                    <p>
+                        A crase no português não é um acento tônico, mas sim um <span class="highlight-yellow">fenômeno fonético de crase</span> (fusão). Para a banca AOCP, você deve encarar a crase como uma <span class="font-bold">equação matemática</span>:
+                    </p>
+                    <div class="bg-white border-2 border-dashed border-slate-200 p-6 rounded-xl text-center">
+                        <span class="text-xl font-mono">Preposição "A" + (Artigo "A" / Pronome "A" / Início de "Aquele") = <span class="text-red-600 font-bold underline">À</span></span>
+                    </div>
+                    <p>
+                        <i data-lucide="check-circle" class="inline w-4 h-4 text-green-600"></i> <span class="font-semibold">Foco IFCE:</span> A banca costuma cobrar a regência de verbos comuns em textos acadêmicos, como <span class="italic">referir-se, dedicar-se, submeter-se e limitar-se</span>.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3 mb-6">
+                    <span class="flex items-center justify-center w-8 h-8 bg-slate-900 text-white rounded-lg text-sm">02</span>
+                    Regras de Ouro: Onde o sinal é Exigido
+                </h2>
+                <div class="table-container bg-white border border-slate-200 rounded-xl overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th class="p-4 font-bold text-slate-700">Situação</th>
+                                <th class="p-4 font-bold text-slate-700">O que observar?</th>
+                                <th class="p-4 font-bold text-slate-700">Exemplo Técnico</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 font-bold text-green-700">Locuções Femininas</td>
+                                <td class="p-4">Adverbiais, prepositivas e conjuntivas de núcleo feminino.</td>
+                                <td class="p-4 italic">"À medida que a latitude aumenta..." / "À tarde".</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold text-green-700">Horas Exatas</td>
+                                <td class="p-4">Indicação de horas determinadas (sem preposição antes).</td>
+                                <td class="p-4 italic">"A aula iniciará <span class="highlight-yellow">às 19h</span>."</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold text-green-700">Pronomes Demonstrativos</td>
+                                <td class="p-4">Fusão da preposição com o 'A' inicial de Aquele(a/o).</td>
+                                <td class="p-4 italic">"Refiro-me <span class="highlight-yellow">àquele</span> mapa geomorfológico."</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold text-green-700">Lugares (Teste)</td>
+                                <td class="p-4">Se vou <span class="font-bold">A</span> e volto <span class="font-bold">DA</span>, crase há!</td>
+                                <td class="p-4 italic">"Fui à Bahia" (Volto <span class="underline">da</span> Bahia).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="grid md:grid-cols-2 gap-8">
+                <div class="bg-red-50/30 border border-red-100 p-6 rounded-2xl">
+                    <h3 class="text-red-800 font-bold flex items-center gap-2 mb-4">
+                        <i data-lucide="x-circle" class="w-5 h-5"></i> Proibições (Nunca Use!)
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li><span class="font-bold text-red-700">1.</span> Antes de <span class="underline font-semibold">verbos</span> ("disposto a colaborar").</li>
+                        <li><span class="font-bold text-red-700">2.</span> Antes de <span class="underline font-semibold">masculinos</span> ("estudo a distância", "pagar a prazo").</li>
+                        <li><span class="font-bold text-red-700">3.</span> Antes de <span class="underline font-semibold">pronomes pessoais</span> e de tratamento (exceto senhora/senhorita).</li>
+                        <li><span class="font-bold text-red-700">4.</span> Palavras repetidas ("cara a cara", "dia a dia").</li>
+                        <li><span class="font-bold text-red-700">5.</span> "A" singular antes de palavra no <span class="font-bold">plural</span>.</li>
+                    </ul>
+                </div>
+                <div class="bg-blue-50/30 border border-blue-100 p-6 rounded-2xl">
+                    <h3 class="text-blue-800 font-bold flex items-center gap-2 mb-4">
+                        <i data-lucide="help-circle" class="w-5 h-5"></i> Facultativos (Opcional)
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li><span class="font-bold text-blue-700">1.</span> Antes de <span class="underline font-semibold">nomes próprios femininos</span> (Familiaridade).</li>
+                        <li><span class="font-bold text-blue-700">2.</span> Antes de <span class="underline font-semibold">pronomes possessivos femininos</span> no singular (Minha, sua, nossa).</li>
+                        <li><span class="font-bold text-blue-700">3.</span> Após a preposição <span class="underline font-semibold">Até</span>.</li>
+                        <li class="mt-4 pt-4 border-t border-blue-100 italic text-xs text-blue-600">
+                            Dica AOCP: A banca adora perguntar se a retirada do acento grave manteria a correção gramatical nesses casos. A resposta é SIM.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3 mb-6">
+                    <span class="flex items-center justify-center w-8 h-8 bg-slate-900 text-white rounded-lg text-sm">03</span>
+                    Peguinhas Recorrentes: Instituto AOCP
+                </h2>
+                <div class="space-y-6">
+                    <div class="p-6 border-l-4 border-amber-400 bg-amber-50/30 rounded-r-xl">
+                        <h4 class="font-bold text-amber-900 mb-2">O Trapézio da Distância</h4>
+                        <p class="text-sm text-slate-700">
+                            A expressão "a distância" <span class="font-bold">não leva crase</span> a menos que a distância esteja <span class="highlight-yellow">especificada</span>. 
+                            <br><span class="italic">Errado:</span> Ensino à distância. 
+                            <br><span class="italic">Certo:</span> Ensino a distância de 500 metros.
+                        </p>
+                    </div>
+
+                    <div class="p-6 border-l-4 border-slate-900 bg-slate-50 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 mb-2">Paralelismo Sintático</h4>
+                        <p class="text-sm text-slate-700">
+                            A banca cobra a simetria. Se você usou artigo no primeiro termo, deve usar no segundo.
+                            <br><span class="font-semibold">Exemplo:</span> "De segunda <span class="underline">a</span> sexta" (Sem crase, pois 'de' não tem artigo).
+                            <br><span class="font-semibold">Exemplo:</span> "<span class="underline">Da</span> segunda <span class="font-bold text-red-600">à</span> sexta" (Com crase, pois 'da' = de + a).
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900 text-white p-6 rounded-2xl">
+                        <h4 class="font-bold flex items-center gap-2 mb-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-yellow-400"></i> Foco Geografia (IFCE/EBTT)
+                        </h4>
+                        <p class="text-sm opacity-90 leading-relaxed">
+                            Em provas de Geografia, a AOCP costuma inserir textos sobre <span class="font-semibold">cartografia ou geopolítica</span>. Cuidado com termos como "escala", "projeção" e "fronteira". 
+                            <br><br>
+                            <span class="bg-slate-800 px-2 py-1 rounded">Questão Típica:</span> "O analista submeteu os dados <span class="underline font-bold text-yellow-400">àquela</span> projeção cônica". (Correto, pois submeter exige 'A' + Início de Aquela).
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white border-2 border-slate-100 rounded-3xl p-8 shadow-sm">
+                <h2 class="text-xl font-extrabold text-slate-900 mb-6 text-center">Resumo de Algoritmo para Prova</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="space-y-2">
+                        <div class="text-3xl font-black text-slate-200">01</div>
+                        <h5 class="font-bold">Troca pelo Masculino</h5>
+                        <p class="text-xs text-slate-500">Se ao trocar a palavra feminina por uma masculina (ex: 'tarefa' por 'trabalho') virar <span class="font-bold text-slate-900">AO</span>, a crase existe.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-3xl font-black text-slate-200">02</div>
+                        <h5 class="font-bold">Verifique o "A"</h5>
+                        <p class="text-xs text-slate-500">O "A" está no singular? A palavra seguinte está no plural? Se SIM, crase proibida. <span class="font-bold text-slate-900">A</span> singular ante plural é só preposição.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-3xl font-black text-slate-200">03</div>
+                        <h5 class="font-bold">Teste o "Vem De"</h5>
+                        <p class="text-xs text-slate-500">Vou <span class="font-bold text-slate-900">A</span> Fortaleza, volto <span class="font-bold text-slate-900">DE</span> Fortaleza (Crase pra quê?). Vou <span class="font-bold text-slate-900">À</span> França, volto <span class="font-bold text-slate-900">DA</span> França (Crase no A!).</p>
+                    </div>
+                </div>
+            </section>
+
+        </article>
+
+        <footer class="mt-20 pt-10 border-t border-slate-100 text-center">
+            <p class="text-slate-400 text-sm mb-6">Memorização concluída? É hora de validar no simulado.</p>
+            <a href="crasequestoes.html" class="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold hover:bg-slate-800 transition-all transform hover:-translate-y-1 active:scale-95 shadow-xl shadow-slate-200">
+                <i data-lucide="check-square" class="w-6 h-6"></i>
+                Praticar Agora com Simulado AOCP
+            </a>
+            <p class="mt-6 text-xs text-slate-300">Desenvolvido para estudo de alta performance - IFCE Geografia.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Inicializar ícones
+        lucide.createIcons();
+
+        // Função para carregar áudio dinamicamente
+        function carregarAudio() {
+            const input = document.getElementById('mp3-source');
+            const player = document.getElementById('audio-player');
+            const source = document.getElementById('audio-source');
+            
+            if (input.value.trim() !== "") {
+                source.src = input.value;
+                player.load();
+                console.log("Áudio atualizado para: " + input.value);
+            }
+        }
+    </script>
+</body>
+</html>

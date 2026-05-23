@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Interativo: Estatuto da Cidade e Plano Diretor</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success-bg: #f0fdf4;
+            --success-border: #22c55e;
+            --success-text: #166534;
+            --error-bg: #fef2f2;
+            --error-border: #ef4444;
+            --error-text: #991b1b;
+            --neutral-border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--neutral-border);
+        }
+
+        h1 { font-size: 1.8rem; margin-bottom: 10px; color: #0f172a; }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--neutral-border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .q-header {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .q-text { font-weight: 500; margin-bottom: 20px; text-align: justify; }
+
+        .assertion-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .options { list-style: none; }
+
+        .option-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid var(--neutral-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover { background-color: #f8fafc; }
+
+        .option-item input { margin-top: 5px; margin-right: 12px; cursor: pointer; }
+
+        .option-item.selected { 
+            border-color: var(--primary-color); 
+            background-color: #eff6ff; 
+        }
+
+        .correct { background-color: var(--success-bg) !important; border-color: var(--success-border) !important; color: var(--success-text); }
+        .incorrect { background-color: var(--error-bg) !important; border-color: var(--error-border) !important; color: var(--error-text); }
+
+        .resolution {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8fafc;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .resolution.active { display: block; }
+
+        .res-title { font-weight: 800; margin-bottom: 10px; color: var(--primary-color); }
+
+        .result-panel {
+            display: none;
+            text-align: center;
+            background: var(--primary-color);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn:hover { background: var(--primary-hover); }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulado: Estatuto da Cidade & Plano Diretor</h1>
+        <p>Banca Instituto AOCP | 10 Questões Completas</p>
+    </header>
+
+    <div id="result-panel" class="result-panel">
+        <h2>Seu Resultado</h2>
+        <p id="score-text" style="font-size: 2rem; font-weight: 800;"></p>
+        <p id="feedback-msg"></p>
+    </div>
+
+    <form id="quiz-form">
+        <!-- QUESTÃO 1 -->
+        <div class="question-card" data-correct="B">
+            <span class="q-header">Questão 01</span>
+            <p class="q-text">Nos termos da Lei Federal nº 10.257/2001 (Estatuto da Cidade), a propriedade urbana cumpre sua função social quando:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q1" value="A"> A) Atende às exigências exclusivas de valorização imobiliária do proprietário.</label>
+                <label class="option-item"><input type="radio" name="q1" value="B"> B) Atende às exigências fundamentais de ordenação da cidade expressas no plano diretor.</label>
+                <label class="option-item"><input type="radio" name="q1" value="C"> C) Garante o lucro máximo sobre o solo urbano independentemente de infraestrutura.</label>
+                <label class="option-item"><input type="radio" name="q1" value="D"> D) É isenta de qualquer tipo de tributação progressiva ou limitações administrativas.</label>
+                <label class="option-item"><input type="radio" name="q1" value="E"> E) É utilizada para fins rurais dentro do perímetro urbano consolidado.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é B. Conforme o Art. 39 da Lei 10.257/2001, a propriedade urbana cumpre sua função social quando atende às exigências fundamentais de ordenação da cidade expressas no plano diretor.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 2 -->
+        <div class="question-card" data-correct="E">
+            <span class="q-header">Questão 02</span>
+            <p class="q-text">O plano diretor é obrigatório para cidades:</p>
+            <div class="assertion-box">
+                I. Com mais de vinte mil habitantes.<br>
+                II. Integrantes de regiões metropolitanas e aglomerações urbanas.<br>
+                III. Integrantes de áreas de especial interesse turístico.
+            </div>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q2" value="A"> A) Apenas I.</label>
+                <label class="option-item"><input type="radio" name="q2" value="B"> B) Apenas II.</label>
+                <label class="option-item"><input type="radio" name="q2" value="C"> C) Apenas I e III.</label>
+                <label class="option-item"><input type="radio" name="q2" value="D"> D) Apenas II e III.</label>
+                <label class="option-item"><input type="radio" name="q2" value="E"> E) I, II e III.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é E. O Art. 41 lista todas estas hipóteses (e outras como áreas de influência de grandes empreendimentos) como obrigatórias para a existência do Plano Diretor.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 3 -->
+        <div class="question-card" data-correct="C">
+            <span class="q-header">Questão 03</span>
+            <p class="q-text">Sobre o IPTU Progressivo no Tempo, o Estatuto da Cidade estabelece que a alíquota máxima não poderá exceder:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q3" value="A"> A) 5%</label>
+                <label class="option-item"><input type="radio" name="q3" value="B"> B) 10%</label>
+                <label class="option-item"><input type="radio" name="q3" value="C"> C) 15%</label>
+                <label class="option-item"><input type="radio" name="q3" value="D"> D) 20%</label>
+                <label class="option-item"><input type="radio" name="q3" value="E"> E) 25%</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é C. Segundo o Art. 7º, §1º, a alíquota não excederá a duas vezes o valor do ano anterior, respeitada a alíquota máxima de 15%.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 4 -->
+        <div class="question-card" data-correct="D">
+            <span class="q-header">Questão 04</span>
+            <p class="q-text">A lei municipal que instituir o plano diretor deverá ser revista, pelo menos, a cada:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q4" value="A"> A) 2 anos.</label>
+                <label class="option-item"><input type="radio" name="q4" value="B"> B) 4 anos.</label>
+                <label class="option-item"><input type="radio" name="q4" value="C"> C) 5 anos.</label>
+                <label class="option-item"><input type="radio" name="q4" value="D"> D) 10 anos.</label>
+                <label class="option-item"><input type="radio" name="q4" value="E"> E) 15 anos.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é D. Conforme o Art. 40, § 3º, a revisão deve ocorrer pelo menos a cada dez anos.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 5 -->
+        <div class="question-card" data-correct="A">
+            <span class="q-header">Questão 05</span>
+            <p class="q-text">A Outorga Onerosa do Direito de Construir é um instrumento que permite:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q5" value="A"> A) Exercer o direito de construir acima do coeficiente de aproveitamento básico mediante contrapartida.</label>
+                <label class="option-item"><input type="radio" name="q5" value="B"> B) Isentar o proprietário de qualquer pagamento ao município para construir prédios altos.</label>
+                <label class="option-item"><input type="radio" name="q5" value="C"> C) Obrigar a demolição de imóveis históricos para novas construções.</label>
+                <label class="option-item"><input type="radio" name="q5" value="D"> D) Transferir o direito de construir de um imóvel para outro sem anuência da prefeitura.</label>
+                <label class="option-item"><input type="radio" name="q5" value="E"> E) Regularizar invasões em áreas de preservação permanente de forma gratuita.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é A. O Art. 28 define a Outorga Onerosa como o direito de construir acima do coeficiente básico mediante pagamento de contrapartida ao Município.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 6 -->
+        <div class="question-card" data-correct="C">
+            <span class="q-header">Questão 06</span>
+            <p class="q-text">No caso de desapropriação-sanção pelo descumprimento da função social, o pagamento da indenização será feito em:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q6" value="A"> A) Dinheiro à vista.</label>
+                <label class="option-item"><input type="radio" name="q6" value="B"> B) Ouro e pedras preciosas.</label>
+                <label class="option-item"><input type="radio" name="q6" value="C"> C) Títulos da dívida pública resgatáveis em até 10 anos.</label>
+                <label class="option-item"><input type="radio" name="q6" value="D"> D) Isenção Vitalícia de IPTU para o ex-proprietário.</label>
+                <label class="option-item"><input type="radio" name="q6" value="E"> E) Transferência de outros imóveis de igual valor em bairros vizinhos.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é C. Art. 8º da Lei 10.257/01: Pagamento em títulos da dívida pública prévia e justamente aprovados pelo Senado, resgatáveis em até 10 anos.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 7 -->
+        <div class="question-card" data-correct="B">
+            <span class="q-header">Questão 07</span>
+            <p class="q-text">O Estudo Prévio de Impacto de Vizinhança (EIV):</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q7" value="A"> A) Substitui obrigatoriamente o licenciamento ambiental federal.</label>
+                <label class="option-item"><input type="radio" name="q7" value="B"> B) Analisa efeitos positivos e negativos do empreendimento quanto à qualidade de vida da população local.</label>
+                <label class="option-item"><input type="radio" name="q7" value="C"> C) É sigiloso e não pode ser consultado por vizinhos interessados.</label>
+                <label class="option-item"><input type="radio" name="q7" value="D"> D) Só é exigido para residências unifamiliares de pequeno porte.</label>
+                <label class="option-item"><input type="radio" name="q7" value="E"> E) Garante a isenção de taxas de lixo para os moradores afetados.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é B. O Art. 36 e 37 definem que o EIV deve analisar adensamento, equipamentos urbanos, uso do solo, valorização, paisagem, etc.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 8 -->
+        <div class="question-card" data-correct="D">
+            <span class="q-header">Questão 08</span>
+            <p class="q-text">Os recursos auferidos com a outorga onerosa do direito de construir deverão ser aplicados em:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q8" value="A"> A) Folha de pagamento de servidores da saúde.</label>
+                <label class="option-item"><input type="radio" name="q8" value="B"> B) Propaganda institucional da prefeitura.</label>
+                <label class="option-item"><input type="radio" name="q8" value="C"> C) Amortização de dívidas contraídas com bancos privados estrangeiros.</label>
+                <label class="option-item"><input type="radio" name="q8" value="D"> D) Regularização fundiária e programas de habitação de interesse social.</label>
+                <label class="option-item"><input type="radio" name="q8" value="E"> E) Reforma de gabinetes de vereadores.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é D. O Art. 31 vincula os recursos à regularização fundiária, habitação, transporte público, proteção ambiental e outras finalidades sociais listadas no Art. 26.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 9 -->
+        <div class="question-card" data-correct="A">
+            <span class="q-header">Questão 09</span>
+            <p class="q-text">O Prefeito Municipal incorre em improbidade administrativa quando:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q9" value="A"> A) Deixa de garantir a participação popular na elaboração do plano diretor.</label>
+                <label class="option-item"><input type="radio" name="q9" value="B"> B) Reduz o IPTU de todos os cidadãos por meio de lei.</label>
+                <label class="option-item"><input type="radio" name="q9" value="C"> C) Realiza concursos públicos para urbanistas.</label>
+                <label class="option-item"><input type="radio" name="q9" value="D"> D) Cria áreas de proteção ambiental em terrenos públicos.</label>
+                <label class="option-item"><input type="radio" name="q9" value="E"> E) Utiliza o asfalto para tapar buracos em vias públicas.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é A. O Art. 52, VI, tipifica como improbidade impedir ou deixar de garantir os requisitos de participação popular no planejamento urbano.</p>
+            </div>
+        </div>
+
+        <!-- QUESTÃO 10 -->
+        <div class="question-card" data-correct="B">
+            <span class="q-header">Questão 10</span>
+            <p class="q-text">O direito de preempção confere ao Poder Público municipal:</p>
+            <div class="options">
+                <label class="option-item"><input type="radio" name="q10" value="A"> A) O direito de confiscar qualquer imóvel sem pagamento.</label>
+                <label class="option-item"><input type="radio" name="q10" value="B"> B) Preferência para aquisição de imóvel urbano objeto de alienação onerosa entre particulares.</label>
+                <label class="option-item"><input type="radio" name="q10" value="C"> C) O direito de impedir que o dono venda o imóvel para quem ele quiser para sempre.</label>
+                <label class="option-item"><input type="radio" name="q10" value="D"> D) A faculdade de cobrar taxas extras apenas de moradores estrangeiros.</label>
+                <label class="option-item"><input type="radio" name="q10" value="E"> E) A obrigação de vender terrenos públicos por metade do preço de mercado.</label>
+            </div>
+            <div class="resolution">
+                <div class="res-title">Resolução Comentada:</div>
+                <p>O gabarito é B. Segundo o Art. 25, o direito de preempção confere ao Município preferência para adquirir o imóvel, pelo valor da proposta apresentada por terceiros.</p>
+            </div>
+        </div>
+
+        <button type="button" id="submit-btn" class="btn">Finalizar e Corrigir Simulado</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('quiz-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultPanel = document.getElementById('result-panel');
+    const scoreText = document.getElementById('score-text');
+    const feedbackMsg = document.getElementById('feedback-msg');
+
+    const optionItems = document.querySelectorAll('.option-item');
+    optionItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const input = item.querySelector('input');
+            const name = input.getAttribute('name');
+            // Desmarcar outros do mesmo grupo visualmente
+            document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                radio.parentElement.classList.remove('selected');
+            });
+            input.checked = true;
+            item.classList.add('selected');
+        });
+    });
+
+    submitBtn.addEventListener('click', () => {
+        let score = 0;
+        let total = 10;
+        const unanswered = []; // CORREÇÃO: Inicializado corretamente como array vazio
+
+        for(let i=1; i<=total; i++) {
+            const answer = form.querySelector(`input[name="q${i}"]:checked`);
+            if(!answer) {
+                unanswered.push(i);
+            }
+        }
+
+        if(unanswered.length > 0) {
+            alert("Por favor, responda às questões: " + unanswered.join(", "));
+            return;
+        }
+
+        document.querySelectorAll('.question-card').forEach((card, index) => {
+            const qNum = index + 1;
+            const correctValue = card.getAttribute('data-correct');
+            const userValue = form.querySelector(`input[name="q${qNum}"]:checked`).value;
+            const resolution = card.querySelector('.resolution');
+            
+            // Marcar visualmente acertos/erros
+            if(userValue === correctValue) {
+                score++;
+                card.classList.add('correct');
+            } else {
+                card.classList.add('incorrect');
+            }
+
+            // Exibir a resolução
+            resolution.classList.add('active');
+            
+            // Desabilitar inputs
+            card.querySelectorAll('input').forEach(i => i.disabled = true);
+        });
+
+        scoreText.innerText = `${score} / ${total}`;
+        resultPanel.style.display = 'block';
+        
+        let msg = "";
+        if(score === 10) msg = "Excelente! Você domina o conteúdo.";
+        else if(score >= 7) msg = "Bom desempenho! Continue revisando.";
+        else msg = "Atenção: Revise os pontos destacados nas resoluções.";
+        
+        feedbackMsg.innerText = msg;
+        submitBtn.classList.add('hidden');
+        
+        // Scroll para o topo
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+
+</body>
+</html>

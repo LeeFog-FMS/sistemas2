@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula IFCE: Concordância e Regência AOCP</title>
+    <!-- Tailwind CSS para design limpo e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos personalizados para leitura confortável e sem fadiga visual */
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #ffffff;
+            color: #1e293b; /* slate-800 para alto contraste sem agredir a vista */
+        }
+        mark {
+            background-color: #fef08a; /* Amarelo pastel suave para grifos */
+            color: #713f12;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+        .highlight-critical {
+            background-color: #fee2e2; /* Vermelho pastel suave para alertas graves */
+            color: #991b1b;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .highlight-success {
+            background-color: #dcfce7; /* Verde pastel suave para acertos e regras diretas */
+            color: #166534;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-8 px-4 md:px-8">
+
+    <!-- Container Principal (Centralizado e Responsivo) -->
+    <main class="w-full max-w-4xl bg-white">
+        
+        <!-- Cabeçalho Principal -->
+        <header class="border-b border-neutral-200 pb-6 mb-8 text-center md:text-left">
+            <span class="text-xs font-semibold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Ficha de Memorização Ativa</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-neutral-900 mt-3 leading-tight">
+                Concordância, Regência e Crase
+            </h1>
+            <p class="text-neutral-500 mt-2 text-base md:text-lg">
+                Foco absoluto: <span class="font-semibold text-neutral-800">Instituto AOCP</span> &mdash; Preparatório Especializado para o Cargo EBTT (Geografia - IFCE)
+            </p>
+        </header>
+
+        <!-- Áudio Player Interativo (No topo, conforme solicitado) -->
+        <section class="border border-neutral-200 rounded-xl p-5 mb-10 bg-neutral-50">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="p-2 bg-emerald-100 rounded-lg text-emerald-700">
+                    <!-- Ícone de microfone/fone -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
+                    </svg>
+                </span>
+                <div>
+                    <h2 class="text-lg font-bold text-neutral-800">Reprodutor de Áudio-Aula</h2>
+                    <p class="text-xs text-neutral-500">Ouça o resumo narrado enquanto acompanha a ficha abaixo para fixar o conteúdo.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                <div>
+                    <label for="mp3-filename" class="block text-xs font-semibold text-neutral-700 mb-1.5 uppercase tracking-wide">
+                        Nome do arquivo MP3 local:
+                    </label>
+                    <input type="text" id="mp3-filename" value="audio-aula.mp3" 
+                           class="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm font-mono text-neutral-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                           placeholder="Ex: aula-memorizacao.mp3">
+                </div>
+                <div>
+                    <audio id="audio-player" class="w-full h-10" controls src="audio-aula.mp3"></audio>
+                </div>
+            </div>
+            <div id="player-status" class="text-xs text-emerald-600 mt-2 font-medium text-right italic">
+                Pronto para reproduzir: audio-aula.mp3
+            </div>
+        </section>
+
+        <!-- PÁGINA 1: CONCORDÂNCIA VERBAL E NOMINAL -->
+        <section class="space-y-10">
+            <div>
+                <div class="flex items-center gap-2 border-b border-neutral-200 pb-2 mb-6">
+                    <span class="text-sm font-bold text-emerald-600 font-mono">PÁGINA 1</span>
+                    <h2 class="text-2xl font-bold text-neutral-900">Concordância Verbal e Nominal (O Mapeamento das Flexões)</h2>
+                </div>
+
+                <!-- I. Concordância Verbal -->
+                <div class="space-y-6">
+                    <div class="bg-neutral-50/50 p-4 border-l-4 border-neutral-400 rounded-r-lg">
+                        <h3 class="text-lg font-bold text-neutral-800 mb-2">I. Concordância Verbal: O Verbo e seus Sujeitos Espaciais</h3>
+                        <p class="text-neutral-600 text-sm">
+                            O segredo definitivo para gabaritar a concordância verbal com o <span class="font-semibold text-neutral-800">Instituto AOCP</span> é identificar sistematicamente a <mark>posição do sujeito</mark> e as palavras satélites que o qualificam.
+                        </p>
+                    </div>
+
+                    <!-- 1. Sujeito Composto -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 1. Sujeito Composto
+                        </h4>
+                        <ul class="space-y-3 pl-4 border-l border-neutral-200">
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Preposto (Antes do Verbo):</strong> O verbo vai <mark>obrigatoriamente para o plural</mark>.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: A escalada industrial <strong class="text-neutral-700">e</strong> a urbanização <span class="highlight-success">exigiram</span> novas dinâmicas.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Posposto (Depois do Verbo):</strong> O verbo abre <mark>dupla opção</mark>: vai para o plural ou concorda estritamente com o núcleo mais próximo (<span class="font-semibold text-emerald-700">concordância atrativa</span>).
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: <span class="highlight-success">Estudam</span> João e Maria / <span class="highlight-success">Estuda</span> João e Maria.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 2. Sujeito Coletivo e Partitivo -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 2. Sujeito Coletivo e Partitivo
+                        </h4>
+                        <ul class="space-y-3 pl-4 border-l border-neutral-200">
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Coletivo Simples:</strong> O verbo fica fixo estritamente no <mark>singular</mark>.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: A população <span class="highlight-success">reivindicou</span> melhorias ambientais.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Coletivo/Partitivo Especificado</strong> (expressões como <em>"A maioria de"</em>, <em>"Uma parte de"</em> + termo no plural): Permite <mark>dupla opção de flexão</mark>. O verbo pode concordar gramaticalmente com o núcleo singular (maioria) ou por atração com o especificador plural (pessoas/cidades).
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: A maioria das cidades <span class="highlight-success">sofre</span> (ou <span class="highlight-success">sofrem</span>) com o descaso e com a poluição.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 3. Concordância com Porcentagem -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 3. Concordância com Porcentagem
+                        </h4>
+                        <ul class="space-y-3 pl-4 border-l border-neutral-200">
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Com Especificador:</strong> O verbo pode concordar livremente com o <mark>numeral</mark> ou com o <mark>substantivo especificador</mark>.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500 mb-2">
+                                    Exemplo: 98% das cidades não <span class="highlight-success">cumprem</span> as metas de saneamento (concorda tanto com o numeral "98" quanto com "cidades").
+                                </p>
+                                <p class="text-xs text-neutral-500 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: 1% da população <span class="highlight-success">migrou</span> devido à seca extrema (singular por causa de "1" e de "população").
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Sem Especificador (Isolada):</strong> O verbo deve concordar <mark>obrigatoriamente com o número</mark> indicado.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500 mb-2">
+                                    Exemplo: 80% <span class="highlight-success">mostraram</span> menos probabilidade de fixação no território.
+                                </p>
+                                <p class="text-xs text-neutral-500 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: 1% <span class="highlight-success">mostrou</span> real descontentamento com as políticas agrárias.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 4. Verbos Impessoais -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 4. Verbos Impessoais (Sempre no Singular!)
+                        </h4>
+                        <p class="text-sm text-neutral-700">
+                            Os verbos <strong class="text-neutral-900 font-mono">Haver</strong> (no sentido de existir, ocorrer ou tempo decorrido) e <strong class="text-neutral-900 font-mono">Fazer</strong> (indicando tempo cronológico decorrido) <span class="highlight-critical">não possuem sujeito</span>. Portanto, ficam fixados na <mark>3ª pessoa do singular</mark>.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                            <div class="p-3 border border-neutral-200 rounded-lg bg-neutral-50/30">
+                                <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">Verbo Haver</p>
+                                <p class="text-sm text-neutral-800 italic"><span class="highlight-success">Há</span> coisas que nos iludem.</p>
+                                <p class="text-xs text-rose-600 mt-1">Nunca use: "haviam coisas que..."</p>
+                            </div>
+                            <div class="p-3 border border-neutral-200 rounded-lg bg-neutral-50/30">
+                                <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">Verbo Fazer</p>
+                                <p class="text-sm text-neutral-800 italic"><span class="highlight-success">Faz</span> anos que estudo para o concurso do IFCE.</p>
+                                <p class="text-xs text-rose-600 mt-1">Nunca use: "fazem anos que..."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. O Pronome "SE" -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 5. O Pronome "SE": Partícula Apassivadora vs. Índice de Indeterminação
+                        </h4>
+                        
+                        <!-- Tabela sem Scroll Horizontal -->
+                        <div class="w-full border border-neutral-200 rounded-xl overflow-hidden bg-white">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-neutral-50 border-b border-neutral-200 text-neutral-700">
+                                        <th class="p-3 text-xs md:text-sm font-bold w-1/4">Função do "SE"</th>
+                                        <th class="p-3 text-xs md:text-sm font-bold w-1/4">Estrutura Verbal</th>
+                                        <th class="p-3 text-xs md:text-sm font-bold w-1/4">Comportamento do Verbo</th>
+                                        <th class="p-3 text-xs md:text-sm font-bold w-1/4">Exemplo de Prova</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-neutral-200 text-neutral-600 text-xs md:text-sm">
+                                    <tr>
+                                        <td class="p-3 font-semibold text-neutral-900 bg-neutral-50/10">Partícula Apassivadora (PA)</td>
+                                        <td class="p-3 font-mono">VTD ou VTDI + SE</td>
+                                        <td class="p-3">Concorda com o sujeito paciente. <mark>Pode ir ao plural</mark>.</td>
+                                        <td class="p-3 italic"><strong class="text-emerald-700">Vendem-se</strong> terras.<br><span class="text-neutral-400 text-xs">(Terras são vendidas)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-neutral-900 bg-neutral-50/10">Índice de Indeterminação (IIS)</td>
+                                        <td class="p-3 font-mono">VTI, VI ou VL + SE</td>
+                                        <td class="p-3">Fica fixo e congelado na <mark>3ª pessoa do singular</mark>.</td>
+                                        <td class="p-3 italic"><strong class="text-neutral-800">Precisa-se</strong> de novos docentes para o IFCE.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Alerta de Pegadinha AOCP -->
+                        <div class="p-4 border-l-4 border-amber-500 bg-amber-50/30 rounded-r-lg mt-4">
+                            <p class="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                Alerta de Pegadinha AOCP (Atenção Máxima!)
+                            </p>
+                            <p class="text-xs md:text-sm text-neutral-700 leading-relaxed">
+                                No caso da oração <span class="font-mono bg-white px-1 border border-neutral-200 rounded">"Exige-se que ela esteja..."</span>, a oração subsequente funciona sintaticamente como sujeito oracional. Academicamente, o "se" atua estritamente como <strong class="text-neutral-900">Partícula Apassivadora</strong>, mas a banca AOCP já manteve gabarito oficial classificando-o como <span class="highlight-critical">Índice de Indeterminação do Sujeito</span>. Em caso de divergência em prova, <mark>analise com astúcia as demais alternativas por eliminação rápida</mark>!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- II. Concordância Nominal -->
+                <div class="space-y-6 mt-10">
+                    <div class="bg-neutral-50/50 p-4 border-l-4 border-neutral-400 rounded-r-lg">
+                        <h3 class="text-lg font-bold text-neutral-800 mb-2">II. Concordância Nominal: A Harmonia das Palavras</h3>
+                        <p class="text-neutral-600 text-sm">
+                            A concordância nominal estuda as regras de flexão de gênero e número entre o substantivo (núcleo) e seus modificadores (adjetivos, pronomes, artigos, numerais).
+                        </p>
+                    </div>
+
+                    <!-- 1. Adjetivo Referindo-se a Múltiplos Substantivos -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 1. Adjetivo Referindo-se a Múltiplos Substantivos
+                        </h4>
+                        <ul class="space-y-3 pl-4 border-l border-neutral-200">
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Posposto (Depois dos Substantivos):</strong> O adjetivo pode concordar com o núcleo mais próximo ou ir obrigatoriamente para o plural masculino (ou feminino, se todos forem femininos).
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: Ideia e prática <span class="highlight-success">complexas</span> (concordância geral no plural) ou Ideia e prática <span class="highlight-success">complexa</span> (concordância atrativa com "prática").
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900">Anteposto (Antes dos Substantivos):</strong> O adjetivo realiza <mark>concordância atrativa obrigatória</mark> exclusivamente com o primeiro substantivo da lista.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: <span class="highlight-success">Inegável</span> importância e efeito. <span class="text-rose-600 font-semibold">(Incorreto na norma culta: "Inegáveis importância e efeito")</span>.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 2. Palavras Especiais de Alta Cobrança -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 2. Palavras Especiais de Alta Cobrança (Foco no Cartão de Respostas)
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Bastante -->
+                            <div class="p-4 border border-neutral-200 rounded-xl bg-white">
+                                <h5 class="text-sm font-bold text-neutral-900 mb-1 flex items-center justify-between">
+                                    <span>Bastante / Bastantes</span>
+                                    <span class="text-[10px] uppercase font-mono text-neutral-400 border border-neutral-200 px-1 rounded">Meteoro de Prova</span>
+                                </h5>
+                                <p class="text-xs text-neutral-600 mb-2">Substitua mentalmente por <span class="font-mono">"muito/muitos"</span>. Se couber "muitos", use o plural <strong>bastantes</strong>.</p>
+                                <div class="bg-neutral-50 p-2 rounded text-xs space-y-1 font-sans">
+                                    <p class="italic text-neutral-700">Havia <mark>bastantes</mark> (muitas) razões técnicas.</p>
+                                    <p class="italic text-neutral-500">Eles estão <mark>bastante</mark> (muito) interessados na vaga.</p>
+                                </div>
+                            </div>
+
+                            <!-- Meio -->
+                            <div class="p-4 border border-neutral-200 rounded-xl bg-white">
+                                <h5 class="text-sm font-bold text-neutral-900 mb-1 flex items-center justify-between">
+                                    <span>Meio / Meia</span>
+                                    <span class="text-[10px] uppercase font-mono text-neutral-400 border border-neutral-200 px-1 rounded">AOCP Adora</span>
+                                </h5>
+                                <p class="text-xs text-neutral-600 mb-2">Se equivaler a "metade", varia. Se equivaler a "um pouco" (advérbio), é sempre <mark>invariável</mark>.</p>
+                                <div class="bg-neutral-50 p-2 rounded text-xs space-y-1 font-sans">
+                                    <p class="italic text-neutral-700">É meio-dia e <mark>meia</mark> (metade de uma hora).</p>
+                                    <p class="italic text-neutral-500">As candidatas estão <mark>meio</mark> cansadas da jornada.</p>
+                                </div>
+                            </div>
+
+                            <!-- Anexo -->
+                            <div class="p-4 border border-neutral-200 rounded-xl bg-white">
+                                <h5 class="text-sm font-bold text-neutral-900 mb-1 flex items-center justify-between">
+                                    <span>Anexo / Incluso</span>
+                                    <span class="text-[10px] uppercase font-mono text-neutral-400 border border-neutral-200 px-1 rounded">Morfossintaxe</span>
+                                </h5>
+                                <p class="text-xs text-neutral-600 mb-2">Funcionam como adjetivos comuns e variam. A locução <span class="font-mono bg-neutral-100 px-0.5 rounded text-neutral-800">"em anexo"</span> é estritamente invariável.</p>
+                                <div class="bg-neutral-50 p-2 rounded text-xs space-y-1 font-sans">
+                                    <p class="italic text-neutral-700">Seguem <mark>anexos</mark> os documentos do planejamento.</p>
+                                    <p class="italic text-neutral-500">Segue <mark>em anexo</mark> a ficha técnica do IFCE.</p>
+                                </div>
+                            </div>
+
+                            <!-- É bom -->
+                            <div class="p-4 border border-neutral-200 rounded-xl bg-white">
+                                <h5 class="text-sm font-bold text-neutral-900 mb-1 flex items-center justify-between">
+                                    <span>É bom / É necessário / É proibido</span>
+                                    <span class="text-[10px] uppercase font-mono text-neutral-400 border border-neutral-200 px-1 rounded">Pegadinha Clássica</span>
+                                </h5>
+                                <p class="text-xs text-neutral-600 mb-2">Se o sujeito não vier determinado por artigo, fica invariável no masculino. Se vier precedido de artigo, varia.</p>
+                                <div class="bg-neutral-50 p-2 rounded text-xs space-y-1 font-sans">
+                                    <p class="italic text-neutral-700">Cerveja é <mark>bom</mark> para relaxar.</p>
+                                    <p class="italic text-neutral-500">A cerveja gelada é <mark>boa</mark> para o calor.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÁGINA 2: REGÊNCIA E CRASE -->
+            <div>
+                <div class="flex items-center gap-2 border-b border-neutral-200 pb-2 mb-6">
+                    <span class="text-sm font-bold text-emerald-600 font-mono">PÁGINA 2</span>
+                    <h2 class="text-2xl font-bold text-neutral-900">Regência e Crase (Os Complementos e a Fusão)</h2>
+                </div>
+
+                <!-- I. Regência Verbal -->
+                <div class="space-y-6">
+                    <div class="bg-neutral-50/50 p-4 border-l-4 border-neutral-400 rounded-r-lg">
+                        <h3 class="text-lg font-bold text-neutral-800 mb-2">I. Regência Verbal: O Regente e Seus Segredos</h3>
+                        <p class="text-neutral-600 text-sm">
+                            A regência trata da relação de dependência sintática entre os verbos e nomes (termos regentes) e os seus respectivos complementos (termos regidos). A banca AOCP prioriza estes casos:
+                        </p>
+                    </div>
+
+                    <!-- Caso Pagar / Perdoar -->
+                    <div class="p-5 border border-neutral-200 rounded-xl bg-white space-y-4">
+                        <h4 class="text-sm font-extrabold uppercase tracking-widest text-neutral-500">Paridade de Regência: Pagar / Perdoar</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-3 border border-neutral-100 rounded-lg bg-neutral-50/20">
+                                <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 mb-2">Se for COISA</span>
+                                <p class="text-sm font-semibold text-neutral-800">Transitivo Direto (VTD)</p>
+                                <p class="text-xs text-neutral-500">Sem qualquer preposição.</p>
+                                <p class="text-xs italic font-mono text-emerald-700 mt-2">Exemplo: Paguei <span class="underline">o boleto</span> bancário.</p>
+                            </div>
+                            <div class="p-3 border border-neutral-100 rounded-lg bg-neutral-50/20">
+                                <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 mb-2">Se for PESSOA</span>
+                                <p class="text-sm font-semibold text-neutral-800">Transitivo Indireto (VTI)</p>
+                                <p class="text-xs text-neutral-500">Exige a preposição obrigatória "A".</p>
+                                <p class="text-xs italic font-mono text-emerald-700 mt-2">Exemplo: Paguei <span class="underline">ao professor</span> de Geografia.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Outros verbos de alta cobrança -->
+                    <div class="space-y-4">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Verbos Críticos para a Prova Objetiva do IFCE
+                        </h4>
+                        <ul class="space-y-3 pl-4 border-l border-neutral-200">
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900 font-mono">Implicar:</strong> No sentido de "causar", "acarretar" ou "gerar como consequência", ele é estritamente <mark>Transitivo Direto</mark> (VTD). Não aceita a introdução da preposição <em>"em"</em>.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo correto: Sua atitude indisciplinada <span class="highlight-success">implicará</span> severa punição acadêmica. <span class="text-rose-600 font-semibold">(Nunca escreva "implicará em punição")</span>.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900 font-mono">Obedecer / Desobedecer:</strong> São verbos sistematicamente <mark>Transitivos Indiretos</mark> (VTI) e exigem formalmente a preposição <strong class="text-neutral-900">"a"</strong>.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo correto: Os alunos devem obedecer <span class="highlight-success">ao</span> regimento interno da reitoria / obedecer <span class="highlight-success">à</span> sinalização urbana.
+                                </p>
+                            </li>
+                            <li>
+                                <p class="text-sm text-neutral-700">
+                                    <strong class="text-neutral-900 font-mono">Ajudar:</strong> Em geral, a banca AOCP cobra-o como <mark>Transitivo Direto</mark> (sem crase antecedendo o complemento de coisa/pessoa).
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1 italic pl-3 border-l-2 border-emerald-500">
+                                    Exemplo: Bactérias específicas que <span class="highlight-success">ajudam a</span> digestão humana.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- II. O Mecanismo da Crase -->
+                <div class="space-y-6 mt-10">
+                    <div class="bg-neutral-50/50 p-4 border-l-4 border-neutral-400 rounded-r-lg">
+                        <h3 class="text-lg font-bold text-neutral-800 mb-2">II. O Mecanismo da Crase (Preposição A + Artigo Feminino A)</h3>
+                        <p class="text-neutral-600 text-sm">
+                            A crase é a fusão fonética de duas vogais idênticas. Só ocorre se o termo regente exigir regência com a preposição <strong class="font-mono">"A"</strong> e o termo regido admitir a determinação pelo artigo feminino <strong class="font-mono">"A/AS"</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Fórmula Visual -->
+                    <div class="p-4 border border-dashed border-neutral-300 rounded-xl text-center bg-white">
+                        <p class="text-xs font-semibold text-neutral-400 uppercase tracking-widest mb-2">Equação Prática da Crase</p>
+                        <p class="text-lg md:text-xl font-mono font-bold text-neutral-800">
+                            Termo Regente <span class="text-emerald-600">(Preposição A)</span> + Termo Regido <span class="text-emerald-600">(Artigo A)</span> = <span class="bg-emerald-50 text-emerald-700 px-2 rounded border border-emerald-200">À</span>
+                        </p>
+                    </div>
+
+                    <!-- 1. Casos Proibidos -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span> 1. Casos Proibidos (Eliminação Rápida na Prova!)
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="p-3 border border-neutral-200 rounded-lg">
+                                <span class="text-xs font-bold text-rose-700 block mb-1">Antes de Verbo</span>
+                                <p class="text-xs text-neutral-600">Não ocorre crase diante de verbos no infinitivo.</p>
+                                <p class="text-xs italic text-neutral-400 mt-1">Ex: Ele estava disposto <span class="underline">a</span> ajudar no laboratório.</p>
+                            </div>
+                            <div class="p-3 border border-neutral-200 rounded-lg">
+                                <span class="text-xs font-bold text-rose-700 block mb-1">Antes de Palavra Masculina</span>
+                                <p class="text-xs text-neutral-600">Não ocorre crase antes de substantivos masculinos.</p>
+                                <p class="text-xs italic text-neutral-400 mt-1">Ex: O pesquisador preferiu ir <span class="underline">a</span> pé até a comunidade.</p>
+                            </div>
+                            <div class="p-3 border border-neutral-200 rounded-lg">
+                                <span class="text-xs font-bold text-rose-700 block mb-1">"A" Singular + Palavra Plural</span>
+                                <p class="text-xs text-neutral-600">A preposição sozinha não se funde com o plural sem o artigo "as".</p>
+                                <p class="text-xs italic text-neutral-400 mt-1">Ex: Ele recorre <span class="underline">a</span> embarcações fluviais.</p>
+                            </div>
+                            <div class="p-3 border border-neutral-200 rounded-lg">
+                                <span class="text-xs font-bold text-rose-700 block mb-1">Antes de Pronomes Refratários</span>
+                                <p class="text-xs text-neutral-600">Antes de pronomes que rejeitam artigo (esta, essa, quem, ela).</p>
+                                <p class="text-xs italic text-neutral-400 mt-1">Ex: Fenômeno comparável <span class="underline">a</span> essa mudança espacial.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Casos Facultativos -->
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-neutral-950 flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 2. Casos Facultativos (A AOCP adora cobrar em alternativas!)
+                        </h4>
+                        <p class="text-sm text-neutral-700">
+                            A ocorrência do acento grave indicador de crase é <mark>totalmente opcional</mark> em três cenários bem delineados na sintaxe clássica:
+                        </p>
+                        <ol class="space-y-3 pl-4 list-decimal text-sm text-neutral-700">
+                            <li>
+                                <strong>Antes de nomes próprios femininos:</strong> <span class="italic text-neutral-500">Refiro-me <span class="highlight-success">a</span> Maria</span> ou <span class="italic text-neutral-500">Refiro-me <span class="highlight-success">à</span> Maria</span>.
+                            </li>
+                            <li>
+                                <strong>Logo após a preposição "até":</strong> <span class="italic text-neutral-500">Fui até <span class="highlight-success">a</span> praia</span> ou <span class="italic text-neutral-500">Fui até <span class="highlight-success">à</span> praia</span>.
+                            </li>
+                            <li>
+                                <strong>Antes de pronomes possessivos femininos no singular:</strong> <span class="italic text-neutral-500">Acesso <span class="highlight-success">a</span> nossa rede</span> ou <span class="italic text-neutral-500">Acesso <span class="highlight-success">à</span> nossa rede</span>.
+                            </li>
+                        </ol>
+
+                        <!-- Detalhe Crucial de Prova -->
+                        <div class="p-4 border-l-4 border-red-500 bg-red-50/30 rounded-r-lg mt-3">
+                            <p class="text-xs font-bold text-red-800 uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                Detalhe Crucial de Prova (Pronome Possessivo Plural)
+                            </p>
+                            <p class="text-xs md:text-sm text-neutral-700 leading-relaxed">
+                                Se o pronome possessivo feminino estiver no <strong class="text-neutral-950">plural</strong>, a faculdade da crase depende estritamente do elemento "a":
+                                <br><span class="inline-block mt-1 font-semibold">&bull; Se o "a" estiver no singular diante de plural:</span> a crase é <span class="highlight-critical">proibida</span> (Ex: <em>Refiro-me a minhas amigas</em>).
+                                <br><span class="inline-block mt-1 font-semibold">&bull; Se o "a" for flexionado no plural ("as"):</span> a crase torna-se <span class="highlight-success">obrigatória</span> (Ex: <em>Refiro-me às minhas amigas</em>).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- III. Engenharia de Resolução -->
+                <div class="space-y-6 mt-10">
+                    <div class="bg-neutral-50/50 p-4 border-l-4 border-emerald-500 rounded-r-lg">
+                        <h3 class="text-lg font-bold text-neutral-800 mb-2">III. Passo a Passo: "Engenharia de Resolução" na Prova do IFCE</h3>
+                        <p class="text-neutral-600 text-sm">
+                            Siga este roteiro mental tático e sistemático ao se deparar com as questões de Língua Portuguesa formuladas pelo Instituto AOCP:
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-4 items-start">
+                            <span class="flex items-center justify-center h-8 w-8 rounded-full bg-neutral-100 text-neutral-800 font-mono font-bold text-sm shrink-0 border border-neutral-200">1</span>
+                            <div>
+                                <h5 class="text-base font-bold text-neutral-900">Isole os "Intrusos" na Oração</h5>
+                                <p class="text-sm text-neutral-600 mt-1">
+                                    Se houver um período longo com orações subordinadas explicativas ou intercaladas, risque-as mentalmente e <mark>conecte o sujeito diretamente ao seu verbo principal</mark> para checar a exatidão da concordância.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <span class="flex items-center justify-center h-8 w-8 rounded-full bg-neutral-100 text-neutral-800 font-mono font-bold text-sm shrink-0 border border-neutral-200">2</span>
+                            <div>
+                                <h5 class="text-base font-bold text-neutral-900">Faça o Teste do Masculino (Verificação da Crase)</h5>
+                                <p class="text-sm text-neutral-600 mt-1">
+                                    Substitua a palavra feminina que gera dúvida por um termo masculino correspondente. Se o "a" converter-se naturalmente em <span class="font-mono bg-neutral-100 px-1 rounded text-neutral-800">"ao"</span>, a crase existe e é legítima; se virar meramente "o", o acento grave não deve ser utilizado.
+                                </p>
+                                <p class="text-xs text-neutral-500 mt-1.5 italic">
+                                    Exemplo: Obedecer <span class="font-bold text-emerald-700">à</span> sinalização municipal &rarr; Obedecer <span class="font-bold text-emerald-700">ao</span> sinal municipal (Crase confirmada!).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <span class="flex items-center justify-center h-8 w-8 rounded-full bg-neutral-100 text-neutral-800 font-mono font-bold text-sm shrink-0 border border-neutral-200">3</span>
+                            <div>
+                                <h5 class="text-base font-bold text-neutral-900">Utilize o Teste do "Isso" para Desmascarar o Pronome "SE"</h5>
+                                <p class="text-sm text-neutral-600 mt-1">
+                                    Havendo a estrutura <span class="font-mono bg-neutral-100 px-1 rounded text-neutral-800">"Verbo + SE + oração integrante (que...)"</span>, substitua a oração iniciada pelo "que" pela palavra <strong class="text-neutral-900">"isso"</strong> (Ex: <em>Exige-se isso</em>). Transponha para a voz passiva analítica (<em>Isso é exigido</em>). Se a transposição for fluida e fizer sentido sintático, o sujeito é paciente e o "se" possui função de <mark>Partícula Apassivadora</mark>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Ação e Direcionamento de Questões -->
+        <footer class="border-t border-neutral-200 mt-16 pt-8 pb-12 text-center">
+            <p class="text-sm text-neutral-500 mb-6">
+                Terminou de estudar a teoria? Agora é hora de testar sua retenção prática e treinar o olhar clínico.
+            </p>
+            <a href="concordancia_regenciaquestoes.html" 
+               class="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 text-white font-bold px-8 py-4 rounded-xl shadow-sm transition-all duration-200 focus:ring-4 focus:ring-neutral-300">
+                <span>Ir para Questões de Fixação</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+                </svg>
+            </a>
+            <p class="text-[11px] text-neutral-400 mt-3 font-mono">
+                O link aponta para o arquivo local "questoes.html"
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Script JS para manipulação interativa e dinâmica do Audio Player -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mp3Input = document.getElementById('mp3-filename');
+            const audioPlayer = document.getElementById('audio-player');
+            const playerStatus = document.getElementById('player-status');
+
+            // Evento para atualizar o áudio quando o usuário altera o nome do arquivo
+            mp3Input.addEventListener('input', (e) => {
+                const fileName = e.target.value.trim();
+                if (fileName) {
+                    audioPlayer.src = fileName;
+                    playerStatus.textContent = `Pronto para reproduzir: ${fileName}`;
+                    playerStatus.className = "text-xs text-emerald-600 mt-2 font-medium text-right italic";
+                } else {
+                    audioPlayer.src = "";
+                    playerStatus.textContent = "Nenhum arquivo de áudio carregado.";
+                    playerStatus.className = "text-xs text-rose-600 mt-2 font-medium text-right italic";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

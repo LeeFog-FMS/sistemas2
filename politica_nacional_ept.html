@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNEPT — Guia Definitivo IFCE (Geografia)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: #0f172a;
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+        mark {
+            background-color: #fef08a;
+            color: #0f172a;
+            font-weight: 600;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+        .highlight-art {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-weight: 600;
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.25rem;
+        }
+        .sidebar-item:hover {
+            background-color: #f8fafc;
+        }
+        /* Garantindo que as tabelas nunca gerem scroll */
+        table {
+            table-layout: auto;
+            width: 100%;
+        }
+        td, th {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-white antialiased">
+
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-50 py-4 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                    <i data-lucide="graduation-cap" class="w-7 h-7"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl text-slate-900 tracking-tight">PNEPT: Guia de Memorização Total</h1>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Professor EBTT Geografia — IFCE | Instituto AOCP</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-1 rounded-md font-black uppercase">Conteúdo Revisado 2026</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- Barra Lateral de Navegação (Sumário) -->
+        <aside class="lg:col-span-1 space-y-4">
+            <div class="sticky top-28 space-y-4">
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase mb-3 tracking-widest">Sumário da Aula</h3>
+                    <nav class="space-y-1">
+                        <a href="#audio" class="sidebar-item flex items-center gap-2 p-2 text-sm text-slate-600 rounded-lg transition-all">
+                            <i data-lucide="volume-2" class="w-4 h-4"></i> Audioaula
+                        </a>
+                        <a href="#intro" class="sidebar-item flex items-center gap-2 p-2 text-sm text-slate-600 rounded-lg transition-all">
+                            <i data-lucide="info" class="w-4 h-4"></i> Definição e Finalidade
+                        </a>
+                        <a href="#ldb" class="sidebar-item flex items-center gap-2 p-2 text-sm text-slate-600 rounded-lg transition-all">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> Alterações na LDB
+                        </a>
+                        <a href="#principios" class="sidebar-item flex items-center gap-2 p-2 text-sm text-slate-600 rounded-lg transition-all">
+                            <i data-lucide="compass" class="w-4 h-4"></i> Princípios e Diretrizes
+                        </a>
+                        <a href="#geografia" class="sidebar-item flex items-center gap-2 p-2 text-sm text-slate-600 rounded-lg transition-all font-bold text-emerald-600">
+                            <i data-lucide="map" class="w-4 h-4"></i> Foco Geografia IFCE
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <section class="lg:col-span-3 space-y-12">
+
+            <!-- Bloco de Áudio -->
+            <div id="audio" class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="music" class="text-blue-600"></i>
+                        <h2 class="font-bold text-slate-900">Configurar Áudio de Estudo</h2>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="audioSourceInput" value="aula_pnept_ifce.mp3" class="flex-grow bg-slate-50 border border-slate-300 rounded-lg px-4 py-2 text-sm font-mono">
+                    <button onclick="carregarAudio()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-800 transition-all">Carregar MP3</button>
+                </div>
+                <audio id="audioPlayer" class="w-full" controls>
+                    <source id="audioSource" src="aula_pnept_ifce.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <article id="intro" class="space-y-4">
+                <div class="flex items-center gap-2 text-emerald-600 font-bold uppercase text-xs tracking-tighter">
+                    <span class="w-8 h-[2px] bg-emerald-600"></span> Artigo 1º do Decreto
+                </div>
+                <h2 class="text-3xl font-black text-slate-900">1. Definição, Finalidade e Vigência</h2>
+                <p class="text-slate-700 leading-relaxed">
+                    A Política Nacional de Educação Profissional e Tecnológica (PNEPT) não é apenas um documento isolado, mas uma <mark>estratégia de Estado</mark> para organizar a oferta de cursos em todos os níveis. Ela deve ser formulada em <mark>regime de colaboração</mark> entre União, Estados, DF e Municípios.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+                        <span class="block text-xs font-bold text-slate-400 uppercase mb-1">Horizonte Temporal</span>
+                        <p class="text-sm font-medium">A PNEPT deve observar as metas e estratégias do <mark>Plano Nacional de Educação (PNE)</mark>, com vigência decenal.</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+                        <span class="block text-xs font-bold text-slate-400 uppercase mb-1">Público-Alvo Prioritário</span>
+                        <p class="text-sm font-medium">Trabalhadores, jovens em vulnerabilidade e pessoas com deficiência, focando na <mark>elevação da escolaridade</mark>.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="ldb" class="space-y-6">
+                <h2 class="text-2xl font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="clock" class="text-emerald-500"></i>
+                    2. Engenharia Legal e Prazos Críticos
+                </h2>
+                
+                <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl">
+                    <h4 class="font-bold text-amber-900 text-sm">PRAZO DE FORMULAÇÃO (Art. 14 da Lei 14.645/2023)</h4>
+                    <p class="text-sm text-amber-800">A União tem o prazo de <mark>2 (dois) anos</mark>, contado da publicação da Lei (agosto/2023), para formular a PNEPT nacional.</p>
+                </div>
+
+                <div class="overflow-hidden border border-slate-200 rounded-2xl">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase">Artigo LDB</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase">Resumo Técnico para Prova</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-slate-200 text-sm">
+                            <tr>
+                                <td class="px-6 py-4 font-bold highlight-art">Art. 39, § 3º</td>
+                                <td class="px-6 py-4">A EPT será articulada com o <mark>ensino regular</mark> ou por estratégias de <mark>educação de jovens e adultos (EJA)</mark>.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold highlight-art">Art. 42-A</td>
+                                <td class="px-4 py-4">Estruturação por <mark>eixos tecnológicos</mark>, facilitando a construção de <mark>itinerários formativos</mark> e trajetórias progressivas.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold highlight-art">Art. 36-B</td>
+                                <td class="px-6 py-4">Possibilidade de aproveitamento de <mark>créditos e competências</mark> adquiridos no trabalho ou em outros cursos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article id="principios" class="space-y-6">
+                <h2 class="text-2xl font-black text-slate-900">3. O Núcleo do Decreto nº 12.603/2025</h2>
+                
+                <div class="space-y-4">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                        <span class="p-1 bg-indigo-100 text-indigo-700 rounded">Princípios</span>
+                        O "DNA" da Política (Art. 2º)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                        <div class="p-3 border border-slate-100 rounded-lg bg-slate-50">1. <mark>Centralidade do trabalho</mark> como princípio educativo.</div>
+                        <div class="p-3 border border-slate-100 rounded-lg bg-slate-50">2. <mark>Indissociabilidade</mark> entre ensino, pesquisa, extensão e inovação.</div>
+                        <div class="p-3 border border-slate-100 rounded-lg bg-slate-50">3. Respeito à <mark>diversidade</mark> e promoção da inclusão social.</div>
+                        <div class="p-3 border border-slate-100 rounded-lg bg-slate-50">4. Estímulo ao <mark>desenvolvimento regional</mark> e sustentável.</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                    <h3 class="font-bold text-emerald-400 flex items-center gap-2 italic">
+                        <i data-lucide="shield-check"></i> Governança e SINAEPT
+                    </h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        A governança é exercida por uma <mark class="bg-emerald-500/20 text-emerald-300">Instância Tripartite</mark> (Governo, Trabalhadores e Empregadores). 
+                        O <mark class="bg-emerald-500/20 text-emerald-300">SINAEPT</mark> (Sistema Nacional de Avaliação) é a ferramenta de monitoramento da qualidade, gerido pelo INEP em colaboração com a SETEC/MEC.
+                    </p>
+                </div>
+            </article>
+
+            <article id="geografia" class="bg-emerald-50/50 border-2 border-emerald-100 rounded-2xl p-6 space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-emerald-600 text-white rounded-lg">
+                        <i data-lucide="map-pin"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-emerald-900">Conexão Geografia & PNEPT (Alvo IFCE)</h2>
+                </div>
+                <p class="text-sm text-emerald-800 leading-relaxed">
+                    Para o cargo de Geografia, o Instituto AOCP costuma cobrar como a PNEPT se articula com a <mark>Organização do Espaço Brasileiro</mark> e os <mark>Arranjos Produtivos Locais (APLs)</mark>.
+                </p>
+                <ul class="space-y-2">
+                    <li class="flex items-start gap-2 text-sm text-slate-700">
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-600 mt-1"></i>
+                        <span><strong>Territorialidade:</strong> A PNEPT exige que os cursos sejam baseados na <mark>leitura geográfica</mark> das demandas regionais.</span>
+                    </li>
+                    <li class="flex items-start gap-2 text-sm text-slate-700">
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-600 mt-1"></i>
+                        <span><strong>Divisão Territorial do Trabalho:</strong> O professor de geografia deve mediar o entendimento da técnica como força produtiva no território.</span>
+                    </li>
+                    <li class="flex items-start gap-2 text-sm text-slate-700">
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-600 mt-1"></i>
+                        <span><strong>Desenvolvimento Regional:</strong> Ponto chave no IFCE para combater desigualdades socioespaciais através da qualificação profissional no interior do Ceará.</span>
+                    </li>
+                </ul>
+            </article>
+
+            <!-- Botão de Ação -->
+            <div class="py-10 text-center border-t border-slate-100">
+                <a href="politica_nacional_eptquestoes.html" class="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-emerald-600 transition-all shadow-xl active:scale-95">
+                    Ir para o Simulado AOCP <i data-lucide="arrow-right"></i>
+                </a>
+                <p class="text-[10px] text-slate-400 mt-4 uppercase font-bold tracking-widest italic">A aprovação no IFCE começa com a base sólida da legislação.</p>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-12 mt-12">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p class="text-xs text-slate-400 font-medium">Plataforma Independente de Apoio ao Concurseiro EBTT • Conteúdo Acadêmico e Pedagógico</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function carregarAudio() {
+            const input = document.getElementById('audioSourceInput').value.trim();
+            const player = document.getElementById('audioPlayer');
+            const source = document.getElementById('audioSource');
+            if(input) {
+                source.src = input;
+                player.load();
+            }
+        }
+    </script>
+</body>
+</html>

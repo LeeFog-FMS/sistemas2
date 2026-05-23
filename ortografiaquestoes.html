@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Ortografia e Acentuação - Instituto AOCP</title>
+    <!-- Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            paper: '#FAF9F6', // Fundo off-white clássico e confortável para leitura
+                            ink: '#1E293B',   // Grafite escuro para excelente contraste sem agredir os olhos
+                            accent: '#0F172A',
+                            primary: '#2563EB',
+                            success: '#16A34A',
+                            danger: '#DC2626',
+                            highlight: '#FEF3C7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ajuste fino de transição e foco para acessibilidade */
+        .custom-radio:checked + label {
+            border-color: #2563EB;
+            background-color: #EFF6FF;
+        }
+        /* Estilização suave para barras de rolagem */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF9F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="bg-brand-paper text-brand-ink font-sans antialiased min-h-screen selection:bg-yellow-100">
+
+    <!-- Cabeçalho Principal -->
+    <header class="border-b border-stone-200 bg-white sticky top-0 z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Simulado de Língua Portuguesa</span>
+                <h1 class="text-xl sm:text-2xl font-bold text-brand-ink">Ortografia Oficial & Acentuação</h1>
+                <p class="text-xs text-gray-500">Padrão da banca Instituto AOCP — Novo Acordo Ortográfico</p>
+            </div>
+            <!-- Painel de Progresso Rápido -->
+            <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-gray-600">Respondidas:</span>
+                <span id="progress-text" class="text-sm font-bold bg-gray-100 text-gray-800 px-3 py-1 rounded-full border border-gray-200">0 / 10</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Banner Informativo Curto -->
+        <div class="bg-blue-50 border border-blue-200 text-blue-900 rounded-xl p-4 mb-8 text-sm leading-relaxed flex items-start gap-3">
+            <svg class="w-5 h-5 text-blue-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div>
+                <strong>Dica de Estudo:</strong> As questões abaixo simulam o rigor metodológico e a cobrança sistemática do <strong>Instituto AOCP</strong>. Responda com atenção e analise o gabarito comentado ao final.
+            </div>
+        </div>
+
+        <!-- Formulário do Quiz -->
+        <form id="quiz-form" onsubmit="evaluateQuiz(event)">
+            
+            <div class="space-y-8">
+                <!-- QUESTÃO 1 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q1">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 1</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">De acordo com as regras de ortografia e acentuação gráfica vigentes após o último Acordo Ortográfico, assinale a alternativa em que todas as palavras estão grafadas corretamente.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q1" value="A" id="q1-A" class="peer hidden" required onclick="updateProgress()">
+                            <label for="q1-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white peer-checked:border-blue-600 text-gray-500">A</span>
+                                <span>Vêem, vôo, perdoo.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q1" value="B" id="q1-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q1-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>Minissaia, micro-ondas, pós-graduado.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q1" value="C" id="q1-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q1-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>Pé-de-moleque, heróico, crêem.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q1" value="D" id="q1-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q1-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>Auto-ajuda, cara-a-cara, jibóia.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q1" value="E" id="q1-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q1-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>Co-ordenar, antigüidade, pingüim.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q1" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 2 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q2">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 2</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">Nas duas orações a seguir, pertencentes a períodos diferentes: <em>“... as lembranças vêm acompanhadas...”</em> e <em>“As comidas têm um efeito real sobre nós.”</em>, os dois termos destacados estão acentuados graficamente. Assinale a alternativa que apresenta a justificativa correta para essa ocorrência de acordo com a norma-padrão da Língua Portuguesa.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q2" value="A" id="q2-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q2-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>para concordar com os sujeitos compostos que os antecedem.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q2" value="B" id="q2-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q2-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>para atender à regência dos nomes “lembranças” e “comidas”.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q2" value="C" id="q2-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q2-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>porque estão conjugados na primeira pessoa do plural do presente do indicativo.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q2" value="D" id="q2-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q2-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>porque todos os verbos conjugados em primeira pessoa do plural, independente de tempo e modo, devem receber acento diferencial.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q2" value="E" id="q2-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q2-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>porque estão conjugados na terceira pessoa do plural do presente do indicativo, exercendo a função de acento diferencial de número.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q2" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 3 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q3">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 3</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">Tendo em vista as regras gerais de acentuação gráfica da Língua Portuguesa, assinale a alternativa que apresenta a justificativa correta quanto à acentuação das palavras indicadas.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q3" value="A" id="q3-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q3-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>“Você” recebe acento porque é uma palavra monossílaba tônica terminada em "e".</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q3" value="B" id="q3-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q3-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>“Psíquicas” é acentuada graficamente porque é uma palavra proparoxítona.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q3" value="C" id="q3-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q3-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>A palavra “tão” recebe acento porque é classificada como uma paroxítona terminada em “o”.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q3" value="D" id="q3-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q3-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>“Época” possui acento gráfico por se tratar de uma palavra paroxítona terminada em “a”.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q3" value="E" id="q3-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q3-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>A palavra “incontroláveis” recebe acento por ser uma oxítona terminada em “s”.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q3" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 4 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q4">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 4</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">As consoantes sibilantes frequentemente geram dúvidas de grafia na elaboração de relatórios e documentos. De acordo com as normas ortográficas oficiais da Língua Portuguesa relativas ao uso de S/Z, assinale a alternativa na qual todas as palavras estão grafadas corretamente.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q4" value="A" id="q4-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q4-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>Analisar, paralisar, pesquisar, improvisar.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q4" value="B" id="q4-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q4-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>Canalizar, civilizar, humanizar, pesquizar.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q4" value="C" id="q4-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q4-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>Deslizar, sintonizar, paralizar, cicatrizar.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q4" value="D" id="q4-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q4-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>Agilizar, atrazar, escandalizar, batizar.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q4" value="E" id="q4-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q4-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>Harmonizar, catequizar, amenizar, canalisar.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q4" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 5 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q5">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 5</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">A respeito do uso das consoantes X e CH na identificação de erros ortográficos em fragmentos de texto, assinale a alternativa que apresenta o período inteiramente correto de acordo com a norma padrão.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q5" value="A" id="q5-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q5-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>O técnico precisou mexer na fiação antiga, mas acabou esquecendo o alicate de pressão dentro do caichote de ferramentas.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q5" value="B" id="q5-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q5-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>O fiscal aduaneiro decidiu taxar as mercadorias importadas para conter a enxurrada de novos produtos eletrônicos estrangeiros.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q5" value="C" id="q5-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q5-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>Antes de guardar as roupas lavadas na lavanderia externa, é preciso bater na pedra e enchugar o pano ao sol.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q5" value="D" id="q5-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q5-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>Durante a reforma do telhado da instituição administrativa, o operário utilizou uma enchada para remover os resíduos de cimento.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q5" value="E" id="q5-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q5-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>Os vândalos decidiram pixar os muros históricos do centro da cidade durante a madrugada, gerando indignação geral.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q5" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 6 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q6">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 6</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">Considerando as regras ortográficas vigentes relativas ao emprego das consoantes G e J, assinale a alternativa correta.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q6" value="A" id="q6-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q6-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>É necessário que os funcionários viajem ainda hoje para garantir a reserva do hotel, embora a viagem de volta possa ser cansativa.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q6" value="B" id="q6-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q6-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>O assistente administrativo agiu com muita rapidez, demonstrando um excelente geito para contornar situações de crise.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q6" value="C" id="q6-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q6-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>A beringela colhida na horta comunitária foi largamente utilizada na preparação do almoço servido aos voluntários.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q6" value="D" id="q6-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q6-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>A viajem de negócios promovida pelo diretor da empresa foi cancelada após o jipe apresentar falhas mecânicas graves.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q6" value="E" id="q6-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q6-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>É fundamental que os colaboradores arrangem uma fôrma de alumínio adequada para assar o bolo da recepção.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q6" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 7 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q7">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 7</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">A banca Instituto AOCP frequentemente explora diferentes nomenclaturas para avaliar o domínio da classificação tônica das palavras. Com base naquelas regras de acentuação, assinale a alternativa correta quanto à justificativa dos acentos dos vocábulos indicados.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q7" value="A" id="q7-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q7-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>O acento em “isquêmico” indica que se trata de uma palavra paroxítona ou esdrúxula, uma vez que a tonicidade é identificada na antepenúltima sílaba.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q7" value="B" id="q7-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q7-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>O acento em “cardíaco” indica que se trata de uma palavra paroxítona ou aguda, pois a tonicidade é constatada na penúltima sílaba.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q7" value="C" id="q7-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q7-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>O acento em “alcoólicas” indica que se trata de uma palavra proparoxítona ou sobre-esdrúxula, visto que a tonicidade é observada na antepenúltima sílaba.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q7" value="D" id="q7-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q7-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>O acento em “hemorrágico” indica que se trata de uma proparoxítona ou esdrúxula, haja vista que a tonicidade é verificada na antepenúltima sílaba.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q7" value="E" id="q7-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q7-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>O acento em “emergência” indica que se trata de uma palavra paroxítona ou aguda, já que a tonicidade é apurada na penúltima sílaba.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q7" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 8 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q8">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 8</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">São acentuadas graficamente, a partir da mesma regra de acentuação geral, todas as palavras apresentadas em qual das alternativas a seguir?</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q8" value="A" id="q8-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q8-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>Só, já, avó.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q8" value="B" id="q8-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q8-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>Você, bebê, avó.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q8" value="C" id="q8-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q8-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>Amigáveis, heróis, dócil.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q8" value="D" id="q8-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q8-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>Porém, você, lá.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q8" value="E" id="q8-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q8-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>Dócil, vício, está.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q8" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 9 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q9">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 9</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">No que diz respeito às regras especiais de acentuação gráfica previstas no Acordo Ortográfico vigente, as quais regulam a acentuação de hiatos e o emprego de acentos diferenciais, assinale a alternativa correta.</p>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q9" value="A" id="q9-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q9-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>A palavra “feiura” não recebe acento gráfico porque a vogal tônica "u" forma um hiato precedido por um ditongo decrescente em palavra paroxítona.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q9" value="B" id="q9-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q9-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>Os termos “pôde” (pretérito perfeito do indicativo) e “pode” (presente do indicativo) deixaram de possuir acento diferencial, passando a grafar-se de modo idêntico.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q9" value="C" id="q9-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q9-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>A palavra “rainha” é acentuada graficamente em decorrência da mesma regra de hiato tônico que justifica o acento na palavra “saúde”.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q9" value="D" id="q9-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q9-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>Os monossílabos tônicos “pôr” (verbo) e “por” (preposição) deixaram de ser distinguidos por acento gráfico após a reforma ortográfica.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q9" value="E" id="q9-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q9-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>As formas verbais “veem” e “creem” mantêm o acento circunflexo na primeira vogal para sinalizar a flexão de terceira pessoa do plural.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q9" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+
+                <!-- QUESTÃO 10 -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 transition-shadow hover:shadow-md" id="card-q10">
+                    <div class="flex justify-between items-start gap-4 mb-4">
+                        <span class="inline-block bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Questão 10</span>
+                    </div>
+                    <p class="text-base sm:text-lg font-medium leading-relaxed mb-6 text-slate-800">Considerando a ortografia oficial da Língua Portuguesa e as regras de acentuação gráfica vigentes, assinale a alternativa que preenche, correta e respectivamente, as lacunas do período apresentado a seguir:</p>
+                    <div class="bg-stone-100 border-l-4 border-slate-600 p-4 mb-6 rounded-r-lg font-serif italic text-stone-800">
+                        “As novas diretrizes de saneamento básico ________ (1) de discussões minuciosas que ________ (2) o desenvolvimento sustentável das ________ (3) urbanas, sem que ocorra nenhum tipo de ________ (4) no cronograma de obras.”
+                    </div>
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="radio" name="q10" value="A" id="q10-A" class="peer hidden" onclick="updateProgress()">
+                            <label for="q10-A" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">A</span>
+                                <span>provêm / mantêm / áreas / atraso.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q10" value="B" id="q10-B" class="peer hidden" onclick="updateProgress()">
+                            <label for="q10-B" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">B</span>
+                                <span>provém / mantém / areas / atraso.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q10" value="C" id="q10-C" class="peer hidden" onclick="updateProgress()">
+                            <label for="q10-C" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">C</span>
+                                <span>provêm / mantém / áreas / atrazo.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q10" value="D" id="q10-D" class="peer hidden" onclick="updateProgress()">
+                            <label for="q10-D" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">D</span>
+                                <span>provém / mantêm / areas / atrazo.</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="q10" value="E" id="q10-E" class="peer hidden" onclick="updateProgress()">
+                            <label for="q10-E" class="flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio">
+                                <span class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full border border-gray-300 text-xs font-bold bg-white text-gray-500">E</span>
+                                <span>provêm / mantém / áreas / atraso.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="feedback-q10" class="hidden mt-6 pt-6 border-t border-dashed border-stone-200"></div>
+                </div>
+            </div>
+
+            <!-- Botões de Ação do Quiz -->
+            <div class="mt-12 mb-20 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button type="submit" id="submit-btn" class="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 focus:ring-4 focus:ring-blue-300 text-center">
+                    Finalizar e Ver Resultados
+                </button>
+                <button type="button" onclick="resetQuiz()" class="w-full sm:w-auto px-8 py-4 bg-stone-200 hover:bg-stone-300 text-brand-ink font-semibold rounded-xl transition-all text-center">
+                    Limpar Respostas
+                </button>
+            </div>
+        </form>
+
+        <!-- Seção de Resultados (Inicialmente oculta) -->
+        <section id="results-panel" class="hidden bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 shadow-xl mb-16 scroll-mt-24">
+            <div class="text-center pb-8 border-b border-stone-100">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-600" id="result-badge">Desempenho Geral</span>
+                <h2 class="text-3xl font-extrabold text-brand-ink mt-2">Seu Resultado</h2>
+                
+                <!-- Gráfico de Círculo Progressivo Simples -->
+                <div class="relative w-36 h-36 mx-auto my-6 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" stroke="#E2E8F0" stroke-width="8" fill="transparent" />
+                        <circle id="score-circle" cx="50" cy="50" r="40" stroke="#16A34A" stroke-width="8" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" />
+                    </svg>
+                    <div class="absolute flex flex-col items-center">
+                        <span id="score-text" class="text-3xl font-black text-brand-ink">0/10</span>
+                        <span id="percent-text" class="text-xs text-gray-500 font-medium">0% de Acerto</span>
+                    </div>
+                </div>
+
+                <p id="performance-commentary" class="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">Você completou o simulado sobre Ortografia e Acentuação Gráfica do Instituto AOCP.</p>
+            </div>
+
+            <!-- Filtro de Revisão -->
+            <div class="py-4 border-b border-stone-100 flex flex-wrap gap-2 items-center justify-between">
+                <span class="text-sm font-semibold text-gray-700">Revisar Questões:</span>
+                <div class="flex gap-2">
+                    <button onclick="filterReview('all')" id="btn-filter-all" class="px-3 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white transition-all">Todas</button>
+                    <button onclick="filterReview('correct')" id="btn-filter-correct" class="px-3 py-1 text-xs font-bold rounded-lg bg-stone-100 text-gray-600 hover:bg-stone-200 transition-all">Acertos</button>
+                    <button onclick="filterReview('incorrect')" id="btn-filter-incorrect" class="px-3 py-1 text-xs font-bold rounded-lg bg-stone-100 text-gray-600 hover:bg-stone-200 transition-all">Erros</button>
+                </div>
+            </div>
+
+            <!-- Resumo das Questões Comentadas -->
+            <div class="space-y-6 mt-8">
+                <h3 class="text-lg font-bold text-brand-ink mb-4">Gabarito e Justificativa de cada questão:</h3>
+                <div id="detailed-gabarito-list" class="space-y-4">
+                    <!-- Gerado dinamicamente via JS com as explicações completas -->
+                </div>
+            </div>
+
+            <!-- Alerta Customizado de Sucesso ou Recuperação -->
+            <div class="mt-8 pt-8 border-t border-stone-100 flex justify-center">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-6 py-3 bg-brand-accent hover:bg-black text-white text-sm font-bold rounded-xl transition-all">
+                    Voltar ao Topo
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="border-t border-stone-200 bg-stone-100 py-8 text-center text-xs text-gray-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>Plataforma de Simulado Interativo de Língua Portuguesa — Padrão Instituto AOCP.</p>
+            <p class="mt-1">Foco nas regras ortográficas e acentuação vigentes no pós-Acordo.</p>
+        </div>
+    </footer>
+
+    <!-- Banco de Dados das Resoluções e Gabarito -->
+    <script>
+        const correctAnswers = {
+            q1: "B",
+            q2: "E",
+            q3: "B",
+            q4: "A",
+            q5: "B",
+            q6: "A",
+            q7: "D",
+            q8: "B",
+            q9: "A",
+            q10: "A"
+        };
+
+        const resolutions = {
+            q1: {
+                title: "Resolução da Questão 1",
+                topic: "Novas regras de ortografia, hifenização e acentuação de hiatos.",
+                correctOptionText: "Minissaia, micro-ondas, pós-graduado.",
+                explanation: `A análise comparativa das regras estabelecidas pelo último Acordo Ortográfico evidencia a eliminação sistemática do acento gráfico nos ditongos abertos tônicos "ei" e "oi" em palavras de classificação paroxítona, bem como a queda definitiva do acento circunflexo nos hiatos com vogais duplicadas "ee" e "oo". A opção que reflete com total exatidão a vigência normativa é a que agrupa termos como minissaia, em que se observa a duplicação consonantal após o prefixo terminado em vogal, micro-ondas, hifenizado devido à identidade da vogal final do prefixo com a inicial do segundo termo, e pós-graduado, obrigatoriamente acentuado e hifenizado.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3">Alternativa</th>
+                                    <th class="p-3">Vocábulos Analisados</th>
+                                    <th class="p-3">Situação Ortográfica e Justificativa Gramatical</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">A</td>
+                                    <td class="p-3">Vêem, vôo, perdoo</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Os hiatos de vogais idênticas "ee" e "oo" perderam o acento gráfico sob a regra do Acordo Ortográfico vigente, devendo ser grafados como veem, voo e perdoo.</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">B</td>
+                                    <td class="p-3 font-medium">Minissaia, micro-ondas, pós-graduado</td>
+                                    <td class="p-3"><strong>Correta</strong>. Minissaia duplica o "s" conforme a regra de prefixação; micro-ondas exige hífen por vogais iguais; pós-graduado exige hífen com prefixo tônico.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">Pé-de-moleque, heróico, crêem</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Pé de moleque perdeu o hífen em termos compostos com elemento de ligação; heróico perdeu o acento (paroxítona com ditongo aberto); crêem perdeu o circunflexo ("creem").</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">Auto-ajuda, cara-a-cara, jibóia</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Autoajuda une-se sem hífen (vogal final diferente da inicial); cara a cara perdeu hífen; jiboia perdeu acento por conter ditongo aberto em paroxítona.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">Co-ordenar, antigüidade, pingüim</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Coordenar junta-se diretamente por prefixo de vogal dupla sem hífen; antiguidade e pinguim perderam o trema, que foi totalmente abolido da língua.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q2: {
+                title: "Resolução da Questão 2",
+                topic: "Acento diferencial de número nos verbos 'ter', 'vir' e seus derivados.",
+                correctOptionText: "porque estão conjugados na terceira pessoa do plural do presente do indicativo, exercendo a função de acento diferencial de número.",
+                explanation: `A fundamentação sintático-semântica das formas verbais "vêm" e "têm" repousa sobre a necessidade de sinalizar no plano gráfico a concordância de número com sujeitos dispostos no plural. O acento diferencial de número constitui uma exceção preservada pelas reformas ortográficas modernas para evitar a ambiguidade na leitura, garantindo que a terceira pessoa do plural do presente do indicativo se distinga visualmente da correspondente forma singular.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Análise Crítica das Afirmações</th>
+                                    <th class="p-3">Enquadramento com a Norma Culta</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">A</td>
+                                    <td class="p-3">Concordar com sujeitos compostos</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Os sujeitos antecedentes nas orações não são compostos, mas sim simples e flexionados no plural ("lembranças" e "comidas").</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">B</td>
+                                    <td class="p-3">Atender à regência nominal</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. A regência nominal não comanda a acentuação de formas verbais; trata-se de um fenômeno estritamente ligado à concordância verbal.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">Conjugação na primeira pessoa do plural</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. As formas correspondentes à primeira pessoa do plural do presente do indicativo são "vimos" e "temos", as quais não contêm esses acentos.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">Regra geral para a primeira pessoa</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Não há diretriz gramatical que preveja acento diferencial sistemático para todas as primeiras pessoas do plural.</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">E</td>
+                                    <td class="p-3 font-medium">Terceira pessoa do plural do presente do indicativo</td>
+                                    <td class="p-3"><strong>Correta</strong>. Os verbos "ter" e "vir" recebem acento circunflexo exclusivamente na terceira pessoa do plural do presente para marcar a pluralidade do sujeito.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q3: {
+                title: "Resolução da Questão 3",
+                topic: "Justificativas das regras gerais de acentuação gráfica.",
+                correctOptionText: "“Psíquicas” é acentuada graficamente porque é uma palavra proparoxítona.",
+                explanation: `A sistematização das regras gerais de acentuação exige a correta identificação da posição da sílaba tônica conjugada à terminação da palavra analisada. A palavra "psíquicas" configura-se como um exemplo clássico de proparoxítona, segmento no qual a totalidade dos vocábulos deve ser acentuada graficamente, de modo a legitimar a opção que a apresenta como correta.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Termo Analisado e Justificativa da Banca</th>
+                                    <th class="p-3">Correção Doutrinária</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">A</td>
+                                    <td class="p-3">“Você” recebe acento por ser monossílabo</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Você" é classificado como oxítona terminada em "e", e não como monossílabo tônico, diferenciando-se de termos como "pé".</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">B</td>
+                                    <td class="p-3 font-medium">“Psíquicas” é acentuada por ser proparoxítona</td>
+                                    <td class="p-3"><strong>Correta</strong>. Sendo a antepenúltima sílaba a tônica, o termo enquadra-se na regra universal de acentuação de proparoxítonas.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">“Tão” recebe acento por ser paroxítona terminada em “o”</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O sinal em "tão" é o til (índice de nasalização, não acento tônico) e a palavra é um monossílabo tônico.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">“Época” possui acento por ser paroxítona terminada em “a”</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Época" tem sua sílaba tônica na antepenúltima posição (é-po-ca), tratando-se, portanto, de uma proparoxítona.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">“Incontroláveis” recebe acento por ser oxítona terminada em “s”</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O termo é uma paroxítona terminada em ditongo oral crescente ("-eis"), o que justifica o emprego do acento agudo.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q4: {
+                title: "Resolução da Questão 4",
+                topic: "Emprego ortográfico das sibilantes 's' e 'z'.",
+                correctOptionText: "Analisar, paralisar, pesquisar, improvisar.",
+                explanation: `O emprego ortográfico das sibilantes "s" e "z" depende intimamente do processo de derivação e da manutenção do radical etimológico das palavras primitivas. O verbo "analisar" e seus cognatos mantêm a letra "s" porque derivam do substantivo "análise", que já apresenta a consoante em seu radical; do mesmo modo, "paralisar" preserva o "s" de "paralisia". Os verbos terminados com o sufixo "-izar", em contrapartida, demandam a consoante "z" quando o termo primitivo correspondente não dispõe de "s" em sua sílaba final, padrão observado em "civilizar" e "humanizar".`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Vocábulos Analisados</th>
+                                    <th class="p-3">Desvios e Validações Ortográficas</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">A</td>
+                                    <td class="p-3 font-medium">Analisar, paralisar, pesquisar, improvisar</td>
+                                    <td class="p-3"><strong>Correta</strong>. Todos os termos derivam de palavras com "s" em seu radical (análise, paralisia, pesquisa, improviso) e preservam o grafema.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">B</td>
+                                    <td class="p-3">Canalizar, civilizar, humanizar, pesquizar</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O vocábulo "pesquizar" apresenta desvio, devendo ser escrito com "s" (pesquisar) pois deriva do substantivo "pesquisa".</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">Deslizar, sintonizar, paralizar, cicatrizar</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O termo "paralizar" infringe a norma, dado que o substantivo de origem é "paralisia", exigindo grafia com "s" (paralisar).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">Agilizar, atrazar, escandalizar, batizar</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O termo "atrazar" é incorreto; deve ser grafado como "atrasar" por derivar do advérbio "atrás".</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">Harmonizar, catequizar, amenizar, canalisar</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Canalisar" está grafado de forma errônea; deve conter "z" (canalizar), pois deriva de "canal" (radical sem "s").</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q5: {
+                title: "Resolução da Questão 5",
+                topic: "Diferenciação ortográfica entre os fonemas grafados com 'x' ou 'ch'.",
+                correctOptionText: "O fiscal aduaneiro decidiu taxar as mercadorias importadas para conter a enxurrada de novos produtos eletrônicos estrangeiros.",
+                explanation: `A diferenciação entre as grafias com "x" e "ch" exige o domínio de regras contextuais consolidadas na tradição ortográfica da língua. A regra geral determina a preferência pelo fonema representado por "x" após ditongos (caixa, caixote) e também após a sílaba inicial "en-" (enxurrada, enxugar, enxada). O termo "taxar", com "x", é legítimo no sentido de impor tributo ou avaliar, enquanto "tachar" com "ch" expressa o ato de censurar ou apontar defeito.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Fragmentos Textuais Analisados</th>
+                                    <th class="p-3">Erros e Justificativas Fonofíticas</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">A</td>
+                                    <td class="p-3">...caichote</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O termo "caichote" deve ser grafado com "x" (caixote), por se posicionar imediatamente após um ditongo.</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">B</td>
+                                    <td class="p-3 font-medium">...taxar... enxurrada</td>
+                                    <td class="p-3"><strong>Correta</strong>. "Taxar" está adequado ao contexto tributário e "enxurrada" segue estritamente a grafia com "x" após a sílaba "en-".</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">...enchugar</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O vocábulo "enchugar" está incorreto; a norma prescreve o uso de "x" após a sílaba inicial "en-", gerando "enxugar".</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">...enchada</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. A grafia "enchada" viola a regra padrão; deve-se grafar "enxada" com "x", dada a presença da sílaba inicial "en-".</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">...pixar</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O verbo "pixar" é incorreto; a ortografia oficial exige o emprego do dígrafo "ch", resultando em "pichar".</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q6: {
+                title: "Resolução da Questão 6",
+                topic: "Regras de uso dos grafemas homófonos 'g' e 'j'.",
+                correctOptionText: "É necessário que os funcionários viajem ainda hoje para garantir a reserva do hotel, embora a viagem de volta possa ser cansativa.",
+                explanation: `A oposição entre os grafemas "g" e "j" representa uma dificuldade recorrente decorrente da homofonia verificada diante das vogais "e" e "i". O padrão exigido baseia-se na distinção de classes gramaticais e de matrizes etimológicas. No caso do verbo "viajar", todas as suas flexões mantêm o "j" do radical para preservar o som ("viajem"), ao passo que o substantivo de mesma fonia "viagem" é grafado com "g", por se enquadrar na terminação "-agem".`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Termos sob Julgamento</th>
+                                    <th class="p-3">Natureza do Desvio e Enquadramento</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">A</td>
+                                    <td class="p-3 font-medium">...viajem (verbo) / viagem (substantivo)</td>
+                                    <td class="p-3"><strong>Correta</strong>. O verbo no subjuntivo mantém "j" (viajem) e o substantivo segue a terminação regular "-agem" (viagem).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">B</td>
+                                    <td class="p-3">...geito</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O termo "geito" é grafado incorretamente, devendo assumir a forma "jeito" com "j", por herança etimológica.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">...beringela</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Beringela" está incorreta segundo o VOLP brasileiro, o qual registra unicamente o vocábulo "berinjela" com "j".</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">...viajem (substantivo)</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O texto utiliza o termo como substantivo ("A viajem de negócios"), exigindo a grafia com "g" (viagem).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">...arrangem</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Sendo o verbo de origem "arranjar", a flexão deve necessariamente preservar o grafema "j" (arranjem).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q7: {
+                title: "Resolução da Questão 7",
+                topic: "Classificação tônica e terminologias de exames oficiais da banca AOCP.",
+                correctOptionText: "O acento em “hemorrágico” indica que se trata de uma proparoxítona ou esdrúxula, haja vista que a tonicidade é verificada na antepenúltima sílaba.",
+                explanation: `A classificação tônica aplicada em provas de concurso comumente explora denominações clássicas e helênicas das palavras de acordo com a posição da sílaba tônica. Nesse contexto acadêmico, os vocábulos classificados como proparoxítonas correspondem à designação clássica de "esdrúxulas", enquanto as paroxítonas correspondem às "graves" e as oxítonas às "agudas". O termo "hemorrágico" constitui uma legítima proparoxítona ou esdrúxula, validando plenamente as alegações da banca examinadora.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Proposição sob Avaliação</th>
+                                    <th class="p-3">Validação do Conceito Fonológico</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">A</td>
+                                    <td class="p-3">“Isquêmico” é paroxítona ou esdrúxula</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Isquêmico" é uma palavra proparoxítona (esdrúxula), mas a alternativa incorre em erro ao rotulá-la como paroxítona.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">B</td>
+                                    <td class="p-3">“Cardíaco” é paroxítona ou aguda</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O termo é proparoxítona, falhando a opção ao classificá-lo como paroxítona ou aguda (oxítona).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3 font-medium">“Alcoólicas” é proparoxítona ou sobre-esdrúxula</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Não há no português a classificação sistemática de "sobre-esdrúxula" para a tônica na antepenúltima sílaba.</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">D</td>
+                                    <td class="p-3 font-medium">“Hemorrágico” é proparoxítona ou esdrúxula</td>
+                                    <td class="p-3"><strong>Correta</strong>. A palavra possui a antepenúltima sílaba tônica, recebendo a denominação técnica de proparoxítona ou esdrúxula.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">“Emergência” é paroxítona ou aguda</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Emergência" é paroxítona, contudo "aguda" refere-se exclusivamente às palavras oxítonas.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q8: {
+                title: "Resolução da Questão 8",
+                topic: "Agrupamento de palavras sob a mesma regra geral de acentuação.",
+                correctOptionText: "Você, bebê, avó.",
+                explanation: `O agrupamento de palavras sob o mesmo critério normativo de acentuação requer que os termos compartilhem tanto a mesma posição tônica quanto a mesma terminação exigida pela regra correspondente. As palavras "você", "bebê" e "avó" são todas classificadas como oxítonas terminadas em vogais abertas ou fechadas "e" e "o", enquadrando-se sob uma mesma diretriz sistemática geral de acentuação gráfica.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Vocábulos e suas Classificações</th>
+                                    <th class="p-3">Conflitos de Regras Identificados</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">A</td>
+                                    <td class="p-3">Só, já, avó</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Só" e "já" são acentuados pela regra dos monossílabos tônicos; "avó" é acentuado pela regra das oxítonas.</td>
+                                </tr>
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">B</td>
+                                    <td class="p-3 font-medium">Você, bebê, avó</td>
+                                    <td class="p-3"><strong>Correta</strong>. Todos são oxítonas terminadas nas vogais "e" ou "o", respondendo à mesma regra geral de acentuação das oxítonas.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">Amigáveis, heróis, dócil</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Amigáveis" e "dócil" são paroxítonas; "heróis" é oxítona terminada em ditongo aberto.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">Porém, você, lá</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Porém" e "você" enquadram-se na regra das oxítonas, enquanto "lá" é um monossílabo tônico.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">Dócil, vício, está</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Dócil" e "vício" são paroxítonas (com diferentes terminações), ao passo que "está" é uma palavra oxítona.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q9: {
+                title: "Resolução da Questão 9",
+                topic: "Regras especiais de hiatos e persistência do acento diferencial.",
+                correctOptionText: "A palavra “feiura” não recebe acento gráfico porque a vogal tônica 'u' forma um hiato precedido por um ditongo decrescente em palavra paroxítona.",
+                explanation: `As inovações promovidas pelo atual diploma ortográfico incidem de modo profundo sobre o acento especial dos hiatos e sobre os acentos diferenciais. O vocábulo "feiura" exemplifica a exclusão do acento na vogal tônica "u" após ditongos em palavras paroxítonas. No entanto, convém registrar que as palavras oxítonas que possuem essa estrutura (como tuiuiú ou Piauí) mantêm intacto o sinal gráfico para assegurar a clareza da prosódia.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3 w-20">Alternativa</th>
+                                    <th class="p-3">Proposições Analisadas</th>
+                                    <th class="p-3">Alinhamento com o Acordo Ortográfico</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr class="bg-emerald-50/50">
+                                    <td class="p-3 font-semibold text-emerald-600">A</td>
+                                    <td class="p-3 font-medium">“Feiura” perdeu o acento gráfico</td>
+                                    <td class="p-3"><strong>Correta</strong>. A vogal "u" tônica em hiato precedido de ditongo decrescente perdeu o acento em vocábulos paroxítonos.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">B</td>
+                                    <td class="p-3">“Pôde” e “pode” deixaram de ter acento</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O acento em "pôde" (pretérito perfeito) foi intencionalmente mantido como acento diferencial de tempo.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">C</td>
+                                    <td class="p-3">“Rainha” acentua-se como “saúde”</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. "Rainha" não é acentuada por apresentar hiato sucedido pela consoante nasal "nh" na sílaba seguinte.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">D</td>
+                                    <td class="p-3">“Pôr” e “por” perderam o acento</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. Preservou-se o acento diferencial para distinguir o verbo "pôr" da preposição átona "por".</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-red-600">E</td>
+                                    <td class="p-3">“Veem” e “creem” mantêm o acento</td>
+                                    <td class="p-3"><strong>Incorreta</strong>. O acento circunflexo nos hiatos de vogais idênticas "ee" foi inteiramente abolido após a reforma.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            },
+            q10: {
+                title: "Resolução da Questão 10",
+                topic: "Exercício integrado de preenchimento de lacunas com foco em desvios.",
+                correctOptionText: "provêm / mantêm / áreas / atraso.",
+                explanation: `A resolução de lacunas contextuais exige a aplicação simultânea e rigorosa das regras morfossintáticas e ortográficas vigentes. O sujeito "novas diretrizes" exige que os verbos "provir" e "manter" se curvem à concordância de número no plural, atraindo a acentuação circunflexa diferencial de número. Adicionalmente, as palavras "áreas" e "atraso" devem respeitar, respectivamente, o acento na paroxítona terminada em ditongo e a conservação do grafema "s" em sua raiz semântica.`,
+                tableHTML: `
+                    <div class="overflow-x-auto my-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-stone-100 text-stone-700 font-bold border-b border-stone-200">
+                                    <th class="p-3">Lacuna</th>
+                                    <th class="p-3">Termo Escolhido</th>
+                                    <th class="p-3">Regra Gramatical Aplicada</th>
+                                    <th class="p-3">Justificativa Sintático-Ortográfica</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100 text-xs">
+                                <tr class="bg-emerald-50/30">
+                                    <td class="p-3 font-bold text-slate-800">1</td>
+                                    <td class="p-3 font-semibold text-emerald-600">provêm</td>
+                                    <td class="p-3">Concordância e Acentuação de Derivados</td>
+                                    <td class="p-3">Verbo derivado de "vir" flexionado na 3ª pessoa do plural para concordar com "diretrizes".</td>
+                                </tr>
+                                <tr class="bg-emerald-50/30">
+                                    <td class="p-3 font-bold text-slate-800">2</td>
+                                    <td class="p-3 font-semibold text-emerald-600">mantêm</td>
+                                    <td class="p-3">Concordância e Acentuação de Derivados</td>
+                                    <td class="p-3">Verbo derivado de "ter" flexionado na 3ª pessoa do plural, exigindo acento circunflexo.</td>
+                                </tr>
+                                <tr class="bg-emerald-50/30">
+                                    <td class="p-3 font-bold text-slate-800">3</td>
+                                    <td class="p-3 font-semibold text-emerald-600">áreas</td>
+                                    <td class="p-3">Acentuação Geral (Paroxítonas)</td>
+                                    <td class="p-3">Paroxítona terminada em ditongo oral crescente, obrigatoriamente acentuada.</td>
+                                </tr>
+                                <tr class="bg-emerald-50/30">
+                                    <td class="p-3 font-bold text-slate-800">4</td>
+                                    <td class="p-3 font-semibold text-emerald-600">atraso</td>
+                                    <td class="p-3">Grafia de Consoantes Sibilantes</td>
+                                    <td class="p-3">Substantivo derivado do advérbio "atrás", preservando a letra "s" em sua grafia.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            }
+        };
+
+        let userAnswers = {};
+        let isSubmitted = false;
+        let currentFilter = 'all';
+
+        // Atualizar barra de progresso em tempo real
+        function updateProgress() {
+            if (isSubmitted) return;
+            const form = document.getElementById('quiz-form');
+            const formData = new FormData(form);
+            let answeredCount = 0;
+            
+            for (let i = 1; i <= 10; i++) {
+                if (formData.has('q' + i)) {
+                    answeredCount++;
+                }
+            }
+            
+            const progressBadge = document.getElementById('progress-text');
+            progressBadge.innerText = `${answeredCount} / 10`;
+            if (answeredCount === 10) {
+                progressBadge.classList.remove('bg-gray-100', 'text-gray-800');
+                progressBadge.classList.add('bg-blue-100', 'text-blue-800', 'border-blue-300');
+            } else {
+                progressBadge.classList.remove('bg-blue-100', 'text-blue-800', 'border-blue-300');
+                progressBadge.classList.add('bg-gray-100', 'text-gray-800');
+            }
+        }
+
+        // Função de envio e avaliação do Quiz
+        function evaluateQuiz(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('quiz-form');
+            const formData = new FormData(form);
+            let unanswered = [];
+
+            // Verifica se alguma questão não foi preenchida
+            for (let i = 1; i <= 10; i++) {
+                if (!formData.has('q' + i)) {
+                    unanswered.push(i);
+                } else {
+                    userAnswers['q' + i] = formData.get('q' + i);
+                }
+            }
+
+            if (unanswered.length > 0) {
+                // Alerta customizado flutuante, amigável
+                showWarningModal(`Por favor, responda a todas as questões antes de finalizar. Falta responder: ${unanswered.map(n => `Q${n}`).join(', ')}.`);
+                
+                // Dar scroll para a primeira não respondida
+                const firstUnansweredCard = document.getElementById(`card-q${unanswered[0]}`);
+                firstUnansweredCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstUnansweredCard.classList.add('ring-2', 'ring-amber-500');
+                setTimeout(() => {
+                    firstUnansweredCard.classList.remove('ring-2', 'ring-amber-500');
+                }, 4000);
+                return;
+            }
+
+            isSubmitted = true;
+            let score = 0;
+
+            // Bloquear os inputs de rádio para impedir alteração pós-gabarito
+            const inputs = form.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => input.disabled = true);
+
+            // Esconder botão de submissão primário
+            document.getElementById('submit-btn').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('submit-btn').disabled = true;
+
+            // Avaliar respostas e construir explicações em tempo real abaixo das questões
+            for (let i = 1; i <= 10; i++) {
+                const key = 'q' + i;
+                const userChoice = userAnswers[key];
+                const correctChoice = correctAnswers[key];
+                const isCorrect = userChoice === correctChoice;
+                
+                if (isCorrect) score++;
+
+                revealInlineFeedback(i, userChoice, correctChoice, isCorrect);
+            }
+
+            // Exibir Painel de Resultados Geral
+            const resultsPanel = document.getElementById('results-panel');
+            resultsPanel.classList.remove('hidden');
+
+            // Renderizar Gráfico de Desempenho Circunferencial
+            const percent = (score / 10) * 100;
+            const circle = document.getElementById('score-circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percent / 100) * circumference;
+            
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = offset;
+
+            // Aplicar cor condicional no círculo de progresso
+            if (score >= 7) {
+                circle.setAttribute('stroke', '#16A34A'); // Verde
+            } else if (score >= 5) {
+                circle.setAttribute('stroke', '#D97706'); // Laranja
+            } else {
+                circle.setAttribute('stroke', '#DC2626'); // Vermelho
+            }
+
+            document.getElementById('score-text').innerText = `${score}/10`;
+            document.getElementById('percent-text').innerText = `${percent}% de Acerto`;
+
+            // Comentário personalizado de performance
+            const commentary = document.getElementById('performance-commentary');
+            if (score === 10) {
+                commentary.innerHTML = `<span class="text-emerald-600 font-bold">Excelente! Desempenho Perfeito.</span> Você dominou completamente a Ortografia Oficial e a Acentuação Gráfica do Instituto AOCP.`;
+            } else if (score >= 7) {
+                commentary.innerHTML = `<span class="text-blue-600 font-bold">Muito bom!</span> Você tem uma base sólida sobre o Novo Acordo e as sibilantes. Continue revisando os detalhes para gabaritar.`;
+            } else if (score >= 5) {
+                commentary.innerHTML = `<span class="text-amber-600 font-bold">Ponto de Atenção.</span> Você acertou metade do simulado. É recomendável ler atentamente as tabelas de resoluções abaixo para fixar as exceções.`;
+            } else {
+                commentary.innerHTML = `<span class="text-red-600 font-bold">Necessita de Revisão Urgente.</span> Reforce seus estudos nas regras gerais de proparoxítonas, hiatos e acentuação diferencial.`;
+            }
+
+            // Renderizar a Lista Completa de Gabarito no Painel Final
+            renderDetailedReviewList();
+
+            // Rolar suavemente para o painel de resultados
+            resultsPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Função para mostrar balão de aviso customizado
+        function showWarningModal(message) {
+            // Criação dinâmica de um toast temporário
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-5 right-5 left-5 sm:left-auto sm:w-96 bg-amber-500 text-white font-bold p-4 rounded-xl shadow-2xl flex items-center gap-3 z-50 animate-bounce";
+            toast.innerHTML = `
+                <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <div class="text-sm">${message}</div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Revela o feedback explicativo estruturado inline logo abaixo de cada questão
+        function revealInlineFeedback(num, userChoice, correctChoice, isCorrect) {
+            const feedbackBox = document.getElementById(`feedback-q${num}`);
+            feedbackBox.classList.remove('hidden');
+
+            const res = resolutions[`q${num}`];
+
+            feedbackBox.innerHTML = `
+                <div class="p-4 rounded-xl ${isCorrect ? 'bg-emerald-50 border border-emerald-200' : 'bg-red-50 border border-red-200'}">
+                    <div class="flex items-center gap-2 mb-2">
+                        ${isCorrect ? 
+                            `<span class="text-emerald-700 font-bold flex items-center gap-1 text-sm"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Você acertou!</span>` : 
+                            `<span class="text-red-700 font-bold flex items-center gap-1 text-sm"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> Você errou.</span>`
+                        }
+                    </div>
+                    <p class="text-xs text-gray-500"><strong>Sua resposta:</strong> Alternativa ${userChoice} | <strong>Gabarito Oficial:</strong> Alternativa ${correctChoice}</p>
+                    <div class="mt-4 text-sm text-gray-700 leading-relaxed font-serif">
+                        <strong class="font-sans text-brand-ink text-xs block mb-1 uppercase tracking-wider text-slate-500">Tópico abordado: ${res.topic}</strong>
+                        ${res.explanation}
+                    </div>
+                    ${res.tableHTML}
+                </div>
+            `;
+
+            // Marcar visualmente as alternativas nos cards
+            const parentCard = document.getElementById(`card-q${num}`);
+            const labels = parentCard.querySelectorAll('label');
+            labels.forEach(label => {
+                const spanLetter = label.querySelector('span').innerText;
+                if (spanLetter === correctChoice) {
+                    label.classList.add('border-emerald-500', 'bg-emerald-50/50', 'text-emerald-900');
+                } else if (spanLetter === userChoice && !isCorrect) {
+                    label.classList.add('border-red-500', 'bg-red-50/50', 'text-red-900');
+                }
+            });
+        }
+
+        // Renderiza a lista de comentários consolidada no painel de resultados ao final
+        function renderDetailedReviewList() {
+            const listContainer = document.getElementById('detailed-gabarito-list');
+            listContainer.innerHTML = '';
+
+            for (let i = 1; i <= 10; i++) {
+                const key = 'q' + i;
+                const userChoice = userAnswers[key];
+                const correctChoice = correctAnswers[key];
+                const isCorrect = userChoice === correctChoice;
+                const res = resolutions[key];
+
+                // Identifica se deve filtrar baseado na seleção atual
+                let hiddenClass = '';
+                if (currentFilter === 'correct' && !isCorrect) hiddenClass = 'hidden';
+                if (currentFilter === 'incorrect' && isCorrect) hiddenClass = 'hidden';
+
+                const item = document.createElement('div');
+                item.className = `review-item border border-stone-200 rounded-xl p-5 ${isCorrect ? 'bg-emerald-50/20 border-emerald-100' : 'bg-red-50/20 border-red-100'} ${hiddenClass}`;
+                item.dataset.correct = isCorrect;
+                item.innerHTML = `
+                    <div class="flex items-center justify-between gap-3 mb-2">
+                        <span class="text-sm font-bold text-brand-ink">Questão ${i}</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">
+                            ${isCorrect ? 'Acertou' : 'Errou'}
+                        </span>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-3"><strong>Tópico:</strong> ${res.topic}</p>
+                    <div class="text-xs text-gray-700 leading-relaxed font-serif space-y-2">
+                        <p class="font-sans text-brand-ink text-sm"><strong>Gabarito: Alternativa ${correctChoice}</strong> — <em>${res.correctOptionText}</em></p>
+                        <p>${res.explanation}</p>
+                    </div>
+                    ${res.tableHTML}
+                `;
+                listContainer.appendChild(item);
+            }
+        }
+
+        // Controladores de Filtro de Revisão
+        function filterReview(type) {
+            currentFilter = type;
+            
+            // Alterar estado visual dos botões
+            const btnAll = document.getElementById('btn-filter-all');
+            const btnCorrect = document.getElementById('btn-filter-correct');
+            const btnIncorrect = document.getElementById('btn-filter-incorrect');
+
+            const activeClass = "bg-slate-800 text-white";
+            const inactiveClass = "bg-stone-100 text-gray-600 hover:bg-stone-200";
+
+            btnAll.className = `px-3 py-1 text-xs font-bold rounded-lg ${type === 'all' ? activeClass : inactiveClass} transition-all`;
+            btnCorrect.className = `px-3 py-1 text-xs font-bold rounded-lg ${type === 'correct' ? activeClass : inactiveClass} transition-all`;
+            btnIncorrect.className = `px-3 py-1 text-xs font-bold rounded-lg ${type === 'incorrect' ? activeClass : inactiveClass} transition-all`;
+
+            renderDetailedReviewList();
+        }
+
+        // Reiniciar o Simulado por Completo
+        function resetQuiz() {
+            const form = document.getElementById('quiz-form');
+            form.reset();
+
+            userAnswers = {};
+            isSubmitted = false;
+            currentFilter = 'all';
+
+            // Habilitar inputs de rádio e remover marcações visuais
+            const inputs = form.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => {
+                input.disabled = false;
+            });
+
+            // Reativar botão de envio
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            submitBtn.disabled = false;
+
+            // Limpar marcações de estilos
+            const labels = form.querySelectorAll('label');
+            labels.forEach(label => {
+                label.className = "flex items-center gap-3 p-4 rounded-xl border border-stone-200 bg-stone-50/50 cursor-pointer text-sm hover:bg-stone-50 transition-all custom-radio";
+            });
+
+            // Ocultar blocos de feedback de todas as questões
+            for (let i = 1; i <= 10; i++) {
+                document.getElementById(`feedback-q${i}`).classList.add('hidden');
+            }
+
+            // Ocultar painel de resultados
+            document.getElementById('results-panel').classList.add('hidden');
+
+            // Resetar barra de progresso do header
+            const progressBadge = document.getElementById('progress-text');
+            progressBadge.innerText = `0 / 10`;
+            progressBadge.className = "text-sm font-bold bg-gray-100 text-gray-800 px-3 py-1 rounded-full border border-gray-200";
+
+            // Scroll suave para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
