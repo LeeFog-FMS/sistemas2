@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFCE - Conflitos Sociais e Movimentos no Campo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        .grifado {
+            background-color: #fef08a;
+            color: #1e293b;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .grifado-verde {
+            background-color: #dcfce7;
+            color: #14532d;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .responsive-table-card { display: block; }
+            .responsive-table-card thead { display: none; }
+            .responsive-table-card tbody tr {
+                display: block;
+                margin-bottom: 1.5rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                background-color: #f8fafc;
+            }
+            .responsive-table-card td {
+                display: flex;
+                flex-direction: column;
+                padding: 0.5rem 0 !important;
+                border: none !important;
+            }
+            .responsive-table-card td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #475569;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                margin-bottom: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-center sm:text-left">
+                <span class="text-xs font-bold tracking-wider text-emerald-700 uppercase bg-emerald-50 px-2.5 py-1 rounded-full">Foco IFCE (Instituto AOCP)</span>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-1">Conflitos Sociais e Movimentos no Campo</h1>
+            </div>
+            <a href="questoes.html" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg shadow-sm transition-all text-sm group">
+                Questões de Fixação
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+
+        <section class="mb-10 p-6 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-slate-900">Audioaula de Revisão Total</h2>
+                    <p class="text-xs text-slate-500">Acompanhe o conteúdo enquanto ouve os pontos-chave.</p>
+                </div>
+            </div>
+            <audio id="audio-player" class="w-full focus:outline-none" controls src="conflitos_agrarios.mp3">
+                Seu navegador não suporta áudio.
+            </audio>
+        </section>
+
+        <article class="prose prose-slate max-w-none">
+            
+            <div class="mb-12">
+                <div class="border-b-2 border-slate-900 pb-2 mb-6">
+                    <h2 class="text-lg font-bold uppercase tracking-widest text-slate-500">Parte 1</h2>
+                    <h3 class="text-2xl font-black text-slate-900 mt-1">Estrutura, História e Teoria Agrária</h3>
+                </div>
+
+                <section class="mb-8">
+                    <h4 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-600 rounded"></span>
+                        1. A Formação do Espaço Agrário Excludente
+                    </h4>
+                    <ul class="space-y-4 text-slate-700 pl-0 list-none">
+                        <li class="pl-6 border-l-2 border-slate-200">
+                            <strong class="text-slate-900">Lei de Terras (1850):</strong> Instituiu a <span class="grifado">compra como única forma de acesso à terra</span>, impedindo ex-escravizados e imigrantes de se tornarem proprietários. Consolidou o latifúndio como poder político.
+                        </li>
+                        <li class="pl-6 border-l-2 border-slate-200">
+                            <strong class="text-slate-900">Modernização Conservadora:</strong> Termo de <span class="grifado">Guilherme Delgado</span>. Refere-se à mecanização e injeção de capital no campo durante o regime militar (anos 60/70) que <span class="grifado">alterou a base técnica (tratores, químicos) sem alterar a estrutura social (concentração de terra)</span>. Gerou o êxodo rural massivo.
+                        </li>
+                        <li class="pl-6 border-l-2 border-slate-200">
+                            <strong class="text-slate-900">Terra de Negócio vs. Terra de Trabalho:</strong> Conceito geográfico que distingue a terra como <span class="grifado">ativo financeiro/especulativo</span> (agronegócio) da terra como <span class="grifado">meio de reprodução da vida</span> (camponeses/comunidades tradicionais). O conflito nasce do choque dessas duas lógicas.
+                        </li>
+                        <li class="pl-6 border-l-2 border-slate-200">
+                            <strong class="text-slate-900">Índice de Gini Fundiário:</strong> O Brasil mantém Gini <span class="grifado">superior a 0,8</span> (proximidade de 1 indica concentração máxima).
+                            <div class="my-4 p-4 bg-white border border-slate-100 rounded-lg flex justify-center overflow-x-auto text-lg">
+                                $$G = 1 - \sum_{i=1}^{n} (X_i - X_{i-1})(Y_i + Y_{i-1})$$
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h4 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-600 rounded"></span>
+                        2. Protagonistas da Luta: MST e CPT
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-lg">
+                            <h5 class="font-bold text-emerald-900 mb-1">MST (1984)</h5>
+                            <p class="text-sm text-emerald-800">Foca na <span class="grifado-verde">ocupação de terras improdutivas</span> para forçar a Reforma Agrária. Baseia-se no princípio constitucional da Função Social da Propriedade (Produtividade + Respeito Ambiental + Leis Trabalhistas).</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                            <h5 class="font-bold text-slate-900 mb-1">CPT (1975)</h5>
+                            <p class="text-sm text-slate-800">Vinculada à CNBB. Principal órgão de <span class="grifado">documentação de conflitos</span>. Divide os dados em: Conflitos por Terra, Água, Trabalho Escravo e Violência contra a Pessoa.</p>
+                        </div>
+                    </div>
+
+                    <h5 class="font-bold text-slate-800 mb-2">Dados Críticos (Relatórios 2024/2025):</h5>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li><span class="font-bold">Violência Letal:</span> Em 2025, os assassinatos no campo <span class="grifado">dobraram (100% de aumento)</span>, mesmo com a queda no volume total de ocorrências.</li>
+                        <li><span class="font-bold">Conflitos pela Água:</span> Alta expressiva no Nordeste (MATOPIBA) devido ao uso de pivôs centrais pelo agronegócio que secam rios de comunidades locais.</li>
+                        <li><span class="font-bold">Agentes Agressores:</span> Fazendeiros e Milícias Rurais (ex: Invasão Zero) aparecem como principais responsáveis pela violência.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="mb-12">
+                <div class="border-b-2 border-slate-900 pb-2 mb-6">
+                    <h2 class="text-lg font-bold uppercase tracking-widest text-slate-500">Parte 2</h2>
+                    <h3 class="text-2xl font-black text-slate-900 mt-1">Territorialidades e Geopolítica das Fronteiras</h3>
+                </div>
+
+                <section class="mb-8">
+                    <h4 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-600 rounded"></span>
+                        1. Territorialidade e Comunidades Tradicionais
+                    </h4>
+                    <p class="text-sm mb-4">A <span class="grifado">territorialidade</span> camponesa não é apenas posse de terra, é a relação simbólica e de sobrevivência com o espaço.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 border border-slate-200 rounded-lg">
+                            <strong class="text-slate-900">Resistência no Nordeste:</strong> 
+                            Destaque para o <span class="grifado">Fundo e Fecho de Pasto (Bahia)</span>, onde a terra é de uso comum para o gado. O conflito ocorre quando o agronegócio tenta "cercar" essas áreas de Caatinga para plantio de soja ou instalação de parques eólicos/solares.
+                        </div>
+                        <div class="p-4 border border-slate-200 rounded-lg">
+                            <strong class="text-slate-900">Quebradeiras de Coco Babaçu:</strong> Luta pelo "Livre Acesso" aos babaçuais. O conflito é intensificado pela pulverização aérea de agrotóxicos que contamina as matas e as mulheres.
+                        </div>
+                    </div>
+
+                    <!-- TABELA RESPONSIVA: INDÍGENAS VS QUILOMBOLAS -->
+                    <div class="mt-6 overflow-hidden border border-slate-200 rounded-lg bg-white">
+                        <table class="w-full text-left border-collapse responsive-table-card text-sm">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold">
+                                    <th class="p-3">Característica</th>
+                                    <th class="p-3">Terras Indígenas (Art. 231)</th>
+                                    <th class="p-3">Terras Quilombolas (Art. 68 ADCT)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 text-slate-700">
+                                <tr>
+                                    <td class="p-3 font-bold bg-slate-50/50" data-label="Característica">Natureza da Propriedade</td>
+                                    <td class="p-3" data-label="Indígenas">Bens da <span class="grifado">União</span> (Usufruto exclusivo).</td>
+                                    <td class="p-3" data-label="Quilombolas">Propriedade <span class="grifado">Privada Coletiva</span> (Título em nome da associação).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold bg-slate-50/50" data-label="Característica">Processo de Titulação</td>
+                                    <td class="p-3" data-label="Indígenas">Demarcação por <span class="grifado">Decreto Presidencial</span> (via FUNAI).</td>
+                                    <td class="p-3" data-label="Quilombolas">Titulação definitiva via <span class="grifado">INCRA</span>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="mb-8">
+                    <h4 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-600 rounded"></span>
+                        2. Fronteiras Agrícolas: MATOPIBA e Arco do Desmatamento
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 bg-white border border-slate-200 rounded-lg">
+                            <h5 class="font-bold text-slate-900 border-b mb-2">MATOPIBA (MA, TO, PI, BA)</h5>
+                            <p class="text-xs text-slate-600">Considerada a <span class="grifado">última fronteira agrícola do Cerrado</span>. Marcada pela grilagem (falsificação de títulos) e pela expulsão de comunidades geraizeiras e de fundo de pasto. Alta tecnologia e baixa oferta de empregos locais.</p>
+                        </div>
+                        <div class="p-4 bg-white border border-slate-200 rounded-lg">
+                            <h5 class="font-bold text-slate-900 border-b mb-2">Arco do Desmatamento</h5>
+                            <p class="text-xs text-slate-600">Franja que vai do Sudeste do Pará ao Acre. O conflito é gerado pela conversão da floresta em pasto e soja. <span class="grifado">O Pará e Rondônia</span> lideram os índices de assassinatos no campo em 2025.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="mb-8">
+                <h4 class="text-xl font-bold text-rose-800 mb-4 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-rose-600 rounded"></span>
+                    Checklist Final: "Peguinhas" AOCP (Cargos EBTT)
+                </h4>
+                <div class="space-y-4">
+                    <div class="bg-rose-50 border border-rose-100 rounded-lg p-5 text-sm">
+                        <p class="mb-2"><strong>1. Módulo Rural vs. Fiscal:</strong> A banca troca os nomes. <span class="grifado">Fiscal</span> é fixo por município (INCRA). <span class="grifado">Rural</span> é calculado para cada fazenda individualmente.</p>
+                        <p class="mb-2"><strong>2. Latifúndio:</strong> Reflorestamento racionalmente planejado <span class="grifado">NÃO</span> é latifúndio, mesmo sendo área gigante (Art. 4º Estatuto da Terra).</p>
+                        <p class="mb-2"><strong>3. Marco Temporal:</strong> Cuidado! A tese do Marco Temporal (Lei 14.701) foi considerada <span class="grifado">Inconstitucional</span> pelo STF, embora o Congresso tente mantê-la. A banca pode cobrar o impacto jurídico disso nos conflitos.</p>
+                        <p class="mb-2"><strong>4. Desapropriação:</strong> A união desapropria por interesse social para Reforma Agrária terras que não cumprem função social. <span class="grifado">Indígenas e Quilombolas não são desapropriados</span>, pois o direito deles é originário ou de reparação histórica.</p>
+                        <p><strong>5. Modernização:</strong> Ela é "conservadora" porque <span class="grifado">não democratizou a terra</span>, apenas as máquinas.</p>
+                    </div>
+                </div>
+            </section>
+
+        </article>
+
+        <div class="mt-12 pt-8 border-t border-slate-200 text-center">
+            <h4 class="text-base font-bold text-slate-800 mb-3">Tudo revisado? Hora de testar.</h4>
+            <a href="conflitos_campoquestoes.html" class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base py-4 px-8 rounded-xl shadow-lg transition-all w-full sm:w-auto justify-center">
+                <span>Ir para Questões da Aula</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="mt-20 border-t border-slate-200 bg-slate-50 py-10">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Preparatório Professor de Geografia IFCE</p>
+            <p class="text-[10px] text-slate-400 mt-2">Conteúdo técnico revisado com base no Estatuto da Terra e Relatórios CPT 2024/2025.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

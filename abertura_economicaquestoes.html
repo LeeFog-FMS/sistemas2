@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Privatizações, Neoliberalismo e Reconfiguração Territorial no Brasil</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para excelente legibilidade -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            warmbg: '#FDFBF7', // Fundo confortável (marfim suave)
+                            cardbg: '#FFFFFF',
+                            textdark: '#1E2530', // Contraste adequado sem ser preto puro
+                            textmuted: '#4A5568',
+                            primary: '#1B4D3E', // Verde floresta profundo acadêmico
+                            accent: '#C27D38', // Ouro queimado para destaques
+                            success: '#2E7D32',
+                            danger: '#C62828',
+                            border: '#E2E8F0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #1E2530;
+            -webkit-font-smoothing: antialiased;
+        }
+        .prose p {
+            margin-bottom: 1.25em;
+            line-height: 1.75;
+        }
+        /* Custom scrollbar para uma experiência fluida */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-accent/20">
+
+    <!-- Top Progress Bar (Sticky) -->
+    <div class="sticky top-0 z-50 w-full bg-white border-b border-brand-border/60 shadow-sm backdrop-blur-md bg-opacity-95">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-sm font-semibold text-brand-primary bg-brand-primary/10 px-2.5 py-1 rounded-full">AOCP</span>
+                <span class="text-xs font-medium text-brand-textmuted hidden sm:inline">Privatizações e Abertura Econômica no Brasil</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-xs font-semibold text-brand-textmuted">Progresso: <span id="progress-text" class="text-brand-primary font-bold">0/10</span></span>
+                <div class="w-32 bg-slate-100 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-brand-primary h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="max-w-4xl mx-auto px-4 pt-10 pb-6 text-center">
+        <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight text-brand-textdark leading-tight">
+            Simulado Avançado: Privatizações, Neoliberalismo e Reconfiguração Territorial no Brasil
+        </h1>
+        <p class="mt-4 text-base text-brand-textmuted font-medium max-w-2xl mx-auto">
+            10 questões completas elaboradas no estilo rigoroso do <strong class="text-brand-primary">Instituto AOCP</strong> com foco em desindustrialização, reprimarização e seletividade espacial.
+        </p>
+        <div class="mt-6 inline-flex items-center space-x-4 text-xs text-brand-textmuted bg-white border border-brand-border/80 px-4 py-2 rounded-lg shadow-sm">
+            <span>📚 10 Questões de Múltipla Escolha</span>
+            <span class="text-slate-300">•</span>
+            <span>💡 Resolução detalhada inclusa</span>
+        </div>
+    </header>
+
+    <!-- Container das Questões -->
+    <main class="max-w-4xl mx-auto px-4 pb-24">
+        <form id="quiz-form" onsubmit="event.preventDefault(); submitQuiz();">
+            
+            <!-- Espaço dinâmico das questões -->
+            <div id="questions-container" class="space-y-10"></div>
+
+            <!-- Botão de Finalização -->
+            <div class="mt-12 p-6 bg-white border border-brand-border rounded-2xl shadow-md text-center">
+                <p class="text-brand-textmuted text-sm mb-4 font-medium">Confirme se respondeu a todas as questões antes de finalizar para obter a análise detalhada.</p>
+                <button type="button" onclick="confirmSubmission()" id="btn-submit" class="inline-flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-semibold rounded-xl text-white bg-brand-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary transition-all shadow-md hover:shadow-lg w-full sm:w-auto">
+                    Finalizar Quiz e Ver Resoluções
+                </button>
+            </div>
+        </form>
+
+        <!-- Seção de Resultados (Oculta por padrão) -->
+        <section id="results-panel" class="hidden mt-12 space-y-8 scroll-mt-20">
+            <!-- Card de Visão Geral -->
+            <div class="bg-white border-2 border-brand-primary/20 rounded-2xl shadow-xl overflow-hidden">
+                <div class="bg-brand-primary px-6 py-8 text-white text-center">
+                    <h2 class="font-serif text-2xl md:text-3xl font-semibold">Seu Desempenho Geral</h2>
+                    <p class="mt-2 text-sm text-emerald-100">Simulado no padrão de cobrança Instituto AOCP</p>
+                    
+                    <div class="mt-6 inline-flex items-center justify-center p-4 bg-white/10 rounded-full">
+                        <span id="score-badge" class="font-mono text-5xl font-bold tracking-tight">0 <span class="text-2xl font-normal text-white/70">/ 10</span></span>
+                    </div>
+                    <p id="performance-feedback" class="mt-4 text-lg font-medium"></p>
+                </div>
+                
+                <div class="p-6 bg-slate-50/50 border-t border-brand-border flex flex-col sm:flex-row justify-around items-center gap-4 text-center">
+                    <div>
+                        <span class="text-xs font-semibold text-brand-textmuted uppercase tracking-wider block">Acertos</span>
+                        <span id="stat-correct" class="text-2xl font-bold text-brand-success">0</span>
+                    </div>
+                    <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
+                    <div>
+                        <span class="text-xs font-semibold text-brand-textmuted uppercase tracking-wider block">Erros</span>
+                        <span id="stat-incorrect" class="text-2xl font-bold text-brand-danger">0</span>
+                    </div>
+                    <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
+                    <div>
+                        <span class="text-xs font-semibold text-brand-textmuted uppercase tracking-wider block">Aproveitamento</span>
+                        <span id="stat-pct" class="text-2xl font-bold text-brand-primary">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-4">
+                <h3 class="font-serif text-xl font-semibold text-brand-textdark">Gabarito Comentado e Correções Individuais</h3>
+                <button type="button" onclick="restartQuiz()" class="text-xs font-semibold text-brand-primary hover:text-opacity-80 flex items-center gap-1.5 border border-brand-primary/20 px-3 py-1.5 rounded-lg bg-white shadow-sm transition">
+                    🔄 Refazer Simulado
+                </button>
+            </div>
+
+            <!-- As resoluções individuais serão inseridas dinamicamente aqui caso necessário ou mostradas direto nas próprias questões -->
+        </section>
+    </main>
+
+    <!-- Modal de Confirmação customizado (Substituto ao alert/confirm nativos) -->
+    <div id="confirm-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+        <div class="bg-white border border-brand-border rounded-2xl shadow-2xl p-6 max-w-md w-full animate-in fade-in zoom-in duration-200">
+            <h3 class="font-serif text-lg font-bold text-brand-textdark">Deseja finalizar o Simulado?</h3>
+            <p id="modal-warning-text" class="text-sm text-brand-textmuted mt-2"></p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 transition">
+                    Voltar e Revisar
+                </button>
+                <button type="button" onclick="confirmSubmitAction()" class="px-5 py-2 text-sm font-semibold rounded-lg bg-brand-primary hover:bg-opacity-90 text-white shadow-md transition">
+                    Sim, Enviar Respostas
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts do Quiz -->
+    <script>
+        // Dados das questões na íntegra
+        const quizQuestions = [
+            {
+                id: 1,
+                source: "Questão 1",
+                text: "O Consenso de Washington, termo cunhado pelo economista John Williamson no final da década de 1980, reuniu um conjunto de prescrições de política econômica direcionadas aos países da América Latina que enfrentavam graves crises de endividamento externo e inflação. No Brasil, a transição para as diretrizes desse receituário nos anos 1990 reconfigurou de maneira decisiva a estrutura institucional do Estado e a sua atuação sobre a organização do território nacional. No que diz respeito a essa reestruturação institucional e ao papel do Estado no ordenamento espacial sob a égide neoliberal, assinale a alternativa correta.",
+                options: {
+                    A: "O modelo regulador concentrou todas as funções executivas e de fiscalização diretamente no Ministério da Fazenda, inviabilizando que as agências reguladoras exercessem poder de polícia ou aplicassem sanções contratuais às empresas concessionárias.",
+                    B: "A implementação do Consenso de Washington determinou o robustecimento das empresas estatais brasileiras do setor de transportes e energia como mecanismo de amortecimento contra a volatilidade cambial internacional.",
+                    C: "Verificou-se a transição de um modelo de Estado predominantemente interventor e/ou empresário para o modelo de Estado regulador, cenário no qual surgiram as agências reguladoras para mediar, fiscalizar e controlar as atividades delegadas ao setor privado por concessão, permissão ou autorização.",
+                    D: "O Estado manteve seu caráter planejador centralizado e de empresário direto, expandindo os investimentos públicos em infraestrutura rodoferroviária por meio de autarquias corporativas.",
+                    E: "A desregulamentação financeira e a abertura comercial extinguiram por completo a necessidade de controle normativo territorial, descentralizando radicalmente todas as atribuições fiscais e de planejamento logístico para os municípios produtores."
+                },
+                correct: "C",
+                theme: "Mudança do Perfil do Estado",
+                resolution: "A transição do modelo desenvolvimentista para o modelo de orientação neoliberal a partir da década de 1990 provocou profundas alterações de ordem institucional e regulatória no espaço brasileiro. Até o final dos anos 1980, o Estado brasileiro atuava predominantemente como agente empresário direto, sendo proprietário de indústrias de base, mineradoras, refinarias e concessionárias de transporte e telecomunicação. Sob os preceitos de privatização e desregulamentação originados no Consenso de Washington, o Estado recuou de sua função produtora para assumir a condição de agente regulador. Essa mudança estrutural gerou a proliferação das agências reguladoras, autarquias dotadas de autonomia administrativa e técnica responsáveis por fiscalizar, padronizar e regular os mercados e os serviços outorgados à iniciativa privada, garantindo a permanência do poder de polícia administrativa sobre contratos de concessão."
+            },
+            {
+                id: 2,
+                source: "Questão 2",
+                text: "A caracterização do neoliberalismo mobiliza importantes debates conceituais no campo das Ciências Sociais e da Geografia Econômica, visando compreender de que modo a retração do Estado planejador afeta as dinâmicas de acumulação e o bem-estar social. Com base nas formulações teóricas sobre o neoliberalismo e em suas consequências concretas no território brasileiro, analise as assertivas a seguir:\n\n" +
+                     "I. Michel Foucault caracteriza o neoliberalismo como uma racionalidade política que funciona como forma de governamentalidade, na qual os indivíduos passam a internalizar as normas de mercado e a regular o próprio comportamento em conformidade com o ideal do empreendedor de si mesmo.\n" +
+                     "II. Pierre Bourdieu define o neoliberalismo como uma utopia da teoria econômica convertida em projeto político, cujo escopo central reside em destruir as estruturas coletivas e submeter o poder político às exigências dos mercados financeiros mundiais.\n" +
+                     "III. A abordagem marxista interpreta o neoliberalismo como uma estratégia política formulada pela classe dominante para restaurar e expandir globalmente a sua hegemonia de classe, constituindo uma resposta direta à crise de acumulação que abalou o capitalismo na década de 1970.\n" +
+                     "IV. No Brasil, a consolidação desse modelo a partir do fim do século XX redundou no fortalecimento das garantias trabalhistas, na elevação do bem-estar social homogêneo e na expressiva redução das assimetrias de renda e da exclusão social.",
+                options: {
+                    A: "Apenas as assertivas I e IV estão corretas.",
+                    B: "Apenas as assertivas II e III estão corretas.",
+                    C: "Apenas as assertivas I, II e III estão corretas.",
+                    D: "Apenas as assertivas II, III e IV estão corretas.",
+                    E: "Todas as assertivas estão corretas."
+                },
+                correct: "C",
+                theme: "Teoria do Neoliberalismo e Consequências",
+                resolution: "As assertivas I, II e III expressam fielmente grandes conceitos teóricos sobre o neoliberalismo:\n- Foucault delineia a racionalidade de mercado como autogovernança e 'empreendedorismo de si'.\n- Bourdieu destaca a 'utopia' convertida em plano de desmonte coletivo subordinado às finanças.\n- A abordagem marxista acentua a recomposição do poder de classe proprietária pós-crise dos anos 70.\nPor outro lado, a assertiva IV está flagrantemente incorreta, visto que a consolidação neoliberal no Brasil resultou na flexibilização e perda de direitos trabalhistas históricos, expansão da precarização e acentuada vulnerabilidade social no território."
+            },
+            {
+                id: 3,
+                source: "Questão 3",
+                text: "No transcorrer das últimas décadas, as reformas de orientação neoliberal e a aplicação do receituário ortodoxo foram alvo de amplos debates teóricos e de reações políticas em toda a América Latina. Ao avaliar esse cenário histórico e as implicações socioeconômicas reportadas pela Comissão Econômica para a América Latina (CEPAL), assinale a alternativa correta.",
+                options: {
+                    A: "A CEPAL referiu-se ao final dos anos 1990 e início dos anos 2000 na América Latina como a \"meia década perdida\", período marcado pelo abrandamento do crescimento, declínio de novos investimentos e persistência de problemas crônicos de pobreza e desigualdade, fatores que estimularam o desgaste popular das políticas orientadas para o mercado.",
+                    B: "O economista Bresser-Pereira sustenta que a crise latino-americana decorre exclusivamente do populismo econômico e do excesso de intervenção estatal, sendo suficiente para a recuperação da poupança pública a privatização total aliada à ausência completa de estratégias de intervenção governamental.",
+                    C: "O Consenso de Washington alcançou pleno êxito social e econômico em toda a América do Sul, garantindo taxas contínuas de crescimento distributivo e extinguindo a resistência política ao modelo de mercado ortodoxo.",
+                    D: "A crise fiscal enfrentada pelo Estado brasileiro na década de 1980 foi inteiramente sanada pelas medidas de disciplina fiscal e monetária isoladas, sem que houvesse necessidade de redefinir o perfil de investimento público ou de reduzir a dívida pública.",
+                    E: "A insatisfação popular decorrente do agravamento das desigualdades geradas pelas políticas neoliberais provocou a consolidação homogênea de regimes militares de extrema-direita por todo o Cone Sul no início do século XXI."
+                },
+                correct: "A",
+                theme: "Crise Latino-Americana e CEPAL",
+                resolution: "A CEPAL rotulou o período do final da década de 1990 e o início dos anos 2000 como a 'meia década perdida', refletindo a perda de fôlego das economias que adotaram cegamente a cartilha de abertura radical. O fraco crescimento associado à deterioração de indicadores de emprego público provocou amplas contestações populares, culminando na posterior ascensão de governos de centro-esquerda pela América do Sul."
+            },
+            {
+                id: 4,
+                source: "Questão 4",
+                text: "A reprimarização da pauta exportadora brasileira é um fenômeno geoeconômico de grande impacto na inserção externa do país, profundamente ligado ao declínio relativo da atividade industrial fabril. Com base em estudos publicados pelo Instituto de Pesquisa Econômica Aplicada (Ipea) e nos indicadores econômicos brasileiros das últimas décadas, assinale a alternativa correta.",
+                options: {
+                    A: "O Brasil reverteu as tendências históricas de desindustrialização, de modo que os produtos de manufatura fabril de alta tecnologia passaram a liderar o volume absoluto das exportações para a União Europeia.",
+                    B: "A reprimarização manifesta-se no crescimento expressivo da relevância do setor primário na balança comercial, revelando que a participação das commodities primárias saltou de 41% para 51% entre 2007 e 2010, após ter permanecido estacionada no patamar de 40% durante a década de 1990.",
+                    C: "O aumento da exportação de soja, minério de ferro, celulose e carnes ocorreu paralelamente à expansão das indústrias nacionais de autopeças e informática instaladas no interior do Nordeste, atenuando as assimetrias globais.",
+                    D: "A reprimarização restringe-se exclusivamente aos produtos extrativistas minerais fósseis, sem que a agropecuária de grãos apresente impacto na composição porcentual da pauta exportadora.",
+                    E: "O avanço do agronegócio exportador eliminou as tendências de baixo crescimento do PIB brasileiro, conferindo ao país uma inserção de vanguarda no fornecimento global de bens manufaturados complexos."
+                },
+                correct: "B",
+                theme: "Reprimarização das Exportações",
+                resolution: "Estudos empíricos do Ipea (Fernanda De Negri e Gustavo Alvarenga) mapeiam estatisticamente o avanço expressivo de bens primários (commodities) no comércio exterior do Brasil. No intervalo de 2007 a 2010, a participação saltou para 51%, caracterizando uma dependência estrutural em detrimento de manufaturas de alto valor agregado tecnológico que perdiam dinamismo (desindustrialização precoce ou relativa)."
+            },
+            {
+                id: 5,
+                source: "Questão 5",
+                text: "A partir da segunda metade do século XX e com maior intensidade no início do século XXI, o espaço geográfico brasileiro experimentou a difusão do meio técnico-científico-informacional, conceito central formulado por Milton Santos para descrever a unificação técnica do território sob a globalização. De acordo com as análises de Milton Santos e Maria Laura Silveira, a dinâmica do \"território corporativo\" engendra uma disposição espacial específica que reflete as assimetrias econômicas nacionais. Sobre essa organização do espaço, assinale a alternativa correta.",
+                options: {
+                    A: "O meio técnico-científico-informacional distribui-se de maneira perfeitamente homogênea e contínua por todo o território brasileiro, extinguindo as disparidades de infraestrutura entre as regiões de povoamento antigo e recente.",
+                    B: "A disposição espacial desse processo se configura de maneira desigual, apresentando-se como manchas mais contínuas na região Centro-Sul e como pontos nas demais regiões do território nacional.",
+                    C: "A emergência do território corporativo estimulou o fortalecimento das economias tradicionais e comunitárias de subsistência, impedindo a penetração de capitais transnacionais no interior das fronteiras agrícolas.",
+                    D: "O consumo crescente global por matérias-primas e a reprimarização econômica desestimularam o uso corporativo do território, fortalecendo o mercado interno de manufaturas de alto valor agregado.",
+                    E: "A difusão técnica-informacional eliminou as hierarquias territoriais, convertendo a totalidade da região amazônica em uma mancha contínua de comando corporativo e de serviços financeiros avançados."
+                },
+                correct: "B",
+                theme: "Território Corporativo e Meio Técnico",
+                resolution: "O meio técnico-científico-informacional unifica teoricamente o país, mas sua materialização é extremamente seletiva. No Centro-Sul, a infraestrutura avançada de fluxos e dados é tão densa que se apresenta de forma contínua ('manchas'). Nas regiões Norte, Nordeste e Centro-Oeste, essa estrutura surge de forma pulverizada ('pontos' e linhas), gerando enclaves modernos que servem aos fluxos corporativos em meio a vastos territórios pouco integrados."
+            },
+            {
+                id: 6,
+                source: "Questão 6",
+                text: "O conceito de \"seletividade espacial\", estruturado na análise crítica sobre o capitalismo periférico, explica como o capital e o Estado atuam na produção desigual do espaço. Diante da inserção do Brasil na economia global sob o modelo neoliberal de exportação de commodities e de valorização financeira, analise as seguintes assertivas:\n\n" +
+                     "I. A seletividade espacial refere-se ao mecanismo pelo qual o capital, apoiado de forma regulatória e fiscal pelo Estado, elege de modo restrito frações e pontos do território para receber infraestruturas modernas que atendam às necessidades de circulação e valorização do capital corporativo.\n" +
+                     "II. O processo de desindustrialização, reprimarização e financeirização converteu o Brasil, segundo a análise de Pochmann (2021), em uma \"tripla plataforma\": de exportação de commodities, de valorização financeira e de expansão do comércio e dos serviços digitais.\n" +
+                     "III. O predomínio desse modelo de tripla plataforma intensifica as dificuldades de retomada de um projeto de desenvolvimento nacional autônomo, engendrando o surgimento de relações neocoloniais de dominação no território brasileiro.\n" +
+                     "IV. A seletividade espacial da infraestrutura econômica garante que a malha de eixos logísticos rodoferroviários atenda primordialmente à mobilidade social cotidiana e à integração equilibrada das periferias urbanas no mercado global.",
+                options: {
+                    A: "Apenas I, II e III.",
+                    B: "Apenas I, II e IV.",
+                    C: "Apenas II, III e IV.",
+                    D: "Apenas I e III.",
+                    E: "I, II, III e IV."
+                },
+                correct: "A",
+                theme: "Seletividade Espacial e Plataforma",
+                resolution: "A assertiva IV está incorreta. A seletividade espacial das infraestruturas corporativas de transporte (ferrovias dedicadas, portos mineradores e polígonos produtores de soja) é pensada quase que integralmente para escoar os produtos primários para exportação. Ela de forma alguma atende prioritariamente à mobilidade das franjas sociais urbanas ou integra as periferias de forma justa e homogênea, pelo contrário, as margens e os territórios de subsistência são contornados ou desestruturados em prol das necessidades do grande capital."
+            },
+            {
+                id: 7,
+                source: "Questão 7",
+                text: "O avanço do complexo da soja sob o modelo hegemônico é um dos vetores de maior dinamismo econômico do agronegócio exportador, porém causa severas transformações e impactos socioespaciais na organização do território brasileiro. No que diz respeito a essas transformações e às dinâmicas de reprodução agrária e urbana, assinale a alternativa correta.",
+                options: {
+                    A: "O avanço do complexo da soja limitou a concentração da propriedade de terra, promovendo a fixação permanente do pequeno agricultor familiar no espaço agrário dos municípios sojicultores.",
+                    B: "A sojicultura transgênica atua como elemento de barateamento da alimentação básica e de fortalecimento da produção camponesa de subsistência de arroz e feijão na região Sul do país.",
+                    C: "O modelo de expansão da sojicultura agrava um processo de globalitarismo neoliberal, reprimarização, desnacionalização e desindustrialização, provocando o expressivo crescimento da concentração fundiária, a conversão do bioma Pampa e a expansão sobre territórios de produção da agricultura familiar.",
+                    D: "O avanço desse cultivo eliminou a exclusão e a miserabilidade rurais, de modo que o êxodo rural foi completamente estancado e as favelas urbanas perderam população para as frentes agrícolas modernas.",
+                    E: "O cultivo de soja em larga escala é indiferente às políticas estatais de crédito e transporte, expandindo-se unicamente em razão das condições naturais homogêneas de fertilidade e pluviosidade."
+                },
+                correct: "C",
+                theme: "Monocultura da Soja e Impactos",
+                resolution: "O complexo exportador de soja requer altíssima escala espacial de terra e mecanização avançada. Como consequência, acelera a concentração de terra (latifúndio moderno), canibaliza terras tradicionalmente destinadas ao cultivo alimentar básico e promove pressões socioambientais extremas (como no Cerrado e a conversão de biomas como o Pampa). Esse modelo estimula o êxodo rural, empurrando populações expropriadas para áreas urbanas periféricas."
+            },
+            {
+                id: 8,
+                source: "Questão 8",
+                text: "O critério de regionalização do Brasil proposto por Milton Santos e Maria Laura Silveira em 2001 estabeleceu os \"Quatro Brasis\" como chave explicativa para as desigualdades regionais brasileiras a partir da difusão desigual do meio técnico-científico-informacional. Sobre a caracterização regional proposta por essa tese, assinale a alternativa correta.",
+                options: {
+                    A: "A Amazônia foi caracterizada como a região de maior fluidez técnico-científica e de grande centralidade na rede urbana financeira global.",
+                    B: "O Nordeste destacou-se por apresentar uma mancha territorial contínua de infraestrutura avançada de transportes modernos, superando a região Sul em volume de comércio e serviços corporativos.",
+                    C: "A chamada \"Região Concentrada\", que engloba os estados das regiões Sudeste e Sul (São Paulo, Rio de Janeiro, Paraná, Minas Gerais, Santa Catarina, Rio Grande do Sul e Espírito Santo), destaca-se por apresentar a maior densidade de população, capitais, fluidez técnica e informacional, centralizando o controle financeiro nacional.",
+                    D: "O Centro-Oeste foi definido como a região mais desconectada das cadeias globais de circulação, mantendo-se restrito à agricultura familiar de subsistência e isolado do meio informacional.",
+                    E: "A regionalização em Quatro Brasis fundamentou-se unicamente nas divisões político-administrativas clássicas do IBGE criadas na década de 1940, desconsiderando as mutações técnicas do território."
+                },
+                correct: "C",
+                theme: "Regionalização em Quatro Brasis",
+                resolution: "A formulação dos 'Quatro Brasis' compreende: Amazônia, Nordeste, Centro-Oeste e Região Concentrada (Sul + Sudeste). Esta última unifica as duas porções de maior densidade de fluxos de ideias, capitais, infraestruturas de transportes integrados, portos e tomadas de decisão corporativa, exercendo comando central e financeiro sobre as demais regiões produtoras periféricas."
+            },
+            {
+                id: 9,
+                source: "Questão 9",
+                text: "No contexto das reformas macroeconômicas de cunho neoliberal levadas a cabo no Brasil durante a década de 1990, o Programa Nacional de Desestatização (PND) desempenhou papel decisivo na venda de empresas estatais estratégicas de infraestrutura, energia e recursos básicos. Relativamente à privatização dessas empresas e às suas implicações no uso corporativo do território nacional, assinale a alternativa correta.",
+                options: {
+                    A: "A venda da Companhia Siderúrgica Nacional (CSN) e, especialmente, da Companhia Vale do Rio Doce (CVRD) em 1997 reconfigurou as dinâmicas de exploração e circulação de recursos minerais no país, direcionando os fluxos e a gestão logística de ferrovias e portos prioritariamente ao mercado exportador transnacional sob lógica privada.",
+                    B: "A privatização de estatais de infraestrutura de transporte promoveu uma desconcentração espacial espontânea da indústria de tecnologia, equalizando a fluidez territorial de todas as macrorregiões brasileiras.",
+                    C: "O processo de concessão de infraestruturas logísticas extinguiu por completo as situações de conflito territorial entre comunidades afetadas e empresas mineradoras nas regiões Norte e Sudeste do Brasil.",
+                    D: "A desestatização de empresas do setor de telecomunicações limitou as conexões de internet e telefonia aos pontos de fronteira agrícola, inviabilizando a difusão do meio informacional nas grandes metrópoles brasileiras.",
+                    E: "O Estado brasileiro manteve o monopólio e o controle produtivo direto sobre a totalidade das reservas minerais terrestres e da infraestrutura de portos exportadores do país durante a vigência do PND."
+                },
+                correct: "A",
+                theme: "Programa Nacional de Desestatização",
+                resolution: "A privatização da Vale do Rio Doce (CVRD) e da CSN modificou radicalmente o controle dos fluxos materiais do território nacional. A posse de grandes corredores logísticos (como ferrovias e portos) de escoamento mineral passou ao comando de consórcios transnacionais sob o primado do lucro privado e escoamento acelerado de commodities básicas para mercados externos, subordinando o ordenamento espacial regional a uma perspectiva puramente corporativa."
+            },
+            {
+                id: 10,
+                source: "Questão 10",
+                text: "A organização do espaço sob o capitalismo de países periféricos como o Brasil exibe dinâmicas específicas decorrentes de ciclos econômicos longos e de regimes cambiais e financeiros aos quais os territórios se integram. Diante da liberalização financeira, da abertura comercial e da inserção brasileira sob os ditames da globalização contemporânea, analise as assertivas a seguir:\n\n" +
+                     "I. Durante fases depressivas do ciclo de Kondratieff, a economia de países periféricos de industrialização tardia tende a reorientar-se para a especialização primária e exportadora como reação orgânica de inserção subordinada na divisão internacional do trabalho.\n" +
+                     "II. Sob o regime de taxas de câmbio flutuantes e elevada mobilidade de capitais, preconizado pelo Consenso de Washington, o poder da política fiscal de amortizar choques exógenos sobre a demanda agregada é consideravelmente reduzido.\n" +
+                     "III. Em um modelo de perfeita mobilidade de capitais e taxas de câmbio flutuantes, a adoção de uma política monetária expansionista revela-se capaz de ampliar o produto agregado em um novo equilíbrio econômico de curto prazo.\n" +
+                     "IV. O fortalecimento de organismos multilaterais no pós-guerra e sua ingerência nas políticas fiscais dos anos 1990 garantiram o acesso homogêneo à economia global, extinguindo as barreiras estruturais entre regiões centrais e periféricas.",
+                options: {
+                    A: "Apenas as assertivas I e IV estão corretas.",
+                    B: "Apenas as assertivas II e III estão corretas.",
+                    C: "Apenas as assertivas I, II e III estão corretas.",
+                    D: "Apenas as assertivas I, III e IV estão corretas.",
+                    E: "Todas as assertivas estão corretas."
+                },
+                correct: "C",
+                theme: "Ciclos Econômicos e Mobilidade de Capitais",
+                resolution: "A assertiva IV está incorreta. A governança do FMI e de órgãos multilaterais reforçou assimetrias profundas na economia-mundo. Longe de equalizar a economia de forma homogênea, as exigências de ajuste estrutural consolidaram disparidades estruturais, enfraquecendo a capacidade soberana de industrialização dos países periféricos.\nAs assertivas I, II e III refletem com rigor dinâmicas dos ciclos de Kondratieff e do arcabouço macroeconômico de economias abertas (modelo IS-LM-BP de Mundell-Fleming): sob câmbio flutuante e livre circulação de capitais, a política fiscal perde poder de ação devido à apreciação cambial que gera, enquanto a política monetária ganha eficiência ao forçar depreciação que impulsiona o saldo comercial externo."
+            }
+        ];
+
+        let userAnswers = {};
+        let quizSubmitted = false;
+
+        // Renderização dinâmica das questões na página
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((q, idx) => {
+                const isOdd = idx % 2 === 0;
+                
+                // Formatação suave do texto da questão (para quebras de linha em I, II, III, IV se houver)
+                const textFormatted = q.text.replace(/\n/g, '<br>');
+
+                const card = document.createElement('div');
+                card.id = `q-card-${q.id}`;
+                card.className = `p-6 md:p-8 bg-white border border-brand-border rounded-2xl shadow-sm transition-all duration-300 relative`;
+                
+                // Opções HTML
+                let optionsHtml = '';
+                Object.keys(q.options).forEach(letter => {
+                    optionsHtml += `
+                        <label class="flex items-start gap-4 p-4 border border-slate-200/80 rounded-xl cursor-pointer hover:bg-brand-warmbg hover:border-brand-primary/20 transition group select-none relative overflow-hidden" id="label-${q.id}-${letter}">
+                            <input type="radio" name="question-${q.id}" value="${letter}" 
+                                onclick="selectAnswer(${q.id}, '${letter}')" 
+                                class="sr-only" ${quizSubmitted ? 'disabled' : ''}>
+                            
+                            <!-- Indicador de seleção customizado em formato circular -->
+                            <div class="flex-shrink-0 w-6 h-6 rounded-full border border-slate-300 bg-white flex items-center justify-center text-xs font-semibold text-brand-textmuted group-hover:border-brand-primary transition duration-150 relative z-10" id="indicator-${q.id}-${letter}">
+                                ${letter}
+                            </div>
+                            
+                            <span class="text-sm font-serif leading-relaxed text-brand-textdark font-medium relative z-10" id="text-${q.id}-${letter}">
+                                ${q.options[letter]}
+                            </span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4 border-b border-slate-100 pb-3">
+                        <span class="text-xs font-bold text-brand-accent uppercase tracking-wider">${q.source}</span>
+                        <span class="text-xs font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-md" id="status-badge-${q.id}">Pendente</span>
+                    </div>
+                    
+                    <h4 class="font-serif text-base md:text-lg text-brand-textdark font-medium leading-relaxed mb-6">
+                        ${textFormatted}
+                    </h4>
+
+                    <div class="space-y-3">
+                        ${optionsHtml}
+                    </div>
+
+                    <!-- Bloco de Resolução Oculto -->
+                    <div id="explanation-box-${q.id}" class="hidden mt-6 p-5 bg-stone-50 border-l-4 border-brand-primary rounded-r-xl animate-in slide-in-from-top-4 duration-300">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-xs font-bold text-brand-primary uppercase tracking-wide">Gabarito e Justificativa</span>
+                            <span class="text-xs font-bold bg-brand-primary/10 text-brand-primary px-2 py-0.5 rounded">Gabarito Oficial: ${q.correct}</span>
+                        </div>
+                        <div class="text-sm text-brand-textmuted font-serif leading-relaxed space-y-2 whitespace-pre-line">
+                            ${q.resolution}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Registrar resposta selecionada
+        function selectAnswer(qId, letter) {
+            if (quizSubmitted) return;
+            userAnswers[qId] = letter;
+            
+            // Remover seleção de todas as outras opções desta mesma questão
+            const q = quizQuestions.find(x => x.id === qId);
+            Object.keys(q.options).forEach(l => {
+                const label = document.getElementById(`label-${qId}-${l}`);
+                const indicator = document.getElementById(`indicator-${qId}-${l}`);
+                
+                label.classList.remove('bg-brand-primary/[0.04]', 'border-brand-primary/50');
+                indicator.classList.remove('bg-brand-primary', 'text-white', 'border-brand-primary');
+                indicator.classList.add('bg-white', 'text-brand-textmuted', 'border-slate-300');
+            });
+
+            // Adicionar destaque para a opção selecionada
+            const selectedLabel = document.getElementById(`label-${qId}-${letter}`);
+            const selectedIndicator = document.getElementById(`indicator-${qId}-${letter}`);
+            
+            selectedLabel.classList.add('bg-brand-primary/[0.04]', 'border-brand-primary/50');
+            selectedIndicator.classList.remove('bg-white', 'text-brand-textmuted', 'border-slate-300');
+            selectedIndicator.classList.add('bg-brand-primary', 'text-white', 'border-brand-primary');
+
+            // Atualizar status e barra de progresso
+            document.getElementById(`status-badge-${qId}`).innerText = "Respondida";
+            document.getElementById(`status-badge-${qId}`).className = "text-xs font-semibold text-brand-primary bg-brand-primary/10 px-2.5 py-1 rounded-md";
+
+            updateProgressBar();
+        }
+
+        // Atualizar barra de progresso no topo
+        function updateProgressBar() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const pct = (answeredCount / quizQuestions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+            document.getElementById('progress-text').innerText = `${answeredCount}/10`;
+        }
+
+        // Modal Customizado para Confirmação de Finalização
+        function confirmSubmission() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const modal = document.getElementById('confirm-modal');
+            const warningText = document.getElementById('modal-warning-text');
+
+            if (answeredCount < quizQuestions.length) {
+                warningText.innerHTML = `Atenção: Você respondeu apenas <strong class="text-brand-danger">${answeredCount} de 10</strong> questões. Deseja finalizar mesmo assim? As questões não respondidas serão computadas como incorretas.`;
+            } else {
+                warningText.innerHTML = `Excelente! Você respondeu a todas as 10 questões. Deseja finalizar o simulado e verificar as resoluções e seu rendimento?`;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+        }
+
+        function confirmSubmitAction() {
+            closeModal();
+            submitQuiz();
+        }
+
+        // Finalizar o Quiz e computar dados
+        function submitQuiz() {
+            quizSubmitted = true;
+            let correctCount = 0;
+
+            // Bloquear todos os inputs e calcular acertos
+            quizQuestions.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correct;
+                const statusBadge = document.getElementById(`status-badge-${q.id}`);
+                const qCard = document.getElementById(`q-card-${q.id}`);
+
+                if (isCorrect) {
+                    correctCount++;
+                    statusBadge.innerText = "Correta ✓";
+                    statusBadge.className = "text-xs font-bold text-brand-success bg-green-50 px-2.5 py-1 rounded-md border border-green-200";
+                    qCard.classList.add('ring-2', 'ring-brand-success/20', 'border-brand-success/30');
+                } else {
+                    statusBadge.innerText = userChoice ? `Incorreta ✗ (Gabarito: ${q.correct})` : `Sem Resposta (Gabarito: ${q.correct})`;
+                    statusBadge.className = "text-xs font-bold text-brand-danger bg-red-50 px-2.5 py-1 rounded-md border border-red-200";
+                    qCard.classList.add('ring-2', 'ring-brand-danger/20', 'border-brand-danger/30');
+                }
+
+                // Ajustar cores das opções individualmente (destacar Gabarito e erro se houver)
+                Object.keys(q.options).forEach(letter => {
+                    const label = document.getElementById(`label-${q.id}-${letter}`);
+                    const indicator = document.getElementById(`indicator-${q.id}-${letter}`);
+                    
+                    // Remover cursor do ponteiro
+                    label.classList.remove('cursor-pointer', 'hover:bg-brand-warmbg', 'hover:border-brand-primary/20');
+                    label.classList.add('cursor-default');
+
+                    // Desabilitar o radio button
+                    const radio = label.querySelector('input[type="radio"]');
+                    if (radio) radio.disabled = true;
+
+                    // Destacar a resposta correta em verde
+                    if (letter === q.correct) {
+                        label.classList.add('bg-green-50/50', 'border-brand-success/60', 'ring-1', 'ring-brand-success/30');
+                        indicator.className = "flex-shrink-0 w-6 h-6 rounded-full bg-brand-success text-white flex items-center justify-center text-xs font-bold relative z-10";
+                    } 
+                    // Se o usuário errou, destacar a errada em vermelho suave
+                    else if (userChoice === letter && !isCorrect) {
+                        label.classList.add('bg-red-50/50', 'border-brand-danger/60', 'ring-1', 'ring-brand-danger/30');
+                        indicator.className = "flex-shrink-0 w-6 h-6 rounded-full bg-brand-danger text-white flex items-center justify-center text-xs font-bold relative z-10";
+                    }
+                });
+
+                // Mostrar caixa de justificativa
+                document.getElementById(`explanation-box-${q.id}`).classList.remove('hidden');
+            });
+
+            // Atualizar Painel de Resultados Geral
+            const statCorrect = document.getElementById('stat-correct');
+            const statIncorrect = document.getElementById('stat-incorrect');
+            const statPct = document.getElementById('stat-pct');
+            const scoreBadge = document.getElementById('score-badge');
+            const feedbackText = document.getElementById('performance-feedback');
+
+            statCorrect.innerText = correctCount;
+            statIncorrect.innerText = quizQuestions.length - correctCount;
+            const percentage = (correctCount / quizQuestions.length) * 100;
+            statPct.innerText = `${percentage}%`;
+            scoreBadge.innerHTML = `${correctCount} <span class="text-2xl font-normal text-white/70">/ 10</span>`;
+
+            // Mensagem de feedback contextualizada
+            if (percentage === 100) {
+                feedbackText.innerText = "Excelente! Desempenho irretocável, demonstrando domínio absoluto dos tópicos de seletividade espacial, reprimarização e teoria do neoliberalismo no Brasil.";
+            } else if (percentage >= 80) {
+                feedbackText.innerText = "Sensacional! Ótimo aproveitamento. Você possui sólida fundamentação teórica sobre os impactos geoeconômicos e territoriais das privatizações brasileiras.";
+            } else if (percentage >= 60) {
+                feedbackText.innerText = "Bom desempenho. Atente-se às resoluções das questões erradas para sanar pequenos detalhes conceituais, especialmente sobre a teoria do território corporativo de Milton Santos.";
+            } else {
+                feedbackText.innerText = "Desempenho abaixo do ideal para o nível exigente da banca AOCP. Recomendamos ler atentamente as resoluções comentadas de cada questão abaixo e revisar o referencial teórico.";
+            }
+
+            // Exibir o painel de resultados
+            const resultsPanel = document.getElementById('results-panel');
+            resultsPanel.classList.remove('hidden');
+            
+            // Ocultar ou transformar botão de submissão
+            document.getElementById('btn-submit').innerText = "Simulado Corrigido ✓";
+            document.getElementById('btn-submit').disabled = true;
+            document.getElementById('btn-submit').classList.add('bg-brand-success/80', 'cursor-not-allowed');
+
+            // Scroll suave até o painel de resultados
+            setTimeout(() => {
+                resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+
+        // Reiniciar Quiz
+        function restartQuiz() {
+            userAnswers = {};
+            quizSubmitted = false;
+            
+            // Ocultar painel de resultados
+            document.getElementById('results-panel').classList.add('hidden');
+            
+            // Resetar botão de envio
+            const btn = document.getElementById('btn-submit');
+            btn.innerText = "Finalizar Quiz e Ver Resoluções";
+            btn.disabled = false;
+            btn.className = "inline-flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-semibold rounded-xl text-white bg-brand-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary transition-all shadow-md hover:shadow-lg w-full sm:w-auto";
+
+            // Renderizar as questões novamente e resetar progresso
+            renderQuestions();
+            updateProgressBar();
+
+            // Scroll de volta ao topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Executar carregamento inicial do script ao carregar a página
+        window.onload = function() {
+            renderQuestions();
+        }
+    </script>
+</body>
+</html>

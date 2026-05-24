@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Temático: Estrutura Fundiária e a Dualidade Agrária no Brasil</title>
+    <!-- Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f7fa',
+                            100: '#e4e8f0',
+                            600: '#1e3a8a', // Azul escuro formal (estilo AOCP)
+                            700: '#1d4ed8',
+                            800: '#1e293b', // Slate escuro para textos longos
+                        },
+                        reading: {
+                            bg: '#faf9f6', // Fundo off-white caloroso (reduz fadiga)
+                            text: '#22252a', // Contraste suave para leitura confortável
+                            card: '#ffffff'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        serif: ['Georgia', 'Cambria', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos adicionais para melhorar a legibilidade e transição */
+        body {
+            background-color: #faf9f6;
+            color: #22252a;
+            font-size: 1.075rem;
+            line-height: 1.75;
+        }
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover:not(.disabled) {
+            background-color: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        /* Custom radio styling */
+        input[type="radio"]:checked + .option-text {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- Header Principal -->
+    <header class="bg-white border-b border-stone-200 py-8 px-4 sticky top-0 z-10 shadow-sm">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+                <span class="text-xs font-bold tracking-wider text-blue-800 uppercase bg-blue-50 px-3 py-1 rounded-full">Simulado Temático</span>
+                <h1 class="text-2xl md:text-3xl font-bold text-brand-800 mt-2 font-sans tracking-tight">
+                    Estrutura Fundiária e a Dualidade Agrária no Brasil
+                </h1>
+                <p class="text-sm text-stone-500 mt-1">
+                    Foco de cobrança: Evolução histórica (Sesmarias à Lei de 1850) e a dualidade Agronegócio vs. Agricultura Familiar. Estilo Instituto AOCP.
+                </p>
+            </div>
+            <!-- Painel Superior de Progresso -->
+            <div class="flex items-center gap-3 bg-stone-50 p-3 rounded-lg border border-stone-100 w-full md:w-auto justify-between md:justify-start">
+                <div class="text-left">
+                    <span class="text-xs text-stone-500 block">Progresso</span>
+                    <span id="progress-text" class="text-sm font-bold text-brand-800">0 de 10 respondidas</span>
+                </div>
+                <div class="w-24 bg-stone-200 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-blue-800 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Formulário do Quiz -->
+        <form id="quiz-form" onsubmit="event.preventDefault(); return false;">
+            
+            <div class="space-y-8" id="questions-container">
+                
+                <!-- QUESTÃO 1 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q1">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 01</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        No período do Brasil Colônia, a Coroa Portuguesa estabeleceu as Capitanias Hereditárias e, associado a elas, o regime de sesmarias como o primeiro esforço sistemático de ocupação e exploração do território. Sobre o regime de sesmarias e sua relação com a formação inicial da estrutura fundiária brasileira, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q1" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> As sesmarias eram porções de terras de dimensões homogêneas distribuídas aleatoriamente a qualquer habitante da colônia, independentemente de sua renda ou origem social, visando promover o minifúndio.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q1" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> O regime de sesmarias determinava que as terras deveriam ser doadas a "homens de muita posse e família", limitando a concessão a no máximo uma sesmaria por beneficiário, o qual tinha a obrigação legal de morar nas terras e cultivá-las.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q1" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> As sesmarias constituíam títulos de propriedade plena e incondicional, que podiam ser comercializados livremente no mercado imobiliário colonial logo após a sua demarcação física.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q1" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> O sistema de sesmarias foi introduzido no Brasil no início do século XIX como uma resposta direta à crise do mercado açucareiro nas Antilhas e à necessidade de diversificar a pauta de exportações.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q1" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> A doação de sesmarias visava prioritariamente à atração de capitais de pequenas cooperativas camponesas europeias, que cultivavam em regime de policultura de subsistência e sem a utilização de mão de obra escravizada.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 2 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q2">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 02</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        A promulgação da Lei de Terras (Lei nº 601, de 18 de setembro de 1850) redefiniu as regras de acesso à propriedade fundiária no Brasil Imperial. Acerca das inovações jurídicas introduzidas por essa legislação e seus impactos históricos, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q2" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> A Lei de Terras instituiu a doação gratuita de lotes rurais a imigrantes europeus recém-chegados como principal mecanismo de incentivo à colonização e à formação de pequenas propriedades agrícolas no interior do país.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q2" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> A principal inovação da Lei de Terras foi permitir que as posses informais preexistentes fossem automaticamente convertidas em propriedade plena, sem a necessidade de pagamento, medição ou registro oficial.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q2" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> A legislação de 1850 determinou que a aquisição de terras públicas (devolutas) só poderia ocorrer mediante compra e venda monetária, dificultando o acesso à terra por parte de trabalhadores pobres, ex-escravizados e novos imigrantes.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q2" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> A Lei de Terras de 1850 previu que as terras devolutas seriam obrigatoriamente destinadas à demarcação de reservas indígenas e à fundação de povoações de subsistência camponesa, proibindo sua exploração por grandes latifundiários.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q2" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> A nova lei garantiu aos posseiros e imigrantes de baixa renda o direito automático à usucapião de terras devolutas imperiais, desde que comprovassem o cultivo de subsistência por um período mínimo de seis meses.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 3 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q3">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 03</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        No ano de 1850, o cenário político e econômico do Brasil Império foi profundamente impactado pela aprovação de duas leis de grande relevância estrutural: a Lei de Terras (Lei nº 601) e a Lei Eusébio de Queirós. Sobre a correlação histórica e social entre esses dois marcos legislativos, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q3" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> O fim do tráfico negreiro reduziu drasticamente o custo da mão de obra escravizada, o que levou os grandes fazendeiros a apoiarem a distribuição gratuita de terras para atrair pequenos agricultores familiares.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q3" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> A aprovação simultânea das duas leis visava preparar as bases para a expansão do mercado de trabalho livre; ao restringir o acesso à terra pela compra monetária, a elite latifundiária garantiu que ex-escravizados e imigrantes formassem uma mão de obra assalariada dependente.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q3" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> A Lei Eusébio de Queirós e a Lei de Terras foram concebidas pela Coroa para descentralizar o poder político dos barões do café, transferindo a propriedade de grandes latifúndios para cooperativas de trabalhadores livres.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q3" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> A Lei de Terras surgiu como uma exigência direta dos imigrantes alemães e suíços que se estabeleceram na Colônia Dona Francisca, os quais condicionaram sua vinda à proibição definitiva do tráfico transatlântico de escravizados.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q3" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> A associação entre as duas leis permitiu que os escravizados libertos tivessem acesso imediato a créditos agrícolas subsidiados pelo Império para a aquisição de minifúndios de subsistência.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 4 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q4">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 04</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        A estrutura agrária brasileira é marcada por uma histórica e profunda desigualdade, caracterizando o que a literatura geográfica e econômica define como dualidade estrutural do campo. Tendo em vista a coexistência e o contraste entre o agronegócio exportador e a agricultura familiar de subsistência, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q4" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> O agronegócio e a agricultura familiar competem em condições de absoluta igualdade quanto ao acesso ao crédito rural, à infraestrutura de escoamento e às políticas de isenção fiscal do governo federal.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q4" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> A agricultura familiar, apesar de ocupar uma menor extensão territorial do espaço agrário, desempenha uma função econômica e social vital no país, sendo responsável pela produção de grande parte dos alimentos básicos consumidos no mercado interno.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q4" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> O agronegócio exportador caracteriza-se pela exploração intensiva de minifúndios diversificados, que priorizam a segurança alimentar local e utilizam técnicas agrícolas tradicionais de baixo impacto ambiental.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q4" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> O desenvolvimento tecnológico e a modernização conservadora do campo extinguiram as relações de trabalho temporárias e informais, assegurando a distribuição equitativa das riquezas geradas pelo setor de commodities agrícolas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q4" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> A importância social da agricultura familiar restringe-se ao fornecimento de matérias-primas industriais para o complexo agroexportador, não apresentando relevância na geração de postos de trabalho no meio rural.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 5 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q5">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 05</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        "Apesar de ser um dos protagonistas do agronegócio mundial e ter modernizado sua agricultura, o Brasil ainda tem grandes desafios. Há grande concentração de riqueza em pequena parcela de propriedades rurais e existem milhões de hectares de solos e pastagens degradados." Com base nas informações e nos conhecimentos sobre a dinâmica geográfica e ambiental do espaço agrário brasileiro, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q5" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> O processo de modernização agrícola do país ocorreu de forma homogênea em todo o território nacional, erradicando a pobreza rural e as disputas por terras nas fronteiras agrícolas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q5" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> O Brasil não apresenta riscos significativos de degradação ambiental ou desertificação em suas áreas agrícolas devido ao fato de estar integralmente situado em zona climática sob a influência constante de ventos alísios úmidos.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q5" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> A modernização agrícola gerou um forte contraste no campo brasileiro, caracterizado pela coexistência de alta produtividade tecnológica e concentração fundiária, além de passivos ambientais expressivos, como pastagens degradadas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q5" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> Os trabalhadores denominados "boias-frias" são pequenos proprietários rurais que, amparados pela legislação agrária, ocupam temporariamente as terras devolutas da União para o cultivo de trigo.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q5" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> O trigo consolidou-se como o principal produto de exportação do agronegócio brasileiro, superando a cultura da soja em virtude das condições climáticas extremamente favoráveis do Semiárido.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 6 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q6">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 06</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        O Programa de Aquisição de Alimentos (PAA) constitui uma importante política pública voltada ao fortalecimento da agricultura familiar e à promoção da segurança alimentar e nutricional no Brasil. Em relação às diretrizes, objetivos e características operacionais do PAA, analise as assertivas a seguir:<br><br>
+                        <strong>I.</strong> O programa tem por objetivo a aquisição de produtos da agricultura familiar, com a finalidade de atender à demanda de alimentos de populações em condição de insegurança alimentar.<br>
+                        <strong>II.</strong> Os participantes do PAA devem ser agricultores enquadrados no Programa Nacional de Fortalecimento da Agricultura Familiar (PRONAF) e, preferencialmente, devem estar organizados em cooperativas ou associações.<br>
+                        <strong>III.</strong> São destinados ao programa produtos que não sejam característicos da produção de autoconsumo, da subsistência das famílias.<br>
+                        <strong>IV.</strong> É possível fazer aquisições públicas de qualquer alimento desde que seja produzido por agricultor familiar, assentados da reforma agrária, povos indígenas ou quilombolas.
+                    </p>
+
+                    <p class="text-sm text-stone-500 mb-4 font-bold">Assinale a alternativa correta.</p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q6" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> Apenas I, II e III estão corretas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q6" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> Apenas I, II e IV estão corretas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q6" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> Apenas II, III e IV estão corretas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q6" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> Apenas I e III estão corretas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q6" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> I, II, III e IV estão corretas.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 7 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q7">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 07</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        A classificação jurídica das terras rurais no Brasil, consolidada a partir da Lei de Terras de 1850, introduziu conceitos fundamentais para a organização do espaço agrário nacional, com destaque para a definição de terras devolutas. À luz da legislação agrária e de sua evolução histórica, assinale a alternativa que apresenta a correta definição de terras devolutas.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q7" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> São todas as terras rurais que foram historicamente abandonadas pelos seus proprietários particulares em decorrência de pragas agrícolas ou secas prolongadas, retornando ao domínio dos municípios.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q7" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> São aquelas terras que, tendo sido doadas por sesmarias ou concessões governamentais, não foram revalidadas ou cultivadas de acordo com as exigências legais, bem como quaisquer outras áreas que não se encontrem sob o domínio legítimo de um particular por título válido.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q7" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> Consistem nas glebas rurais de uso comum pertencentes originariamente a comunidades indígenas e quilombolas, cuja venda para terceiros é facilitada pela ausência de registro em cartório.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q7" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> São as propriedades rurais improdutivas desapropriadas pelo State que foram voluntariamente divididas em minifúndios e distribuídas gratuitamente a imigrantes ilegais.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q7" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> São as áreas situadas em perímetros urbanos destinadas exclusivamente à instalação de indústrias voltadas à produção de sementes geneticamente modificadas e insumos agrícolas.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 8 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q8">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 08</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        A preservação da estrutura fundiária concentrada no Brasil ao longo do tempo reflete o impacto de legislações e políticas públicas que historicamente privilegiaram as elites agrárias em detrimento do pequeno produtor. Sobre os fatores que historicamente contribuíram para a manutenção da alta concentração de terras no Brasil, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q8" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> A Lei de Terras de 1850 contribuiu para preservar a estrutura fundiária desigual no país ao garantir que as maiores e melhores terras ficassem concentradas nas mãos dos antigos proprietários, passando às gerações seguintes como herança de família.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q8" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> O Estatuto da Terra, promulgado na década de 1960, determinou a estatização completa das propriedades privadas rurais, eliminando a transmissão hereditária de latifúndios no Brasil.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q8" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> A introdução das técnicas de agroecologia na Região Nordeste durante o período colonial reduziu drasticamente o tamanho médio dos estabelecimentos rurais, forçando os latifundiários a venderem suas terras em leilões públicos.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q8" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> A facilidade na regularização de posses por meio da usucapião especial rural garantiu que a maior parte das terras devolutas brasileiras fosse distribuída aos povos tradicionais e comunidades quilombolas ainda no século XIX.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q8" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> A criação de impostos territoriais altamente progressivos no Império inviabilizou a manutenção de latifúndios improdutivos, promovendo a fragmentação natural das grandes fazendas de café em minifúndios de subsistência.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 9 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q9">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 09</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        A dinâmica do espaço agrário brasileiro contemporâneo expõe a coexistência de dois modelos agrícolas distintos quanto à escala, organização produtiva, nível tecnológico e destinação da produção: o agronegócio de exportação e a agricultura familiar. No que se refere ao papel desempenhado por órgãos estatais de desenvolvimento agropecuário (como a EMDAGRO e o INCAPER) na mediação e fomento dessas atividades rurais, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q9" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> A atuação das empresas estatais de assistência técnica visa exclusivamente à transferência de tecnologias de sementes transgênicas para o fortalecimento das grandes cooperativas multinacionais do agronegócio.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q9" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> Esses órgãos governamentais têm como missão contribuir para o fortalecimento da agricultura familiar e para a expansão do agronegócio, atuando de maneira integrada nas áreas de Assistência Técnica e Extensão Rural, Pesquisa, Defesa Agropecuária e Ações Fundiárias.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q9" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> A extensão rural oferecida pelo Estado prioriza a transição de pequenos agricultores para práticas de monocultura de exportação, desestimulando a produção diversificada de subsistência por considerá-la ineficiente.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q9" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> O desenvolvimento agrícola sustentável promovido pelas agências estatais baseia-se na eliminação de parcerias com cooperativas locais e na centralização de todas as etapas produtivas sob o controle do governo federal.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q9" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> As ações fundiárias desenvolvidas por órgãos de extensão rural têm por finalidade prioritária a concessão gratuita de terras produtivas particulares a investidores estrangeiros do mercado financeiro.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUESTÃO 10 -->
+                <div class="question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300" data-q="q10">
+                    <div class="flex justify-between items-start gap-2 mb-4">
+                        <span class="inline-block bg-brand-800 text-white text-xs font-bold px-3 py-1 rounded">QUESTÃO 10</span>
+                        <span class="text-xs text-stone-400 font-mono">Banca: Estilo AOCP</span>
+                    </div>
+                    
+                    <p class="text-reading-text font-serif text-lg mb-6 leading-relaxed">
+                        No contexto da colonização e expansão da fronteira agrícola no Brasil Meridional a partir de meados do século XIX, a relação entre a imigração estrangeira e a legislação fundiária foi marcada por tensões socioespaciais. Sobre a chegada de imigrantes europeus ao sul do Brasil (como o exemplo da fundação da Colônia Dona Francisca, atual Joinville) e sua inserção na estrutura fundiária sob a vigência da Lei de Terras de 1850, assinale a alternativa correta.
+                    </p>
+
+                    <div class="space-y-3">
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q10" value="A" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(A)</strong> A Colônia Dona Francisca foi estabelecida por meio da doação direta e gratuita de terras devolutas imperiais aos imigrantes pelo governo de Santa Catarina, em total consonância com a proibição da venda de terras instituída pela Lei de Terras.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q10" value="B" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(B)</strong> A venda de terras de colonização a companhias privadas, como a Sociedade Colonizadora de Hamburgo, permitiu a atração de imigrantes alemães, suíços e noruegueses que, ao adquirirem lotes particulares, estabeleceram um núcleo de pequenas propriedades inserido em uma região anteriormente ocupada por grandes fazendas e populações indígenas.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q10" value="C" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(C)</strong> A vinda de imigrantes europeus para o Sul do Brasil ocorreu sem qualquer relação com a iniciativa privada ou com companhias colonizadoras, sendo gerida de forma exclusiva e direta por cooperativas de ex-escravizados do Nordeste.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q10" value="D" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(D)</strong> A Lei de Terras de 1850 impediu de forma definitiva o estabelecimento de colônias de imigrantes estrangeiros no Brasil, reservando todo o território nacional para a fundação de grandes latifúndios estatais cafeeiros.</span>
+                        </label>
+                        <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base">
+                            <input type="radio" name="q10" value="E" class="mt-1 accent-blue-800" onclick="updateProgress()">
+                            <span class="option-text text-stone-700"><strong>(E)</strong> Os imigrantes que se estabeleceram no Sul do país integraram-se de forma imediata à economia de subsistência baseada na agroecologia tradicional indígena, rejeitando o modelo de propriedade privada mercantil da terra.</span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Botão de Finalização -->
+            <div class="mt-12 mb-16 flex justify-center">
+                <button type="button" onclick="submitQuiz()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-4 px-10 rounded-xl shadow-md transition-all duration-300 transform hover:-translate-y-0.5 text-lg w-full md:w-auto">
+                    Finalizar Simulado e Ver Resoluções
+                </button>
+            </div>
+
+        </form>
+
+        <!-- SEÇÃO DE RESULTADOS (INICIALMENTE OCULTA) -->
+        <section id="results-panel" class="hidden scroll-mt-24 mb-16">
+            
+            <!-- Card do Placar Geral -->
+            <div class="bg-white border-2 border-blue-900 rounded-2xl p-6 md:p-8 shadow-lg text-center mb-10">
+                <h2 class="text-2xl font-bold text-brand-800 mb-2">Resultado do Seu Simulado</h2>
+                <p class="text-stone-500 mb-6">Confira abaixo o seu desempenho geral e o gabarito comentado passo a passo.</p>
+                
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16 mb-6">
+                    <div class="relative flex items-center justify-center">
+                        <!-- Círculo de pontuação -->
+                        <div class="w-32 h-32 rounded-full border-8 border-stone-100 flex flex-col items-center justify-center bg-stone-50">
+                            <span id="score-number" class="text-4xl font-extrabold text-blue-900">0</span>
+                            <span class="text-xs text-stone-400 font-bold uppercase tracking-widest">de 10 acertos</span>
+                        </div>
+                    </div>
+                    <div class="text-left space-y-2">
+                        <p class="text-stone-700 text-lg">Aproveitamento: <strong id="score-percentage" class="text-blue-900">0%</strong></p>
+                        <p class="text-stone-700">Status: <strong id="score-feedback" class="text-blue-800">Precisa estudar mais</strong></p>
+                        <p class="text-stone-500 text-sm">Gabarito detalhado de cada questão liberado logo abaixo.</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-stone-200 pt-6 flex justify-center gap-4 flex-wrap">
+                    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="text-sm font-semibold text-blue-900 bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-lg transition-colors">
+                        Revisar Respostas Marcadas
+                    </button>
+                    <button onclick="resetQuiz();" class="text-sm font-semibold text-stone-600 bg-stone-100 hover:bg-stone-200 px-5 py-2.5 rounded-lg transition-colors">
+                        Tentar Novamente
+                    </button>
+                </div>
+            </div>
+
+            <!-- SEÇÃO DE RESOLUÇÕES DETALHADAS -->
+            <div class="space-y-8">
+                <h3 class="text-xl font-bold text-brand-800 border-b border-stone-300 pb-3 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-blue-950" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Resoluções e Gabarito Comentado (Na Íntegra)
+                </h3>
+
+                <!-- Resolução Q1 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: B</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 1</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> A evolução histórica do acesso à terra no Brasil tem suas bases assentadas no período colonial, por meio das Capitanias Hereditárias e da instituição do regime de sesmarias. As sesmarias constituíam um instrumento jurídico de doação condicionada de terras devolutas da Coroa Portuguesa.</p>
+                        <p>O objetivo central do Império português era garantir a posse física do território por meio do cultivo efetivo da terra. Contudo, a legislação da época impunha restrições socioeconômicas claras: as terras deveriam ser doadas a "homens de muita posse e família" (nunca mais de uma sesmaria para cada um), indivíduos que possuíam os meios necessários (incluindo escravizados e ferramentas) para implementar a produção açucareira em larga escala. Esse critério seletivo lançou as bases históricas do latifúndio agroexportador no Brasil.</p>
+                        
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5 mt-2">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> As sesmarias não eram distribuídas aleatoriamente a qualquer habitante, nem visavam ao minifúndio; as doações eram dirigidas a pessoas de alta renda e prestígio político.</p>
+                            <p><strong>(C) Incorreta.</strong> A doação de sesmarias era condicionada ao efetivo cultivo da gleba e à moradia nas terras, não constituindo propriedade plena de livre comércio mercantil no início do período colonial.</p>
+                            <p><strong>(D) Incorreta.</strong> O sistema de sesmarias remonta ao início da colonização (século XVI) e foi extinto formalmente em 1822, antes do início do século XIX.</p>
+                            <p><strong>(E) Incorreta.</strong> O modelo sesmeiro assentou-se sobre a monocultura de exportação (cana-de-açúcar) com intensa exploração da mão de obra escravizada, e não sobre policulturas camponesas sem escravizados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q2 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: C</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 2</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> A Lei de Terras de 1850 (Lei nº 601) representa o nascimento do mercado de terras e da propriedade privada mercantil no Brasil. Sob a vigência dessa lei, as terras públicas (denominadas terras devolutas) deixaram de ser acessíveis por meio de doações ou de simples apossamento. A compra e venda em dinheiro tornou-se o único canal legal de aquisição da terra.</p>
+                        <p>Essa alteração legislativa ocorreu em um contexto de transição do trabalho e buscou deliberadamente resguardar as propriedades nas mãos das elites agrárias tradicionais, bloqueando o acesso direto à terra por parte de imigrantes pobres, camponeses e escravizados que conquistavam a liberdade.</p>
+                        
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5 mt-2">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> A Lei de Terras proibiu expressamente a doação gratuita de lotes públicos, exigindo a compra como único meio de aquisição.</p>
+                            <p><strong>(B) Incorreta.</strong> A lei de 1850 não converteu automaticamente as posses informais em propriedades plenas; ao contrário, criminalizou novas posses e impôs barreiras burocráticas pesadas para a legitimação das antigas.</p>
+                            <p><strong>(D) Incorreta.</strong> A lei não priorizou reservas indígenas ou pequenas povoações de subsistência camponesa, favorecendo as grandes propriedades monoculturais de café.</p>
+                            <p><strong>(E) Incorreta.</strong> A legislação de 1850 restringiu duramente as possibilidades de usucapião, estabelecendo penalidades para ocupações não autorizadas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q3 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q3">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: B</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 3</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> Há um nexo de causalidade histórica entre a Lei Eusébio de Queirós e a Lei de Terras, ambas promulgadas em setembro de 1850. O fim do tráfico transatlântico de escravizados sinalizava o esgotamento do modelo de trabalho servil e a necessidade de transição para o trabalho livre assalariado.</p>
+                        <p>A elite latifundiária cafeeira percebeu que, sem escravizados, precisaria atrair trabalhadores livres (nacionais e imigrantes estrangeiros). Para garantir que esses novos trabalhadores aceitassem trabalhar sob condições de exploração nas lavouras de café, era imperativo impedi-los de se tornarem proprietários autônomos. Ao determinar que a terra só seria acessível por meio da compra monetária, a Lei de Terras garantiu a manutenção de uma massa de trabalhadores sem-terra forçada a vender sua força de trabalho nos latifúndios.</p>
+                        
+                        <!-- Fluxograma Dinâmico Renderizado -->
+                        <div class="bg-stone-50 p-6 rounded-xl border border-stone-200 my-4">
+                            <h5 class="text-xs font-bold uppercase text-stone-500 tracking-wider mb-4 text-center">Relação Causal entre as Leis de 1850</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                                <div class="bg-white p-4 rounded-lg border border-stone-200 text-center shadow-sm">
+                                    <p class="font-bold text-sm text-red-800">Lei Eusébio de Queirós (1850)</p>
+                                    <p class="text-xs text-stone-600 mt-1">Fim do tráfico de escravizados &rarr; Exige novos braços para a lavoura.</p>
+                                </div>
+                                <div class="text-center text-stone-400 font-bold hidden md:block">&rarr;</div>
+                                <div class="bg-white p-4 rounded-lg border border-stone-200 text-center shadow-sm">
+                                    <p class="font-bold text-sm text-blue-900">Lei de Terras (1850)</p>
+                                    <p class="text-xs text-stone-600 mt-1">Proibição de doações / Apenas compra &rarr; Bloqueia acesso à terra.</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 bg-blue-900 text-white p-3 rounded-lg text-center text-xs font-bold">
+                                Resultado Histórico: Manutenção de abundante mão de obra assalariada dependente e preservação da estrutura latifundiária concentrada.
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> O fim do tráfico encareceu a mão de obra escravizada remanescente e estimulou a adoção de medidas excludentes para segurar os trabalhadores livres no latifúndio, e não a distribuição de terras.</p>
+                            <p><strong>(C) Incorreta.</strong> Ambas as leis foram propostas pela bancada latifundiária e conservadora do parlamento imperial com o propósito de consolidar o poder político e econômico das elites agrárias.</p>
+                            <p><strong>(D) Incorreta.</strong> Embora a imigração no Sul estivesse ocorrendo, a formulação das leis nacionais atendeu principalmente às demandas da oligarquia cafeeira do Sudeste e da lavoura açucareira tradicional.</p>
+                            <p><strong>(E) Incorreta.</strong> O Império não ofereceu linhas de crédito subsidiadas a ex-escravizados, os quais foram juridicamente marginalizados do processo de propriedade da terra.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q4 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: B</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 4</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> A dualidade estrutural do campo brasileiro opõe o agronegócio exportador de alta intensidade de capital e tecnologia à agricultura familiar de pequena escala e transição mercantil. A agricultura familiar desempenha um papel de extraordinária relevância socioeconômica ao produzir a maior parte dos alimentos que compõem a dieta básica nacional (como feijão, mandioca, hortaliças, leite e aves), além de reter o homem no campo através da geração de postos de trabalho diretos.</p>
+                        <p>O agronegócio, embora gere elevados saldos comerciais de exportação de commodities (soja, milho, celulose), concentra terras, riquezas e promove a mecanização poupadora de mão de obra.</p>
+                        
+                        <!-- Tabela Comparativa em HTML -->
+                        <div class="overflow-x-auto my-4 rounded-lg border border-stone-200 shadow-sm">
+                            <table class="min-w-full divide-y divide-stone-200 text-left text-xs md:text-sm">
+                                <thead class="bg-stone-100 font-bold text-stone-700">
+                                    <tr>
+                                        <th class="p-3">Característica</th>
+                                        <th class="p-3">Agronegócio Exportador (Patronal)</th>
+                                        <th class="p-3">Agricultura Familiar</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-200 text-stone-600">
+                                    <tr>
+                                        <td class="p-3 font-semibold text-stone-800">Extensão de Terras</td>
+                                        <td class="p-3">Grandes latifúndios (Concentrada)</td>
+                                        <td class="p-3">Pequenas propriedades / Minifúndios</td>
+                                    </tr>
+                                    <tr class="bg-stone-50/50">
+                                        <td class="p-3 font-semibold text-stone-800">Destinação Principal</td>
+                                        <td class="p-3">Commodities para o mercado externo</td>
+                                        <td class="p-3">Alimentos para o mercado interno</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-stone-800">Intensidade de Capital</td>
+                                        <td class="p-3">Muito alta (Máquinas, Insumos, Tec.)</td>
+                                        <td class="p-3">Baixa a moderada</td>
+                                    </tr>
+                                    <tr class="bg-stone-50/50">
+                                        <td class="p-3 font-semibold text-stone-800">Absorção de Trabalho</td>
+                                        <td class="p-3">Reduzida (Mecanização intensiva)</td>
+                                        <td class="p-3">Elevada (Trabalho familiar/comunidade)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> O agronegócio usufrui historicamente de maior acesso a volumosos recursos de financiamento agropecuário e robustos incentivos à exportação de commodities rurais.</p>
+                            <p><strong>(C) Incorreta.</strong> O agronegócio exportador opera essencialmente em latifúndios de monocultura extensiva e intensiva, com foco em commodities mercantis de exportação.</p>
+                            <p><strong>(D) Incorreta.</strong> A modernização tecnológica (modernização conservadora) manteve a exclusão social, precarizou postos de trabalho remanescentes através de relações temporárias ("boias-frias") e manteve a concentração de terras.</p>
+                            <p><strong>(E) Incorreta.</strong> A relevância da agricultura familiar é ampla, sendo o principal esteio da segurança alimentar do mercado de consumo interno e da fixação demográfica no campo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q5 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q5">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: C</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 5</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> A modernização da agricultura brasileira ocorreu de forma desigual e excludente, processo denominado pela geografia agrária como "modernização conservadora". Embora o país tenha se tornado líder mundial na exportação de diversos gêneros agropecuários e incorporado tecnologia de ponta em suas lavouras, esse avanço não eliminou as disparidades espaciais no meio rural.</p>
+                        <p>A modernização preservou o latifúndio e gerou passivos socioambientais alarmantes, como a degradação e compactação de solos por monoculturas de grãos e a existência de dezenas de milhões de hectares de pastagens degradadas pelo manejo ineficiente.</p>
+                        
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5 mt-2">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> A modernização agrária foi espacialmente seletiva e concentrada, gerando o acirramento das tensões agrárias nas franjas de expansão da fronteira agrícola.</p>
+                            <p><strong>(B) Incorreta.</strong> Há severos riscos de degradação e desertificação no campo brasileiro, com áreas de vulnerabilidade crítica nas regiões semiáridas e em manchas de degradação provocadas pela pecuária extensiva de baixa produtividade.</p>
+                            <p><strong>(D) Incorreta.</strong> Os "boias-frias" são trabalhadores rurais temporários e desprovidos de direitos trabalhistas estáveis, que realizam tarefas de colheita manual pesada, não sendo proprietários rurais nem ocupantes de terras devolutas para cultivo próprio.</p>
+                            <p><strong>(E) Incorreta.</strong> A soja, o complexo carnes e o milho são as grandes commodities do agronegócio exportador brasileiro; o trigo, por limitações climáticas e de solo, não é o principal produto exportador do país.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q6 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: E</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 6</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> Todas as assertivas reproduzem fielmente as características operacionais e legislativas do Programa de Aquisição de Alimentos (PAA), uma das políticas públicas mais robustas para a superação de gargalos de comercialização da pequena agricultura familiar.</p>
+                        <ul class="list-disc pl-5 space-y-2 mt-2 text-stone-700">
+                            <li><strong>Assertiva I (V):</strong> O objetivo nuclear do PAA é a compra direta de alimentos da agricultura familiar para assistência a populações em vulnerabilidade social e insegurança alimentar.</li>
+                            <li><strong>Assertiva II (V):</strong> Os beneficiários fornecedores devem obrigatoriamente estar vinculados ao PRONAF e a prioridade de atendimento do programa é dada às organizações coletivas, como cooperativas e associações locais.</li>
+                            <li><strong>Assertiva III (V):</strong> A dotação financeira do programa foca na aquisição do excedente produtivo comercializável, isto é, produtos que não se destinam estritamente ao autoconsumo ou subsistência direta das famílias agricultoras.</li>
+                            <li><strong>Assertiva IV (V):</strong> A legislação do PAA flexibilizou os procedimentos de licitação governamental, permitindo a compra direta de uma gama de produtos alimentícios de populações tradicionais, agricultores familiares e assentados da reforma agrária.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Resolução Q7 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q7">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: B</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 7</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> No ordenamento jurídico fundiário brasileiro, as terras devolutas correspondem à categoria de terras públicas que pertencem ao patrimônio do Estado (União ou Estados-membros).</p>
+                        <p>O termo "devoluto" provém da devolução dessas terras ao poder público após a extinção das antigas concessões de sesmarias que não cumpriram as obrigações legais de moradia e cultivo de lavouras rurais, ou de qualquer lote que não tenha sido devidamente regularizado por meio de títulos de propriedade válidos em transações particulares de compra e venda.</p>
+                        
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5 mt-2">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> Terras abandonadas por proprietários particulares sob as quais pesem registros imobiliários regulares não se tornam automaticamente terras devolutas; a perda da propriedade por abandono segue ritos civis específicos de arrecadação.</p>
+                            <p><strong>(C) Incorreta.</strong> Terras de comunidades tradicionais, indígenas e quilombolas possuem proteção constitucional específica e regime de propriedade coletiva imprescritível, não sendo tratadas como terras devolutas alienáveis.</p>
+                            <p><strong>(D) Incorreta.</strong> A legislação de 1850 criminalizou a doação gratuita de terras devolutas e as invasões sem autorização, proibindo a concessão aleatória a imigrantes ilegais.</p>
+                            <p><strong>(E) Incorreta.</strong> O conceito de terras devolutas de 1850 é essencialmente de natureza agrária e rural, não se vinculando à infraestrutura fabril ou industrial de sementes geneticamente modificadas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q8 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q8">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: A</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 8</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> A concentração de terras no Brasil não é um fenômeno geográfico espontâneo, mas sim o resultado de escolhas legislativas e políticas públicas que preservaram a estrutura fundiária desigual ao longo do tempo. A aprovação da Lei de Terras em 1850 assegurou que as melhores terras, anteriormente ocupadas ou distribuídas sob o regime de sesmarias, ficassem consolidadas no patrimônio das elites agrárias tradicionais.</p>
+                        <p>Esse arcabouço dificultou juridicamente a legalização de pequenas posses de trabalhadores rurais e garantiu a reprodução intergeracional dos grandes latifúndios por meio da herança familiar patrimonial.</p>
+                        
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5 mt-2">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(B) Incorreta.</strong> O Estatuto da Terra de 1964 manteve a propriedade privada da terra e priorizou o fomento técnico ao agronegócio de grande escala (modernização conservadora), sem realizar a estatização de latifúndios.</p>
+                            <p><strong>(C) Incorreta.</strong> A agroecologia é um conceito produtivo e científico contemporâneo; o período colonial foi dominado pela lavoura de plantation monocultora, excludente e predatória.</p>
+                            <p><strong>(D) Incorreta.</strong> O ordenamento jurídico posterior a 1850 restringiu severamente a legitimação de posses de populações negras, indígenas e camponesas, aprofundando a concentração fundiária e a exclusão territorial no Brasil.</p>
+                            <p><strong>(E) Incorreta.</strong> O Império brasileiro nunca aplicou impostos progressivos sobre latifúndios improdutivos; o imposto territorial rural era irrisório ou inexistente, permitindo a manutenção especulativa de imensas glebas de terras ociosas pela elite cafeeira.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q9 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q9">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: B</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 9</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> Os órgãos estaduais de desenvolvimento rural (como a EMDAGRO, em Sergipe, e o INCAPER, no Espírito Santo) desempenham uma função mediadora complexa e estratégica no espaço agrário brasileiro. Suas atribuições legais buscam equilibrar a dualidade do campo ao fomentar o avanço do agronegócio e ao mesmo tempo estruturar o fortalecimento da agricultura familiar local.</p>
+                        <p>Esse papel é exercido por meio do fornecimento gratuito de assistência técnica especializada, difusão de pesquisas científicas adaptadas, vigilância sanitária e defesa agropecuária, além da regularização de ações fundiárias de pequenos posseiros.</p>
+                        
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5 mt-2">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> As empresas estatais de extensão rural possuem uma atuação diversificada que engloba práticas sustentáveis de agroecologia para a agricultura familiar de pequena escala, não se limitando a favorecer multinacionais de sementes transgênicas.</p>
+                            <p><strong>(C) Incorreta.</strong> A extensão agrária promovida pelo Estado atua para incentivar a diversificação de culturas agrícolas na pequena produção para garantir a soberania alimentar local, combatendo a dependência de monoculturas.</p>
+                            <p><strong>(D) Incorreta.</strong> A construção do conhecimento no agronegócio e na agricultura de subsistência pressupõe o fortalecimento de parcerias locais, redes de fomento e arranjos produtivos comunitários organizados em cooperativas.</p>
+                            <p><strong>(E) Incorreta.</strong> As ações fundiárias executadas por órgãos estaduais visam garantir a regularização da posse e o direito de propriedade a pequenos produtores familiares e assentados da reforma agrária, e não beneficiar investidores estrangeiros.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolução Q10 -->
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm font-sans" id="res-q10">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">Gabarito: B</span>
+                        <h4 class="font-bold text-brand-800">Resolução da Questão 10</h4>
+                    </div>
+                    <div class="text-reading-text text-sm md:text-base space-y-4">
+                        <p><strong>Análise Detalhada:</strong> A imigração de colonos europeus para a Região Sul do Brasil no século XIX deu-se, em grande parte, por meio da atuação de companhias de colonização privadas, como a Sociedade Colonizadora de Hamburgo.</p>
+                        <p>No caso específico da fundação da Colônia Dona Francisca (atual Joinville), a transação fundiária ocorreu mediante a aquisição de terras particulares ligadas ao dote da Princesa Dona Francisca e posterior subdivisão dessas glebas em lotes de dimensões menores comercializados aos imigrantes alemães, suíços e noruegueses. Esse modelo gerou uma malha de minifúndios de policultura mercantil e de subsistência em meio a uma região anteriormente dominada por grandes propriedades escravistas tradicionais e pela ocupação histórica de comunidades nativas indígenas.</p>
+                        
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-xs space-y-1.5 mt-2">
+                            <p class="font-bold text-stone-700">Análise dos Distratores:</p>
+                            <p><strong>(A) Incorreta.</strong> A Colônia Dona Francisca não se formou por meio da doação gratuita de terras públicas pela administração provincial, visto que a Lei de Terras de 1850 já proibia as doações a título gratuito e impunha a compra monetária obrigatória de terras.</p>
+                            <p><strong>(C) Incorreta.</strong> O processo de colonização do Sul contou com expressiva participação de companhias colonizadoras privadas europeias organizadas e do próprio governo imperial, não tendo sido gerido por cooperativas de ex-escravizados do Nordeste.</p>
+                            <p><strong>(D) Incorreta.</strong> A Lei de Terras não baniu a imigração ou a colonização estrangeira, mas determinou regras que direcionavam os imigrantes pobres a atuar inicialmente como colonos e trabalhadores parceiros em terras alheias antes de conseguirem poupança para adquirir seus próprios lotes rurais.</p>
+                            <p><strong>(E) Incorreta.</strong> Os núcleos coloniais do Sul estruturaram-se de forma ativa em torno da pequena propriedade mercantil privada, articulando a produção camponesa de policultura ao abastecimento de centros urbanos em consolidação.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-stone-900 text-stone-400 py-12 px-4 border-t border-stone-800 text-center text-sm">
+        <div class="max-w-4xl mx-auto space-y-3">
+            <p class="font-bold text-stone-300">Simulado Preparatório para Concursos - Instituto AOCP</p>
+            <p>Este sistema de quiz foi desenvolvido com foco em acessibilidade visual e conforto cognitivo durante longas sessões de leitura.</p>
+            <p class="text-xs text-stone-600">&copy; 2026 Simulado de Direito Agrário e Geografia do Brasil.</p>
+        </div>
+    </footer>
+
+    <!-- Modal de Aviso customizado (Sem alert nativo) -->
+    <div id="alert-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 border border-stone-200 text-center">
+            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+            <h4 class="text-lg font-bold text-stone-800 mb-2" id="modal-title">Simulado Incompleto</h4>
+            <p class="text-stone-600 text-sm mb-6" id="modal-desc">Você não respondeu a todas as questões. Deseja finalizar mesmo assim ou continuar respondendo?</p>
+            <div class="flex gap-3 justify-center">
+                <button onclick="closeModal()" class="px-4 py-2 bg-stone-100 text-stone-700 hover:bg-stone-200 rounded-lg text-sm font-semibold transition-colors">
+                    Continuar Respondendo
+                </button>
+                <button onclick="forceSubmit()" class="px-4 py-2 bg-blue-900 text-white hover:bg-blue-800 rounded-lg text-sm font-semibold transition-colors">
+                    Finalizar assim mesmo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de lógica do Simulado -->
+    <script>
+        // Respostas corretas cadastradas
+        const correctAnswers = {
+            q1: 'B',
+            q2: 'C',
+            q3: 'B',
+            q4: 'B',
+            q5: 'C',
+            q6: 'E',
+            q7: 'B',
+            q8: 'A',
+            q9: 'B',
+            q10: 'B'
+        };
+
+        // Atualiza a barra de progresso no topo da página
+        function updateProgress() {
+            const form = document.getElementById('quiz-form');
+            let answeredCount = 0;
+            
+            for (let i = 1; i <= 10; i++) {
+                const selected = form.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) {
+                    answeredCount++;
+                }
+            }
+
+            const percentage = (answeredCount / 10) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').innerText = `${answeredCount} de 10 respondidas`;
+        }
+
+        // Validação das respostas
+        function submitQuiz() {
+            const form = document.getElementById('quiz-form');
+            let unanswered = [];
+            
+            for (let i = 1; i <= 10; i++) {
+                const selected = form.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) {
+                    unanswered.push(i);
+                }
+            }
+
+            if (unanswered.length > 0) {
+                // Altera dinamicamente as mensagens do modal
+                document.getElementById('modal-title').innerText = 'Questões Pendentes';
+                document.getElementById('modal-desc').innerText = `Você ainda não respondeu às questões: ${unanswered.join(', ')}. Deseja continuar respondendo ou finalizar para ver o gabarito comentado?`;
+                document.getElementById('alert-modal').classList.remove('hidden');
+            } else {
+                processResults();
+            }
+        }
+
+        function forceSubmit() {
+            closeModal();
+            processResults();
+        }
+
+        function closeModal() {
+            document.getElementById('alert-modal').classList.add('hidden');
+        }
+
+        // Processa as notas e ativa as cores corretas/incorretas
+        function processResults() {
+            const form = document.getElementById('quiz-form');
+            let score = 0;
+
+            // Bloquear novos cliques nos inputs de rádio e colorir as escolhas
+            for (let i = 1; i <= 10; i++) {
+                const correctVal = correctAnswers[`q${i}`];
+                const checkedOption = form.querySelector(`input[name="q${i}"]:checked`);
+                const userVal = checkedOption ? checkedOption.value : null;
+
+                if (userVal === correctVal) {
+                    score++;
+                }
+
+                // Desabilitar todas as opções e aplicar classes de gabarito
+                const labels = form.querySelectorAll(`[data-q="q${i}"] .option-label`);
+                labels.forEach(label => {
+                    label.classList.add('disabled', 'pointer-events-none');
+                    const input = label.querySelector('input');
+                    
+                    // Destaca a resposta correta em verde
+                    if (input.value === correctVal) {
+                        label.classList.remove('border-stone-200');
+                        label.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+                        
+                        // Adicionar ícone de check verde ao lado
+                        const badge = document.createElement('span');
+                        badge.className = 'ml-auto text-emerald-600 font-bold text-sm bg-emerald-100 px-2 py-0.5 rounded';
+                        badge.innerText = 'GABARITO';
+                        label.appendChild(badge);
+                    }
+                    
+                    // Se o usuário marcou esta opção incorreta, destaca em vermelho
+                    if (userVal && input.value === userVal && userVal !== correctVal) {
+                        label.classList.remove('border-stone-200');
+                        label.classList.add('border-rose-300', 'bg-rose-50', 'text-rose-900');
+                        
+                        const badgeError = document.createElement('span');
+                        badgeError.className = 'ml-auto text-rose-600 font-bold text-sm bg-rose-100 px-2 py-0.5 rounded';
+                        badgeError.innerText = 'Sua resposta';
+                        label.appendChild(badgeError);
+                    }
+                });
+
+                // Adicionar um destaque visual na borda dos cards de questões erradas/certas
+                const questionCard = form.querySelector(`[data-q="q${i}"]`);
+                if (userVal === correctVal) {
+                    questionCard.classList.add('border-l-4', 'border-l-emerald-500');
+                } else {
+                    questionCard.classList.add('border-l-4', 'border-l-rose-500');
+                }
+            }
+
+            // Atualiza os dados no painel superior
+            const pct = (score / 10) * 100;
+            document.getElementById('score-number').innerText = score;
+            document.getElementById('score-percentage').innerText = `${pct}%`;
+            
+            let statusText = '';
+            if (score === 10) statusText = 'Excelente! Desempenho digno de aprovação imediata! 🏆';
+            else if (score >= 8) statusText = 'Muito bom! Você possui ótima base no conteúdo agrário. 👏';
+            else if (score >= 5) statusText = 'Regular. É recomendável revisar os tópicos e ler as resoluções. 📚';
+            else statusText = 'Atenção! Necessita de uma revisão teórica aprofundada das leis de 1850. ⚠️';
+            
+            document.getElementById('score-feedback').innerText = statusText;
+
+            // Exibir a seção de resultados e rolar suavemente até ela
+            const resultsPanel = document.getElementById('results-panel');
+            resultsPanel.classList.remove('hidden');
+            
+            setTimeout(() => {
+                resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
+        }
+
+        // Reseta o estado do formulário para recomeçar o teste
+        function resetQuiz() {
+            const form = document.getElementById('quiz-form');
+            form.reset();
+
+            // Reativar cliques e limpar estilos customizados
+            for (let i = 1; i <= 10; i++) {
+                const labels = form.querySelectorAll(`[data-q="q${i}"] .option-label`);
+                labels.forEach(label => {
+                    label.className = "option-label flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer text-sm md:text-base";
+                    const badge = label.querySelector('span.ml-auto');
+                    if (badge) badge.remove();
+                });
+
+                const questionCard = form.querySelector(`[data-q="q${i}"]`);
+                questionCard.className = "question-card bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm transition-all duration-300";
+            }
+
+            // Ocultar resultados
+            document.getElementById('results-panel').classList.add('hidden');
+            updateProgress();
+
+            // Rolar para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>

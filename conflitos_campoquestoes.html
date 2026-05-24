@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Interativo - Conflitos Sociais e Movimentos no Campo</title>
+    <!-- Tailwind CSS para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para elementos visuais refinados -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Georgia', 'ui-serif', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f4f7f4',
+                            100: '#e5ebe5',
+                            700: '#2d5a27', // Verde floresta/agrícola elegante
+                            800: '#1f3f1b',
+                            900: '#132811',
+                        },
+                        neutral: {
+                            light: '#fafaf9', // Fundo confortável (Stonewash/Warm White)
+                            dark: '#1c1917',  // Texto escuro suave (Stone 900)
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fafaf9;
+            color: #1c1917;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .prose-reading {
+            font-family: 'Georgia', Cambria, "Times New Roman", Times, serif;
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+        /* Transições suaves para seleção de alternativas */
+        .option-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-100 selection:text-brand-900">
+
+    <!-- Barra de Navegação Superior -->
+    <header class="sticky top-0 z-30 bg-stone-100/80 backdrop-blur-md border-b border-stone-200">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="scroll-text" class="text-brand-700 w-6 h-6"></i>
+                <span class="font-bold text-stone-800 text-sm md:text-base tracking-tight">Instituto AOCP - Simulado de Conflitos no Campo</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span id="score-badge" class="hidden px-3 py-1 bg-brand-700 text-white text-xs font-semibold rounded-full shadow-sm">
+                    Gabarito Liberado
+                </span>
+                <span class="text-xs text-stone-500 font-medium" id="header-progress">0 de 10 respondidas</span>
+            </div>
+        </div>
+        <!-- Barra de progresso visual do Simulado -->
+        <div class="w-full bg-stone-200 h-1">
+            <div id="progress-bar" class="bg-brand-700 h-1 w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8">
+        
+        <!-- Abas de Navegação interna -->
+        <div class="flex space-x-1 bg-stone-200/60 p-1 rounded-xl mb-8">
+            <button id="tab-quiz" class="flex-1 py-2.5 text-sm font-semibold rounded-lg bg-white text-stone-800 shadow-sm flex items-center justify-center space-x-2 transition-all">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                <span>Responder Simulado</span>
+            </button>
+            <button id="tab-table" class="flex-1 py-2.5 text-sm font-medium rounded-lg text-stone-600 hover:text-stone-800 hover:bg-white/40 flex items-center justify-center space-x-2 transition-all">
+                <i data-lucide="database" class="w-4 h-4"></i>
+                <span>Biblioteca de Dados (CPT)</span>
+            </button>
+        </div>
+
+        <!-- CONTEÚDO: ABA QUIZ -->
+        <div id="section-quiz" class="space-y-8">
+            
+            <div class="bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                <h1 class="text-2xl md:text-3xl font-serif font-semibold text-stone-900 tracking-tight leading-tight">
+                    Caderno de Questões: Conflitos Sociais, Movimentos no Campo e Resistência Tradicional no Brasil
+                </h1>
+                <p class="mt-3 text-stone-600 text-sm md:text-base leading-relaxed">
+                    Este simulado contém exatamente 10 questões inéditas e adaptadas no estilo da banca <strong>Instituto AOCP</strong>. Leia atentamente cada enunciado e assinale a alternativa correta. Ao término, clique em "Finalizar Simulado" no rodapé para visualizar sua nota, gabarito dinâmico e resoluções completas com fundamentação doutrinária e legal.
+                </p>
+            </div>
+
+            <!-- CONTAINER DAS QUESTÕES -->
+            <form id="quiz-form" onsubmit="event.preventDefault();" class="space-y-8">
+                <!-- As questões serão injetadas via JavaScript aqui -->
+                <div id="questions-container" class="space-y-8"></div>
+
+                <!-- Painel de Envio / Feedback -->
+                <div id="submit-panel" class="bg-stone-100 border border-stone-200 rounded-2xl p-6 text-center space-y-4">
+                    <h3 class="text-lg font-semibold text-stone-800">Pronto para finalizar o simulado?</h3>
+                    <p class="text-sm text-stone-600 max-w-md mx-auto">
+                        Verifique se respondeu a todas as perguntas. Ao submeter, suas respostas serão consolidadas e as resoluções detalhadas de cada item ficarão disponíveis.
+                    </p>
+                    <div class="pt-2">
+                        <button type="button" id="btn-submit-quiz" class="inline-flex items-center px-6 py-3 bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-brand-700 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i data-lucide="check-square" class="w-5 h-5 mr-2"></i>
+                            Finalizar Simulado
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Painel de Resultados Final (Inicialmente oculto) -->
+                <div id="results-panel" class="hidden bg-emerald-50 border-2 border-emerald-500/20 rounded-2xl p-6 md:p-8 text-center space-y-6">
+                    <div class="inline-flex p-4 bg-emerald-100 text-emerald-800 rounded-full">
+                        <i data-lucide="award" class="w-12 h-12"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h2 class="text-2xl md:text-3xl font-serif font-semibold text-stone-950">Desempenho Consolidado</h2>
+                        <p class="text-stone-600 max-w-lg mx-auto" id="results-feedback-text">
+                            Você concluiu o caderno de questões. Confira abaixo o número de acertos e a revisão analítica de cada questão!
+                        </p>
+                    </div>
+
+                    <!-- Gráfico de Rosca / Score -->
+                    <div class="flex justify-center items-center space-x-6 py-4">
+                        <div class="text-center">
+                            <span class="block text-5xl font-black text-brand-700" id="results-score">0 / 10</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-stone-500">Acertos</span>
+                        </div>
+                        <div class="h-12 w-px bg-stone-300"></div>
+                        <div class="text-center">
+                            <span class="block text-5xl font-black text-stone-700" id="results-percent">0%</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-stone-500 font-sans">Aproveitamento</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex flex-col sm:flex-row justify-center gap-3">
+                        <button type="button" onclick="resetQuiz()" class="px-5 py-2.5 bg-white border border-stone-300 hover:bg-stone-50 text-stone-700 font-semibold rounded-xl transition-all shadow-sm flex items-center justify-center space-x-2">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                            <span>Refazer Simulado</span>
+                        </button>
+                        <a href="#quest-0" class="px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-xl transition-all shadow-sm flex items-center justify-center space-x-2">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                            <span>Verificar Comentários</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- CONTEÚDO: ABA BIBLIOTECA DE DADOS -->
+        <div id="section-table" class="hidden space-y-6">
+            <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="p-2 bg-brand-50 rounded-lg text-brand-700">
+                        <i data-lucide="table" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold text-stone-900">Tabela de Dados e Indicadores sobre Conflitos Agrários</h2>
+                        <p class="text-sm text-stone-500">Dados Consolidados pela Comissão Pastoral da Terra (CPT)</p>
+                    </div>
+                </div>
+                <p class="text-sm text-stone-600 leading-relaxed mb-6">
+                    Esta tabela de dados serve como material complementar para fundamentar os seus estudos. As estatísticas e dados históricos aqui demonstrados são retirados diretamente dos relatórios anuais e do Atlas de 50 anos da CPT, cobrindo os marcos utilizados nas questões do simulado.
+                </p>
+
+                <!-- Tabela Responsiva -->
+                <div class="overflow-x-auto border border-stone-200 rounded-xl">
+                    <table class="w-full text-sm text-left text-stone-700">
+                        <thead class="bg-stone-100 text-stone-800 uppercase text-xs font-semibold border-b border-stone-200">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 min-w-[150px]">Indicador Agrário</th>
+                                <th scope="col" class="px-4 py-3 min-w-[200px]">Dados e Estatísticas Consolidadas</th>
+                                <th scope="col" class="px-4 py-3 min-w-[150px]">Foco Geográfico</th>
+                                <th scope="col" class="px-4 py-3 min-w-[200px]">Impacto Sócio-Ambiental</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-stone-200 bg-white">
+                            <tr>
+                                <td class="px-4 py-3.5 font-semibold text-stone-900">Conflitos no Campo (2023)</td>
+                                <td class="px-4 py-3.5">2.203 casos registrados (recorde histórico da série iniciada em 1985), envolvendo cerca de 950 mil pessoas.</td>
+                                <td class="px-4 py-3.5">Norte (810 casos) e Nordeste (665 casos). Bahia lidera com 202 casos rurais.</td>
+                                <td class="px-4 py-3.5">Despejos judiciais triplicaram e violência de agentes estatais dobrou nacionalmente.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3.5 font-semibold text-stone-900">Conflitos no Campo (2024)</td>
+                                <td class="px-4 py-3.5">2.185 conflitos (segundo maior número histórico); 1.768 foram disputas diretas por posse de terra.</td>
+                                <td class="px-4 py-3.5">Concentração acentuada nas fronteiras agrícolas da AMACRO e MATOPIBA.</td>
+                                <td class="px-4 py-3.5">Recorde de contaminação por agrotóxicos em 10 anos (276 casos, atingindo 17.027 famílias), com foco grave no Maranhão.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3.5 font-semibold text-stone-900">Série Histórica (1985-2023)</td>
+                                <td class="px-4 py-3.5">50.950 casos totais de disputas agrárias, divididas em 84% disputas por terra, 8,9% trabalho escravo e 7,1% por acesso à água.</td>
+                                <td class="px-4 py-3.5">A Amazônia Legal concentrou sozinha 44% de todo o total de conflitos históricos do país.</td>
+                                <td class="px-4 py-3.5">Expansão de commodities e exploração mineral e florestal sobre florestas públicas com base em grilagem física e "grilagem verde".</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3.5 font-semibold text-stone-900">Violência no Tocantins (2022)</td>
+                                <td class="px-4 py-3.5">504 casos sistemáticos de pistolagem ativa, 101 ameaças de expulsão ilegal e 113 moradias de camponeses demolidas.</td>
+                                <td class="px-4 py-3.5">Cerrado / Região do MATOPIBA (bacia do Tocantins-Araguaia).</td>
+                                <td class="px-4 py-3.5">Pressão violenta de corporações agrícolas e grileiros de terras sobre posses camponesas consolidadas.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3.5 font-semibold text-stone-900">Sobreposição do CAR no MATOPIBA</td>
+                                <td class="px-4 py-3.5">Cerca de 95% das propriedades rurais autodeclaradas no CAR na região estudada apresentam sobreposição com terras coletivas ou públicas.</td>
+                                <td class="px-4 py-3.5">Cerrado / Oeste Baiano e Sul do Piauí.</td>
+                                <td class="px-4 py-3.5">Invasão documental e legalização fraudulenta de territórios tradicionais de geraizeiros e fecheiros ("grilagem verde").</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Rodapé Minimalista -->
+    <footer class="bg-stone-900 text-stone-400 py-6 border-t border-stone-800 text-center text-xs mt-12">
+        <div class="max-w-4xl mx-auto px-4 space-y-2">
+            <p>© 2026 Simulado Premium. Todos os direitos reservados de acordo com as diretrizes do Instituto AOCP.</p>
+            <p>Desenvolvido com foco em acessibilidade visual e alta usabilidade para estudantes de concursos de alto rendimento.</p>
+        </div>
+    </footer>
+
+    <!-- LOGICA DO QUIZ EM JAVASCRIPT -->
+    <script>
+        // Dados das Questões (Contendo exatamente os enunciados e resoluções do documento)
+        const questionsData = [
+            {
+                id: 0,
+                num: 1,
+                title: "Questão 1",
+                enunciado: "O processo de regularização fundiária de territórios quilombolas no Brasil dialoga de forma direta com o Artigo 68 do Ato das Disposições Constitucionais Transitórias (ADCT) da Constituição Federal de 1988 e com as diretrizes de direitos humanos. Assinale a alternativa que apresenta corretamente os marcos legais, históricos e a dinâmica territorial dessas comunidades tradicionais.",
+                options: {
+                    A: "A primeira regulamentação federal para a titulação dessas áreas ocorreu sob a égide da Portaria Incra nº 307 de novembro de 1995, tendo como primeiro território quilombola titulado no país a comunidade de Boa Vista, em Oriximiná, no estado do Pará.",
+                    B: "A outorga de títulos de propriedade definitiva às comunidades remanescentes de quilombos é condicionada, pela jurisprudência constitucional, ao cumprimento de índices de produtividade mercantil voltados à exportação de commodities.",
+                    C: "O direito ao território quilombola foi restrito pelo Supremo Tribunal Federal à comprovação de títulos de propriedade formalizados em cartórios de registro de imóveis anteriormente à abolição da escravidão em 13 de maio de 1888.",
+                    D: "Os territórios quilombolas são juridicamente caracterizados como a somatória de lotes individuais de caráter privado, sendo permitida sua livre comercialização e partilha no mercado imobiliário após dez anos da titulação definitiva.",
+                    E: "A Fundação Cultural Palmares detém a competência executiva exclusiva de realizar a demarcação física, o levantamento topográfico e a titulação final de todas as terras quilombolas federais, cabendo ao INCRA apenas o papel consultivo."
+                },
+                correct: "A",
+                resolucao: "O histórico de regularização de terras de comunidades quilombolas no Brasil indica que a primeira iniciativa normativa formal de âmbito federal voltada a operacionalizar o Artigo 68 do ADCT foi a Portaria Incra nº 307, de novembro de 1995. Sob a vigência desse instrumento regulatório pioneiro, a comunidade quilombola de Boa Vista, localizada no município de Oriximiná, no Pará, tornou-se o primeiro território titulado oficialmente no país, estabelecendo um precedente para as políticas de reforma agrária de caráter étnico e de reparação histórica de comunidades negras tradicionais.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B:</strong> Não existe exigência constitucional de produtividade mercantil voltada à exportação.<br>• <strong>C:</strong> O STF rejeitou a tese limitadora do 'marco temporal' associada a 1888.<br>• <strong>D:</strong> Os territórios são coletivos, indivisíveis, inalienáveis e impenhoráveis.<br>• <strong>E:</strong> A demarcação física e titulação cabem prioritariamente ao INCRA, e não à Fundação Cultural Palmares (que atua na certificação de autoidentificação)."
+            },
+            {
+                id: 1,
+                num: 2,
+                title: "Questão 2",
+                enunciado: "O estado do Pará tem sido historicamente palco de severos conflitos agrários decorrentes da expansão das fronteiras agrícolas, da grilagem de terras públicas e da exploração madeireira. Sobre os episódios de violência no campo ocorridos nesse estado, assinale a alternativa correta.",
+                options: {
+                    A: "O Massacre de Eldorado do Carajás, ocorrido em 17 de abril de 1996, resultou na morte de 19 trabalhadores rurais sem-terra que realizavam uma marcha pacífica pela desapropriação de latifúndios, constituindo um dos episódios mais graves da violência no campo no Brasil.",
+                    B: "A Chacina de Pau D'Arco ocorreu no ano de 2017 na fazenda Santa Lúcia, resultando no assassinato de 10 fazendeiros vinculados à União Democrática Ruralista por milícias de trabalhadores rurais sem-terra.",
+                    C: "A missionária Dorothy Mae Stang foi assassinada no ano de 2007 no município de Anapu devido à sua forte atuação de liderança e oposição direta à construção da Usina Hidrelétrica de Belo Monte em Altamira.",
+                    D: "A Chacina de Colniza, que vitimou nove colonos assentados em uma área de intensa disputa por terras e exploração florestal ilegal, localiza-se geograficamente no noroeste do estado do Pará.",
+                    E: "Os conflitos agrários no Pará foram totalmente pacificados no final da década de 1970 a partir da atuação do ITERPA, que extinguiu as disputas territoriais mediante a digitalização fundiária integral."
+                },
+                correct: "A",
+                resolucao: "O Massacre de Eldorado do Carajás, ocorrido em 17 de abril de 1996 no sudeste do Pará, resultou no assassinato de 19 trabalhadores rurais do Movimento dos Trabalhadores Rurais Sem Terra (MST) pelas forças policiais militares do estado. O episódio denunciou internacionalmente a gravidade e a impunidade das disputas de terra no Brasil.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B:</strong> A Chacina de Pau D'Arco (2017) vitimou 10 trabalhadores rurais posseiros durante ação policial, e não fazendeiros.<br>• <strong>C:</strong> Dorothy Stang foi assassinada em fevereiro de 2005 (não 2007) devido à sua luta por Projetos de Desenvolvimento Sustentável (PDS) e contra a grilagem, e não por Belo Monte.<br>• <strong>D:</strong> A Chacina de Colniza ocorreu no estado de Mato Grosso (MT), não no Pará.<br>• <strong>E:</strong> O estado do Pará continua sendo um dos epicentros de conflitos agrários no Brasil até hoje."
+            },
+            {
+                id: 2,
+                num: 3,
+                title: "Questão 3",
+                enunciado: "De acordo com o relatório anual \"Conflitos no Campo Brasil\", elaborado pela Comissão Pastoral da Terra (CPT), as disputas agrárias no cenário brasileiro têm apresentado variações estatísticas expressivas. Com base nos dados consolidados desse levantamento, assinale a alternativa correta.",
+                options: {
+                    A: "O ano de 2023 registrou 2.203 conflitos no campo, consolidando o maior número de ocorrências de toda a série histórica iniciada em 1985, tendo o estado da Bahia como o líder nacional em número absoluto de disputas agrárias.",
+                    B: "O volume de conflitos por terra registrou uma redução linear contínua superior a 80% nos anos de 2023 e 2024 em virtude da pacificação espontânea provocada pela expansão do agronegócio.",
+                    C: "Os casos de contaminação por agrotóxicos apresentaram o menor patamar da última década em 2024, reduzindo drasticamente o número de famílias afetadas no interior do Maranhão.",
+                    D: "Os conflitos associados estritamente à disputa pela posse da água representam o maior percentual absoluto de conflitos agrários no país, superando as disputas tradicionais por terra e as relações de trabalho escravo.",
+                    E: "A região Norte do país registrou, no relatório de 2023, o menor número absoluto de conflitos agrários do Brasil, sendo superada de forma acentuada pelas regiões Sul e Sudeste."
+                },
+                correct: "A",
+                resolucao: "Segundo a CPT, 2023 bateu o recorde de conflitos agrários com 2.203 registros que impactaram quase 950 mil pessoas. A Bahia liderou a lista com 202 conflitos, seguida de perto por Pará (183) e Maranhão (171).<br><br><strong>Incorreções das demais:</strong><br>• <strong>B:</strong> Os conflitos mantiveram-se em patamares recordes históricos em 2023 e 2024, sem queda linear.<br>• <strong>C:</strong> Em 2024 registrou-se, na verdade, o maior patamar de contaminação por agrotóxicos dos últimos 10 anos (aumento de 763% em famílias afetadas).<br>• <strong>D:</strong> A disputa por terra continua sendo a grande maioria das ocorrências (cerca de 78% a 84% do total), superando água e trabalho escravo.<br>• <strong>E:</strong> O Norte liderou com folga o volume de conflitos rurais (810 ocorrências)."
+            },
+            {
+                id: 3,
+                num: 4,
+                title: "Questão 4",
+                enunciado: "O avanço das fronteiras do agronegócio na região do MATOPIBA (áreas confluentes do Maranhão, Tocantins, Piauí e Bahia) tem reconfigurado as práticas de expropriação fundiária. A esse fenômeno, que envolve instrumentos de regulação ambiental, atribui-se o conceito de \"grilagem verde\". Assinale a alternativa que descreve corretamente essa dinâmica.",
+                options: {
+                    A: "Trata-se do registro de terras tradicionalmente ocupadas por comunidades camponesas e tradicionais, como geraizeiros e fecheiros, no Cadastro Ambiental Rural (CAR) por grandes produtores, que as declaram como áreas de preservação ou reserva legal de suas próprias fazendas para simular regularidade ambiental.",
+                    B: "Consiste no reflorestamento clandestino de latifúndios produtivos promovido por movimentos sociais como o MST, com o objetivo de forçar o tombamento ecológico de terras agricultáveis e inviabilizar a exportação de grãos.",
+                    C: "Refere-se à compra consensual e regular de florestas nativas por fundos estrangeiros de investimento de carbono, garantindo a imediata titulação coletiva e integral das comunidades quilombolas locais.",
+                    D: "Caracteriza-se pela ocupação de terras indígenas demarcadas por empresas multinacionais de biotecnologia com o consentimento prévio e outorga da Fundação Cultural Palmares.",
+                    E: "Representa a destinação compulsória de terras devolutas estaduais à agricultura de subsistência de famílias vulneráveis, sem necessidade de inserção no Cadastro Ambiental Rural ou licenciamento."
+                },
+                correct: "A",
+                resolucao: "A 'grilagem verde' é a apropriação fraudulenta da posse de comunidades tradicionais por meio do preenchimento e declaração simulada no CAR. Com as exigências do Código Florestal de se manter no mínimo 20% de reserva legal preservada, fazendeiros registram de forma fraudulenta as terras tradicionais vizinhas em seus cadastros para simular conformidade ecológica e subsequentemente forçar a expulsão violenta de geraizeiros ou fecheiros.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B, C, D e E:</strong> Apresentam conceitos inexistentes ou faticamente incorretos. A Fundação Cultural Palmares não atua em demarcações indígenas e projetos irregulares de créditos de carbono frequentemente acirram conflitos e reduzem a autonomia territorial local."
+            },
+            {
+                id: 4,
+                num: 5,
+                title: "Questão 5",
+                enunciado: "As mulheres quebradeiras de coco babaçu constituem um importante grupo tradicional extrativista que atua nos estados do Maranhão, Piauí, Tocantins e Pará. A organização política dessas trabalhadoras resultou na conquista de importantes marcos regulatórios conhecidos como \"Leis do Babaçu Livre\". Sobre essas legislações e o histórico de luta dessas comunidades, assinale a alternativa correta.",
+                options: {
+                    A: "A primeira Lei do Babaçu Livre do país foi aprovada em 1997 no município de Lago do Junco, no Maranhão, como fruto da resistência contra os cercamentos de terras comuns e o desmatamento promovido por pecuaristas.",
+                    B: "A Lei do Babaçu Livre do Piauí (Lei nº 7.888/2022) vedou expressamente a possibilidade de regularização fundiária de territórios tradicionais sob a modalidade de titulação coletiva.",
+                    C: "O Movimento Interestadual das Quebradeiras de Coco Babaçu (MIQCB) foi fundado na década de 1970 com financiamento direto de multinacionais de cosméticos para incentivar a monocultura do babaçual.",
+                    D: "As legislações do Babaçu Livre em vigor nos estados do Piauí, Tocantins e Maranhão aplicam-se exclusivamente a terras públicas federais, sendo vedado o livre acesso das quebradeiras a áreas privadas.",
+                    E: "O extrativismo praticado pelas quebradeiras de coco é restrito ao bioma da Mata Atlântica do sul da Bahia, inexistindo qualquer sobreposição dessa atividade com as áreas de Cerrado ou da Amazônia."
+                },
+                correct: "A",
+                resolucao: "A primeira 'Lei do Babaçu Livre' nasceu em Lago do Junco (MA) no ano de 1997. Ela assegura às quebradeiras de coco o livre trânsito e exploração das palmeiras de babaçu de forma sustentável, proibindo o desmatamento, cercamento dos babaçuais e pulverizações químicas aéreas.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B:</strong> A referida lei consagrou a titulação coletiva pioneira da comunidade de Vila Esperança.<br>• <strong>C:</strong> O MIQCB foi fundado em 1995 de forma popular autônoma, e não financiado por multinacionais para gerar monoculturas.<br>• <strong>D:</strong> O livre trânsito se aplica especialmente a propriedades privadas para combater os abusos de cercamento.<br>• <strong>E:</strong> O ecossistema das matas de cocais situa-se no meio-norte brasileiro (Amazônia/Cerrado), não na Mata Atlântica baiana."
+            },
+            {
+                id: 5,
+                num: 6,
+                title: "Questão 6",
+                enunciado: "O cumprimento da função social da propriedade rural constitui elemento basilar para a estabilidade das relações no campo e a prevenção de conflitos agrários. De acordo com o disposto no Artigo 186 da Constituição Federal de 1988, a propriedade rural atende à sua função social quando preenche, simultaneamente, determinados requisitos. Assinale a alternativa que apresenta esses requisitos de forma correta.",
+                options: {
+                    A: "Aproveitamento racional e adequado; utilização adequada dos recursos naturais disponíveis e preservação do meio ambiente; observância das disposições que regulam as relações de trabalho; exploração que favoreça o bem-estar dos proprietários e dos trabalhadores.",
+                    B: "Alta produtividade agrícola para o mercado externo; emprego de mão de obra temporária terceirizada; mecanização intensiva do solo; isenção tributária para áreas desmatadas legalmente.",
+                    C: "Certificação digital de limites georreferenciados; isenção de vegetação nativa na área produtiva; manutenção de pastagens intensivas de alta densidade; parceria comercial com cooperativas multinacionais.",
+                    D: "Aproveitamento focado na maximização de lucros; captação irrestrita de recursos hídricos subterrâneos para irrigação; emprego de relações de trabalho informais; destinação exclusiva à produção de commodities.",
+                    E: "Preservação integral da área total do imóvel sem qualquer tipo de exploration produtiva; ausência de registro no Cadastro Ambiental Rural (CAR); contratação exclusiva de trabalhadores safristas sob regime de cooperativa."
+                },
+                correct: "A",
+                resolucao: "A alternativa 'A' traz a redação literal e estrutural do Artigo 186 da Constituição de 1988. Para cumprir sua função social, as propriedades rurais de médio e grande porte devem atender de forma <strong>simultânea e cumulativa</strong> aos critérios produtivos, ambientais, de bem-estar social e de respeito às leis de trabalho e segurança laboral.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B, C, D e E:</strong> Descrevem aspectos eminentemente de mercado, exploração intensiva ou omissões legais (como desmatamento total ou falta de registro do CAR) que violam diretamente a legislação constitucional e as premissas socioambientais."
+            },
+            {
+                id: 6,
+                num: 7,
+                title: "Questão 7",
+                enunciado: "A Comissão Pastoral da Terra (CPT) completou 50 anos de atuação como uma das organizações mais ativas na defesa dos camponeses e no monitoramento de conflitos no meio rural brasileiro. O \"Atlas dos Conflitos no Campo Brasileiro\", publicado pela entidade em comemoração ao seu cinquentenário, traz dados consolidados do período entre 1985 e 2023. Com base nesse levantamento histórico, assinale a alternativa correta.",
+                options: {
+                    A: "A Amazônia concentrou quase metade (44%) dos 50.950 conflitos registrados no período analisado, evidenciando o peso da grilagem e do avanço do agronegócio e da mineração sobre terras públicas e de uso comum.",
+                    B: "A totalidade dos casos mapeados pelo Atlas no período refere-se a disputas tributárias de competência dos municípios, sem registros de episódios de violência física.",
+                    C: "As disputas associadas às relações de trabalho escravo no campo representaram cerca de 84% de todas as ocorrências mapeadas pelo relatório histórico da CPT.",
+                    D: "Desde a década de 1980, os conflitos agrários na Amazônia têm apresentado uma redução linear contínua, migrando expressivamente para as regiões de transição urbana do Sudeste.",
+                    E: "Os conflitos associados ao acesso e uso da água na série histórica de 1985 a 2023 foram inexistentes nos estados do Nordeste devido à perenização natural de todos os rios da bacia semiárida."
+                },
+                correct: "A",
+                resolucao: "Historicamente, o levantamento consolidado do cinquentenário da CPT confirma a gravidade da violência sistêmica na Amazônia Legal, que registrou 44% dos 50.950 conflitos catalogados em todo o território nacional.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B:</strong> O monitoramento mapeia agressões severas, mortes, ameaças de expulsão e crimes contra a pessoa humana, não taxas municipais.<br>• <strong>C:</strong> O trabalho escravo representou cerca de 8,9% do total, e não 84% (que corresponde às disputas de terra).<br>• <strong>D:</strong> Os conflitos na região amazônica continuam crescendo em volume e intensidade.<br>• <strong>E:</strong> As disputas por águas e nascentes são intensas no semiárido nordestino."
+            },
+            {
+                id: 7,
+                num: 8,
+                title: "Questão 8",
+                enunciado: "As comunidades tradicionais que habitam a Caatinga e o Cerrado no Nordeste brasileiro enfrentam desafios históricos para a manutenção de seus modos de vida e a integridade de seus territórios. Sobre as características demográficas, socioculturais e de resistência desses grupos, assinale a alternativa correta.",
+                options: {
+                    A: "Povos indígenas como os Tumbalala, Pankararu e Xukuru, e comunidades quilombolas como a de Conceição das Crioulas, construíram saberes seculares de convivência com o semiárido e atuam ativamente na defesa de seus territórios tradicionais contra pressões do agronegócio.",
+                    B: "Os geraizeiros localizam-se predominantemente nas planícies do litoral úmido do sul da Bahia, caracterizando-se pela atividade pesqueira de grande escala em territórios completamente titulados.",
+                    C: "As comunidades tradicionais da Caatinga necessitam do cercamento de pastagens promovido por grandes empreendimentos agropecuários para garantir a reprodução e alimentação de seus rebanhos caprinos.",
+                    D: "A hidroestesia, técnica tradicional de busca de águas subterrâneas com o uso de forquilhas, constitui um método patenteado por empresas privadas do agronegócio para o mapeamento digital do Cerrado.",
+                    E: "O cangaço histórico liderado por Virgulino Ferreira da Silva (Lampião) constituiu a primeira organização camponesa de caráter institucional e sindical focada na demarcação oficial de terras de pequenos produtores."
+                },
+                correct: "A",
+                resolucao: "Os povos indígenas e as comunidades remanescentes de quilombos (como a histórica Conceição das Crioulas em Pernambuco) desenvolveram conhecimentos e resiliência secular no semiárido e mantêm ativa mobilização política e resistência física contra cercamentos e frentes agrícolas predatórias.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B:</strong> Os geraizeiros habitam os campos gerais do Cerrado (norte de MG / oeste baiano) e praticam agricultura coletiva e pastoreio, não pesca industrial costeira.<br>• <strong>C:</strong> O cercamento de grandes latifúndios estrangula e inviabiliza o manejo e a soltura comunitária tradicional (fecho de pasto).<br>• <strong>D:</strong> A hidroestesia com varas/forquilhas é um saber camponês ancestral transmitido de forma oral e não patente empresarial.<br>• <strong>E:</strong> O cangaço representou banditismo e reação armada individualista-familiar, não uma organização político-sindical de reforma agrária dirigida por institutos de terras."
+            },
+            {
+                id: 8,
+                num: 9,
+                title: "Questão 9",
+                enunciado: "No contexto dos conflitos sociais ocorridos na região do MATOPIBA, as dinâmicas de violência contra a posse camponesa assumem características específicas relacionadas à legislação agrária e à atuação de agentes privados e estatais. Sobre esses fatos, assinale a alternativa correta.",
+                options: {
+                    A: "No estado do Piauí, uma lei estadual aprovada oficializou títulos de propriedade registrados até 2015, o que, na avaliação de movimentos sociais, funcionou como um mecanismo de legalização da grilagem praticada até aquela data.",
+                    B: "No estado do Tocantins, os dados consolidados da CPT indicam a erradicação completa das práticas de pistolagem e de destruição de residências rurais a partir do ano de 2022.",
+                    C: "Os conflitos no MATOPIBA caracterizam-se por disputas judiciais estritamente burocráticas, sendo inexistentes os registros de agressões físicas, intimidações por milícias privadas ou ameaças de morte.",
+                    D: "O avanço da produção de grãos nessa fronteira agrícola ocorreu de forma pacífica e isolada, sem registrar sobreposição com territórios ocupados secularmente por comunidades tradicionais ou posseiros.",
+                    E: "As leis de terras estaduais vigentes nos estados do Piauí, Maranhão, Tocantins e Bahia impedem sumariamente a regularização de terras públicas em benefício de grandes produtores rurais."
+                },
+                correct: "A",
+                resolucao: "No Piauí, alterações na regulação fundiária que convalidaram registros imobiliários privados lavrados até o ano limite de 2015 geraram severas manifestações e denúncias por parte de movimentos agrários, que viram nas medidas legislativas uma anistia formal e chancela estatal à grilagem de glebas públicas devolutas em detrimento das famílias locais camponesas.<br><br><strong>Incorreções das demais:</strong><br>• <strong>B:</strong> O Tocantins registrou um dos piores patamares de agressões rurais recentes (504 atos de pistolagem e centenas de habitações demolidas).<br>• <strong>C e D:</strong> No MATOPIBA são relatadas constantes pressões corporativas armadas, ameaças letais e invasões cartoriais sobrepostas sobre 95% das áreas de interesse tradicional.<br>• <strong>E:</strong> As leis de terras estaduais têm facilitado e legalizado o repasse célere de áreas públicas a investidores agropecuários e fundos imobiliários."
+            },
+            {
+                id: 9,
+                num: 10,
+                title: "Questão 10",
+                enunciado: "A modernização da agricultura e a reorganização produtiva do território exercem forte impacto sobre as redes urbanas, a demografia regional e a dinâmica social no campo. Sobre o histórico da modernização agrícola e da urbanização no estado de Goiás, assinale a alternativa incorreta.",
+                options: {
+                    A: "Na década de 1980-1990, a agricultura goiana passou por uma profunda mudança estrutural e social que resultou no esvaziamento completo das áreas urbanas e no retorno massivo das populações para o meio rural, gerando um inchaço populacional no campo.",
+                    B: "As rápidas transformações no quadro urbano-municipal ocorridas entre 1960 e 1970 associaram-se à ideologia do \"milagre econômico\" da ditadura militar e ao êxodo rural induzido pela abertura do campo ao capital nacional e internacional.",
+                    C: "Até meados do século XX, a urbanização e a criação de novos municípios em Goiás caracterizaram-se pela forte influência da ruralidade das atividades econômicas e por hábitos agropastoris locais.",
+                    D: "Ao longo das décadas de 1990 e 2000, o processo de municipalização e a dinâmica demográfica goiana voltaram-se significativamente para as áreas de influência das duas principais metrópoles do Cerrado: Goiânia e Brasília.",
+                    E: "Após o declínio da atividade aurífera, parcela expressiva das populações instaladas nos arredores dos antigos arraiais permaneceu no território, convertendo-se em base de povoamento, conquista e urbanização do estado."
+                },
+                correct: "A",
+                resolucao: "<strong>Atenção: A questão solicita a alternativa INCORRETA!</strong><br><br>A alternativa 'A' é a incorreta porque a modernização da agricultura goiana nas décadas de 1980 e 1990 gerou a concentração de latifúndios monoculturais de grãos e mecanização intensiva. Esse cenário causou, na realidade, a diminuição drástica de empregos rurais camponeses, intensificando o <strong>êxodo rural maciço</strong> rumo à periferia dos centros urbanos goianos (inchaço urbano) e esvaziando as populações agrárias do campo.<br><br>As demais alternativas (B, C, D e E) são fatos históricos verdadeiros que explicam consistentemente o povoamento, ciclos mineradores, a intervenção territorial autoritária do regime civil-militar e a posterior metropolização do Cerrado em torno de Goiânia e da capital federal Brasília."
+            }
+        ];
+
+        // Estado do Simulado
+        let userAnswers = Array(10).fill(null);
+        let submitted = false;
+
+        // Renderização Inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            renderQuestions();
+            setupTabs();
+            updateProgress();
+            
+            // Ativa inicialização de ícones lucide
+            lucide.createIcons();
+
+            // Event listener para o botão de envio
+            document.getElementById('btn-submit-quiz').addEventListener('click', submitQuiz);
+        });
+
+        // Configuração de alternância entre as abas
+        function setupTabs() {
+            const tabQuiz = document.getElementById('tab-quiz');
+            const tabTable = document.getElementById('tab-table');
+            const secQuiz = document.getElementById('section-quiz');
+            const secTable = document.getElementById('section-table');
+
+            tabQuiz.addEventListener('click', () => {
+                tabQuiz.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg bg-white text-stone-800 shadow-sm flex items-center justify-center space-x-2 transition-all";
+                tabTable.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-stone-600 hover:text-stone-800 hover:bg-white/40 flex items-center justify-center space-x-2 transition-all";
+                secQuiz.classList.remove('hidden');
+                secTable.classList.add('hidden');
+            });
+
+            tabTable.addEventListener('click', () => {
+                tabTable.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg bg-white text-stone-800 shadow-sm flex items-center justify-center space-x-2 transition-all";
+                tabQuiz.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-stone-600 hover:text-stone-800 hover:bg-white/40 flex items-center justify-center space-x-2 transition-all";
+                secTable.classList.remove('hidden');
+                secQuiz.classList.add('hidden');
+            });
+        }
+
+        // Renderiza todas as questões na tela
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = "";
+
+            questionsData.forEach((q, idx) => {
+                const qCard = document.createElement('div');
+                qCard.id = `quest-${q.id}`;
+                qCard.className = "bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm space-y-6 transition-all";
+
+                // Header da Questão
+                const header = `
+                    <div class="flex items-center justify-between border-b border-stone-100 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2.5 py-1 bg-stone-100 text-stone-700 text-xs font-semibold rounded-md uppercase tracking-wider">Questão ${q.num} de 10</span>
+                            <span class="text-xs text-stone-400 font-medium">Banca Instituto AOCP</span>
+                        </div>
+                        <div id="status-icon-${q.id}" class="hidden"></div>
+                    </div>
+                `;
+
+                // Enunciado
+                const enunciado = `
+                    <div class="prose-reading text-stone-900 font-serif">
+                        ${q.enunciado}
+                    </div>
+                `;
+
+                // Alternativas
+                let alternativesHTML = `<div class="space-y-3" id="options-group-${q.id}">`;
+                Object.entries(q.options).forEach(([letter, text]) => {
+                    alternativesHTML += `
+                        <button type="button" 
+                                onclick="selectOption(${q.id}, '${letter}')" 
+                                id="opt-${q.id}-${letter}"
+                                class="option-card w-full text-left p-4 rounded-xl border border-stone-200 bg-stone-50/50 hover:bg-stone-100 hover:border-stone-300 flex items-start space-x-3 focus:outline-none focus:ring-2 focus:ring-brand-700/20">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-lg border border-stone-300 bg-white text-stone-700 text-sm font-bold flex items-center justify-center transition-colors shadow-sm" id="bullet-${q.id}-${letter}">
+                                ${letter}
+                            </span>
+                            <span class="text-stone-700 text-sm md:text-base leading-relaxed font-sans pt-0.5">
+                                ${text}
+                            </span>
+                        </button>
+                    `;
+                });
+                alternativesHTML += `</div>`;
+
+                // Box de Resolução (Inicialmente oculta)
+                const resolucaoBox = `
+                    <div id="res-box-${q.id}" class="hidden mt-6 p-5 bg-brand-50 border border-brand-700/15 rounded-xl space-y-3 transition-all">
+                        <div class="flex items-center space-x-2 text-brand-700 font-semibold text-sm">
+                            <i data-lucide="info" class="w-4 h-4"></i>
+                            <span>Gabarito Comentado e Resolução</span>
+                        </div>
+                        <div class="text-stone-700 text-sm md:text-base leading-relaxed font-sans border-t border-brand-700/10 pt-3">
+                            ${q.resolucao}
+                        </div>
+                    </div>
+                `;
+
+                qCard.innerHTML = header + enunciado + alternativesHTML + resolucaoBox;
+                container.appendChild(qCard);
+            });
+            lucide.createIcons();
+        }
+
+        // Seleciona a opção
+        function selectOption(questId, letter) {
+            if (submitted) return; // Impede alterar após o envio
+
+            // Atualiza array de respostas
+            userAnswers[questId] = letter;
+
+            // Reseta visual de todos os botões da mesma questão
+            const q = questionsData.find(item => item.id === questId);
+            Object.keys(q.options).forEach(l => {
+                const btn = document.getElementById(`opt-${questId}-${l}`);
+                const bullet = document.getElementById(`bullet-${questId}-${l}`);
+                
+                btn.className = "option-card w-full text-left p-4 rounded-xl border border-stone-200 bg-stone-50/50 hover:bg-stone-100 hover:border-stone-300 flex items-start space-x-3 focus:outline-none focus:ring-2 focus:ring-brand-700/20";
+                bullet.className = "flex-shrink-0 w-7 h-7 rounded-lg border border-stone-300 bg-white text-stone-700 text-sm font-bold flex items-center justify-center transition-colors shadow-sm";
+            });
+
+            // Destaca a selecionada
+            const selectedBtn = document.getElementById(`opt-${questId}-${letter}`);
+            const selectedBullet = document.getElementById(`bullet-${questId}-${letter}`);
+            
+            selectedBtn.className = "option-card w-full text-left p-4 rounded-xl border border-brand-700 bg-brand-50/40 flex items-start space-x-3 focus:outline-none ring-2 ring-brand-700/10";
+            selectedBullet.className = "flex-shrink-0 w-7 h-7 rounded-lg border border-brand-700 bg-brand-700 text-white text-sm font-bold flex items-center justify-center transition-colors shadow-sm";
+
+            updateProgress();
+        }
+
+        // Atualiza a barra de progresso do quiz
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(ans => ans !== null).length;
+            const progressPercent = (answeredCount / 10) * 100;
+
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+            document.getElementById('header-progress').textContent = `${answeredCount} de 10 respondidas`;
+
+            // Ativa/Desativa o envio baseado no progresso (Opcional, mas vamos permitir enviar e marcar aviso caso falte responder)
+            const btnSubmit = document.getElementById('btn-submit-quiz');
+            if (answeredCount === 10) {
+                btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnSubmit.title = "Clique para concluir seu simulado";
+            }
+        }
+
+        // Submete o Quiz e exibe Gabaritos e Comentários
+        function submitQuiz() {
+            if (submitted) return;
+
+            // Validação: Alerta suave na tela caso falte responder alguma questão
+            const unanswered = [];
+            userAnswers.forEach((ans, idx) => {
+                if (ans === null) unanswered.push(idx + 1);
+            });
+
+            if (unanswered.length > 0) {
+                const confirmSubmit = confirm(`Atenção: Você ainda não respondeu a(s) seguinte(s) questão(ões): ${unanswered.join(', ')}.\n\nDeseja submeter mesmo assim com as questões em branco?`);
+                if (!confirmSubmit) return;
+            }
+
+            submitted = true;
+
+            // Calcula Score
+            let correctCount = 0;
+            questionsData.forEach((q) => {
+                const userAns = userAnswers[q.id];
+                const isCorrect = userAns === q.correct;
+                if (isCorrect) correctCount++;
+
+                // Container da questão para estilização final
+                const qCard = document.getElementById(`quest-${q.id}`);
+                const statusIconContainer = document.getElementById(`status-icon-${q.id}`);
+                statusIconContainer.classList.remove('hidden');
+
+                // Revela a caixa de resolução
+                const resBox = document.getElementById(`res-box-${q.id}`);
+                resBox.classList.remove('hidden');
+
+                // Altera as bordas e cores conforme erro/acerto
+                if (userAns === null) {
+                    // Sem resposta
+                    statusIconContainer.innerHTML = `<span class="px-2 py-1 bg-amber-100 text-amber-800 text-xs font-semibold rounded flex items-center gap-1"><i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Em Branco</span>`;
+                    qCard.classList.add('border-amber-300', 'bg-amber-50/5');
+                } else if (isCorrect) {
+                    // Acertou
+                    statusIconContainer.innerHTML = `<span class="px-2 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Correta</span>`;
+                    qCard.classList.add('border-emerald-200', 'bg-emerald-50/5');
+                } else {
+                    // Errou
+                    statusIconContainer.innerHTML = `<span class="px-2 py-1 bg-rose-100 text-rose-800 text-xs font-semibold rounded flex items-center gap-1"><i data-lucide="x" class="w-3.5 h-3.5"></i> Incorreta</span>`;
+                    qCard.classList.add('border-rose-200', 'bg-rose-50/5');
+                }
+
+                // Destaca de forma marcante a alternativa correta e a errada
+                Object.keys(q.options).forEach(l => {
+                    const btn = document.getElementById(`opt-${q.id}-${l}`);
+                    const bullet = document.getElementById(`bullet-${q.id}-${l}`);
+
+                    // Remove cliques desativando o botão
+                    btn.disabled = true;
+                    btn.classList.add('cursor-default');
+
+                    if (l === q.correct) {
+                        // Correta: Sempre Verde de destaque
+                        btn.className = "option-card w-full text-left p-4 rounded-xl border-emerald-500 bg-emerald-50 text-emerald-900 flex items-start space-x-3 focus:outline-none ring-2 ring-emerald-500/10";
+                        bullet.className = "flex-shrink-0 w-7 h-7 rounded-lg border-emerald-500 bg-emerald-500 text-white text-sm font-bold flex items-center justify-center transition-colors shadow-sm";
+                    } else if (l === userAns) {
+                        // Resposta do usuário incorreta: Destaca em Vermelho
+                        btn.className = "option-card w-full text-left p-4 rounded-xl border-rose-400 bg-rose-50 text-rose-900 flex items-start space-x-3 focus:outline-none ring-2 ring-rose-400/10";
+                        bullet.className = "flex-shrink-0 w-7 h-7 rounded-lg border-rose-400 bg-rose-500 text-white text-sm font-bold flex items-center justify-center transition-colors shadow-sm";
+                    } else {
+                        // Outras alternativas ficam discretas/apagadas
+                        btn.className = "option-card w-full text-left p-4 rounded-xl border-stone-200 bg-white opacity-65 flex items-start space-x-3 focus:outline-none";
+                        bullet.className = "flex-shrink-0 w-7 h-7 rounded-lg border-stone-300 bg-stone-100 text-stone-400 text-sm font-bold flex items-center justify-center transition-colors shadow-sm";
+                    }
+                });
+            });
+
+            // Atualiza Painel de Resultados Final
+            const pct = (correctCount / 10) * 100;
+            document.getElementById('results-score').textContent = `${correctCount} / 10`;
+            document.getElementById('results-percent').textContent = `${pct}%`;
+
+            let feedbackText = "";
+            if (pct >= 90) {
+                feedbackText = "Excelente desempenho! Sua pontuação indica pleno domínio das dinâmicas agrárias brasileiras e das leis de direitos territoriais e proteção social no campo.";
+            } else if (pct >= 70) {
+                feedbackText = "Muito bom! Você possui sólida base conceitual sobre o MST, CPT e as tensões no MATOPIBA. Faça uma leitura detalhada das resoluções das questões erradas.";
+            } else if (pct >= 50) {
+                feedbackText = "Desempenho razoável. Atente-se à complexidade jurídica da função social da terra e das dinâmicas de resistência territorial dos povos do Cerrado.";
+            } else {
+                feedbackText = "Abaixo da média recomendada. Recomendamos uma leitura detalhada dos marcos regulatórios, da tabela de dados da CPT disponível na segunda aba e revisão das resoluções.";
+            }
+            document.getElementById('results-feedback-text').textContent = feedbackText;
+
+            // Oculta painel de envio e exibe o de resultados
+            document.getElementById('submit-panel').classList.add('hidden');
+            const resPanel = document.getElementById('results-panel');
+            resPanel.classList.remove('hidden');
+
+            // Exibe badge do topo
+            document.getElementById('score-badge').classList.remove('hidden');
+
+            // Atualiza ícones gerados dinamicamente
+            lucide.createIcons();
+
+            // Rola suavemente até o painel de resultados
+            resPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reinicia o simulado por completo
+        function resetQuiz() {
+            if (!confirm("Deseja realmente reiniciar o simulado? Suas respostas atuais serão perdidas.")) return;
+
+            userAnswers = Array(10).fill(null);
+            submitted = false;
+
+            // Oculta painel de resultados e reativa o de envio
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('submit-panel').classList.remove('hidden');
+            document.getElementById('score-badge').classList.add('hidden');
+
+            renderQuestions();
+            updateProgress();
+
+            // Rola suavemente para o início do quiz
+            document.getElementById('quiz-form').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

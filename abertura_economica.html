@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudos IFCE - Privatizações, Abertura Econômica e Território</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfcfc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        mark {
+            background-color: #fef08a;
+            color: #1e293b;
+            padding: 0.15rem 0.3rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .concept-card {
+            transition: transform 0.2s ease;
+        }
+        .concept-card:hover {
+            transform: translateY(-2px);
+        }
+        /* Garantir que tabelas não quebrem o layout mobile */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-gray-100 py-4 px-6 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 text-white p-2.5 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-earth-americas text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-900 tracking-tight">Mentoria IFCE | Geografia</h1>
+                    <p class="text-xs text-gray-500 font-medium">Banca Instituto AOCP - Cargo EBTT</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    Conteúdo Revisado v2.0
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8">
+        
+        <section class="bg-white border border-gray-200 rounded-2xl p-6 mb-10 shadow-sm">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                <div class="flex items-start gap-4">
+                    <div class="bg-sky-50 text-sky-600 p-4 rounded-xl hidden sm:flex items-center justify-center">
+                        <i class="fa-solid fa-microphone-lines text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-gray-900">Audio-Resumo: Privatização e Território</h2>
+                        <p class="text-sm text-gray-500 mt-1">Reforço auditivo para fixação técnica de conceitos econômicos.</p>
+                        <div class="mt-2 inline-flex items-center gap-1.5 text-xs text-gray-400 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-100">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Arquivo: <strong class="text-gray-600 font-medium">aula_privatizacoes.mp3</strong></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-auto flex flex-col sm:flex-row items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <audio id="memorization-audio" src="aula_privatizacoes.mp3" class="w-full sm:w-64"></audio>
+                    <div class="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm">
+                        <span class="text-[10px] font-bold text-gray-400 px-2 uppercase">Velocidade</span>
+                        <button onclick="changeSpeed(1)" class="speed-btn px-2.5 py-1 text-xs font-bold rounded-lg bg-sky-100 text-sky-700">1x</button>
+                        <button onclick="changeSpeed(1.5)" class="speed-btn px-2.5 py-1 text-xs font-bold rounded-lg hover:bg-gray-100 text-gray-600">1.5x</button>
+                        <button onclick="changeSpeed(2)" class="speed-btn px-2.5 py-1 text-xs font-bold rounded-lg hover:bg-gray-100 text-gray-600">2x</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="mb-12">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="h-10 w-10 bg-gray-900 text-white rounded-xl flex items-center justify-center font-black">1</div>
+                <div>
+                    <h2 class="text-2xl font-black text-gray-900 tracking-tight">O Neoliberalismo e a Abertura dos Anos 90</h2>
+                    <p class="text-sm text-gray-500">A transição do modelo nacional-desenvolvimentista para o Consenso de Washington.</p>
+                </div>
+            </div>
+
+            <article class="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm">
+                <div class="p-6 sm:p-10">
+                    <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-diagram-project text-emerald-600"></i>
+                        A Estrutura do Ajuste Econômico
+                    </h3>
+                    
+                    <div class="space-y-6 text-sm sm:text-base text-gray-700">
+                        <div class="bg-gray-50 p-5 rounded-2xl border-l-4 border-emerald-500">
+                            <p><strong>Consenso de Washington (1989):</strong> Conjunto de medidas neoliberais receitadas pelo FMI e Banco Mundial. No Brasil, o foco foi o <mark>tripé macroeconômico</mark> e a redução do tamanho do Estado.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-5 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                                <span class="text-xs font-black text-emerald-600 uppercase mb-2 block">O Processo</span>
+                                <p class="text-sm leading-relaxed">O início deu-se com <mark>Collor (1990)</mark>, marcando o fim do mercado protegido. A consolidação ocorreu com <mark>FHC (1995-2002)</mark> através do PND (Programa Nacional de Desestatização).</p>
+                            </div>
+                            <div class="p-5 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                                <span class="text-xs font-black text-emerald-600 uppercase mb-2 block">Setores Chave</span>
+                                <p class="text-sm leading-relaxed">Venda de estatais estratégicas: <mark>Vale do Rio Doce</mark> (Mineração), <mark>CSN</mark> (Siderurgia) e o <mark>Sistema Telebrás</mark> (Telecomunicações).</p>
+                            </div>
+                        </div>
+
+                        <div class="py-4">
+                            <h4 class="font-bold text-gray-900 mb-3 underline decoration-emerald-300 underline-offset-4">O Novo Papel do Estado</h4>
+                            <p class="mb-4">O Estado deixa de ser o <strong>detentor dos meios de produção</strong> (Estado Empresário) para ser o <strong>Estado Regulador</strong>. Isso gerou a criação das agências (ANATEL, ANEEL, ANP).</p>
+                            
+                            <div class="bg-rose-50 border border-rose-100 p-4 rounded-xl">
+                                <p class="text-xs text-rose-900 font-bold uppercase mb-1">⚠️ Definição de Prova (AOCP)</p>
+                                <p class="text-sm italic">"A privatização no Brasil não foi apenas uma venda de ativos, mas uma reconfiguração do planejamento territorial, onde o mercado passou a ditar a localização dos investimentos logísticos."</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h4 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-table-list text-emerald-600"></i>
+                                Comparativo de Modelos Econômicos
+                            </h4>
+                            
+                            <!-- Desktop Table -->
+                            <div class="hidden md:block overflow-hidden border border-gray-200 rounded-2xl">
+                                <table class="w-full text-left text-sm border-collapse">
+                                    <thead class="bg-gray-900 text-white">
+                                        <tr>
+                                            <th class="p-4">Variável</th>
+                                            <th class="p-4">Até 1980 (Substituição)</th>
+                                            <th class="p-4">Pós 1990 (Neoliberal)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="p-4 font-bold">Investimento</td>
+                                            <td class="p-4 text-gray-600">Estado como motor principal.</td>
+                                            <td class="p-4 text-gray-600">Capital privado e estrangeiro.</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="p-4 font-bold">Foco Industrial</td>
+                                            <td class="p-4 text-gray-600">Verticalização produtiva.</td>
+                                            <td class="p-4 text-gray-600"><mark>Desindustrialização precoce</mark>.</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="p-4 font-bold">Exportação</td>
+                                            <td class="p-4 text-gray-600">Produtos industrializados.</td>
+                                            <td class="p-4 text-gray-600"><mark>Reprimarização</mark> (Commodities).</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Mobile Cards -->
+                            <div class="md:hidden space-y-4">
+                                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                    <span class="text-[10px] font-black text-gray-400 uppercase">Variável: Investimento</span>
+                                    <div class="text-sm mt-1"><strong>Antes:</strong> Estado | <strong>Depois:</strong> Privado/Estrangeiro</div>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                    <span class="text-[10px] font-black text-gray-400 uppercase">Variável: Exportação</span>
+                                    <div class="text-sm mt-1"><strong>Antes:</strong> Industrial | <strong>Depois:</strong> <mark>Reprimarização</mark></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="mb-12">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="h-10 w-10 bg-gray-900 text-white rounded-xl flex items-center justify-center font-black">2</div>
+                <div>
+                    <h2 class="text-2xl font-black text-gray-900 tracking-tight">Geografia do Território e MTCI</h2>
+                    <p class="text-sm text-gray-500">A reconfiguração do espaço brasileiro segundo Milton Santos.</p>
+                </div>
+            </div>
+
+            <article class="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm">
+                <div class="p-6 sm:p-10">
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">Meio Técnico-Científico-Informacional (MTCI)</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                É a cara do território no período da globalização. Caracteriza-se pela <mark>unificação do tempo</mark> e a tirania da informação. No Brasil, sua difusão é seletiva, criando pontos de fluidez e vastas áreas de opacidade.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <div class="p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
+                                    <h4 class="font-bold text-emerald-900 text-sm mb-2 uppercase">Verticalidades</h4>
+                                    <p class="text-sm text-emerald-800 italic">"O tempo do relógio e do lucro."</p>
+                                    <p class="text-xs mt-2 text-emerald-700">Fluxos de exportação, logística corporativa, redes bancárias. É a integração hierárquica do local com o global.</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-5 bg-sky-50 rounded-2xl border border-sky-100">
+                                    <h4 class="font-bold text-sky-900 text-sm mb-2 uppercase">Horizontalidades</h4>
+                                    <p class="text-sm text-sky-800 italic">"O tempo da vida e da solidariedade."</p>
+                                    <p class="text-xs mt-2 text-sky-700">Trocas locais, vizinhança, circuitos inferiores da economia urbana. Resistência à lógica pura do mercado.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-100 pt-8">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">A Fronteira Agrícola e o MATOPIBA</h3>
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <div class="flex-1 text-sm text-gray-600 space-y-3">
+                                    <p>O agronegócio é o principal motor da <strong>reprimarização</strong>. Ele exige modernização logística (ferrovias, portos) que Milton Santos chama de <mark>Eixos de Integração</mark>.</p>
+                                    <p><strong>O MATOPIBA</strong> (Maranhão, Tocantins, Piauí e Bahia) é a última grande fronteira de expansão da soja, caracterizada por alta densidade técnica em meio a vazios demográficos e conflitos agrários.</p>
+                                </div>
+                                <div class="w-full md:w-64 bg-gray-50 p-4 rounded-2xl border border-gray-100 text-center">
+                                    <span class="text-[10px] font-black text-gray-400 uppercase">Impacto Territorial</span>
+                                    <div class="text-2xl font-black text-emerald-600 mt-1">Êxodo Rural</div>
+                                    <p class="text-[10px] text-gray-500">Mecanização intensiva elimina trabalho humano no campo.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-50 border-2 border-amber-200 p-6 rounded-2xl">
+                            <h4 class="text-amber-900 font-black flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                FOCO NO GABARITO: Os Quatro Brasis
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div class="p-2 bg-white rounded-xl shadow-sm border border-amber-100">
+                                    <span class="text-[10px] font-bold block">Concentrada</span>
+                                    <span class="text-[9px] text-gray-400 uppercase">Sul + Sudeste</span>
+                                </div>
+                                <div class="p-2 bg-white rounded-xl shadow-sm border border-amber-100">
+                                    <span class="text-[10px] font-bold block">Nordeste</span>
+                                    <span class="text-[9px] text-gray-400 uppercase">Resistências</span>
+                                </div>
+                                <div class="p-2 bg-white rounded-xl shadow-sm border border-amber-100">
+                                    <span class="text-[10px] font-bold block">Centro-Oeste</span>
+                                    <span class="text-[9px] text-gray-400 uppercase">Agro-globalizado</span>
+                                </div>
+                                <div class="p-2 bg-white rounded-xl shadow-sm border border-amber-100">
+                                    <span class="text-[10px] font-bold block">Amazônia</span>
+                                    <span class="text-[9px] text-gray-400 uppercase">Opacidade</span>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-xs text-amber-800 font-bold text-center">Obs: Espírito Santo está na Região Concentrada!</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <section class="bg-rose-50 border-2 border-rose-100 rounded-3xl p-6 sm:p-10 mb-12">
+            <h2 class="text-xl font-black text-rose-900 mb-6 flex items-center gap-3">
+                <i class="fa-solid fa-shield-virus"></i>
+                Guia Anti-Pegadinha AOCP
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-4 rounded-2xl shadow-sm">
+                    <span class="text-rose-600 font-black text-xs uppercase">❌ Não caia nessa:</span>
+                    <p class="text-sm text-gray-700 mt-1">Dizer que a privatização diminuiu o desequilíbrio regional. <strong>Fato:</strong> O capital busca lucro, logo, investe onde já há infraestrutura, aumentando a <mark>seletividade espacial</mark>.</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm">
+                    <span class="text-emerald-600 font-black text-xs uppercase">✅ Acerte aqui:</span>
+                    <p class="text-sm text-gray-700 mt-1">O conceito de <strong>"Desindustrialização Precoce"</strong> cai muito. O Brasil perdeu indústria antes de ser rico, diferente da Europa que perdeu após o desenvolvimento pleno.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center py-10">
+            <a href="abertura_economicaquestoes.html" class="inline-flex items-center gap-3 px-10 py-5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl shadow-xl transition-all transform hover:-translate-y-1">
+                <i class="fa-solid fa-check-double text-xl"></i>
+                <span>TESTAR CONHECIMENTO AGORA</span>
+            </a>
+            <p class="text-xs text-gray-400 mt-4 italic">"A geografia é, antes de tudo, uma ferramenta para entender o poder."</p>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-8 text-center text-xs text-gray-400">
+        <div class="max-w-5xl mx-auto px-4">
+            <p>© 2026 Academia de Geografia EBTT. Foco IFCE.</p>
+        </div>
+    </footer>
+
+    <script>
+        const audio = document.getElementById('memorization-audio');
+        
+        function changeSpeed(rate) {
+            audio.playbackRate = rate;
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-100', 'text-sky-700');
+                btn.classList.add('hover:bg-gray-100', 'text-gray-600');
+            });
+            event.target.classList.remove('hover:bg-gray-100', 'text-gray-600');
+            event.target.classList.add('bg-sky-100', 'text-sky-700');
+        }
+    </script>
+</body>
+</html>

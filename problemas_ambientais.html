@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparação IFCE: Problemas Socioambientais Rurais - COMPLETO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #1a202c; scroll-behavior: smooth; }
+        mark { background-color: #fef08a; color: #854d0e; padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-weight: 600; }
+        .logic-card { transition: transform 0.2s; }
+        .logic-card:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body class="bg-white min-h-screen selection:bg-yellow-200">
+
+    <!-- Container Principal -->
+    <div class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+        
+        <header class="border-b border-gray-200 pb-6 mb-8">
+            <span class="bg-emerald-50 text-emerald-700 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-emerald-200">
+                IFCE • Concurso Professor EBTT • Geografia
+            </span>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2 tracking-tight">
+                Problemas Socioambientais Rurais
+            </h1>
+            <p class="text-gray-500 mt-1 text-base md:text-lg">
+                Resumo Técnico de Pesquisa Profunda &bull; Foco <span class="font-semibold text-gray-800 italic">Instituto AOCP</span>
+            </p>
+        </header>
+
+        <!-- Player de Áudio -->
+        <section class="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-10 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                <h2 class="text-lg font-bold text-gray-800">Audioclass Integrada</h2>
+            </div>
+            <div class="flex flex-col md:flex-row gap-3 items-center">
+                <div class="w-full md:w-2/3">
+                    <input type="text" id="audio-filename" value="aula_geografia.mp3" 
+                           class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+                           placeholder="Nome do arquivo MP3...">
+                </div>
+                <button onclick="updateAudioSource()" class="w-full md:w-1/3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm py-2 px-4 rounded-lg transition-all">Carregar Áudio</button>
+            </div>
+            <audio id="audio-player" class="w-full mt-4" controls>
+                <source id="audio-source" src="aula_geografia.mp3" type="audio/mpeg">
+            </audio>
+            <div class="mt-2 text-[10px] text-gray-400 uppercase tracking-widest text-center" id="current-file-playing">Tocando: aula_geografia.mp3</div>
+        </section>
+
+        <article class="prose max-w-none mb-12">
+            <div class="flex items-center gap-2 mb-6 border-b-2 border-emerald-500 pb-1">
+                <span class="text-white bg-emerald-600 font-extrabold text-sm px-2.5 py-0.5 rounded uppercase">Contextualização</span>
+                <h2 class="text-xl md:text-2xl font-bold text-gray-900 m-0 italic">Uso Predatório e Dinâmica Agrária</h2>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                O uso predatório do solo no Brasil é indissociável da <mark>Modernização Conservadora</mark>. Este conceito (Guilherme Delgado) explica a introdução de tecnologia de ponta no campo <mark>sem alterar a estrutura fundiária latifundiária</mark>. O resultado é uma produtividade baseada na exploração extensiva e no uso intensivo de pacotes químicos.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="p-4 border border-gray-200 rounded-lg logic-card">
+                    <h4 class="font-bold text-emerald-800 mb-1">Queimadas</h4>
+                    <p class="text-xs text-gray-600">Eliminam a microfauna do solo e promovem a <mark>mineralização rápida</mark> de nutrientes, causando fertilidade efêmera seguida de exaustão.</p>
+                </div>
+                <div class="p-4 border border-gray-200 rounded-lg logic-card">
+                    <h4 class="font-bold text-emerald-800 mb-1">Pousio Ignorado</h4>
+                    <p class="text-xs text-gray-600">A ausência do tempo de descanso (pousio) impede a <mark>recuperação biológica</mark> natural, forçando o uso de mais fertilizantes sintéticos.</p>
+                </div>
+                <div class="p-4 border border-gray-200 rounded-lg logic-card">
+                    <h4 class="font-bold text-emerald-800 mb-1">Compactação</h4>
+                    <p class="text-xs text-gray-600">O uso de maquinário pesado em solos úmidos cria o <mark>"pé de grade"</mark>, uma camada impermeável que impede a infiltração.</p>
+                </div>
+            </div>
+
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Mecânica da Erosão (Checklist AOCP)</h3>
+            <ul class="space-y-4 text-gray-700 pl-0 list-none mb-10">
+                <li class="border-l-4 border-emerald-500 pl-4 py-2 bg-emerald-50/30 rounded-r-lg">
+                    <span class="font-bold block">1. Splash (Salpico):</span> Desagregação inicial dos agregados.
+                </li>
+                <li class="border-l-4 border-gray-200 pl-4 py-2">
+                    <span class="font-bold block">2. Laminar:</span> Remoção da camada fértil (nutrientes e matéria orgânica).
+                </li>
+                <li class="border-l-4 border-gray-200 pl-4 py-2">
+                    <span class="font-bold block">3. Sulcos:</span> Canais pequenos que podem ser apagados pela aração comum.
+                </li>
+                <li class="border-l-4 border-gray-200 pl-4 py-2">
+                    <span class="font-bold block">4. Ravinas:</span> Sulcos profundos que atingem o horizonte B.
+                </li>
+                <li class="border-l-4 border-red-500 pl-4 py-2 bg-red-50/30 rounded-r-lg">
+                    <span class="font-bold block text-red-900">5. Voçoroca:</span> Estágio terminal. Atinge o <mark>Lençol Freático</mark>. Movimento remontante (para montante).
+                </li>
+            </ul>
+        </article>
+
+        <article class="prose max-w-none mb-12">
+            <div class="flex items-center gap-2 mb-6 border-b-2 border-emerald-500 pb-1">
+                <span class="text-white bg-emerald-600 font-extrabold text-sm px-2.5 py-0.5 rounded uppercase">Impactos Químicos</span>
+                <h2 class="text-xl md:text-2xl font-bold text-gray-900 m-0 italic">Agrotóxicos e Magnificação Trófica</h2>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                O Brasil é um dos maiores consumidores mundiais de defensivos agrícolas. A banca AOCP foca na <mark>Magnificação Trófica</mark>: processo onde substâncias lipossolúveis e persistentes (não biodegradáveis) aumentam sua concentração à medida que subimos na pirâmide alimentar.
+            </p>
+
+            <div class="bg-yellow-50 border border-yellow-100 rounded-xl p-5 mb-8">
+                <h4 class="text-yellow-800 font-bold mb-2">Impactos na Saúde Humana (Provável em Questões de EBTT):</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-yellow-900">
+                    <div>• <strong>Intoxicação Aguda:</strong> Tonturas, náuseas e morte imediata (exposição direta).</div>
+                    <div>• <strong>Intoxicação Crônica:</strong> Neoplasias (câncer), disfunções hormonais e <mark>teratogênese</mark> (malformação fetal).</div>
+                </div>
+            </div>
+        </article>
+
+        <article class="prose max-w-none mb-12">
+            <div class="flex items-center gap-2 mb-6 border-b-2 border-emerald-500 pb-1">
+                <span class="text-white bg-emerald-600 font-extrabold text-sm px-2.5 py-0.5 rounded uppercase">Geografia Física</span>
+                <h2 class="text-xl md:text-2xl font-bold text-gray-900 m-0 italic">Desertificação vs Arenização</h2>
+            </div>
+
+            <!-- Tabela Responsiva -->
+            <div class="mb-10">
+                <div class="hidden md:block border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                    <table class="min-w-full divide-y divide-gray-200 bg-white">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Fator</th>
+                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Desertificação</th>
+                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase">Arenização</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 text-sm">
+                            <tr>
+                                <td class="px-4 py-3 font-semibold bg-gray-50/50">Clima Dominante</td>
+                                <td class="px-4 py-3 text-red-700 font-medium">Árido, Semiárido, Subúmido Seco</td>
+                                <td class="px-4 py-3 text-blue-700 font-medium">Subúmido e Úmido</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-semibold bg-gray-50/50">Processo Principal</td>
+                                <td class="px-4 py-3">Degradação da <mark>biota e solo</mark> por déficit hídrico</td>
+                                <td class="px-4 py-3">Remoção da cobertura sobre <mark>arenitos</mark></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-semibold bg-gray-50/50">Local no Brasil</td>
+                                <td class="px-4 py-3 font-bold">Nordeste e Norte de MG</td>
+                                <td class="px-4 py-3 font-bold">Sudoeste do RS (Campanha)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Card Mobile -->
+                <div class="md:hidden space-y-4">
+                    <div class="bg-red-50 p-4 border border-red-100 rounded-lg">
+                        <h4 class="font-bold text-red-900">Desertificação</h4>
+                        <p class="text-xs">Climas Secos | <mark>Déficit Hídrico</mark> | Semiárido NE.</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 border border-blue-100 rounded-lg">
+                        <h4 class="font-bold text-blue-900">Arenização</h4>
+                        <p class="text-xs">Climas Úmidos | <mark>Superávit Hídrico</mark> | Campanha Gaúcha.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aridez -->
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center my-10">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Equação Crucial</span>
+                <div class="text-2xl md:text-3xl font-light my-4">
+                    $$I_A = \frac{P}{ETP}$$
+                </div>
+                <p class="text-xs text-gray-500 italic">Índice de Aridez: Precipitação dividida pela Evapotranspiração Potencial. No Semiárido: 0,21 a 0,50.</p>
+            </div>
+        </article>
+
+        <article class="prose max-w-none mb-12">
+            <div class="flex items-center gap-2 mb-6 border-b-2 border-emerald-500 pb-1">
+                <span class="text-white bg-emerald-600 font-extrabold text-sm px-2.5 py-0.5 rounded uppercase">Obras Hídricas</span>
+                <h2 class="text-xl md:text-2xl font-bold text-gray-900 m-0 italic">Transposição do Rio São Francisco (PISF)</h2>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                O PISF é um sistema de <mark>Canais Artificiais</mark> que visa garantir a segurança hídrica de 12 milhões de pessoas. Foco nos eixos:
+            </p>
+
+            <div class="space-y-4 mb-10">
+                <div class="p-4 border-l-4 border-gray-900 bg-gray-50 rounded-r-lg">
+                    <strong class="text-gray-900">Eixo Norte:</strong> Captação em <mark>Cabrobó (PE)</mark>. Alvo: Sertões de PE, CE, PB e RN. Beneficia o sistema Jaguaribe-Metropolitano (Castanhão).
+                </div>
+                <div class="p-4 border-l-4 border-gray-400 bg-gray-50 rounded-r-lg">
+                    <strong class="text-gray-900">Eixo Leste:</strong> Captação em <mark>Itaparica (Floresta-PE)</mark>. Alvo: Sertão e Agreste de PE e PB.
+                </div>
+            </div>
+
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Principais Conflitos e Impactos (Visto em AOCP)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700 mb-8">
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><mark>Cunha Salina:</mark> O recuo da vazão permite a entrada do mar no Baixo São Francisco.</li>
+                    <li><mark>Eutrofização:</mark> Acúmulo de nutrientes nos canais lentos, gerando algas tóxicas.</li>
+                </ul>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><mark>Injustiça Ambiental:</mark> Água destinada ao agronegócio e hidrelétricas em detrimento da agricultura familiar.</li>
+                    <li><mark>Povos Tradicionais:</mark> Impactos diretos em terras indígenas (Truká) e quilombolas.</li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="prose max-w-none mb-12">
+            <div class="flex items-center gap-2 mb-6 border-b-2 border-red-500 pb-1">
+                <span class="text-white bg-red-600 font-extrabold text-sm px-2.5 py-0.5 rounded uppercase">Top Secret</span>
+                <h2 class="text-xl md:text-2xl font-bold text-red-900 m-0 italic">"Peguinhas" Fatais do Instituto AOCP</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="p-4 border border-red-100 rounded-xl bg-red-50/30">
+                    <p class="text-sm">❌ <strong>Distrator:</strong> A desertificação no Brasil ocorre apenas por fatores naturais cíclicos.<br>
+                    ✅ <strong>Gabarito:</strong> É um processo <mark>multicausal</mark>, onde a fragilidade natural (solos rasos) é catalisada pela ação antrópica (sobrepastoreio e desmatamento).</p>
+                </div>
+                <div class="p-4 border border-red-100 rounded-xl bg-red-50/30">
+                    <p class="text-sm">❌ <strong>Distrator:</strong> O Rio São Francisco é o único rio perene do semiárido.<br>
+                    ✅ <strong>Gabarito:</strong> O Parnaíba também é perene, mas o PISF foca apenas no São Francisco.</p>
+                </div>
+                <div class="p-4 border border-red-100 rounded-xl bg-red-50/30">
+                    <p class="text-sm">❌ <strong>Distrator:</strong> A Magnificação Trófica afeta apenas organismos aquáticos.<br>
+                    ✅ <strong>Gabarito:</strong> Afeta <mark>toda a cadeia trófica</mark>, incluindo o ser humano no topo.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- Botão Final -->
+        <footer class="mt-16 pt-8 border-t border-gray-100 text-center">
+            <a href="problemas_ambientaisquestoes.html" 
+               class="inline-flex items-center gap-2 bg-gray-950 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:bg-emerald-700 transition-all hover:scale-105 active:scale-95">
+                <span>Ir para Questões de Fixação</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+            </a>
+            <p class="text-[10px] text-gray-400 mt-10 uppercase tracking-[0.3em]">Preparação de Elite &bull; Geografia IFCE 2026</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function updateAudioSource() {
+            const input = document.getElementById('audio-filename').value.trim();
+            const player = document.getElementById('audio-player');
+            const source = document.getElementById('audio-source');
+            const fileLabel = document.getElementById('current-file-playing');
+            if(input){
+                source.src = input;
+                player.load();
+                fileLabel.innerText = "Tocando: " + input;
+            }
+        }
+        document.getElementById('audio-filename').addEventListener('keypress', e => e.key === 'Enter' && updateAudioSource());
+    </script>
+</body>
+</html>

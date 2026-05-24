@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado AOCP: Problemas Socioambientais Rurais</title>
+    <!-- Tailwind CSS para design moderno de alta fidelidade -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        cream: {
+                            50: '#FAF6EE',
+                            100: '#F5ECE1',
+                            800: '#2D2922',
+                            900: '#1F1C18',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'ui-serif', 'serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- KaTeX para renderização perfeita de equações matemáticas e fórmulas químicas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}] });"></script>
+    
+    <style>
+        /* Transições suaves globais */
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease;
+        }
+        /* Ajuste fino para leitura sem cansar a vista */
+        .readable-width {
+            max-width: 75ch;
+        }
+        /* Configurações de Impressão */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .question-card {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+                page-break-inside: avoid;
+            }
+            .resolution-panel {
+                display: block !important;
+                opacity: 1 !important;
+            }
+        }
+    </style>
+</head>
+<body id="app-body" class="bg-cream-50 text-cream-800 font-sans min-h-screen pb-20 selection:bg-brand-100 selection:text-brand-900">
+
+    <!-- Barra de Acessibilidade e Configuração (Fixa no Topo) -->
+    <header class="no-print sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="p-2 bg-brand-100 text-brand-800 rounded-lg font-bold text-sm">AOCP</span>
+                <h1 class="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Geografia e Meio Ambiente</h1>
+            </div>
+            
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <!-- Controle de Fonte -->
+                <div class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-1 text-xs">
+                    <button onclick="changeFontSize(-1)" class="px-2 py-1 rounded hover:bg-white dark:hover:bg-slate-700 font-semibold" title="Diminuir texto">A-</button>
+                    <button onclick="resetFontSize()" class="px-2 py-1 rounded hover:bg-white dark:hover:bg-slate-700 text-slate-500" title="Restaurar tamanho padrão">Normal</button>
+                    <button onclick="changeFontSize(1)" class="px-2 py-1 rounded hover:bg-white dark:hover:bg-slate-700 font-semibold" title="Aumentar texto">A+</button>
+                </div>
+
+                <!-- Seletor de Tema -->
+                <div class="flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1 text-xs gap-1">
+                    <button onclick="setTheme('cream')" id="btn-theme-cream" class="px-2 py-1 rounded font-medium border border-amber-200 bg-amber-50 text-amber-900 shadow-sm">Papel</button>
+                    <button onclick="setTheme('light')" id="btn-theme-light" class="px-2 py-1 rounded font-medium text-slate-600 hover:text-slate-900">Claro</button>
+                    <button onclick="setTheme('dark')" id="btn-theme-dark" class="px-2 py-1 rounded font-medium text-slate-400 hover:text-slate-100">Noite</button>
+                </div>
+
+                <!-- Temporizador Sutil -->
+                <div class="hidden md:flex items-center space-x-1.5 text-xs text-slate-500 font-mono bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span id="timer-display">00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Barra de Progresso sutil fixa na borda inferior do topo para acompanhar respostas -->
+    <div class="no-print h-1 w-full bg-slate-100 dark:bg-slate-800 sticky top-[53px] z-35">
+        <div id="completion-bar" class="h-1 bg-brand-600 w-0 transition-all duration-300"></div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 mt-8">
+        <!-- Cabeçalho do Simulado -->
+        <div class="text-center py-6 mb-8 border-b border-slate-200/60 dark:border-slate-800">
+            <span class="text-xs uppercase font-extrabold tracking-widest text-brand-700 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40 px-3 py-1.5 rounded-full">Simulado Oficial Instituto AOCP</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100 mt-3 tracking-tight">Problemas Socioambientais Rurais</h2>
+            <p class="text-sm md:text-base text-slate-600 dark:text-slate-400 mt-2 max-w-2xl mx-auto leading-relaxed">
+                Estudo aprofundado sobre uso predatório do solo, agrotóxicos, desmatamento, desertificação no semiárido e transposição do Rio São Francisco.
+            </p>
+            <div class="flex flex-wrap justify-center items-center gap-4 mt-4 text-xs font-semibold text-slate-500">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-600"></span> 10 Questões Completas</span>
+                <span class="hidden md:inline">•</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Nível: Concurso Público</span>
+                <span class="hidden md:inline">•</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-500"></span> Resoluções Detalhadas inclusas</span>
+            </div>
+        </div>
+
+        <!-- Painel de Resultados (Oculto Inicialmente) -->
+        <div id="results-panel" class="hidden no-print mb-8 p-6 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-2xl shadow-sm transition-all duration-500 scale-95 opacity-0">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-xl font-bold text-emerald-900 dark:text-emerald-100">Resultado do Simulado</h3>
+                    <p class="text-sm text-emerald-800 dark:text-emerald-300 mt-1">Sua pontuação e detalhamento de cada questão com fundamentação teórica completa estão listados abaixo.</p>
+                    <div class="flex items-center gap-3 mt-4">
+                        <span id="score-badge" class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100 rounded-full font-bold text-sm"></span>
+                        <span id="performance-feedback" class="text-sm font-semibold text-emerald-950 dark:text-emerald-200"></span>
+                    </div>
+                </div>
+                <!-- Gráfico de Círculo Simples ou Score Display -->
+                <div class="flex items-center justify-center bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-emerald-100 dark:border-emerald-900/60 w-full md:w-auto min-w-[200px]">
+                    <div class="text-center">
+                        <span class="text-xs uppercase font-bold text-slate-400">Total de Acertos</span>
+                        <div class="text-4xl font-extrabold text-brand-700 dark:text-brand-400 mt-1" id="score-ratio">0/10</div>
+                        <span class="text-xs text-slate-500 font-mono block mt-1" id="time-spent-log">Tempo: --:--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grade de Gabarito Rápido -->
+            <div class="mt-6 pt-6 border-t border-emerald-200 dark:border-emerald-800">
+                <h4 class="text-xs uppercase font-extrabold text-emerald-900 dark:text-emerald-200 mb-3 tracking-wider">Acesso Rápido por Questão</h4>
+                <div class="flex flex-wrap gap-2" id="quick-nav-grid">
+                    <!-- Dinamicamente preenchido -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Container das Questões -->
+        <form id="quiz-form" onsubmit="event.preventDefault();" class="space-y-8">
+            <!-- As questões serão injetadas dinamicamente via JS para facilitar o controle de estados, correção de render e temas sem perdas -->
+            <div id="questions-container" class="space-y-8">
+                <!-- Injeção dinámica de Questões -->
+            </div>
+
+            <!-- Botões de Ação Inferiores -->
+            <div class="no-print pt-6 pb-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-sm text-slate-500 dark:text-slate-400">
+                    Ao finalizar, sua nota será calculada e as resoluções acadêmicas completas aparecerão logo abaixo de cada questão.
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <button type="button" onclick="confirmSubmit()" id="btn-submit" class="w-full sm:w-auto px-8 py-4 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl shadow-md transition-all active:scale-98 flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Finalizar Simulado</span>
+                    </button>
+                    <button type="button" onclick="resetQuiz()" id="btn-reset" class="hidden px-5 py-4 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-xl transition-all">
+                        Reiniciar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <!-- Modal de Confirmação Customizado (Substitui Alertas do Navegador de Acordo com Instrução) -->
+    <div id="custom-modal" class="no-print fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl transform scale-95 transition-transform duration-300 border border-slate-100 dark:border-slate-700">
+            <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100" id="modal-title">Atenção</h4>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed" id="modal-body">Mensagem do modal.</p>
+            <div class="mt-6 flex items-center justify-end space-x-3" id="modal-footer">
+                <!-- Botões do modal gerenciados via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Principal com Dados e Lógica do Quiz -->
+    <script>
+        // Estrutura de dados com todas as questões na íntegra
+        const dbQuestions = [
+            {
+                id: 1,
+                num: "Questão 1",
+                text: "No contexto das transformações socioambientais rurais no Brasil, o uso predatório e desordenado do solo desencadeia graves processos de degradação física e geomorfológica, comprometendo a capacidade produtiva e ecológica dos agroecossistemas rurais. Assinale a alternativa que descreve corretamente o tipo de erosão acelerada que, geralmente provocada por desmatamento, trilhas de gado, construção de cercas, estradas ou caminhos mal posicionados ou qualquer outra obra que interfira diretamente no regime hidrológico, aprofunda-se e progride longitudinalmente para montante, atingindo o lençol freático, que se torna seu nível de base.",
+                options: {
+                    A: "Erosão eólica.",
+                    B: "Erosão de efeito splash.",
+                    C: "Erosão laminar.",
+                    D: "Voçoroca.",
+                    E: "Erosão por abrasão."
+                },
+                correct: "D",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa D (Voçoroca)</p>
+                        <p class="leading-relaxed">A questão aborda a dinâmica de erosão hídrica linear acelerada, apresentando um padrão conceitual clássico exigido pela banca Instituto AOCP. A <strong>voçoroca</strong> (ou boçoroca) representa o estágio mais avançado de degradação geomorfológica hídrica superficial.</p>
+                        <p class="leading-relaxed">O processo inicia-se com a supressão da vegetação nativa do solo rural. Sem a cobertura protetora das plantas, as águas pluviais exercem o impacto direto das gotas sobre a superfície desprotegida (efeito <em>splash</em>), desagregando as partículas de solo. Sob o escoamento superficial difuso, ocorre a lavagem de camadas férteis superficiais (erosão laminar). Havendo concentração de fluxos de água em caminhos preferenciais provocados por estradas rurais mal planejadas, trilhas de gado (sobrepastoreio) ou linhas de plantio mal direcionadas, formam-se inicialmente sulcos que evoluem para ravinas.</p>
+                        <p class="leading-relaxed">Quando a incisão erosiva rompe os horizontes superficiais do solo e atinge o nível freático (lençol freático), passa a ser definida como voçoroca. A intersecção com o lençol freático introduz uma nova força erosiva dinâmica, onde a água subterrânea mina a base das paredes da vala por solapamento basal, provocando desmoronamentos recorrentes e promovendo a progressão longitudinal regressiva em direção à cabeceira (montante). Esse processo acarreta severas limitações ao uso agrícola do solo e assoreamento acentuado de canais fluviais na bacia hidrográfica.</p>
+                        <p class="leading-relaxed text-xs text-slate-500">As demais alternativas indicam processos erosivos com dinâmicas e agentes distintos (vento na erosão eólica, impacto inicial de gotas no splash, ou desgaste de rochas pela abrasão mecânica).</p>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                num: "Questão 2",
+                text: "O avanço da fronteira agrícola brasileira, pautado na modernização conservadora e na expansão de monoculturas quimicamente dependentes voltadas para a exportação de commodities (como soja, cana-de-açúcar, algodão, tabaco e eucalipto), consome anualmente cerca de metade de mais de um bilhão de litros de agrotóxicos despejados no território nacional. Sobre a dinâmica de persistência ambiental, dispersão e impactos biológicos desses compostos químicos nos ecossistemas rurais, assinale a alternativa correta.",
+                options: {
+                    A: "A totalidade das moléculas de agrotóxicos apresenta mineralização instantânea e completa no solo por meio de processos abióticos, como a hidrólise e a fotólise, impedindo o transporte vertical e eliminando os riscos de contaminação de lençóis freáticos e poços artesianos rurais.",
+                    B: "A bioacumulação ocorre quando os organismos adquirem contaminantes ambientais de forma mais rápida do que seus corpos são capazes de eliminá-los por via metabólica, enquanto a biomagnificação se caracteriza pelo aumento progressivo na concentração do contaminante a cada nível subsequente da cadeia alimentar trófica.",
+                    C: "A introdução de cultivos transgênicos no território brasileiro eliminou a necessidade de aplicação de defensivos químicos agrícolas, eliminando a dependência do setor por substâncias bioacumulativas e resolvendo os impactos à saúde pública no campo.",
+                    D: "O processo de biomagnificação atua exclusivamente em ecossistemas terrestres, visto que nos ecossistemas aquáticos a constante hidrólise e fotólise das moléculas em suspensão neutraliza o potencial de bioconcentração em peixes e moluscos.",
+                    E: "Os efeitos de contaminação e toxicidade dos agrotóxicos restringem-se ao ambiente de aplicação imediata, não apresentando persistência e não afetando a saúde de populações urbanas consumidoras de alimentos contaminados ou residentes no entorno das áreas agrícolas de monocultura."
+                },
+                correct: "B",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa B</p>
+                        <p class="leading-relaxed">A questão exige compreensão aprofundada sobre as propriedades físico-químicas, dispersão e impactos biológicos dos agrotóxicos introduzidos pela modernização conservadora da agricultura brasileira. A persistência e o comportamento de agrotóxicos no meio ambiente dependem diretamente de fatores como solubilidade em lipídios (lipofilicidade), resistência à biodegradação, hidrólise e fotólise.</p>
+                        <p class="leading-relaxed">Quando uma molécula química apresenta alta estabilidade e lipofilicidade, ela não é facilmente excretada ou metabolizada pelos organismos. A <strong>bioacumulação</strong> caracteriza o processo individual e cumulativo em que um organismo adquire o contaminante químico de forma mais célere do que a sua taxa de eliminação metabólica. Por sua vez, a <strong>biomagnificação</strong> (ou amplificação trófica) refere-se ao aumento progressivo na concentração deste xenobiótico a cada nível subsequente da cadeia alimentar. Os predadores de topo, posicionados no ápice da cadeia alimentar, concentram as maiores taxas da substância química em seus tecidos orgânicos.</p>
+                        <p class="leading-relaxed text-xs text-slate-500"><strong>Incorretas:</strong> A) Substâncias possuem moderada a alta persistência ambiental, contaminando aquíferos; C) Transgênicos frequentemente expandiram a aplicação de herbicidas de amplo espectro; D) A biomagnificação ocorre intensamente em ambientes aquáticos; E) A circulação hídrica e alimentar expõe populações a longas distâncias.</p>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                num: "Questão 3",
+                text: "A supressão da cobertura florestal nativa no semiárido brasileiro não decorre exclusivamente da abertura de novas fronteiras agrícolas para plantio de culturas de sequeiro, mas está intimamente associada a demandas energéticas de setores produtivos locais. Na microrregião do Seridó, localizada na transição entre o Rio Grande do Norte e a Paraíba, o desmatamento histórico e continuado da Caatinga apresenta-se diretamente vinculado a qual das seguintes atividades econômicas?",
+                options: {
+                    A: "Demanda de carvão vegetal de alto-forno para atender a complexos industriais siderúrgicos localizados na divisa com a região Norte do país.",
+                    B: "Consumo sistemático de lenha nativa da Caatinga como fonte de energia térmica para alimentar os fornos das indústrias de cerâmica vermelha, olarias artesanais e caldeiras de queijeiras produtoras de queijo de coalho.",
+                    C: "Extração madeireira de espécies florestais de grande porte destinadas à fabricação de celulose por indústrias multinacionais de papel integradas à exportação global.",
+                    D: "Supressão vegetal por meio do uso de correntão mecanizado para implantação de lavouras de soja transgênica sob pivô central de irrigação.",
+                    E: "Retirada de biomassa florestal para comercialização internacional de lenha nativa de alto valor comercial voltada à construção civil no Sudeste do país."
+                },
+                correct: "B",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa B</p>
+                        <p class="leading-relaxed">A supressão florestal na Caatinga é impulsionada por uma cadeia energética local estruturada na queima de biomassa florestal para atividades produtivas. Estudos realizados na microrregião do Seridó (RN/PB) demonstram que as indústrias ceramistas rurais de produção de cerâmica vermelha (telhas e tijolos), as olarias artesanais de pequeno porte e as caldeiras das agroindústrias tradicionais de laticínios (queijeiras produtoras de queijo de coalho) atuam como os principais vetores de consumo de lenha nativa na região.</p>
+                        
+                        <div class="overflow-x-auto my-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800 text-xs md:text-sm text-left">
+                                <thead class="bg-slate-50 dark:bg-slate-800/50">
+                                    <tr>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300">Atividade Produtiva no Seridó</th>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300 text-center">Quantidade</th>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300">Perfil de Consumo Energético e Impacto na Caatinga</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Cerâmicas Vermelhas (Industriais)</td>
+                                        <td class="px-4 py-3 text-center">82 ativos</td>
+                                        <td class="px-4 py-3">54 indústrias utilizam exclusivamente lenha proveniente do desmatamento da Caatinga nativa como combustível.</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/40 dark:bg-slate-800/10">
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Olarias Artesanais</td>
+                                        <td class="px-4 py-3 text-center">14 pequenas</td>
+                                        <td class="px-4 py-3">Dotadas de fornos artesanais de baixa eficiência térmica que operam inteiramente com queima de madeira nativa.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Queijeiras (Laticínios de Queijo Coalho)</td>
+                                        <td class="px-4 py-3 text-center">314 ativos</td>
+                                        <td class="px-4 py-3">162 queijeiras utilizam exclusivamente lenha nativa para o processo de cozimento e pasteurização térmica do leite.</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/40 dark:bg-slate-800/10 font-bold text-brand-800 dark:text-brand-300">
+                                        <td class="px-4 py-3">Consumo Anual Estimado de Lenha</td>
+                                        <td class="px-4 py-3 text-center">54 cerâmicas</td>
+                                        <td class="px-4 py-3">Uma cerâmica média queima $75 \\text{ m}^3$ de lenha por semana, totalizando $210.000 \\text{ m}^3$ ($112.000$ toneladas) de madeira nativa por ano.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="leading-relaxed">Esse consumo severo e contínuo de biomassa nativa promove a degradação florestal crônica, removendo a proteção natural dos solos e intensificando os processos erosivos e a desertificação na microrregião do Seridó.</p>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                num: "Questão 4",
+                text: "O processo de desertificação, definido pela Convenção das Nações Unidas de Combate à Desertificação (UNCCD), corresponde à degradação das terras em regiões áridas, semiáridas e subúmidas secas resultante de vários fatores, incluindo as variações climáticas e as atividades humanas. No Brasil, as Áreas Susceptíveis à Desertificação (ASD) abrangem extensões expressivas de terras habitadas. Tendo em vista as diretrizes do Plano Nacional de Combate à Desertificação e Mitigação dos Efeitos da Seca (PAN-Brasil), assinale a alternativa que apresenta corretamente os quatro núcleos de desertificação oficialmente identificados por apresentarem quadros graves de degradação ambiental no Nordeste brasileiro.",
+                options: {
+                    A: "Inhamuns (CE), Cariris Velhos (PB), Sertão Central (PE) e Sertão do São Francisco (BA).",
+                    B: "Gilbués (PI), Irauçuba (CE), Seridó (RN/PB) e Cabrobó (PE).",
+                    C: "Gilbués (PI), Seridó (RN/PB), Inhamuns (CE) e Sertão do São Francisco (BA).",
+                    D: "Cabrobó (PE), Cariris Velhos (PB), Sertão Central (PE) e Irauçuba (CE).",
+                    E: "Sertão do São Francisco (BA), Gilbués (PI), Seridó (RN/PB) e Inhamuns (CE)."
+                },
+                correct: "B",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa B</p>
+                        <p class="leading-relaxed">O Programa de Ação Nacional de Combate à Desertificação e Mitigação dos Efeitos da Seca (PAN-Brasil), formulado pelo Ministério do Meio Ambiente e Mudança do Clima, estabelece bases cartográficas e científicas de intervenção prioritária nas Áreas Susceptíveis à Desertificação. O termo "Núcleos de Desertificação" classifica manchas isoladas de solo com erosão severa e perda quase total da cobertura biológica.</p>
+                        <p class="leading-relaxed">Oficialmente, o PAN-Brasil delimitou quatro núcleos prioritários de desertificação no Nordeste brasileiro:</p>
+                        <ol class="list-decimal pl-5 space-y-1 text-sm text-slate-800 dark:text-slate-300">
+                            <li><strong>Gilbués</strong> no sudoeste do estado do Piauí (PI);</li>
+                            <li><strong>Irauçuba</strong> no estado do Ceará (CE);</li>
+                            <li><strong>Seridó</strong> localizado nos limites dos estados do Rio Grande do Norte e da Paraíba (RN/PB);</li>
+                            <li><strong>Cabrobó</strong> no estado de Pernambuco (PE).</li>
+                        </ol>
+
+                        <div class="overflow-x-auto my-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800 text-xs md:text-sm text-left">
+                                <thead class="bg-slate-50 dark:bg-slate-800/50">
+                                    <tr>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300">Indicador Demográfico/Territorial das ASD</th>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300">Dados Oficiais (Ministério do Meio Ambiente)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Extensão Territorial Total</td>
+                                        <td class="px-4 py-3">$1.340.863 \\text{ km}^2$, equivalendo a aproximadamente $16\\%$ do território nacional.</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/40 dark:bg-slate-800/10">
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Abrangência de Municípios</td>
+                                        <td class="px-4 py-3">$1.488$ municípios, correspondendo a cerca de $27\\%$ do total do país.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">População Residente Total</td>
+                                        <td class="px-4 py-3">$31,7$ milhões de habitantes ($17\\%$ da população brasileira).</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/40 dark:bg-slate-800/10">
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Distribuição Espacial Federativa</td>
+                                        <td class="px-4 py-3">Partes dos 9 estados do Nordeste e de 2 estados do Sudeste (MG e ES).</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Concentração da Pobreza</td>
+                                        <td class="px-4 py-3">Concentra cerca de $85\\%$ das pessoas em situação de extrema pobreza no Brasil.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                num: "Questão 5",
+                text: "O Núcleo de Desertificação de Gilbués, localizado no sudoeste do estado do Piauí, constitui uma das áreas mais gravemente degradadas do território brasileiro, exigindo atenção especial quanto aos fatores naturais e antrópicos que atuam na morfogênese local. Sobre a dinâmica evolutiva e os condicionantes da degradação ambiental em Gilbués, assinale a alternativa correta.",
+                options: {
+                    A: "Trata-se de uma região cuja fragilidade pedológica é atenuada por solos argilosos de baixíssima erodibilidade, o que impede a evolução de processos erosivos superficiais lineares.",
+                    B: "A degradação ambiental na área iniciou-se na década de 1940 com a mineração artesanal de diamantes (garimpo), associada ao sobrepastoreio da pecuária extensiva e, posteriormente, à agricultura mecanizada pesada com queimadas, atuando sobre solos altamente erodíveis desenvolvidos a partir de formações sedimentares frágeis da Bacia Sanfranciscana.",
+                    C: "Do ponto de vista climático, a região diferencia-se do semiárido setentrional por apresentar índices de aridez e variabilidade interanual das chuvas substancialmente superiores aos observados no Polígono das Secas, caracterizando um deserto árido pleno de origem geológica natural.",
+                    D: "A atividade de garimpo de diamantes inibe-se estritamente aos divisores de águas de encostas elevadas, preservando os canais de drenagem e impedindo o assoreamento dos rios locais.",
+                    E: "O processo de desertificação em Gilbués foi integralmente revertido na década de 1990 devido à desativação de grandes projetos agrícolas corporativos e à consequente recomposição espontânea e total da vegetação florestal nativa."
+                },
+                correct: "B",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa B</p>
+                        <p class="leading-relaxed">O Núcleo de Desertificação de Gilbués (PI) apresenta uma dinâmica de degradação ambiental multifacetada, onde a fragilidade intrínseca das condições litológicas e geomorfológicas foi severamente catalisada por atividades antrópicas históricas e predatórias.</p>
+                        <p class="leading-relaxed">Do ponto de vista geográfico e histórico:</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-slate-800 dark:text-slate-300">
+                            <li><strong>Geologia Frágil:</strong> Assenta-se sobre formações sedimentares frágeis da Bacia Sanfranciscana (Grupo Areado), ricas em siltitos e arenitos, que formam solos de textura fina altamente erodíveis.</li>
+                            <li><strong>Erosividade Pluvial:</strong> Embora tenha índice de aridez menor que o semiárido do Polígono das Secas, possui chuvas sazonais concentradas de altíssima energia erosiva.</li>
+                            <li><strong>Vetor Inicial (Anos 40):</strong> O garimpo artesanal de diamantes desestruturou as planícies e leitos fluviais (como o do Rio Gurguéia).</li>
+                            <li><strong>Catalisador Agrícola:</strong> Pecuária extensiva de sobrepastoreio e agricultura com aragem pesada e queimadas aceleraram a formação de imensas voçorocas e ravinas.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                num: "Questão 6",
+                text: "O Núcleo de Desertificação de Irauçuba, situado no estado do Ceará, apresenta elevados níveis de degradação das terras. Sabendo que a degradação ambiental em Irauçuba está relacionada às características pedológicas locais e ao modelo de uso agropecuário do solo, assinale a alternativa correta.",
+                options: {
+                    A: "O processo de desertificação de Irauçuba é condicionado pela silvicultura comercial intensiva de eucalipto, que alterou os recursos hídricos e promoveu a secagem de aquíferos profundos.",
+                    B: "As terras do núcleo de Irauçuba, onde predominam luvissolos, planossolos e solos litólicos sobre o embasamento cristalino, sofrem severo processo de degradação induzido pelo sobrepastoreio (superpastoreio) da pecuária extensiva, gerando compactação do solo, perda da capacidade de regeneração da vegetação lenhosa e herbácea e consequente afloramento das rochas superficiais.",
+                    C: "O núcleo apresenta excelente potencial hidrogeológico profundo, caracterizado por fraturas geológicas capazes de produzir água doce de baixa salinidade, viabilizando a agricultura irrigada intensiva sem risco de salinização.",
+                    D: "As planícies e encostas de Irauçuba caracterizam-se pelo predomínio absoluto de latossolos profundos, permeáveis e argilosos, imunes a processos erosivos lineares mesmo sob desmatamento completo para pastagem.",
+                    E: "O rebanho do município é composto exclusivamente de gado bovino de corte confinado, inexistindo a criação extensiva de caprinos e ovinos que tradicionalmente comprometem a cobertura herbácea do semiárido."
+                },
+                correct: "B",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa B</p>
+                        <p class="leading-relaxed">O Núcleo de Desertificação de Irauçuba (CE) apresenta um quadro avançado de degradação decorrente de condicionantes físicos do Escudo Cristalino associados a práticas de pastoreio com taxas de lotação animal superiores ao limite crítico.</p>
+                        
+                        <div class="overflow-x-auto my-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800 text-xs md:text-sm text-left">
+                                <thead class="bg-slate-50 dark:bg-slate-800/50">
+                                    <tr>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300">Classe de Solo</th>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300 text-center">Proporção ($P_{\\%}$)</th>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300">Vulnerabilidade Física e Erosiva</th>
+                                        <th class="px-4 py-2 font-bold text-slate-700 dark:text-slate-300">Uso e Pressão Animal</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Luvissolos</td>
+                                        <td class="px-4 py-3 text-center">43,2%</td>
+                                        <td class="px-4 py-3">Solos argilosos rasos, férteis quimicamente, mas de baixíssima permeabilidade física.</td>
+                                        <td class="px-4 py-3">Pecuária e lavoura de subsistência. Rebanho bovino: 23.101 cab.</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/40 dark:bg-slate-800/10">
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Solos Litólicos</td>
+                                        <td class="px-4 py-3 text-center">33,2%</td>
+                                        <td class="px-4 py-3">Extremamente rasos sobre o cristalino, com pedregosidade e afloramento de rocha.</td>
+                                        <td class="px-4 py-3">Pastagem severa e lenha nativa.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">Planossolos</td>
+                                        <td class="px-4 py-3 text-center">18,7%</td>
+                                        <td class="px-4 py-3">Horizonte B denso e argílico, propiciando baixíssima drenagem interna.</td>
+                                        <td class="px-4 py-3">Pastoreio extensivo. Rebanho ovino/caprino: ~26.000 cab.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="leading-relaxed">O pisoteio animal constante sobre solos tão rasos e compactáveis provoca o fechamento dos poros superficiais. Ao chover, a água escorre em vez de infiltrar, gerando lavagem intensa até que sobrem apenas as pedras expostas sobre o embasamento cristalino.</p>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                num: "Questão 7",
+                text: "Inserido no Núcleo de Desertificação de Pernambuco, o município de Cabrobó apresenta vulnerabilidades ambientais específicas decorrentes do manejo agrícola e de intervenções antrópicas em seus recursos naturais. Sobre as dinâmicas de uso do solo e a degradação ecológica nesse município, assinale a alternativa correta.",
+                options: {
+                    A: "O emprego histórico da técnica de irrigação por inundação em lavouras temporárias, associado à baixa permeabilidade dos solos locais e ao elevado teor de sais solúveis na água, acelera o processo de salinização das terras cultivadas.",
+                    B: "A construção do canal de transposição do Rio São Francisco na região preservou integralmente a cobertura de Caatinga local, eliminando a exposição física do solo e mantendo inalterados os processos hidrológicos superficiais.",
+                    C: "O extrativismo vegetal de madeira em tora e lenha foi completamente erradicado do município a partir de 2011 devido à transição total para a silvicultura de pinus comercial.",
+                    D: "Os riscos de salinização do solo no município de Cabrobó são nulos, visto que a região apresenta exclusivamente solos arenosos profundos com alta capacidade de drenagem interna e chuvas abundantes ao longo de todo o ano.",
+                    E: "A dinâmica econômica do núcleo de Cabrobó manteve-se estritamente focada no setor primário de subsistência, sem qualquer alteração na diversidade de culturas agrícolas temporárias ou permanentes durante as estiagens de 2011 a 2015."
+                },
+                correct: "A",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa A</p>
+                        <p class="leading-relaxed">A degradação ambiental no município de Cabrobó (PE) está fortemente ligada ao fenômeno de <strong>salinização</strong> do solo nas zonas de agricultura irrigada, em especial na Ilha de Assunção.</p>
+                        <p class="leading-relaxed">O cultivo comercial de lavouras como arroz e cebola utiliza tradicionalmente o método de irrigação por inundação (aplicação de volumosas lâminas d'água sobre o terreno). Como os solos locais possuem baixa permeabilidade física e fraca drenagem interna, a água acumula-se nas camadas superiores. Sob a altíssima evapotranspiração do semiárido, a água evapora de forma extremamente rápida, deixando os sais solúveis retidos na superfície. Isso obstrui a nutrição vegetal por estresse osmótico e desestrutura o solo, transformando as áreas em faixas brancas estéreis.</p>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                num: "Questão 8",
+                text: "O Projeto de Integração do Rio São Francisco com as Bacias Hidrográficas do Nordeste Setentrional (PISF) representa a maior obra de infraestrutura hídrica executada no semiárido brasileiro, visando garantir a segurança hídrica de milhões de habitantes. Tendo em vista a estrutura espacial, as obras de engenharia e os eixos que compõem esse megaempreendimento, assinale a alternativa correta.",
+                options: {
+                    A: "O PISF é constituído por três eixos de transposição denominados Noroeste, Oeste e Sul, os quais captam água do exutório final do rio para abastecer exclusivamente indústrias petroquímicas do Sudeste do país.",
+                    B: "O projeto estrutura-se a partir de dois grandes canais principais, denominados Eixo Norte (com captação em Cabrobó-PE) e Eixo Leste (com captação em Floresta-PE), estendendo-se por centenas de quilômetros de canais de concreto, túneis, aquedutos, reservatórios e estações de bombeamento elevatórias para atender bacias receptoras em Pernambuco, Paraíba, Ceará e Rio Grande do Norte.",
+                    C: "O Eixo Leste possui captação nas proximidades de Sobradinho e direciona a totalidade das águas transpostas exclusivamente para o abastecimento doméstico do estado da Bahia, sem adução para outros estados nordestinos.",
+                    D: "Devido à topografia favorável e ao gradiente de altitude descendente e contínuo da região semiárida, o PISF dispensa a operação de estações de bombeamento de água (elevatórias), canais de concreto elevados ou reservatórios intermediários de regularização.",
+                    E: "O projeto atende de forma exclusiva e restrita à demanda hídrica para fins de geração de energia hidrelétrica ao longo do curso receptor de rios temporários do sertão piauiense."
+                },
+                correct: "B",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa B</p>
+                        <p class="leading-relaxed">O Projeto de Integração do Rio São Francisco com as Bacias Hidrográficas do Nordeste Setentrional (PISF) baseia-se na interconexão de bacias hidrográficas. Estruturalmente, o projeto divide-se em dois grandes eixos de canais abertos de concreto:</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-slate-800 dark:text-slate-300">
+                            <li><strong>Eixo Norte:</strong> Com captação estabelecida próximo a Cabrobó (PE), direciona águas para bacias receptoras em Pernambuco, Ceará, Paraíba e Rio Grande do Norte.</li>
+                            <li><strong>Eixo Leste:</strong> Com captação no reservatório de Itaparica em Floresta (PE), leva água para rios temporários e açudes de Pernambuco e da Paraíba.</li>
+                        </ul>
+                        <p class="leading-relaxed">O sistema depende de robustas obras de engenharia mecânica: possui 9 estações de bombeamento (para vencer os desníveis topográficos do relevo da Borborema), dezenas de aquedutos, túneis de grande porte e reservatórios de regularização para atender mais de 11 milhões de pessoas.</p>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                num: "Questão 9",
+                text: "A despeito dos propósitos de mitigação da seca e segurança hídrica associados à implantação do PISF, a instalação de canais de adução de grande escala no semiárido gera severas repercussões e conflitos de ordem socioambiental no meio rural. Sobre esses impactos e disputas socioambientais rurais decorrentes da transposição do Rio São Francisco, assinale a alternativa correta.",
+                options: {
+                    A: "A construção do megaempreendimento transcorreu sem interferência em terras indígenas demarcadas ou em territórios de comunidades tradicionais, inexistindo registros de sobreposições ou deslocamentos compulsórios na área de influência.",
+                    B: "A destinação das águas transpostas prioriza quase integralmente a chamada população rural difusa espalhada nas caatingas (com 96% do volume outorgado), reduzindo drasticamente a destinação de água para polos agroindustriais e áreas urbanas comerciais.",
+                    C: "A execução das obras físicas do PISF requereu a supressão de vegetação nativa da Caatinga, alterou a dinâmica hidrológica local de rios temporários e lagoas marginais, provocou o deslocamento compulsório de populações rurais e gerou tensões socioambientais devido à sobreposição espacial com territórios tradicionais, a exemplo de áreas da Terra Indígena Truká em Cabrobó (PE).",
+                    D: "O Estudo de Impacto Ambiental (EIA) do PISF solucionou de maneira definitiva todas as vulnerabilidades socioambientais das populações rurais afetadas, eliminando a necessidade de programas governamentais para a construção de cisternas de placas e poços artesianos no semiárido cristalino.",
+                    E: "O abastecimento garantido pelos canais de concreto eliminou as disputas por recursos hídricos nas bacias receptoras, permitindo captação livre de água por grandes e pequenos agricultores sem a necessidade de mediação, outorgas ou cobranças por parte de comitês de bacia hidrográfica."
+                },
+                correct: "C",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa C</p>
+                        <p class="leading-relaxed">Embora traga segurança hídrica para abastecimento urbano, as obras de grande porte geraram conflitos e desequilíbrios ecológicos no campo:</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-slate-800 dark:text-slate-300">
+                            <li><strong>Impactos Físicos:</strong> O desmatamento de faixas de Caatinga e alteração na dinâmica hídrica natural de lagoas e rios sazonais receptores afetaram biomas frágeis.</li>
+                            <li><strong>Impactos Sociais:</strong> Houve o desapropriamento e remanejamento de pequenas comunidades rurais e sobreposição com áreas de povos originários, como a <strong>Terra Indígena Truká</strong> em Cabrobó (PE).</li>
+                            <li><strong>Disputa de Alocação:</strong> Estudos de vazão projetam que apenas $4\\%$ da água é destinada à população rural difusa (camponeses isolados), enquanto cerca de $70\\%$ é outorgado para fins agroindustriais e de irrigação comercial de commodities.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                num: "Questão 10",
+                text: "O planejamento de diretrizes para o combate à desertificação e convivência com o semiárido no território brasileiro fundamenta-se em propostas integradas de preservação ambiental, convivência sustentável com as secas e mitigação de vulnerabilidades rurais. Sobre os programas nacionais voltados a essa temática, assinale a alternativa correta.",
+                options: {
+                    A: "O Plano de Ação Brasileiro de Combate à Desertificação e Mitigação dos Efeitos da Seca (PAB-Brasil) foca na eliminação da agricultura familiar de sequeiro e na sua substituição sistemática por reflorestamento homogêneo químico-dependente voltado à produção de celulose.",
+                    B: "O PAB-Brasil estabelece objetivos estratégicos e ações com indicadores de monitoramento de longo prazo (até 2045) voltados à prevenção da desertificação, recuperação de terras degradadas por sobrepastoreio, salinização, mineração e agricultura intensiva nos núcleos de desertificação, aliando o fortalecimento institucional à difusão de tecnologias socioambientais de captação de água.",
+                    C: "As propostas do PAB-Brasil excluem a participação de órgãos científicos e de representantes das comunidades tradicionais locais, centralizando a governança da totalidade dos recursos ambientais do semiárido no Ministério da Defesa para controle estratégico das fronteiras.",
+                    D: "A Convenção das Nações Unidas de Combate à Desertificação (UNCCD) define o fenômeno como um processo puramente irreversível e gerado unicamente de forma natural, de modo que os planos nacionais de ação limitam-se ao registro cartográfico de áreas sem possibilidade de mitigação.",
+                    E: "As ações integradas do PAN-Brasil e do PAB-Brasil restringem-se à construção de grandes barramentos hidráulicos no curso principal do Rio São Francisco para fins de transposição, desconsiderando práticas agrícolas conservacionistas."
+                },
+                correct: "B",
+                resolution: `
+                    <div class="space-y-3">
+                        <p class="font-bold text-brand-900 dark:text-brand-200">Gabarito Comentado: Alternativa B</p>
+                        <p class="leading-relaxed">O Plano de Ação Brasileiro de Combate à Desertificação e Mitigação dos Efeitos da Seca (PAB-Brasil) traça diretrizes integradas focadas em desenvolvimento humano e conservação até o horizonte de 2045, englobando 38 objetivos e 175 linhas de ação.</p>
+                        
+                        <!-- Fluxograma visual reconstruído em HTML para melhor entendimento -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-5 no-print">
+                            <div class="p-4 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
+                                <span class="text-emerald-700 dark:text-emerald-300 font-extrabold text-xs tracking-wider block uppercase">Ações de Restauração</span>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">Recuperação de solos, manejo do sobrepastoreio e combate à salinização agrícola.</p>
+                            </div>
+                            <div class="p-4 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
+                                <span class="text-emerald-700 dark:text-emerald-300 font-extrabold text-xs tracking-wider block uppercase">Difusão Tecnológica</span>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">Tecnologias socioambientais de convivência, cisternas de placas e sementes nativas.</p>
+                            </div>
+                            <div class="p-4 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
+                                <span class="text-emerald-700 dark:text-emerald-300 font-extrabold text-xs tracking-wider block uppercase">Fortalecimento Institucional</span>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">Parcerias científicas, integração de comunidades rurais e monitoramento de longo prazo.</p>
+                            </div>
+                        </div>
+
+                        <p class="leading-relaxed"><strong>Equação do Índice de Aridez em Áreas de Desertificação:</strong></p>
+                        <p class="leading-relaxed">O monitoramento do avanço espacial da degradação nos núcleos de desertificação é parametrizado pelo cálculo matemático do Índice de Aridez ($I_{a}$), regulado pelas diretrizes da UNCCD:</p>
+                        
+                        <div class="my-4 text-center p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                            $$I_{a} = \\frac{P}{ETP}$$
+                        </div>
+
+                        <p class="leading-relaxed text-sm">Onde $P$ é a média anual de precipitação histórica (mm) e $ETP$ é a evapotranspiração potencial média anual da bacia (mm). Áreas susceptíveis brasileiras enquadram-se na faixa crítica de $0,05 \\le I_{a} < 0,65$, onde a alta taxa de evaporação de água do solo supera drasticamente a reposição pluvial, tornando-o frágil a ações antrópicas agressivas.</p>
+                    </div>
+                `
+            }
+        ];
+
+        // Variáveis de estado
+        let state = {
+            answers: {},
+            submitted: false,
+            secondsElapsed: 0,
+            timerInterval: null,
+            fontSizeLevel: 0 // -1: pequeno, 0: padrão, 1: grande, 2: muito grande
+        };
+
+        // Função de alteração do tema visual
+        function setTheme(theme) {
+            const body = document.getElementById('app-body');
+            const btns = {
+                cream: document.getElementById('btn-theme-cream'),
+                light: document.getElementById('btn-theme-light'),
+                dark: document.getElementById('btn-theme-dark')
+            };
+
+            // Reset classes
+            body.className = '';
+            for (let key in btns) {
+                btns[key].className = 'px-2 py-1 rounded font-medium transition-all text-xs';
+            }
+
+            if (theme === 'cream') {
+                body.className = 'bg-cream-50 text-cream-800 font-sans min-h-screen pb-20 selection:bg-brand-100 selection:text-brand-900';
+                btns.cream.className = 'px-2 py-1 rounded font-medium border border-amber-200 bg-amber-50 text-amber-900 shadow-sm text-xs';
+                btns.light.className = 'px-2 py-1 rounded font-medium text-slate-500 hover:text-slate-900 text-xs';
+                btns.dark.className = 'px-2 py-1 rounded font-medium text-slate-400 hover:text-slate-100 text-xs';
+            } else if (theme === 'light') {
+                body.className = 'bg-slate-50 text-slate-800 font-sans min-h-screen pb-20 selection:bg-brand-100 selection:text-brand-950';
+                btns.light.className = 'px-2 py-1 rounded font-medium border border-slate-300 bg-white text-slate-900 shadow-sm text-xs';
+                btns.cream.className = 'px-2 py-1 rounded font-medium text-amber-800 hover:text-amber-950 text-xs';
+                btns.dark.className = 'px-2 py-1 rounded font-medium text-slate-400 hover:text-slate-100 text-xs';
+            } else {
+                body.className = 'bg-slate-950 text-slate-100 font-sans min-h-screen pb-20 selection:bg-brand-900 selection:text-brand-100 dark';
+                btns.dark.className = 'px-2 py-1 rounded font-medium border border-slate-700 bg-slate-800 text-white shadow-sm text-xs';
+                btns.cream.className = 'px-2 py-1 rounded font-medium text-amber-800 hover:text-amber-950 text-xs';
+                btns.light.className = 'px-2 py-1 rounded font-medium text-slate-500 hover:text-slate-900 text-xs';
+            }
+        }
+
+        // Modifica dinamicamente a escala tipográfica do questionário
+        function changeFontSize(dir) {
+            state.fontSizeLevel = Math.max(-1, Math.min(2, state.fontSizeLevel + dir));
+            applyFontSize();
+        }
+
+        function resetFontSize() {
+            state.fontSizeLevel = 0;
+            applyFontSize();
+        }
+
+        function applyFontSize() {
+            const elements = document.querySelectorAll('.question-body-text');
+            const sizes = {
+                '-1': 'text-sm leading-relaxed',
+                '0': 'text-base leading-relaxed',
+                '1': 'text-lg leading-relaxed',
+                '2': 'text-xl leading-loose'
+            };
+            elements.forEach(el => {
+                el.className = 'question-body-text text-slate-800 dark:text-slate-200 transition-all ' + sizes[state.fontSizeLevel];
+            });
+        }
+
+        // Inicializador e controlador do cronômetro
+        function startTimer() {
+            state.secondsElapsed = 0;
+            clearInterval(state.timerInterval);
+            state.timerInterval = setInterval(() => {
+                state.secondsElapsed++;
+                const mins = String(Math.floor(state.secondsElapsed / 60)).padStart(2, '0');
+                const secs = String(state.secondsElapsed % 60).padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        // Montagem das questões no DOM
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            dbQuestions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.id = `card-q${q.id}`;
+                card.className = "question-card bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-800/80 transition-all duration-300";
+                
+                let optionsHtml = '';
+                for (let opt in q.options) {
+                    optionsHtml += `
+                        <label id="opt-container-q${q.id}-${opt}" class="flex items-start gap-3 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 hover:bg-brand-50/10 dark:hover:bg-brand-950/10 cursor-pointer transition-all">
+                            <input type="radio" name="question-${q.id}" value="${opt}" onclick="selectOption(${q.id}, '${opt}')" class="mt-1 w-4 h-4 text-brand-600 focus:ring-brand-500 border-slate-300 dark:border-slate-700 dark:bg-slate-800 no-print" ${state.submitted ? 'disabled' : ''}>
+                            <span class="font-bold text-slate-400 font-mono select-none">${opt})</span>
+                            <span class="text-sm md:text-base text-slate-700 dark:text-slate-300 select-none leading-relaxed">${q.options[opt]}</span>
+                        </label>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-4">
+                        <span class="text-xs uppercase font-extrabold tracking-wider text-brand-700 dark:text-brand-400">${q.num}</span>
+                        <span id="badge-status-q${q.id}" class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">Pendente</span>
+                    </div>
+                    <p class="question-body-text text-slate-800 dark:text-slate-200 mb-6 font-medium leading-relaxed">${q.text}</p>
+                    <div class="space-y-3">
+                        ${optionsHtml}
+                    </div>
+                    <!-- Painel de Resolução (Injetado em estado invisível para controle) -->
+                    <div id="resolution-q${q.id}" class="resolution-panel hidden mt-6 p-5 bg-slate-50 dark:bg-slate-800/40 rounded-xl border-l-4 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm md:text-base">
+                        ${q.resolution}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            applyFontSize();
+        }
+
+        // Trata o clique na alternativa
+        function selectOption(questionId, opt) {
+            if (state.submitted) return;
+            state.answers[questionId] = opt;
+            
+            // Atualiza o visual do container da alternativa
+            const options = ['A', 'B', 'C', 'D', 'E'];
+            options.forEach(o => {
+                const el = document.getElementById(`opt-container-q${questionId}-${o}`);
+                if (o === opt) {
+                    el.className = "flex items-start gap-3 p-4 rounded-xl border border-brand-500 bg-brand-50/20 dark:bg-brand-950/10 cursor-pointer transition-all";
+                } else {
+                    el.className = "flex items-start gap-3 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 hover:bg-brand-50/10 dark:hover:bg-brand-950/10 cursor-pointer transition-all";
+                }
+            });
+
+            // Atualiza o status no topo do Card
+            const statusBadge = document.getElementById(`badge-status-q${questionId}`);
+            statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-400";
+            statusBadge.innerText = "Respondida";
+
+            // Atualiza barra de progresso do topo
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const answeredCount = Object.keys(state.answers).length;
+            const percentage = (answeredCount / dbQuestions.length) * 100;
+            document.getElementById('completion-bar').style.width = `${percentage}%`;
+        }
+
+        // Exibe o modal customizado
+        function showModal(title, body, buttons) {
+            const modal = document.getElementById('custom-modal');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = body;
+            
+            const footer = document.getElementById('modal-footer');
+            footer.innerHTML = '';
+            
+            buttons.forEach(btn => {
+                const b = document.createElement('button');
+                b.className = btn.class || "px-4 py-2 rounded-lg font-bold text-sm transition-all";
+                b.innerText = btn.text;
+                b.onclick = () => {
+                    hideModal();
+                    if (btn.action) btn.action();
+                };
+                footer.appendChild(b);
+            });
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 50);
+        }
+
+        function hideModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Valida antes de entregar o formulário
+        function confirmSubmit() {
+            if (state.submitted) return;
+            const answeredCount = Object.keys(state.answers).length;
+            const remaining = dbQuestions.length - answeredCount;
+
+            if (remaining > 0) {
+                showModal(
+                    "Atenção: Simulado Incompleto",
+                    `Você ainda possui ${remaining} questão(ões) sem resposta. Deseja realmente finalizar o simulado e exibir as resoluções?`,
+                    [
+                        { text: "Cancelar", class: "px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-sm" },
+                        { text: "Sim, Finalizar", class: "px-4 py-2 bg-brand-700 hover:bg-brand-800 text-white rounded-lg font-bold text-sm", action: submitQuiz }
+                    ]
+                );
+            } else {
+                showModal(
+                    "Confirmar Envio",
+                    "Deseja finalizar o simulado e exibir suas notas juntamente com o gabarito oficial comentado?",
+                    [
+                        { text: "Voltar ao Simulado", class: "px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-sm" },
+                        { text: "Confirmar e Enviar", class: "px-4 py-2 bg-brand-700 hover:bg-brand-800 text-white rounded-lg font-bold text-sm", action: submitQuiz }
+                    ]
+                );
+            }
+        }
+
+        // Submete as respostas e calcula o resultado
+        function submitQuiz() {
+            clearInterval(state.timerInterval);
+            state.submitted = true;
+
+            // Bloqueia todos os inputs de rádio
+            document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+
+            let score = 0;
+            const quickGrid = document.getElementById('quick-nav-grid');
+            quickGrid.innerHTML = '';
+
+            dbQuestions.forEach((q, idx) => {
+                const userAns = state.answers[q.id];
+                const isCorrect = userAns === q.correct;
+                if (isCorrect) score++;
+
+                // Altera o status do card de questão
+                const card = document.getElementById(`card-q${q.id}`);
+                const statusBadge = document.getElementById(`badge-status-q${q.id}`);
+                const resolutionPanel = document.getElementById(`resolution-q${q.id}`);
+
+                // Remove classes de hover das alternativas para focar nos resultados
+                for (let opt in q.options) {
+                    const optCont = document.getElementById(`opt-container-q${q.id}-${opt}`);
+                    optCont.className = "flex items-start gap-3 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 cursor-default transition-all";
+                }
+
+                // Destaca a alternativa correta e a do usuário
+                if (userAns) {
+                    const userOptCont = document.getElementById(`opt-container-q${q.id}-${userAns}`);
+                    if (isCorrect) {
+                        userOptCont.className = "flex items-start gap-3 p-4 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 cursor-default transition-all";
+                    } else {
+                        userOptCont.className = "flex items-start gap-3 p-4 rounded-xl border-2 border-red-500 bg-red-500/10 cursor-default transition-all";
+                    }
+                }
+
+                // Garante que a alternativa certa está verde sempre
+                const correctOptCont = document.getElementById(`opt-container-q${q.id}-${q.correct}`);
+                correctOptCont.className = "flex items-start gap-3 p-4 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 cursor-default transition-all";
+
+                if (isCorrect) {
+                    statusBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400";
+                    statusBadge.innerText = "Correta ✅";
+                    resolutionPanel.className = "resolution-panel mt-6 p-5 bg-emerald-50 dark:bg-emerald-950/10 rounded-xl border-l-4 border-emerald-500 text-slate-700 dark:text-slate-300 text-sm md:text-base";
+                } else {
+                    statusBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-400";
+                    statusBadge.innerText = `Incorreta ❌ (Gabarito: ${q.correct})`;
+                    resolutionPanel.className = "resolution-panel mt-6 p-5 bg-red-50/40 dark:bg-red-950/5 rounded-xl border-l-4 border-red-500 text-slate-700 dark:text-slate-300 text-sm md:text-base";
+                }
+
+                // Revela a resolução na mesma página
+                resolutionPanel.classList.remove('hidden');
+
+                // Preenche o painel de gabarito rápido
+                const quickBtn = document.createElement('button');
+                quickBtn.type = 'button';
+                quickBtn.className = `w-10 h-10 font-bold rounded-lg flex items-center justify-center text-xs md:text-sm border transition-all ${
+                    isCorrect 
+                        ? 'bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-600 shadow-sm' 
+                        : 'bg-red-500 hover:bg-red-600 text-white border-red-600 shadow-sm'
+                }`;
+                quickBtn.innerText = String(q.id);
+                quickBtn.onclick = () => {
+                    document.getElementById(`card-q${q.id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                };
+                quickGrid.appendChild(quickBtn);
+            });
+
+            // Configura os resultados na tela
+            document.getElementById('score-ratio').innerText = `${score}/${dbQuestions.length}`;
+            
+            const percentage = (score / dbQuestions.length) * 100;
+            document.getElementById('score-badge').innerText = `${percentage}% de Aproveitamento`;
+
+            let feedback = '';
+            if (percentage === 100) feedback = "Excelente! Desempenho digno de aprovação em primeiro lugar.";
+            else if (percentage >= 80) feedback = "Excelente desempenho! Sua preparação está no rumo certo.";
+            else if (percentage >= 65) feedback = "Bom rendimento! Vale a pena revisar as questões incorretas.";
+            else feedback = "Atenção: É recomendada uma leitura mais atenta dos problemas socioambientais rurais.";
+            document.getElementById('performance-feedback').innerText = feedback;
+
+            // Registra tempo decorrido
+            const mins = String(Math.floor(state.secondsElapsed / 60)).padStart(2, '0');
+            const secs = String(state.secondsElapsed % 60).padStart(2, '0');
+            document.getElementById('time-spent-log').innerText = `Tempo Total: ${mins}m ${secs}s`;
+
+            // Exibe painel de resultados com animação suave
+            const resPanel = document.getElementById('results-panel');
+            resPanel.classList.remove('hidden');
+            setTimeout(() => {
+                resPanel.classList.remove('scale-95', 'opacity-0');
+            }, 100);
+
+            // Ajusta visibilidade dos botões
+            document.getElementById('btn-submit').className = "hidden";
+            document.getElementById('btn-reset').classList.remove('hidden');
+
+            // Rola até o painel de resultados de maneira suave
+            resPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Renderiza novamente o KaTeX no corpo inteiro para garantir as equações das resoluções
+            if (window.renderMathInElement) {
+                window.renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // Reinicia o simulado para o estado inicial
+        function resetQuiz() {
+            state.answers = {};
+            state.submitted = false;
+            
+            const resPanel = document.getElementById('results-panel');
+            resPanel.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                resPanel.classList.add('hidden');
+            }, 300);
+
+            document.getElementById('btn-reset').classList.add('hidden');
+            document.getElementById('btn-submit').className = "w-full sm:w-auto px-8 py-4 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl shadow-md transition-all active:scale-98 flex items-center justify-center space-x-2";
+
+            renderQuestions();
+            updateProgressBar();
+            startTimer();
+        }
+
+        // Executado ao carregar a página
+        window.onload = function() {
+            setTheme('cream'); // Começa com o Modo Leitura padrão para não forçar a visão
+            renderQuestions();
+            startTimer();
+        };
+    </script>
+</body>
+</html>

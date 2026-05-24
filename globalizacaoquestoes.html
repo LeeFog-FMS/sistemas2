@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Globalização e a Divisão Territorial do Trabalho no Ceará</title>
+    <!-- Tailwind CSS para um visual moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para fontes altamente legíveis e confortáveis -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos personalizados para leitura prolongada e controle do quiz */
+        body {
+            background-color: #fbfbf9; /* Fundo suave estilo papel antigo/Kindle */
+            color: #1c1917; /* Texto carvão escuro para contraste suave */
+        }
+        .readable-card {
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+        }
+        /* Efeito de hover e seleção suave para opções */
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover {
+            background-color: #f5f5f4;
+            border-color: #d6d3d1;
+        }
+        .option-radio:checked + .option-content {
+            background-color: #f5f3ff;
+            border-color: #8b5cf6;
+            color: #4c1d95;
+            font-weight: 500;
+        }
+        /* Estilos de feedback pós-correção */
+        .correct-choice {
+            background-color: #f0fdf4 !important;
+            border-color: #22c55e !important;
+            color: #14532d !important;
+        }
+        .incorrect-choice {
+            background-color: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #7f1d1d !important;
+        }
+        .missed-correct-choice {
+            border: 2px dashed #22c55e !important;
+            background-color: #f0fdf4 !important;
+        }
+        /* Customizar barra de rolagem para conforto visual */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c5c5c5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-violet-100 selection:text-violet-900">
+
+    <!-- Cabeçalho Principal -->
+    <header class="max-w-4xl mx-auto px-4 pt-12 pb-8 text-center border-b border-stone-200">
+        <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-violet-700 uppercase bg-violet-100 rounded-full mb-4">
+            Simulado de Concurso • Estilo Instituto AOCP
+        </span>
+        <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-stone-900 leading-tight">
+            Globalização e a Divisão Territorial do Trabalho
+        </h1>
+        <p class="mt-4 text-base md:text-lg text-stone-600 max-w-2xl mx-auto font-light leading-relaxed">
+            O Meio Técnico-Científico-Informacional de Milton Santos e a inserção global do Ceará através do Complexo do Pecém e dos hubs de tecnologia.
+        </p>
+    </header>
+
+    <!-- Barra de progresso ou aviso de preenchimento -->
+    <div id="stickyBanner" class="sticky top-0 z-50 bg-stone-900 text-stone-100 shadow-md py-3 px-4 hidden transition-all duration-300">
+        <div class="max-w-4xl mx-auto flex items-center justify-between text-sm">
+            <span id="bannerText" class="font-medium"></span>
+            <button onclick="scrollToUnanswered()" class="bg-violet-600 hover:bg-violet-500 text-white font-semibold py-1 px-3 rounded text-xs transition duration-200">
+                Ir para pendente
+            </button>
+        </div>
+    </div>
+
+    <!-- Container Central das Questões -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <form id="quizForm" onsubmit="event.preventDefault();">
+            
+            <!-- QUESTÃO 1 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-1">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 1</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    No livro <em>Brasil: território e sociedade no início do século XXI</em>, Milton Santos e Maria Laura Silveira propõem uma regionalização do território brasileiro baseada na difusão desigual do meio técnico-científico-informacional (MTCI). No contexto da globalização e da divisão territorial do trabalho, o estado do Ceará tem buscado se inserir ativamente nessas redes globais de fluxos informacionais. 
+                    <br><br>
+                    Considerando a regionalização proposta por esses autores e as características do MTCI no território brasileiro, assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q1" value="A" class="option-radio hidden" required>
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>O Ceará, por estar localizado na região Nordeste, foi classificado na denominada "Região Concentrada" devido à rápida expansão de seus eixos de transporte de dados e infraestrutura portuária de alta tecnologia.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q1" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>O critério do meio técnico-científico-informacional dividiu o território brasileiro em três regiões geoeconômicas contínuas, tendo por base exclusiva os aspectos históricos da industrialização por substituição de importações.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q1" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>A região com maior densidade de técnica, ciência e informação, altamente fluida e que centraliza as principais tomadas de decisão do capitalismo nacional, é a Região Concentrada, enquanto as demais regiões, como o Nordeste, apresentam essa inserção informacional de forma pontual e arquipelagizada.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q1" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>O meio técnico-científico-informacional distribui-se de maneira homogênea por todo o espaço geográfico brasileiro, eliminando as disparidades regionais históricas na divisão territorial do trabalho através da universalização do acesso às redes digitais.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q1" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>A inserção do Ceará nas redes de dados globais permitiu ao estado superar completamente a divisão territorial do trabalho, assumindo o papel de principal centralidade decisória e financeira do capitalismo nacional, sobrepondo-se à Região Concentrada.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução (oculta inicialmente) -->
+                <div id="res-1" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: C)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        A regionalização dos "Quatro Brasis", formulada por Milton Santos e Maria Laura Silveira em 2001, propõe um mapeamento do território nacional baseado no grau de penetração das variáveis do meio técnico-científico-informacional (MTCI). Essa perspectiva teórica demonstra que a globalização e as finanças se irradiam de maneira desigual no espaço brasileiro. De acordo com esse modelo regional, a Região Concentrada centraliza o comando financeiro e corporativo do país, caracterizando-se por densidades informacionais contínuas, fluxos hegemônicos e alta fluidez espacial. O Nordeste insere-se nesse meio de maneira seletiva e pontual, estruturando-se em "arquipélagos" de alta tecnologia que se interconectam com o exterior, mas mantêm um baixo nível de integração horizontal interna.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Região Proposta</th>
+                                    <th class="px-4 py-3 text-left">Estados Integrantes</th>
+                                    <th class="px-4 py-3 text-left">Características do MTCI</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Concentrada</td>
+                                    <td class="px-4 py-3">SP, RJ, PR, MG, SC, RS, ES</td>
+                                    <td class="px-4 py-3">Altíssima densidade informacional, controle financeiro nacional, fluidez contínua.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Nordeste</td>
+                                    <td class="px-4 py-3">BA, PE, CE, RN, PB, MA, PI, AL, SE</td>
+                                    <td class="px-4 py-3">Penetração seletiva e arquipelagizada; eixos de modernidade técnica pontuais.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Centro-Oeste</td>
+                                    <td class="px-4 py-3">MT, MS, GO (inclui DF)</td>
+                                    <td class="px-4 py-3">Modernização técnica subordinada aos fluxos globais do agronegócio de exportação.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Amazônia</td>
+                                    <td class="px-4 py-3">AM, PA, AC, RO, RR, AP, TO</td>
+                                    <td class="px-4 py-3">Baixa densidade de técnica e informação; rede urbana rarefeita e frentes extrativas.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 2 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-2">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 2</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    O Complexo Industrial e Portuário do Pecém (CIPP S/A) constitui um importante fixo geográfico que viabiliza fluxos globais de mercadorias, inserindo o Ceará nas dinâmicas de fragmentação da produção global. Essa infraestrutura logística é gerida por meio de um arranjo corporativo internacional estratégico.
+                    <br><br>
+                    A respeito da estrutura de gestão e da inserção global do CIPP, assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q2" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>O CIPP é uma autarquia federal administrada exclusivamente pela União, com atuação limitada ao mercado de cabotagem nacional, sem participação acionária ou parcerias internacionais privadas ou públicas.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q2" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>Trata-se de uma joint venture de classe mundial estabelecida entre o Governo do Estado do Ceará e o Porto de Roterdã (Holanda), na qual a autoridade portuária holandesa detém 30% de participação acionária, promovendo a atração de investimentos e a transferência de expertise de gestão.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q2" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>A gestão do CIPP é exercida de forma unilateral pela Autoridade Portuária de Roterdã, que adquiriu 100% das ações da empresa estatal cearense em 2018, convertendo o porto em uma colônia comercial privada europeia.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q2" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>O Porto do Pecém caracteriza-se estruturalmente como um terminal estritamente *onshore*, o que exige operações de dragagem diárias e limita o atracamento de navios de grande calado provenientes das rotas transatlânticas.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q2" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>A parceria com o Porto de Roterdã tem por foco exclusivo a exportação de produtos agrícolas tradicionais do semiárido cearense, sendo vedada a atração de indústrias de alta tecnologia ou projetos voltados à transição energética.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-2" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: B)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        O Complexo Industrial e Portuário do Pecém (CIPP S/A) constitui um modelo avançado de gestão de infraestruturas logísticas na era do meio técnico-científico-informacional. Em 2018, o Governo do Estado do Ceará celebrou um contrato com a Autoridade Portuária de Roterdã, estabelecendo uma joint venture na qual a instituição holandesa investiu 75 milhões de euros (cerca de R$ 323 milhões na cotação da época) para adquirir 30% de participação acionária. Esse modelo de governança corporativa permitiu ao CIPP incorporar a <em>expertise</em> internacional do maior porto da Europa, otimizando as rotas transatlânticas e fortalecendo o porto cearense como um centro dinâmico na fragmentação global da produção e na atração de grandes investimentos de capital estrangeiro.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Parâmetro Operacional</th>
+                                    <th class="px-4 py-3 text-left">Detalhes do Arranjo Institucional e Físico</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Estrutura de Gestão</td>
+                                    <td class="px-4 py-3">Joint venture formada pelo Governo do Ceará (70%) e Porto de Roterdã (30%).</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Investimento Holandês</td>
+                                    <td class="px-4 py-3">€ 75 milhões (aproximadamente R$ 323 milhões investidos em 2018).</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Localização e Escala</td>
+                                    <td class="px-4 py-3">Litoral oeste do Ceará (Caucaia e São Gonçalo do Amarante), cobrindo mais de 19 mil hectares.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Tipologia Física</td>
+                                    <td class="px-4 py-3">Terminal portuário do tipo <em>offshore</em> de classe mundial, operando em águas profundas.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 3 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-3">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 3</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    A Zona de Processamento de Exportação do Ceará (ZPE Ceará) funciona como um instrumento de política econômica e planejamento territorial voltado a estimular a industrialização e a inserção do estado nas cadeias globais de valor. 
+                    <br><br>
+                    Sobre a estrutura física, a expansão e a destinação de áreas da ZPE Ceará, assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q3" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>A ZPE Ceará é a primeira Zona de Processamento de Exportação a entrar em operação no país, possuindo uma estrutura planejada em setores, dos quais o Setor II destaca-se como área de expansão destinada a receber grandes projetos voltados à transição energética, como o Hub de Hidrogênio Verde.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q3" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>Por restrições de legislação federal, a ZPE Ceará não possui permissão para expandir sua área física, limitando-se permanentemente à operação das instalações siderúrgicas originais presentes no Setor I.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q3" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>A ZPE Ceará é um enclave econômico gerido diretamente pela Organização Mundial do Comércio (OMC), sendo o Governo do Ceará desprovido de qualquer participação em sua administração ou planejamento aduaneiro.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q3" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>A infraestrutura da ZPE Ceará destina-se exclusivamente à montagem final de bens de consumo duráveis importados da Ásia, sendo vedado o processamento de matérias-primas pesadas ou granéis sólidos e líquidos.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q3" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>O Setor II da ZPE Ceará destina-se exclusivamente à instalação de infraestruturas turísticas e hoteleiras, visando dinamizar a economy litorânea de Caucaia e São Gonçalo do Amarante de forma desvinculada das atividades industriais.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-3" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: A)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        A Zona de Processamento de Exportação do Ceará (ZPE Ceará) funciona como um instrumento geoeconômico voltado à atração de investimentos e à facilitação de fluxos comerciais no âmbito da globalização. Constituindo-se na primeira ZPE a entrar em atividade regular no Brasil, ela possui uma área total de investimento de 6.182 hectares. Seu planejamento diretor divide o território em setores estratégicos: o Setor I conta com 1.251 hectares e abriga a infraestrutura siderúrgica clássica (produção de placas de aço), enquanto o Setor II, estendido sobre 1.911 hectares de área alfandegada, foi estruturado para acolher indústrias modernas de tecnologia sustentável e o Hub de Hidrogênio Verde do Ceará, aproveitando o potencial energético regional.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Setores da ZPE Ceará</th>
+                                    <th class="px-4 py-3 text-left">Área Total (Hectares)</th>
+                                    <th class="px-4 py-3 text-left">Foco de Atividade e Vocação Produtiva</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Setor I</td>
+                                    <td class="px-4 py-3">1.251 ha</td>
+                                    <td class="px-4 py-3">Produção de placas de aço, indústria metalmecânica de base e infraestrutura portuária.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Setor II</td>
+                                    <td class="px-4 py-3">1.911 ha</td>
+                                    <td class="px-4 py-3">Expansão recente destinada a plantas industriais de Hidrogênio Verde e transição energética.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Setores de Reserva</td>
+                                    <td class="px-4 py-3">3.020 ha</td>
+                                    <td class="px-4 py-3">Dedicados a futuras expansões industriais e atração de novos complexos produtivos.</td>
+                                </tr>
+                                <tr class="bg-violet-50 text-violet-950 font-semibold">
+                                    <td class="px-4 py-3">Área Total</td>
+                                    <td class="px-4 py-3">6.182 ha</td>
+                                    <td class="px-4 py-3">Primeira Zona de Processamento de Exportação ativa na história do Brasil.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 4 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-4">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 4</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    Fortaleza, capital do Ceará, tem se consolidado como um dos pontos nodais mais importantes da infraestrutura de telecomunicações do planeta, exercendo um papel de destaque na nova geografia digital. 
+                    <br><br>
+                    Assinale a alternativa que apresenta corretamente as características desse hub tecnológico e sua inserção na rede internacional de dados.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q4" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>Fortaleza é o principal hub de cabos submarinos do mundo, superando todas as cidades do Oriente Médio e da Ásia devido à ausência total de marcos regulatórios ambientais em seu litoral.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q4" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>A Praia do Futuro, em Fortaleza, concentra 16 cabos submarinos ativos de fibra óptica que conectam o Brasil diretamente à Europa, África, Caribe e América do Norte, estimando-se que por ali trafeguem cerca de 90% dos dados internacionais de internet que entram e saem do país.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q4" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>O acúmulo de infraestrutura de telecomunicações na Praia do Futuro é um fenômeno puramente recente e artificial, sem qualquer relação com a posição geográfica estratégica da cidade no Atlântico ou com antecedentes históricos de comunicação internacional.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q4" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>A infraestrutura digital de Fortaleza limita-se ao tráfego interno de informações, pois o país realiza suas transmissões internacionais de internet prioritariamente por meio de satélites russos e chineses de órbita média.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q4" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>Os cabos submarinos ancorados em Fortaleza ligam a cidade exclusivamente a portos do hemisfério sul, sendo vedada a conexão com a América do Norte e a Europa por motivos de segurança cibernética nacional.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-4" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: B)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        A Praia do Futuro, em Fortaleza, tornou-se o principal entroncamento e porta de entrada de redes de fibra óptica na América Latina, concentrando 16 cabos submarinos internacionais ativos. Devido à sua posição geográfica privilegiada na porção mais setentrional da costa do Nordeste, Fortaleza oferece uma distância física reduzida em relação à América do Norte, Europa e África, o que se traduz em baixa latência para redes digitais. Estima-se que aproximadamente 90% do fluxo de dados de internet que entra e sai do Brasil transite por essa infraestrutura de telecomunicações, conferindo à capital do Ceará um protagonismo de destaque na nova divisão internacional do trabalho e na economia informacional global.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Período Histórico</th>
+                                    <th class="px-4 py-3 text-left">Infraestrutura Tecnológica Instalada</th>
+                                    <th class="px-4 py-3 text-left">Papel na Divisão Territorial do Trabalho</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Década de 1880</td>
+                                    <td class="px-4 py-3">Primeiros cabos telegráficos submarinos.</td>
+                                    <td class="px-4 py-3">Integração do Ceará às redes de comunicação do Atlântico imperial.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Ano 2000</td>
+                                    <td class="px-4 py-3">Primeiro cabo moderno de fibra óptica (Cirion).</td>
+                                    <td class="px-4 py-3">Início da conversão do território cearense em ponto de tráfego de dados.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Ano 2021</td>
+                                    <td class="px-4 py-3">Inauguração do cabo de alta capacidade EllaLink.</td>
+                                    <td class="px-4 py-3">Conexão de alta velocidade direta à Europa sem passagem pelos EUA.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Ano 2026</td>
+                                    <td class="px-4 py-3">Presença de 16 cabos submarinos e expansão de data centers.</td>
+                                    <td class="px-4 py-3">Consolidação como o maior hub informacional da América Latina.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 5 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-5">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 5</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    Inaugurado em 2021, o cabo submarino de fibra óptica EllaLink representou um marco técnico e político para a infraestrutura de telecomunicações do Brasil e da América do Sul no contexto da governança global da internet. 
+                    <br><br>
+                    A respeito das características operacionais, da rota e das implicações geopolíticas do EllaLink, assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q5" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>O EllaLink conecta a cidade de Fortaleza diretamente a Londres, na Inglaterra, sendo o primeiro cabo transatlântico operado sob concessão de empresas estatais da América do Norte.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q5" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>Trata-se de um sistema de alta capacidade que liga Fortaleza (Brasil) a Sines (Portugal), proporcionando uma redução de até 50% na latência de transmissão de dados (com tempo de resposta inferior a 60 milissegundos) e permitindo contornar a rota intermediária tradicional pelos Estados Unidos, o que reforça a segurança contra a espionagem internacional.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q5" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>O EllaLink utiliza conexões coaxiais de cobre de alta impedância, o que restringe seu uso a transmissões analógicas de telefonia estatal e impossibilita o fluxo de dados em nuvem ou streaming.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q5" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>A rota transatlântica do EllaLink é inteiramente contínua entre as costas brasileira e portuguesa, sendo tecnicamente impossível realizar emersões ou conexões em ilhas atlânticas como Cabo Verde ou Madeira.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q5" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>O projeto do EllaLink foi integralmente financiado pelo governo norte-americano por meio de sua agência de segurança nacional (NSA), como contrapartida pela utilização de bases militares no Nordeste brasileiro.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-5" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: B)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        O cabo submarino de fibra óptica EllaLink, inaugurado em 1º de junho de 2021, representa uma inovação geopolítica e geoeconômica para as comunicações do Brasil. Com uma extensão de aproximadamente 5.900 km, ele interliga diretamente a cidade de Fortaleza (Brasil) a Sines (Portugal). Esse projeto transatlântico reduziu a latência de tráfego de dados entre a América Latina e a Europa em até 50%, oferecendo um tempo de resposta de ida e volta (RTD) inferior a 60 milissegundos. Geopoliticamente, o EllaLink evita o tráfego tradicional que passava necessariamente pelos Estados Unidos, minimizando os riscos de interceptação e espionagem de dados por agências norte-americanas e garantindo maior autonomia ao tráfego brasileiro.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Rota de Conexão Transatlântica (EllaLink)</th>
+                                    <th class="px-4 py-3 text-left">Latência de Resposta (RTD)</th>
+                                    <th class="px-4 py-3 text-left">Classificação de Desempenho</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Sines ⟷ Fortaleza</td>
+                                    <td class="px-4 py-3 font-semibold text-emerald-600">&lt; 60 ms</td>
+                                    <td class="px-4 py-3 font-medium">Ultra-Low Latency (Ultrabaixa Latência)</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Fortaleza ⟷ Lisboa</td>
+                                    <td class="px-4 py-3">&lt; 65 ms</td>
+                                    <td class="px-4 py-3">Low Latency (Baixa Latência)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Fortaleza ⟷ Madri</td>
+                                    <td class="px-4 py-3">&lt; 70 ms</td>
+                                    <td class="px-4 py-3">Low Latency (Baixa Latência)</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Fortaleza ⟷ Marselha</td>
+                                    <td class="px-4 py-3">&lt; 85 ms</td>
+                                    <td class="px-4 py-3">Low Latency (Baixa Latência)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Sines ⟷ São Paulo</td>
+                                    <td class="px-4 py-3">&lt; 105 ms</td>
+                                    <td class="px-4 py-3">Transatlantic Route (Estágio II)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 6 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-6">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 6</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    Para além de suas vantagens geográficas naturais, o planejamento territorial do Estado do Ceará desenhou uma estratégia articulada de desenvolvimento econômico ancorada na integração de três infraestruturas globais de transporte e dados, modelo que ficou conhecido regionalmente como a "Trinca de Hubs". 
+                    <br><br>
+                    Assinale a alternativa que indica corretamente os componentes dessa estrutura estratégica de integração global.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q6" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>Hub Siderúrgico de Maracanaú, Hub Têxtil de Fortaleza e Hub Calçadista de Juazeiro do Norte.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q6" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>Hub Ferroviário da Transnordestina, Hub Rodoviário da BR-116 e Hub de Integração de Bacias do Rio São Francisco.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q6" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>Hub Portuário (Complexo do Pecém e parceria com o Porto de Roterdã), Hub Aéreo (Aeroporto Internacional de Fortaleza e conexões da Air France/KLM/GOL) e Hub Tecnológico (Cabos submarinos e Data Centers).</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q6" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>Hub de Energia Eólica do Litoral Oeste, Hub de Energia Solar do Sertão de Crateús e Hub de Biomassa do Cariri.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q6" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>Hub de Turismo Litorâneo (Jericoacoara), Hub Cultural do Cariri e Hub de Eventos de Fortaleza.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-6" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: C)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        O planejamento de desenvolvimento do Estado do Ceará desenhou uma estratégia locacional integrada para o território, apoiada na convergência de três polos logísticos e digitais globais, arranjo comumente denominado pela administração pública de "Trinca de Hubs". Essa estratégia de atração de capitais e densidades informacionais opera pela sinergia entre o Hub Portuário (geração de fluxos industriais e marítimos por meio da joint venture do Pecém com o Porto de Roterdã), o Hub Aéreo (com o aeroporto de Fortaleza atuando como centro de conexões de passageiros e cargas de companhias como Air France/KLM/GOL) e o Hub Tecnológico e de Telecomunicações (ancorado nas infraestruturas digitais de fibra óptica e data centers na capital).
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Eixo do Hub</th>
+                                    <th class="px-4 py-3 text-left">Infraestrutura Física Principal</th>
+                                    <th class="px-4 py-3 text-left">Parceiros e Âncoras Corporativas Globais</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Portuário</td>
+                                    <td class="px-4 py-3">Complexo Industrial e Portuário do Pecém (CIPP).</td>
+                                    <td class="px-4 py-3">Governo do Ceará e Porto de Roterdã (Holanda).</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Aéreo</td>
+                                    <td class="px-4 py-3">Aeroporto Internacional de Fortaleza (Pinto Martins).</td>
+                                    <td class="px-4 py-3">Concessionária Fraport e as companhias aéreas Air France, KLM e GOL.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Tecnológico</td>
+                                    <td class="px-4 py-3">Data Centers na Praia do Futuro e Estações de Cabos (CLS).</td>
+                                    <td class="px-4 py-3">Angola Cables, V.tal, EllaLink e o Data Center AngoNAP.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 7 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-7">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 7</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    A interiorização dos benefícios do meio técnico-científico-informacional no Ceará é viabilizada por uma das redes públicas de transporte de dados mais extensas do país: o Cinturão Digital do Ceará (CDC), administrado pela Empresa de Tecnologia da Informação do Ceará (ETICE).
+                    <br><br>
+                    Sobre o Cinturão Digital do Ceará (CDC) e sua atuação na estruturação territorial do estado, assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q7" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>O CDC é um programa de satélites geoestacionários privados que cobrem a região Nordeste, dispensando a necessidade de implantação de cabos terrestres de fibra óptica.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q7" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>O CDC constitui uma rede de milhares de quilômetros de fibra óptica que percorre a maioria dos municípios cearenses, conectando órgãos públicos e fomentando provedores locais; atualmente, a ETICE planeja disponibilizar seus pares de fibra óptica "apagada" (dark fiber) para atrair data centers de alta demanda e inteligência artificial para o interior do estado.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q7" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>A infraestrutura do CDC destina-se de forma exclusiva ao monitoramento de segurança urbana na Região Metropolitana de Fortaleza, sendo vedado seu uso para fins de inclusão digital, educação ou atração de empresas privadas.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q7" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>Por ter sido implantado no início da década de 1980, o CDC utiliza tecnologias analógicas obsoletas que impedem sua integração com os novos sistemas de cabos submarinos e redes móveis de quinta geração (5G).</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q7" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>O CDC é controlado por um consórcio de operadoras internacionais de telecomunicações que proíbe o acesso de provedores de internet locais (ISPs) à sua infraestrutura de transporte de dados.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-7" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: B)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        O Cinturão Digital do Ceará (CDC), sob a gestão da Empresa de Tecnologia da Informação do Ceará (ETICE), consiste em uma rede de fibra óptica terrestre pública e compartilhada com mais de 5.942 km de cabos que corta o território cearense, abrangendo 139 municípios. O <em>backbone</em> do Cinturão possui 12 pares de fibra óptica, dos quais 5 estão ativos ("iluminados") para atender o governo e provedores locais e 7 encontram-se inativos ("apagados" ou <em>dark fiber</em>). Em sua estratégia de fomento ao MTCI, a ETICE planeja conceder o uso desses 7 pares desligados para atrair data centers de computação intensiva e inteligência artificial para cidades de médio e pequeno porte do interior do estado, permitindo a interiorização da economia digital de forma descentralizada.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Elemento do Backbone (CDC)</th>
+                                    <th class="px-4 py-3 text-left">Quantidade de Pares</th>
+                                    <th class="px-4 py-3 text-left">Status Operacional</th>
+                                    <th class="px-4 py-3 text-left">Finalidade Estratégica Regional</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Fibras Ativas ("Iluminadas")</td>
+                                    <td class="px-4 py-3">5 pares</td>
+                                    <td class="px-4 py-3 text-emerald-600 font-medium">Em operação</td>
+                                    <td class="px-4 py-3">Serviços digitais públicos, governo estadual e provedores privados locais.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Fibras Inativas ("Apagadas")</td>
+                                    <td class="px-4 py-3">7 pares</td>
+                                    <td class="px-4 py-3 text-stone-500">Disponíveis</td>
+                                    <td class="px-4 py-3 font-medium text-violet-700">Atração de data centers para inteligência artificial no interior do estado.</td>
+                                </tr>
+                                <tr class="bg-violet-50 text-violet-950 font-semibold">
+                                    <td class="px-4 py-3">Total de Pares de Fibra</td>
+                                    <td class="px-4 py-3">12 pares</td>
+                                    <td class="px-4 py-3">Capacidade Máxima</td>
+                                    <td class="px-4 py-3">Inclusão digital e integração logística estadual.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 8 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-8">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 8</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    O Ceará tem se destacado na atração de infraestruturas altamente demandantes de energia e tecnologia, como os novos projetos de <em>data centers</em> de escala global. Um exemplo notório é o projeto do empreendimento da ByteDance (controladora do TikTok), desenvolvido no Complexo do Pecém em parceria com a Omnia.
+                    <br><br>
+                    A respeito dos fatores de atratividade geográfica do território cearense para a instalação de grandes centros de processamento de dados (<em>data centers</em>), assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q8" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>A atratividade do estado decorre das baixas temperaturas médias anuais registradas no litoral, o que dispensa os sistemas mecânicos de refrigeração e reduz os custos operacionais com climatização.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q8" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>O Ceará destaca-se por combinar excelente conectividade internacional (baixa latência de rede), regulação tributária favorável na ZPE e um vasto potencial de geração de energia limpa e renovável (solar e eólica), essencial para sustentar a demanda eletrointensiva de data centers com menor pegada de carbono.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q8" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>A atração dessas empresas baseia-se exclusivamente no baixo custo da energia elétrica gerada por usinas termelétricas a carvão mineral, que são amplamente subsidiadas pelo governo estadual em detrimento das fontes renováveis.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q8" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>Os data centers globais instalam-se no Ceará devido ao isolamento do território em relação a redes internacionais de dados, o que previne ataques cibernéticos e espionagem industrial por parte de concorrentes estrangeiros.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q8" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>A instalação dessas estruturas no Ceará independe de infraestrutura física local, sendo realizada de maneira virtual através da rede de satélites de baixa órbita da região polar.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-8" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: B)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        A instalação de grandes data centers globais, a exemplo do mega data center projetado pela ByteDance no Porto do Pecém em parceria com a Omnia, depende de fatores de atratividade que vão além da conectividade internacional. Essas estruturas exigem um suprimento abundante e constante de energia, o que as caracteriza como indústrias eletrointensivas. A grande vantagem locacional do Ceará na divisão internacional do trabalho técnico-informacional consiste na sua capacidade de ofertar energia limpa e renovável em larga escala, proveniente de um gigantesco potencial de geração solar e eólico terrestre (<em>onshore</em>) e marítimo (<em>offshore</em>). Isso viabiliza que grandes corporações globais de tecnologia compensem suas emissões e cumpram suas metas de descarbonização corporativa.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Fonte de Geração Renovável</th>
+                                    <th class="px-4 py-3 text-left">Potencial Estimado (GW)</th>
+                                    <th class="px-4 py-3 text-left">Relevância para Data Centers Globais</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Solar Fotovoltaica</td>
+                                    <td class="px-4 py-3">643 GW</td>
+                                    <td class="px-4 py-3">Energia abundante e barata durante o ciclo de pico de radiação.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Eólica Offshore (Marítima)</td>
+                                    <td class="px-4 py-3">117 GW</td>
+                                    <td class="px-4 py-3">Geração constante de alta capacidade em águas costeiras profundas.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Eólica Onshore (Terrestre)</td>
+                                    <td class="px-4 py-3">94 GW</td>
+                                    <td class="px-4 py-3">Matriz consolidada de baixo custo integrada à infraestrutura local.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50 font-medium">
+                                    <td class="px-4 py-3 text-stone-950">Sistemas Híbridos</td>
+                                    <td class="px-4 py-3">137 GW</td>
+                                    <td class="px-4 py-3 text-violet-700">Geração combinada para estabilidade de suprimento contínuo 24/7.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 9 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-9">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 9</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    Na teoria geográfica de Milton Santos, o espaço geográfico globalizado é estruturado dinamicamente por meio da dialética entre "fixos" e "fluxos". Os fixos são os elementos materiais instalados que permitem a realização de ações, enquanto os fluxos são os movimentos e circulações de informações, mercadorias e pessoas que dão vida e dinamismo a esses fixos.
+                    <br><br>
+                    Considerando essa formulação conceitual aplicada à infraestrutura logística e digital do estado do Ceará, assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q9" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>Os cabos submarinos de fibra óptica e as instalações portuárias do Pecém constituem os "fluxos" da economia contemporânea cearense, enquanto as informações financeiras e as mercadorias conteinerizadas representam os "fixos" espaciais.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q9" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>Os cabos submarinos na Praia do Futuro, os data centers e a estrutura física del terminal do Pecém funcionam como "fixos" espaciais de alta tecnologia que viabilizam e sustentam os "fluxos" globais de dados digitais, transações financeiras e comércio de mercadorias no Atlântico.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q9" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>Com a consolidação da internet e da virtualização econômica, os "fixos" tornaram-se irrelevantes para a análise geográfica do Ceará, uma vez que as redes globais de dados operam inteiramente livres de suportes ou ancoragens territoriais materiais.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q9" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>Os fluxos de dados transatlânticos que passam por Fortaleza independem da presença física de estações de chegada de cabos (<em>Cable Landing Stations</em>), ocorrendo por propagação direta na atmosfera marinha.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q9" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>Os "fixos" industriais e portuários do Ceará restringem-se ao atendimento do mercado de subsistência local, impossibilitando a circulação de fluxos voltados para a divisão internacional do trabalho.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-9" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: B)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        Na formulação conceitual da geografia urbana e econômica de Milton Santos, o espaço geográfico na fase da globalização é interpretado como uma dialética contínua entre "fixos" e "fluxos". Os "fixos" representam os elementos espaciais geograficamente imóveis, dotados de técnica e materialidade instalados para permitir a realização de ações de produção (as estações de cabos submarinos, as edificações dos data centers, as turbinas eólicas e os cais do terminal do Pecém). Os "fluxos" referem-se à circulação dinâmica que se desenvolve sobre esses suportes físicos (a transmissão eletrônica de dados de internet, os fluxos financeiros virtuais e o comércio físico internacional de mercadorias no Atlântico). Assim, os cabos submarinos na Praia do Futuro atuam como "fixos" indispensáveis para que os "fluxos" do meio informacional global se materializem no território.
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Categoria Geográfica</th>
+                                    <th class="px-4 py-3 text-left">Exemplos Práticos no Território Cearense</th>
+                                    <th class="px-4 py-3 text-left">Função na Divisão Territorial do Trabalho</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Fixos (Objetos)</td>
+                                    <td class="px-4 py-3">Estações de Cabos (CLS), Data Centers na Praia do Futuro, Instalações e ZPE do Pecém.</td>
+                                    <td class="px-4 py-3">Servir de suporte físico e ancoragem material para o capital global.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Fluxos (Ações)</td>
+                                    <td class="px-4 py-3">Tráfego de internet transatlântico, navegação marítima e transações financeiras.</td>
+                                    <td class="px-4 py-3">Dinamizar o espaço geográfico e integrar a produção regional aos mercados de consumo globais.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 10 -->
+            <div class="readable-card p-6 md:p-8 rounded-xl shadow-sm mb-8 transition duration-300" id="q-container-10">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-stone-100">
+                    <span class="text-sm font-semibold text-stone-500 uppercase">Questão 10</span>
+                    <span class="text-xs bg-stone-100 text-stone-600 py-1 px-2.5 rounded font-medium">Banca AOCP</span>
+                </div>
+                <div class="font-serif text-lg text-stone-900 mb-6 leading-relaxed">
+                    A Zona de Processamento de Exportação do Ceará (ZPE Ceará) desempenha um papel essencial no fluxo de mercadorias e na balança comercial do estado, operando sob rígido controle aduaneiro.
+                    <br><br>
+                    A respeito das características operacionais, da segurança e das cargas movimentadas na ZPE Ceará, assinale a alternativa correta.
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q10" value="A" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">A)</span>
+                            <span>A Área de Despacho Aduaneiro (ADA) da ZPE Ceará localiza-se na região serrana de Ibiapina, a centenas de quilômetros do Porto do Pecém, o que exige o transporte ferroviário diário das cargas de exportação.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q10" value="B" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">B)</span>
+                            <span>A ZPE Ceará opera sob um modelo aduaneiro flexível, desprovido de cercas perimetrais físicas ou monitoramento por câmeras, permitindo a livre circulação de pessoas e mercadorias sem fiscalização fiscal.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q10" value="C" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">C)</span>
+                            <span>Com uma Área de Despacho Aduaneiro (ADA) de 55.000 m² apta a armazenar mais de 1.200 contêineres e um sistema de videomonitoramento integrado por mais de uma centena de câmeras (incluindo tecnologia OCR), a ZPE Ceará realiza operações 24 horas por dia, 7 dias por semana, movimentando cargas que incluem granéis sólidos, granéis líquidos, cargas conteinerizadas e cargas soltas.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q10" value="D" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">D)</span>
+                            <span>As atividades de pesagem e liberação alfandegária na ZPE Ceará limitam-se a cargas de até 10 toneladas, em decorrência do perfil restrito da infraestrutura de pontes e balanças instaladas.</span>
+                        </span>
+                    </label>
+                    <label class="option-label flex items-start p-4 border border-stone-200 rounded-lg cursor-pointer">
+                        <input type="radio" name="q10" value="E" class="option-radio hidden">
+                        <span class="option-content flex w-full">
+                            <span class="flex-none font-semibold mr-3">E)</span>
+                            <span>A movimentação de cargas na ZPE Ceará é restrita exclusivamente a placas de aço produzidas na região metropolitana de São Paulo, sendo vedado o processamento de qualquer recurso mineral extraído ou importado diretamente pelo porto local.</span>
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Resolução -->
+                <div id="res-10" class="mt-6 p-5 border-t border-stone-100 hidden">
+                    <h4 class="font-serif text-lg font-bold text-violet-800 mb-3 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        Resolução Comentada (Gabarito: C)
+                    </h4>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        A Zona de Processamento de Exportação do Ceará (ZPE Ceará) funciona como uma área aduaneira altamente vigiada e de elevada eficiência operacional. Sua Área de Despacho Aduaneiro (ADA) possui 55.000 m² e capacidade para armazenar simultaneamente mais de 1.200 contêineres, operando de forma ininterrupta nas balanças e nos 8 portões (<em>gates</em>) de entrada e saída. O perímetro alfandegado conta com uma cerca e um sistema de videomonitoramento composto por 127 câmeras digitais (sendo 57 com tecnologia OCR - Optical Character Recognition, para leitura automática de identificadores de carga). Suas instalações movimentam granéis sólidos (como carvão mineral, minério de ferro e calcário), granéis líquidos, cargas conteinerizadas e cargas soltas (placas de aço).
+                    </p>
+                    <div class="overflow-x-auto my-4 border border-stone-200 rounded-lg">
+                        <table class="min-w-full text-sm divide-y divide-stone-200">
+                            <thead class="bg-stone-50 font-semibold text-stone-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Recurso Logístico e Tecnológico</th>
+                                    <th class="px-4 py-3 text-left">Métrica / Quantidade</th>
+                                    <th class="px-4 py-3 text-left">Finalidade no Controle Aduaneiro</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-200 text-stone-600 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Área da ADA</td>
+                                    <td class="px-4 py-3">55.000 m²</td>
+                                    <td class="px-4 py-3">Armazenamento temporário de contêineres e vistorias fiscais rápidas.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Capacidade de Contêineres</td>
+                                    <td class="px-4 py-3">Mais de 1.200 unidades simultâneas</td>
+                                    <td class="px-4 py-3">Gestão e organização de cargas pesadas destinadas à exportação.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Câmeras OCR (Reconhecimento)</td>
+                                    <td class="px-4 py-3">57 câmeras</td>
+                                    <td class="px-4 py-3">Registro eletrônico imediato de veículos e contêineres sem necessidade de parada física.</td>
+                                </tr>
+                                <tr class="bg-stone-50/50">
+                                    <td class="px-4 py-3 font-medium text-stone-950">Capacidade de Balanças</td>
+                                    <td class="px-4 py-3">Até 120 toneladas (pontes de 36 m)</td>
+                                    <td class="px-4 py-3">Pesagem aduaneira precisa de carretas de grande calado e equipamentos pesados.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-stone-950">Total de Câmeras de Vídeo</td>
+                                    <td class="px-4 py-3">127 câmeras (14 dome e 56 fixas adicionais)</td>
+                                    <td class="px-4 py-3">Monitoramento visual total e ininterrupto do perímetro de segurança.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões de Ação do Quiz -->
+            <div class="mt-12 mb-16 text-center space-y-4">
+                <button type="button" onclick="evaluateQuiz()" id="submitBtn" class="w-full md:w-auto bg-stone-900 hover:bg-stone-800 text-stone-50 font-semibold px-12 py-4 rounded-xl shadow-md transition duration-200 text-lg tracking-wide">
+                    Finalizar Simulado & Corrigir
+                </button>
+                <button type="button" onclick="resetQuiz()" id="resetBtn" class="w-full md:w-auto bg-stone-200 hover:bg-stone-300 text-stone-700 font-semibold px-12 py-4 rounded-xl transition duration-200 text-lg tracking-wide hidden">
+                    Tentar Novamente
+                </button>
+            </div>
+        </form>
+
+        <!-- RESULTADO GERAL (Aparece no topo ou rodape dinamicamente) -->
+        <section id="resultCard" class="readable-card p-6 md:p-8 rounded-2xl shadow-lg border-2 border-dashed border-stone-300 mb-12 hidden">
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-violet-100 text-violet-800 font-bold text-3xl mb-4" id="scoreBubble">
+                    0/10
+                </div>
+                <h2 class="font-serif text-2xl md:text-3xl font-bold text-stone-900" id="resultTitle">
+                    Resultado Carregado
+                </h2>
+                <p class="mt-3 text-stone-600 max-w-lg mx-auto leading-relaxed" id="resultMessage">
+                    Confira abaixo os acertos, erros e as explicações completas para cada uma das questões resolvidas.
+                </p>
+                <!-- Alerta visual de desempenho -->
+                <div class="mt-6 inline-block px-4 py-2 rounded-lg text-sm font-semibold" id="performanceBadge"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-stone-100 border-t border-stone-200 py-8 text-center mt-12 text-sm text-stone-500">
+        <p>© 2026 Simulado Preparatório - Instituto AOCP. Conteúdo com base na obra de Milton Santos.</p>
+        <p class="mt-2 text-xs">Desenvolvido com foco em desempenho, ergonomia visual e legibilidade.</p>
+    </footer>
+
+    <!-- LOGICA DO QUIZ EM JAVASCRIPT PURO -->
+    <script>
+        // Gabarito oficial
+        const gaba = {
+            q1: 'C',
+            q2: 'B',
+            q3: 'A',
+            q4: 'B',
+            q5: 'B',
+            q6: 'C',
+            q7: 'B',
+            q8: 'B',
+            q9: 'B',
+            q10: 'C'
+        };
+
+        const totalQuestions = 10;
+
+        // Monitorar seleção para atualizar banner de status
+        const form = document.getElementById('quizForm');
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        const stickyBanner = document.getElementById('stickyBanner');
+        const bannerText = document.getElementById('bannerText');
+
+        inputs.forEach(input => {
+            input.addEventListener('change', updateProgressBanner);
+        });
+
+        function getUnansweredCount() {
+            let answered = 0;
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (form.querySelector(`input[name="q${i}"]:checked`)) {
+                    answered++;
+                }
+            }
+            return totalQuestions - answered;
+        }
+
+        function updateProgressBanner() {
+            // Só mostra se já começou a responder e ainda não corrigiu
+            if (document.getElementById('submitBtn').disabled) {
+                stickyBanner.classList.add('hidden');
+                return;
+            }
+            const left = getUnansweredCount();
+            if (left > 0 && left < totalQuestions) {
+                stickyBanner.classList.remove('hidden');
+                bannerText.innerHTML = `Você respondeu <strong>${totalQuestions - left}</strong> de <strong>${totalQuestions}</strong> questões. Restam ${left} pendentes.`;
+            } else if (left === 0) {
+                stickyBanner.classList.remove('hidden');
+                bannerText.innerHTML = `✨ Todas as <strong>10 questões</strong> foram respondidas! Pronto para corrigir.`;
+            } else {
+                stickyBanner.classList.add('hidden');
+            }
+        }
+
+        function scrollToUnanswered() {
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (!form.querySelector(`input[name="q${i}"]:checked`)) {
+                    const el = document.getElementById(`q-container-${i}`);
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Adiciona um flash de destaque temporário
+                    el.classList.add('ring-2', 'ring-violet-400');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-violet-400'), 2000);
+                    break;
+                }
+            }
+        }
+
+        function evaluateQuiz() {
+            const left = getUnansweredCount();
+            if (left > 0) {
+                // Ao invés de alert clássico, usa o banner de aviso para melhor UX
+                stickyBanner.classList.remove('hidden');
+                stickyBanner.classList.replace('bg-stone-900', 'bg-amber-600');
+                bannerText.innerHTML = `⚠️ <strong>Atenção:</strong> Responda todas as questões antes de finalizar. Restam <strong>${left}</strong> pendentes.`;
+                scrollToUnanswered();
+                return;
+            }
+
+            // Esconder banner superior temporário
+            stickyBanner.classList.add('hidden');
+
+            let score = 0;
+
+            // Percorre as 10 questões comparando as respostas
+            for (let i = 1; i <= totalQuestions; i++) {
+                const checkedOption = form.querySelector(`input[name="q${i}"]:checked`);
+                const userAns = checkedOption.value;
+                const correctAns = gaba[`q${i}`];
+                const container = document.getElementById(`q-container-${i}`);
+                const resolutionBlock = document.getElementById(`res-${i}`);
+                const options = form.querySelectorAll(`input[name="q${i}"]`);
+
+                // Bloqueia interatividade (readonly virtual)
+                options.forEach(opt => opt.disabled = true);
+
+                // Mostra a resolução
+                resolutionBlock.classList.remove('hidden');
+
+                if (userAns === correctAns) {
+                    score++;
+                    // Destaca a opção correta escolhida pelo usuário
+                    checkedOption.closest('label').classList.add('correct-choice');
+                } else {
+                    // Destaca a incorreta escolhida em vermelho e a correta que foi perdida em borda verde
+                    checkedOption.closest('label').classList.add('incorrect-choice');
+                    options.forEach(opt => {
+                        if (opt.value === correctAns) {
+                            opt.closest('label').classList.add('missed-correct-choice');
+                        }
+                    });
+                }
+            }
+
+            // Exibe o painel de pontuação final
+            const resultCard = document.getElementById('resultCard');
+            const scoreBubble = document.getElementById('scoreBubble');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultMessage = document.getElementById('resultMessage');
+            const performanceBadge = document.getElementById('performanceBadge');
+
+            scoreBubble.innerText = `${score}/10`;
+            resultCard.classList.remove('hidden');
+
+            // Personaliza mensagem de acordo com a pontuação
+            if (score === 10) {
+                resultTitle.innerText = "Excelente! Desempenho Perfeito! 🎉";
+                resultMessage.innerText = "Você domina inteiramente os conceitos do Meio Técnico-Científico-Informacional e a inserção geoeconômica e tecnológica do Ceará. Excelente preparação!";
+                performanceBadge.className = "mt-6 inline-block px-4 py-2 rounded-lg text-sm font-semibold bg-emerald-100 text-emerald-800";
+                performanceBadge.innerText = "Nível Avançado - Gabaritou";
+            } else if (score >= 8) {
+                resultTitle.innerText = "Muito bom! Ótimo aproveitamento! 👍";
+                resultMessage.innerText = "Sua base teórica sobre a infraestrutura e divisão de trabalho regional no Ceará é sólida. Ótimo índice de acertos para provas de alto nível.";
+                performanceBadge.className = "mt-6 inline-block px-4 py-2 rounded-lg text-sm font-semibold bg-emerald-100 text-emerald-800";
+                performanceBadge.innerText = "Aprovado com Excelência";
+            } else if (score >= 5) {
+                resultTitle.innerText = "Bom desempenho! 📈";
+                resultMessage.innerText = "Você obteve um rendimento mediano. Revise os pontos em que errou utilizando as resoluções comentadas detalhadas abaixo de cada questão.";
+                performanceBadge.className = "mt-6 inline-block px-4 py-2 rounded-lg text-sm font-semibold bg-amber-100 text-amber-800";
+                performanceBadge.innerText = "Aproveitamento Moderado";
+            } else {
+                resultTitle.innerText = "Continue Estudando! 📚";
+                resultMessage.innerText = "Alguns conceitos cruciais de Milton Santos e sobre o Complexo do Pecém precisam ser revisados. Leia atentamente as justificativas e tente novamente.";
+                performanceBadge.className = "mt-6 inline-block px-4 py-2 rounded-lg text-sm font-semibold bg-rose-100 text-rose-800";
+                performanceBadge.innerText = "Necessita de Revisão";
+            }
+
+            // Controle de Botões
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('resetBtn').classList.remove('hidden');
+
+            // Rola até o card de resultado
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetQuiz() {
+            // Reabilita inputs e limpa as classes de acerto/erro
+            for (let i = 1; i <= totalQuestions; i++) {
+                const options = form.querySelectorAll(`input[name="q${i}"]`);
+                const resolutionBlock = document.getElementById(`res-${i}`);
+                
+                resolutionBlock.classList.add('hidden');
+                
+                options.forEach(opt => {
+                    opt.disabled = false;
+                    opt.checked = false;
+                    const label = opt.closest('label');
+                    label.classList.remove('correct-choice', 'incorrect-choice', 'missed-correct-choice');
+                });
+            }
+
+            // Esconde card de resultados
+            document.getElementById('resultCard').classList.add('hidden');
+
+            // Retorna botões ao estado original
+            document.getElementById('submitBtn').classList.remove('hidden');
+            document.getElementById('resetBtn').classList.add('hidden');
+
+            // Reseta banner superior
+            stickyBanner.classList.add('hidden');
+            stickyBanner.classList.replace('bg-amber-600', 'bg-stone-900');
+
+            // Rola para o topo do documento
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
